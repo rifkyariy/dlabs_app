@@ -1,7 +1,10 @@
 import 'package:dlabs_apps/app/modules/forgot_password/forgot_password.dart';
+import 'package:dlabs_apps/app/modules/signin/bindings/signin_binding.dart';
 import 'package:dlabs_apps/app/modules/signin/views/sign_in.dart';
-import 'package:dlabs_apps/app/modules/signup/sign_up.dart';
-import 'package:dlabs_apps/app/modules/update_personal_info/update_personal_info.dart';
+import 'package:dlabs_apps/app/modules/signup/bindings/sign_up_binding.dart';
+import 'package:dlabs_apps/app/modules/signup/views/sign_up_screen.dart';
+import 'package:dlabs_apps/app/modules/update_personal_info/bindings/update_personal_info_binding.dart';
+import 'package:dlabs_apps/app/modules/update_personal_info/views/update_personal_info_screen.dart';
 import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
 import 'package:dlabs_apps/app/modules/splash/views/splashscreen.dart';
 import 'package:get/get.dart';
@@ -30,10 +33,12 @@ class AppPages {
     GetPage(
       name: _Paths.signin,
       page: () => SignInScreen(),
+      binding: SignInBinding(),
     ),
     GetPage(
       name: _Paths.signup,
-      page: () => SignUp(),
+      page: () => const SignUpScreen(),
+      binding: SignUpBinding(),
     ),
     GetPage(
       name: _Paths.forgotPassword,
@@ -47,7 +52,8 @@ class AppPages {
 
     GetPage(
       name: _Paths.updatePersonalInfo,
-      page: () => const UpdatePersonalInfo(),
+      page: () => const UpdatePersonalInfoScreen(),
+      binding: UpdatePersonalInfoBinding(),
     )
   ];
 }

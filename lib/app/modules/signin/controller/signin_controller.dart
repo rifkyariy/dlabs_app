@@ -46,7 +46,7 @@ class SignInController extends GetxController {
   }) async {
     try {
       isLoading.value = true;
-      _user = await AuthService().register(
+      _user = await repo.register(
         email: email,
         password: password,
         fullname: fullname,

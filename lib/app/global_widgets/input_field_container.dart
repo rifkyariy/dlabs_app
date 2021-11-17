@@ -16,7 +16,7 @@ class InputFieldContainer extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
+      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
       width: size.width * 0.9,
       decoration: BoxDecoration(
           color: whiteColor,

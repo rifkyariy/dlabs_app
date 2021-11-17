@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:dlabs_apps/app/data/models/user_model.dart';
 
@@ -35,7 +34,7 @@ class AuthService {
   }
 
   Future<UserModel> getUserData({required String token}) async {
-    var url = Uri.parse("${BaseUrl}/profile/me");
+    var url = Uri.parse("$BaseUrl/profile/me");
 
     print(token);
     final response = await http.get(url, headers: {
