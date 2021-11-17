@@ -1,6 +1,6 @@
-import 'package:dlabs_apps/models/user_model.dart';
-import 'package:dlabs_apps/screens/Auth/forgot_password.dart';
-import 'package:dlabs_apps/services/auth_service.dart';
+import 'package:dlabs_apps/app/data/models/user_model.dart';
+import 'package:dlabs_apps/app/modules/forgot_password/forgot_password.dart';
+import 'package:dlabs_apps/app/data/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {

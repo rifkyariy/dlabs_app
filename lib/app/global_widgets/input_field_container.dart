@@ -1,4 +1,4 @@
-import 'package:dlabs_apps/theme.dart';
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class InputFieldContainer extends StatelessWidget {
@@ -15,7 +15,7 @@ class InputFieldContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       padding: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
       width: size.width * 0.9,
       decoration: BoxDecoration(

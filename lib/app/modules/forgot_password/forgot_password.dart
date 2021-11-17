@@ -1,8 +1,8 @@
-import 'package:dlabs_apps/components/button_loading.dart';
-import 'package:dlabs_apps/components/text_input.dart';
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/global_widgets/button_loading.dart';
+import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/providers/auth_provider.dart';
-import 'package:dlabs_apps/theme.dart';
-import 'package:dlabs_apps/components/button.dart';
+import 'package:dlabs_apps/app/global_widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:dlabs_apps/models/user_model.dart';
+import 'package:dlabs_apps/app/data/models/user_model.dart';
 
 class AuthService {
-  String BaseUrl = "https://devapi-dl.konsultasi.in/v1/web";
+  final String BaseUrl = "https://devapi-dl.konsultasi.in/v1/web";
 
   String basicAuthenticationHeader(String username, String password) {
     return 'Basic ' + base64Encode(utf8.encode('$username:$password'));
@@ -14,7 +14,7 @@ class AuthService {
     required String email,
     required String password,
   }) async {
-    var url = Uri.parse("${BaseUrl}/auth/login");
+    var url = Uri.parse("$BaseUrl/auth/login");
     var headers = <String, String>{
       'Content-Type': 'application/json',
       'Authorization': basicAuthenticationHeader(email, password)

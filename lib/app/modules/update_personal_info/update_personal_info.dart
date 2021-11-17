@@ -1,16 +1,16 @@
 // ignore_for_file: file_names
-import 'dart:convert';
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/global_widgets/button.dart';
+import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/providers/auth_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:dlabs_apps/components/text_input.dart';
-import 'package:dlabs_apps/theme.dart';
-import 'package:dlabs_apps/Components/input_field.dart';
-import 'package:dlabs_apps/Components/button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UpdatePersonalInfo extends StatefulWidget {
+  const UpdatePersonalInfo({Key? key}) : super(key: key);
+
   @override
   State<UpdatePersonalInfo> createState() => _UpdatePersonalInfoState();
 }

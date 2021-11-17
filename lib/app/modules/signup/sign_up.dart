@@ -1,11 +1,8 @@
 // ignore_for_file: file_names
-import 'dart:convert';
 
-import 'package:dlabs_apps/components/navbar.dart';
-import 'package:dlabs_apps/components/text_input.dart';
-import 'package:dlabs_apps/theme.dart';
-import 'package:dlabs_apps/Components/input_field.dart';
-import 'package:dlabs_apps/Components/button.dart';
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/global_widgets/button.dart';
+import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,10 +59,6 @@ class _SignUpState extends State<SignUp> {
                 passwordConfirmError = "";
               });
 
-              print(fullname);
-              print(email);
-              print(password);
-
               SharedPreferences savePref =
                   await SharedPreferences.getInstance();
 
@@ -94,8 +87,6 @@ class _SignUpState extends State<SignUp> {
           fullnameError = "Fullname can't be blank.";
         });
       }
-
-      print(fullnameError);
     }
 
     return Scaffold(
@@ -113,39 +104,40 @@ class _SignUpState extends State<SignUp> {
                     height: 43,
                   ),
                 ),
-                SizedBox(height: 40),
+
+                const SizedBox(height: 40),
 
                 // Google Login
                 Center(
-                    child: ElevatedButton.icon(
-                  icon: Image.asset(
-                    'assets/image/logo-google-48dp.png',
-                    width: 20.5,
-                    height: 20.5,
-                  ),
-                  label: Text(
-                    'Sign Up with Google',
-                    style: subtitleTextStyle(blackColor),
-                  ),
-                  onPressed: () {
-                    print('Pressed');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: whiteColor,
-                    elevation: 0,
-                    minimumSize: Size(double.infinity, 46),
-                    shape: new RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 1.0,
-                        color: lightGreyColor,
+                  child: ElevatedButton.icon(
+                    icon: Image.asset(
+                      'assets/image/logo-google-48dp.png',
+                      width: 20.5,
+                      height: 20.5,
+                    ),
+                    label: Text(
+                      'Sign Up with Google',
+                      style: subtitleTextStyle(blackColor),
+                    ),
+                    onPressed: () {
+                      print('Pressed');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: whiteColor,
+                      elevation: 0,
+                      minimumSize: const Size(double.infinity, 46),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1.0,
+                          color: lightGreyColor,
+                        ),
+                        borderRadius: BorderRadius.circular(4.8),
                       ),
-                      borderRadius: new BorderRadius.circular(4.8),
                     ),
                   ),
-                )),
-                SizedBox(
-                  height: 16,
                 ),
+
+                const SizedBox(height: 16),
 
                 // Divider
                 Row(
@@ -163,9 +155,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 16,
-                ),
+
+                const SizedBox(height: 16),
 
                 // Step Header
                 Row(
@@ -182,9 +173,8 @@ class _SignUpState extends State<SignUp> {
                   ],
                 ),
                 Divider(color: greyColor),
-                SizedBox(
-                  height: 16,
-                ),
+
+                const SizedBox(height: 16),
 
                 // Full Name
                 TextInput(

@@ -1,5 +1,5 @@
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:dlabs_apps/theme.dart';
 import 'input_field.dart';
 
 class TextInput extends StatelessWidget {

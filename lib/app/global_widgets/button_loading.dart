@@ -1,5 +1,5 @@
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:dlabs_apps/theme.dart';
 
 class LoadingButton extends StatelessWidget {
   final String text;
@@ -19,16 +19,14 @@ class LoadingButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               width: 16,
               height: 16,
               child: CircularProgressIndicator(
                   strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation(whiteColor)),
             ),
-            SizedBox(
-              width: 8,
-            ),
+            const SizedBox(width: 8),
             Text(
               text,
               style: subtitleTextStyle(textColor),
@@ -37,7 +35,7 @@ class LoadingButton extends StatelessWidget {
         ),
         style: ElevatedButton.styleFrom(
           primary: primaryColor,
-          minimumSize: Size(double.infinity, 46),
+          minimumSize: const Size(double.infinity, 46),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.8), // <-- Radius
           ),

@@ -1,9 +1,9 @@
 // ignore_for_file: file_names
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/global_widgets/input_field_container.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:dlabs_apps/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:dlabs_apps/Components/input_field_container.dart';
 
 class InputField extends StatefulWidget {
   final String hintText;
