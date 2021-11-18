@@ -128,7 +128,7 @@ class SignInScreen extends StatelessWidget {
                 'Sign In with Google',
                 style: subtitleTextStyle(blackColor),
               ),
-              onPressed: () {},
+              onPressed: () => controller.handleGoogleSignIn(),
               style: ElevatedButton.styleFrom(
                 primary: whiteColor,
                 elevation: 0,

@@ -1,4 +1,5 @@
-import 'package:dlabs_apps/app/modules/forgot_password/forgot_password.dart';
+import 'package:dlabs_apps/app/modules/forgot_password/bindings/forgot_password_binding.dart';
+import 'package:dlabs_apps/app/modules/forgot_password/views/forgot_password_screen.dart';
 import 'package:dlabs_apps/app/modules/signin/bindings/signin_binding.dart';
 import 'package:dlabs_apps/app/modules/signin/views/sign_in.dart';
 import 'package:dlabs_apps/app/modules/signup/bindings/sign_up_binding.dart';
@@ -42,7 +43,8 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.forgotPassword,
-      page: () => ForgotPassword(),
+      page: () => const ForgotPasswordScreen(),
+      binding: ForgotPasswordBinding(),
     ),
 
     // GetPage(

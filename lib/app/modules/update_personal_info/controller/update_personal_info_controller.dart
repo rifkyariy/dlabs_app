@@ -1,12 +1,10 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/data/services/auth_service.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UpdatePersonalInfoController extends GetxController {
-  AuthService repo = Get.find();
   SignInController signInController = Get.find();
 
   // Text Controller

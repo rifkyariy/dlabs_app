@@ -4,12 +4,21 @@ import 'package:dlabs_apps/app/data/services/auth_service.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInController extends GetxController {
-  final AuthService repo = Get.put(AuthService());
+  final AuthService _auth = Get.put(AuthService());
 
   late UserModel? _user;
   UserModel? get user => _user;
+
+  //Google Sign in
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   // Text Controllers
   final TextEditingController emailController = TextEditingController();
@@ -25,7 +34,7 @@ class SignInController extends GetxController {
   Future<bool> login({required String email, required String password}) async {
     isLoading.value = true;
     try {
-      _user = await repo.login(email: email, password: password);
+      _user = await _auth.login(email: email, password: password);
       isLoading.value = false;
       return true;
     } catch (e) {
@@ -46,7 +55,7 @@ class SignInController extends GetxController {
   }) async {
     try {
       isLoading.value = true;
-      _user = await repo.register(
+      _user = await _auth.register(
         email: email,
         password: password,
         fullname: fullname,
@@ -66,12 +75,9 @@ class SignInController extends GetxController {
 
   Future<bool> forgotPassword({required String email}) async {
     try {
-      isLoading.value = true;
-      return await repo
-          .forgotPassword(email: email)
-          .then((value) => isLoading.value = false);
+      final status = await _auth.forgotPassword(email: email);
+      return status;
     } catch (e) {
-      isLoading.value = false;
       return false;
     }
   }
@@ -106,6 +112,14 @@ class SignInController extends GetxController {
       }
     } else {
       emailErrorMessage.value = 'Please enter a valid email address.';
+    }
+  }
+
+  Future<void> handleGoogleSignIn() async {
+    try {
+      final _user = await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
     }
   }
 }
