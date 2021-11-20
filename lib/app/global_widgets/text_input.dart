@@ -45,7 +45,7 @@ class TextInput extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Text(
               errorMsg,
-              style: SmallTextStyle(dangerColor),
+              style: smallTextStyle(dangerColor),
             ),
           ),
         ),

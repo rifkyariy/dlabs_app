@@ -40,6 +40,7 @@ class SignUpController extends GetxController {
             passwordErrorMessage.value = '';
             if (isConfirmPasswordValid) {
               passwordConfirmErrorMessage.value = '';
+
               var _parameters = <String, String>{
                 "fullName": fullNameController.text,
                 "email": emailController.text,

@@ -69,7 +69,7 @@ class SignUpScreen extends GetView<SignUpController> {
                   ),
                   Text(
                     'or',
-                    style: SmallTextStyle(blackColor),
+                    style: smallTextStyle(blackColor),
                   ),
                   Image.asset(
                     'assets/image/line-divider.png',
@@ -89,7 +89,7 @@ class SignUpScreen extends GetView<SignUpController> {
                   ),
                   Text(
                     'Step 1 of 2',
-                    style: SmallTextStyle(greyColor),
+                    style: smallTextStyle(greyColor),
                   )
                 ],
               ),

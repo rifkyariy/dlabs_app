@@ -1,3 +1,4 @@
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,7 @@ class Apps extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         getPages: AppPages.routes,
-        initialRoute: AppPages.signin,
+        initialRoute: AppPages.dashboard,
       ),
     );
   }

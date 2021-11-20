@@ -11,7 +11,7 @@ class Navbar extends StatelessWidget {
             ),
             color: Color(0xff000000),
             onPressed: () => Navigator.pop(context)),
-        title: Text('title', style: MediumTextStyle(blackColor)),
+        title: Text('title', style: mediumTextStyle(blackColor)),
         centerTitle: true,
         actions: [
           IconButton(

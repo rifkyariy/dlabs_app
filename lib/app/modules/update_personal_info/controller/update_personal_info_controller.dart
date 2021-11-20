@@ -46,6 +46,7 @@ class UpdatePersonalInfoController extends GetxController {
             );
             if (status) {
               isLoading.value = false;
+
               Get.toNamed(AppPages.dashboard);
             } else {
               isLoading.value = false;

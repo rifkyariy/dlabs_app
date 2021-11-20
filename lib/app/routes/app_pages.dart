@@ -1,3 +1,4 @@
+import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:dlabs_apps/app/modules/forgot_password/bindings/forgot_password_binding.dart';
 import 'package:dlabs_apps/app/modules/forgot_password/views/forgot_password_screen.dart';
 import 'package:dlabs_apps/app/modules/signin/bindings/signin_binding.dart';
@@ -29,7 +30,8 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.dashboard,
-      page: () => Dashboard(),
+      page: () => const DashboardScreen(),
+      binding: DashboardBinding(),
     ),
     GetPage(
       name: _Paths.signin,

@@ -29,13 +29,13 @@ dependencies:
   equatable: ^2.0.3
   flutter:
     sdk: flutter
-  flutter_bloc: ^7.3.3
   google_fonts: ^2.1.0
   http: ^0.13.4
   intl: ^0.17.0
   shared_preferences: ^2.0.8
   get: ^4.3.8
   google_sign_in: ^5.2.1
+  persistent_bottom_nav_bar: ^4.0.2
 
 dev_dependencies:
   flutter_lints: ^1.0.0
@@ -55,6 +55,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/image/
+
+
+  fonts:
+    - family: DLabsIcons
+      fonts:
+        - asset: assets/fonts/DLabs-Icons.ttf
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

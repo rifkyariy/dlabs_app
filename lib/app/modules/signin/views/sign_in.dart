@@ -76,7 +76,7 @@ class SignInScreen extends StatelessWidget {
                   onPressed: () => Get.toNamed(AppPages.forgotPassword),
                   child: Text(
                     'Forgot Password ?',
-                    style: SmallTextStyle(primaryColor),
+                    style: smallTextStyle(primaryColor),
                   ),
                 )
               ],
@@ -107,7 +107,7 @@ class SignInScreen extends StatelessWidget {
                 ),
                 Text(
                   'or',
-                  style: SmallTextStyle(blackColor),
+                  style: smallTextStyle(blackColor),
                 ),
                 Image.asset(
                   'assets/image/line-divider.png',

@@ -67,7 +67,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                   ),
                   Text(
                     'or',
-                    style: SmallTextStyle(blackColor),
+                    style: smallTextStyle(blackColor),
                   ),
                   Image.asset(
                     'assets/image/line-divider.png',
@@ -87,7 +87,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                   ),
                   Text(
                     'Step 2 of 2',
-                    style: SmallTextStyle(greyColor),
+                    style: smallTextStyle(greyColor),
                   )
                 ],
               ),
@@ -166,22 +166,23 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
         ),
       ),
       bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(
-              top: 12, bottom: 24.0, left: 24.0, right: 24.0),
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(color: lightGreyColor, width: 1),
-            ),
+        padding: const EdgeInsets.only(
+            top: 12, bottom: 24.0, left: 24.0, right: 24.0),
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: lightGreyColor, width: 1),
           ),
-          // Submit Button
-          child: Obx(
-            () => Button(
-              text: 'Sign Up',
-              textColor: whiteColor,
-              onClicked: () => controller.signUpHandler(),
-              isLoading: controller.isLoading.value,
-            ),
-          )),
+        ),
+        // Submit Button
+        child: Obx(
+          () => Button(
+            text: 'Sign Up',
+            textColor: whiteColor,
+            onClicked: () => controller.signUpHandler(),
+            isLoading: controller.isLoading.value,
+          ),
+        ),
+      ),
     );
   }
 }
