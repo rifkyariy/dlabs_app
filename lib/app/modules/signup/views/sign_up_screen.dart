@@ -16,7 +16,7 @@ class SignUpScreen extends GetView<SignUpController> {
       backgroundColor: whiteColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 96.0, left: 24.0, right: 24.0),
+          padding: const EdgeInsets.only(top: 67.0, left: 24.0, right: 24.0),
           child: Column(
             children: [
               // Logo and Header

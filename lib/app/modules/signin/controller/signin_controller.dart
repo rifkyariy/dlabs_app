@@ -1,6 +1,6 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/data/models/user_model.dart';
-import 'package:dlabs_apps/app/data/services/auth_service.dart';
+import 'package:dlabs_apps/app/data/repository/auth_service.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,19 +31,24 @@ class SignInController extends GetxController {
   RxString emailErrorMessage = ''.obs;
   RxString passwordErrorMessage = ''.obs;
 
-  Future<bool> login({required String email, required String password}) async {
+  Future<String> login(
+      {required String email, required String password}) async {
     isLoading.value = true;
     try {
       _user = await _auth.login(email: email, password: password);
       isLoading.value = false;
-      return true;
+      return "";
     } catch (e) {
       isLoading.value = false;
-      return false;
+
+      String error = "$e";
+
+      print("error : $e");
+      return error;
     }
   }
 
-  Future<bool> register({
+  Future<String> register({
     required String email,
     required String password,
     required String fullname,
@@ -66,10 +71,14 @@ class SignInController extends GetxController {
         address: address,
       );
       isLoading.value = false;
-      return true;
+
+      return "";
     } catch (e) {
       isLoading.value = false;
-      return false;
+      String error = "$e";
+
+      print("error : $e");
+      return error;
     }
   }
 
@@ -86,6 +95,7 @@ class SignInController extends GetxController {
     bool isEmailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(emailController.text);
+    bool isPasswordLength = passwordController.text.length >= 8;
     bool isPasswordValid = passwordController.text != '';
 
     if (isEmailValid) {
@@ -93,22 +103,30 @@ class SignInController extends GetxController {
 
       if (isPasswordValid) {
         passwordErrorMessage.value = '';
-        if (await login(
-          email: emailController.text,
-          password: passwordController.text,
-        )) {
-          Get.toNamed(AppPages.dashboard);
+
+        if (isPasswordLength) {
+          String status = await login(
+              email: emailController.text, password: passwordController.text);
+          print(status);
+          if (status == "") {
+            Get.toNamed(AppPages.dashboard);
+          } else {
+            Get.snackbar(
+              "Error",
+              status == "find user error"
+                  ? "You don't have an account yet, Please sign up."
+                  : "Invalid email or password",
+              backgroundColor: dangerColor,
+              colorText: whiteColor,
+              snackPosition: SnackPosition.TOP,
+            );
+          }
         } else {
-          Get.snackbar(
-            "Error",
-            "Invalid Email or Password",
-            backgroundColor: dangerColor,
-            colorText: whiteColor,
-            snackPosition: SnackPosition.BOTTOM,
-          );
+          passwordErrorMessage.value =
+              'Your password must be at least 8 characters.';
         }
       } else {
-        passwordErrorMessage.value = "Password can't be blank.";
+        passwordErrorMessage.value = "Your password can't be blank.";
       }
     } else {
       emailErrorMessage.value = 'Please enter a valid email address.';

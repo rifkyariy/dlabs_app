@@ -16,7 +16,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(
-              top: 96.0, left: 24.0, right: 24.0, bottom: 24.0),
+              top: 67.0, left: 24.0, right: 24.0, bottom: 24.0),
           child: Column(
             children: [
               // Logo and Header

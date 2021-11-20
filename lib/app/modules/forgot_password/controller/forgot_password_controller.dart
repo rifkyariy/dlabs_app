@@ -1,5 +1,6 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
+import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,6 +33,11 @@ class ForgotPasswordController extends GetxController {
       if (status) {
         isLoading.value = false;
         emailController.text = '';
+
+        // Redirect into sign in page
+        Get.toNamed(AppPages.signin);
+
+        // Display success snackbar
         Get.snackbar(
           'Success',
           'Please check verification code on your email.',
@@ -42,6 +48,8 @@ class ForgotPasswordController extends GetxController {
       } else {
         isLoading.value = false;
         emailController.text = '';
+
+        // Display error snackbar
         Get.snackbar(
           'Error',
           'User not found',

@@ -37,44 +37,52 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       Get.offAndToNamed(AppPages.dashboard);
                       break;
                     case 1:
+                      Get.toNamed(AppPages.signin);
+
                       Get.snackbar(
-                        "Error",
-                        "No Route Specified",
-                        backgroundColor: dangerColor,
-                        snackPosition: SnackPosition.BOTTOM,
+                        "Warning",
+                        "Please login to continue",
+                        backgroundColor: warningColor,
+                        snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),
                         colorText: whiteColor,
                       );
                       break;
                     case 2:
+                      Get.toNamed(AppPages.signin);
+
                       Get.snackbar(
-                        "Error",
-                        "No Route Specified",
-                        backgroundColor: dangerColor,
-                        snackPosition: SnackPosition.BOTTOM,
+                        "Warning",
+                        "Please login to continue",
+                        backgroundColor: warningColor,
+                        snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),
                         colorText: whiteColor,
                       );
                       break;
                     case 3:
+                      Get.toNamed(AppPages.signin);
+
                       Get.snackbar(
-                        "Error",
-                        "No Route Specified",
-                        backgroundColor: dangerColor,
-                        snackPosition: SnackPosition.BOTTOM,
+                        "Warning",
+                        "Please login to continue",
+                        backgroundColor: warningColor,
+                        snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),
                         colorText: whiteColor,
                       );
                       break;
                     case 4:
+                      Get.toNamed(AppPages.signin);
+
                       Get.snackbar(
-                        "Error",
-                        "No Route Specified",
-                        backgroundColor: dangerColor,
-                        snackPosition: SnackPosition.BOTTOM,
+                        "Warning",
+                        "Please login to continue",
+                        backgroundColor: warningColor,
+                        snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),
                         colorText: whiteColor,

@@ -29,7 +29,8 @@ class AuthService {
       var data = jsonDecode(response.body)['data'];
       return getUserData(token: data['token']);
     } else {
-      throw ('Tidak Dapat Login');
+      String error = jsonDecode(response.body)['errors'];
+      throw (error);
     }
   }
 
@@ -91,7 +92,14 @@ class AuthService {
       var data = jsonDecode(response.body)['data'];
       return login(email: email, password: password);
     } else {
-      throw ('Tidak Dapat Login');
+      var data = jsonDecode(response.body);
+      if (data.containsKey('status')) {
+        String error = jsonDecode(response.body)['errors'];
+        throw (error);
+      } else {
+        String error = jsonDecode(response.body)['message'];
+        throw (error);
+      }
     }
   }
 

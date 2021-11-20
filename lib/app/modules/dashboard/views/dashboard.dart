@@ -7,6 +7,7 @@ import 'package:dlabs_apps/app/global_widgets/app_article_card_component.dart';
 import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_banner_component.dart';
 import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_header_component.dart';
 import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_service_component.dart';
+import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -38,18 +39,20 @@ class DashboardScreen extends GetView<DashboardController> {
               children: [
                 // Avatar Component
                 const DashboardHeaderComponent(
-                  name: 'Annurdien',
+                  name: '',
                   notificationExist: true,
                   notificationCount: 7,
                 ),
 
                 // Banner
                 DashboardBannerComponent(onPressed: () {
+                  Get.toNamed(AppPages.signin);
+
                   Get.snackbar(
-                    "Error",
-                    "No Route Specified",
-                    backgroundColor: dangerColor,
-                    snackPosition: SnackPosition.BOTTOM,
+                    "Warning",
+                    "Please login to continue",
+                    backgroundColor: warningColor,
+                    snackPosition: SnackPosition.TOP,
                     animationDuration: const Duration(seconds: 1),
                     duration: const Duration(seconds: 1),
                     colorText: whiteColor,
@@ -87,11 +90,13 @@ class DashboardScreen extends GetView<DashboardController> {
                       ),
                       GestureDetector(
                         onTap: () {
+                          Get.toNamed(AppPages.signin);
+
                           Get.snackbar(
-                            "Error",
-                            "No Route Specified",
-                            backgroundColor: dangerColor,
-                            snackPosition: SnackPosition.BOTTOM,
+                            "Warning",
+                            "Please login to continue",
+                            backgroundColor: warningColor,
+                            snackPosition: SnackPosition.TOP,
                             animationDuration: const Duration(seconds: 1),
                             duration: const Duration(seconds: 1),
                             colorText: whiteColor,

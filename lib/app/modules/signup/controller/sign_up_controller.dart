@@ -24,6 +24,7 @@ class SignUpController extends GetxController {
 
   void signUpHandler() async {
     bool isFullNameValid = fullNameController.text != '';
+    bool isFullNameLengthValid = fullNameController.text.length >= 6;
     bool isPasswordValid = passwordController.text != '';
     bool isPasswordLengthValid = passwordController.text.length >= 8;
     bool isConfirmPasswordValid = confirmPasswordController.text != '' &&
@@ -32,37 +33,43 @@ class SignUpController extends GetxController {
 
     if (isFullNameValid) {
       fullNameErrorMessage.value = '';
-      if (isEmailValid) {
-        emailErrorMessage.value = '';
-        if (isPasswordValid) {
-          passwordErrorMessage.value = '';
-          if (isPasswordLengthValid) {
+      if (isFullNameLengthValid) {
+        if (isEmailValid) {
+          emailErrorMessage.value = '';
+          if (isPasswordValid) {
             passwordErrorMessage.value = '';
-            if (isConfirmPasswordValid) {
-              passwordConfirmErrorMessage.value = '';
+            if (isPasswordLengthValid) {
+              passwordErrorMessage.value = '';
+              if (isConfirmPasswordValid) {
+                passwordConfirmErrorMessage.value = '';
 
-              var _parameters = <String, String>{
-                "fullName": fullNameController.text,
-                "email": emailController.text,
-                "password": passwordController.text,
-              };
-              Get.toNamed(AppPages.updatePersonalInfo, parameters: _parameters);
+                var _parameters = <String, String>{
+                  "fullName": fullNameController.text,
+                  "email": emailController.text,
+                  "password": passwordController.text,
+                };
+                Get.toNamed(AppPages.updatePersonalInfo,
+                    parameters: _parameters);
+              } else {
+                passwordConfirmErrorMessage.value =
+                    'Confirmation password doesn\'t match.';
+              }
             } else {
               passwordErrorMessage.value =
-                  'Confirmation password doesn\'t match';
+                  'Your password must be at least 8 characters.';
             }
           } else {
-            passwordErrorMessage.value =
-                'Password must be at least 8 characther';
+            passwordErrorMessage.value = 'Your password can\'t be blank.';
           }
         } else {
-          passwordErrorMessage.value = 'Password can\'t be blank';
+          emailErrorMessage.value = 'Please enter a valid email address.';
         }
       } else {
-        emailErrorMessage.value = 'Please enter a valid email address.';
+        fullNameErrorMessage.value =
+            'Your full name must be at least 6 characters.';
       }
     } else {
-      fullNameErrorMessage.value = 'Full Name can\'t be blank.';
+      fullNameErrorMessage.value = 'Your full name can\'t be blank.';
     }
   }
 }

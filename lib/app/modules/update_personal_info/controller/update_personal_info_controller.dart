@@ -34,7 +34,7 @@ class UpdatePersonalInfoController extends GetxController {
           dateOfBirthErrorMessage.value = '';
           if (!GetUtils.isNull(addressController.text)) {
             isLoading.value = true;
-            final status = await signInController.register(
+            final String status = await signInController.register(
               email: Get.parameters['email']!,
               password: Get.parameters['password']!,
               fullname: Get.parameters['fullName']!,
@@ -44,7 +44,7 @@ class UpdatePersonalInfoController extends GetxController {
               gender: genderValue.value,
               address: addressController.text,
             );
-            if (status) {
+            if (status == "") {
               isLoading.value = false;
 
               Get.toNamed(AppPages.dashboard);
@@ -52,7 +52,7 @@ class UpdatePersonalInfoController extends GetxController {
               isLoading.value = false;
               Get.snackbar(
                 "Error",
-                "Register Failed",
+                status,
                 backgroundColor: dangerColor,
                 colorText: whiteColor,
                 snackPosition: SnackPosition.BOTTOM,
