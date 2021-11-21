@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "134958059899",
+    "project_id": "direct-lab-322315",
+    "storage_bucket": "direct-lab-322315.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134958059899:android:bc505c26804fc1592dedde",
+        "android_client_info": {
+          "package_name": "com.dicrectlabs.dlabs_apps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "134958059899-gs8j5tlgjfuo0k3nagdgifj6p1cskoti.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0SNFHqFW4eGsZSn0EgKYkQaBi3a5SDsI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "134958059899-gs8j5tlgjfuo0k3nagdgifj6p1cskoti.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
