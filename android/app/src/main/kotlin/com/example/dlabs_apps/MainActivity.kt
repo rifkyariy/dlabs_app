@@ -1,4 +1,4 @@
-package com.example.dlabs_apps
+package com.dicrectlabs.dlabs_apps
 
 import io.flutter.embedding.android.FlutterActivity
 

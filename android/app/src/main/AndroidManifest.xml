@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dlabs_apps">
+    package="com.dicrectlabs.dlabs_apps">
    <application
         android:label="Direct Labs"
         android:icon="@mipmap/ic_launcher">
