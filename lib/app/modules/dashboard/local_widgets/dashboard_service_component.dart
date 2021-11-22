@@ -10,8 +10,10 @@ class DashboardServiceComponent extends StatelessWidget {
   final List serviceData;
   @override
   Widget build(BuildContext context) {
+    SizeScalling.init(context);
     return SizedBox(
       height: SizeScalling().setHeight(115),
+      width: double.infinity,
       child: ListView.separated(
         itemCount: serviceData.length,
         scrollDirection: Axis.horizontal,

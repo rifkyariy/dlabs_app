@@ -1,6 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
-import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -16,14 +15,16 @@ class DashboardServiceCardComponent extends StatelessWidget {
   final String title, price, subtitle;
   @override
   Widget build(BuildContext context) {
+    SizeScalling.init(context);
+    SizeScalling sizeScalling = SizeScalling();
     return SizedBox(
-      height: SizeScalling().setHeight(115),
+      height: sizeScalling.setHeight(115),
       child: Stack(
         children: [
           Container(
             padding: const EdgeInsets.all(15),
-            height: SizeScalling().setHeight(110),
-            width: SizeScalling().setWidth(252),
+            height: sizeScalling.setHeight(110),
+            width: sizeScalling.setWidth(252),
             decoration: BoxDecoration(
               image: const DecorationImage(
                 fit: BoxFit.cover,
@@ -63,25 +64,23 @@ class DashboardServiceCardComponent extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: SizeScalling().setHeight(110),
-            width: SizeScalling().setWidth(252),
-            child: Positioned.fill(
-              child: Material(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    Get.snackbar(
-                      "Error",
-                      "No Route Specified",
-                      backgroundColor: dangerColor,
-                      snackPosition: SnackPosition.TOP,
-                      animationDuration: const Duration(seconds: 1),
-                      duration: const Duration(seconds: 1),
-                      colorText: whiteColor,
-                    );
-                  },
-                ),
+            height: sizeScalling.setHeight(110),
+            width: sizeScalling.setWidth(252),
+            child: Material(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Get.snackbar(
+                    "Error",
+                    "No Route Specified",
+                    backgroundColor: dangerColor,
+                    snackPosition: SnackPosition.TOP,
+                    animationDuration: const Duration(seconds: 1),
+                    duration: const Duration(seconds: 1),
+                    colorText: whiteColor,
+                  );
+                },
               ),
             ),
           ),

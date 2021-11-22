@@ -6,6 +6,7 @@ import 'package:dlabs_apps/app/modules/dashboard/controller/dashboard_controller
 import 'package:dlabs_apps/app/global_widgets/app_article_card_component.dart';
 import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_banner_component.dart';
 import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_header_component.dart';
+import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_service_card_component.dart';
 import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_service_component.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
