@@ -40,4 +40,6 @@ class AppIcons {
       IconData(0xe90f, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData close =
       IconData(0xe910, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData group =
+      IconData(0xe911, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

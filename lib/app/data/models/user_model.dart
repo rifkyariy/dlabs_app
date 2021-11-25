@@ -10,17 +10,18 @@ class UserModel {
   late String image;
   late String? token;
 
-  UserModel(
-      {required this.id,
-      required this.email,
-      required this.full_name,
-      required this.identity_number,
-      required this.phone,
-      required this.birth_date,
-      required this.gender,
-      required this.address,
-      required this.image,
-      required this.token});
+  UserModel({
+    required this.id,
+    required this.email,
+    required this.full_name,
+    required this.identity_number,
+    required this.phone,
+    required this.birth_date,
+    required this.gender,
+    required this.address,
+    required this.image,
+    required this.token,
+  });
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];

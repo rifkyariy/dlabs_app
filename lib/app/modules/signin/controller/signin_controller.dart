@@ -1,24 +1,24 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/data/models/user_model.dart';
-import 'package:dlabs_apps/app/data/repository/auth_service.dart';
+import 'package:dlabs_apps/app/data/repository/auth_repository.dart';
+import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInController extends GetxController {
-  final AuthService _auth = Get.put(AuthService());
+  final AuthRepository _auth = Get.put(AuthRepository());
+  final AppStorageService _storage = Get.find();
 
   late UserModel? _user;
   UserModel? get user => _user;
 
+  late GoogleSignInAccount? _googleUser;
+  GoogleSignInAccount? get googleUser => _googleUser;
+
   //Google Sign in
-  final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   // Text Controllers
   final TextEditingController emailController = TextEditingController();
@@ -31,8 +31,10 @@ class SignInController extends GetxController {
   RxString emailErrorMessage = ''.obs;
   RxString passwordErrorMessage = ''.obs;
 
-  Future<String> login(
-      {required String email, required String password}) async {
+  Future<String> login({
+    required String email,
+    required String password,
+  }) async {
     isLoading.value = true;
     try {
       _user = await _auth.login(email: email, password: password);
@@ -43,7 +45,6 @@ class SignInController extends GetxController {
 
       String error = "$e";
 
-      print("error : $e");
       return error;
     }
   }
@@ -77,7 +78,6 @@ class SignInController extends GetxController {
       isLoading.value = false;
       String error = "$e";
 
-      print("error : $e");
       return error;
     }
   }
@@ -106,8 +106,9 @@ class SignInController extends GetxController {
 
         if (isPasswordLength) {
           String status = await login(
-              email: emailController.text, password: passwordController.text);
-          print(status);
+            email: emailController.text,
+            password: passwordController.text,
+          );
           if (status == "") {
             Get.toNamed(AppPages.dashboard);
           } else {
@@ -134,10 +135,63 @@ class SignInController extends GetxController {
   }
 
   Future<void> handleGoogleSignIn() async {
+    _googleSignIn.signOut();
+
     try {
-      final _user = await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
+      final GoogleSignInAccount? _googleUser =
+          await _googleSignIn.signIn().then(
+        (result) {
+          result!.authentication.then(
+            (googleKey) async {
+              // Check google access token in backend
+              final _user = await _auth.verifyGoogleAccount(
+                accessToken: googleKey.accessToken!,
+                displayName: _googleSignIn.currentUser!.displayName!,
+              );
+
+              if (_user!.isRegistered != 1) {
+                final _parameters = <String, String>{
+                  "fullName": _googleSignIn.currentUser!.displayName!,
+                  "email": _googleSignIn.currentUser!.email,
+                  "password": _user.password ?? 'DirectLab123',
+                };
+
+                Get.toNamed(
+                  AppPages.updatePersonalInfo,
+                  parameters: _parameters,
+                );
+              } else {
+                // If user already registered, save api token to local storage.
+                // If user google account valid, save google token to local storage.
+
+                // Save google access token to local storage.
+                _storage.write('googleKey', stringValue: googleKey.accessToken);
+
+                // Save backend token to local storage.
+                _storage.write('token', stringValue: _user.token);
+
+                final _parameters = <String, String>{
+                  "fullName": _googleSignIn.currentUser!.displayName!,
+                };
+
+                // Go to dashboard
+                Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
+              }
+            },
+          );
+        },
+      );
+
+      //
+      this._googleUser = _googleUser;
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        e.toString(),
+        backgroundColor: dangerColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

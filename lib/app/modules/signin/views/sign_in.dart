@@ -6,9 +6,8 @@ import 'package:dlabs_apps/app/global_widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignInScreen extends StatelessWidget {
-  SignInScreen({Key? key}) : super(key: key);
-  final controller = Get.put<SignInController>(SignInController());
+class SignInScreen extends GetView<SignInController> {
+  const SignInScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +90,7 @@ class SignInScreen extends StatelessWidget {
                 text: 'Sign In',
                 textColor: whiteColor,
                 onClicked: () {
-                  controller.loginHandler();
+                  controller.handleGoogleSignIn();
                 },
                 isLoading: controller.isLoading.value,
               ),

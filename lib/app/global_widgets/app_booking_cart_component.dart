@@ -46,7 +46,7 @@ class AppBookingCartComponent extends StatelessWidget {
                         style: appBannerTitleTextStyle,
                       ),
                       Icon(
-                        AppIcons.profile,
+                        AppIcons.group,
                         color: whiteColor,
                       ),
                     ],
@@ -62,24 +62,22 @@ class AppBookingCartComponent extends StatelessWidget {
           SizedBox(
             height: SizeScalling().setHeight(100),
             width: double.infinity,
-            child: Positioned.fill(
-              child: Material(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    // TODO Change This Implement Head to Head
-                    Get.snackbar(
-                      "Error",
-                      "No Route Specified",
-                      backgroundColor: dangerColor,
-                      snackPosition: SnackPosition.BOTTOM,
-                      animationDuration: const Duration(seconds: 1),
-                      duration: const Duration(seconds: 1),
-                      colorText: whiteColor,
-                    );
-                  },
-                ),
+            child: Material(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  // TODO Change This Implement Head to Head
+                  Get.snackbar(
+                    "Error",
+                    "No Route Specified",
+                    backgroundColor: dangerColor,
+                    snackPosition: SnackPosition.BOTTOM,
+                    animationDuration: const Duration(seconds: 1),
+                    duration: const Duration(seconds: 1),
+                    colorText: whiteColor,
+                  );
+                },
               ),
             ),
           ),

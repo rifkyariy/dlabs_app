@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:dlabs_apps/app/data/models/user_model.dart';
 
-class AuthService {
+class AuthRepository {
   final String BaseUrl = "https://devapi-dl.konsultasi.in/v1/web";
 
   String basicAuthenticationHeader(String username, String password) {
@@ -18,12 +20,8 @@ class AuthService {
       'Content-Type': 'application/json',
       'Authorization': basicAuthenticationHeader(email, password)
     };
-    var body = jsonEncode({'email': email, 'password': password});
 
     var response = await http.get(url, headers: headers);
-
-    print(response);
-    print(response.body);
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
@@ -37,7 +35,6 @@ class AuthService {
   Future<UserModel> getUserData({required String token}) async {
     var url = Uri.parse("$BaseUrl/profile/me");
 
-    print(token);
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -46,7 +43,6 @@ class AuthService {
     });
 
     var userData = jsonDecode(response.body)['data'];
-    print(userData.containsKey('image'));
 
     UserModel user = UserModel.fromJson(userData);
 
@@ -68,7 +64,7 @@ class AuthService {
     required String gender,
     required String address,
   }) async {
-    var url = Uri.parse("${BaseUrl}/auth/register");
+    var url = Uri.parse("$BaseUrl/auth/register");
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -85,14 +81,11 @@ class AuthService {
     });
     final response = await http.post(url, headers: headers, body: body);
 
-    print(response);
-    print(response.body);
-
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       return login(email: email, password: password);
     } else {
-      var data = jsonDecode(response.body);
+      final data = jsonDecode(response.body);
       if (data.containsKey('status')) {
         String error = jsonDecode(response.body)['errors'];
         throw (error);
@@ -104,7 +97,7 @@ class AuthService {
   }
 
   Future<bool> forgotPassword({required String email}) async {
-    var url = Uri.parse("${BaseUrl}/auth/forgot-password");
+    final url = Uri.parse("$BaseUrl/auth/forgot-password");
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -112,7 +105,7 @@ class AuthService {
     final body = jsonEncode({"email": email});
     final response = await http.post(url, headers: headers, body: body);
 
-    var userData = jsonDecode(response.body)['data'];
+    final userData = jsonDecode(response.body)['data'];
 
     if (response.statusCode == 200) {
       return true;
@@ -120,4 +113,72 @@ class AuthService {
       return false;
     }
   }
+
+  Future<_GoogleUserStatus?> verifyGoogleAccount({
+    required String accessToken,
+    required String displayName,
+  }) async {
+    final url = Uri.parse("$BaseUrl/auth/google/verify");
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+    final body = jsonEncode(
+      {
+        "access_token": accessToken,
+        "full_name": displayName,
+      },
+    );
+
+    try {
+      final response = await http.post(url, headers: headers, body: body);
+      final data = jsonDecode(response.body)['data'];
+
+      if (response.statusCode == 200) {
+        return _GoogleUserStatus(
+          status: data['status'],
+          email: data['email'],
+          isRegistered: data['isRegistered'],
+          token: data['token'],
+          password: data['password'],
+        );
+      } else if (response.statusCode == 404) {
+        _GoogleUserStatus(
+          status: data['status'],
+          errors: data['errors'],
+        );
+      } else {
+        // if no response from server return null
+        return _GoogleUserStatus();
+      }
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Unknown error has occured, please try again later",
+        backgroundColor: dangerColor,
+        snackPosition: SnackPosition.TOP,
+        animationDuration: const Duration(seconds: 1),
+        duration: const Duration(seconds: 2),
+        colorText: whiteColor,
+      );
+    }
+  }
+}
+
+class _GoogleUserStatus {
+  final String? email;
+  final int? isRegistered;
+  final String? token;
+  final String? status;
+  final String? errors;
+  final String? password;
+
+  _GoogleUserStatus({
+    this.errors,
+    this.status,
+    this.email,
+    this.isRegistered,
+    this.token,
+    this.password,
+  });
 }

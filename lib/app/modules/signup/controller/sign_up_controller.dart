@@ -48,8 +48,10 @@ class SignUpController extends GetxController {
                   "email": emailController.text,
                   "password": passwordController.text,
                 };
-                Get.toNamed(AppPages.updatePersonalInfo,
-                    parameters: _parameters);
+                Get.toNamed(
+                  AppPages.updatePersonalInfo,
+                  parameters: _parameters,
+                );
               } else {
                 passwordConfirmErrorMessage.value =
                     'Confirmation password doesn\'t match.';

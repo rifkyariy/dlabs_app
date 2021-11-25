@@ -1,10 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 enum SizeScallingOrientation {
+  // ignore: constant_identifier_names
   SizeScallingOrientation_Landscape,
+  // ignore: constant_identifier_names
   SizeScallingOrientation_potrait,
+  // ignore: constant_identifier_names
   SizeScallingOrientation_unset
 }
 
