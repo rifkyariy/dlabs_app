@@ -135,8 +135,6 @@ class SignInController extends GetxController {
   }
 
   Future<void> handleGoogleSignIn() async {
-    _googleSignIn.signOut();
-
     try {
       final GoogleSignInAccount? _googleUser =
           await _googleSignIn.signIn().then(
@@ -148,6 +146,8 @@ class SignInController extends GetxController {
                 accessToken: googleKey.accessToken!,
                 displayName: _googleSignIn.currentUser!.displayName!,
               );
+
+              // If User is not registered then go to update personal info with parameters
 
               if (_user!.isRegistered != 1) {
                 final _parameters = <String, String>{
@@ -187,10 +187,10 @@ class SignInController extends GetxController {
     } catch (e) {
       Get.snackbar(
         "Error",
-        e.toString(),
+        "Unknown Error, Please try again later",
         backgroundColor: dangerColor,
         colorText: whiteColor,
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
   }
