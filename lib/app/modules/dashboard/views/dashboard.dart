@@ -1,5 +1,6 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
+import 'package:dlabs_apps/app/data/models/user_model.dart';
 import 'package:dlabs_apps/app/global_widgets/app_bottom_sheet_component.dart';
 import 'package:dlabs_apps/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:dlabs_apps/app/modules/dashboard/controller/dashboard_controller.dart';
@@ -10,6 +11,7 @@ import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_service
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -38,20 +40,21 @@ class DashboardScreen extends GetView<DashboardController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Avatar Component
-                const DashboardHeaderComponent(
-                  name: '',
-                  notificationExist: true,
-                  notificationCount: 1,
-                ),
-
+                Obx(() => DashboardHeaderComponent(
+                      name: controller.fullname!.value,
+                      notificationExist: false,
+                      notificationCount: 1,
+                      gender: controller.gender!.value,
+                      photoUrl: Get.parameters['photoUrl'],
+                    )),
                 // Banner
                 DashboardBannerComponent(onPressed: () {
                   Get.toNamed(AppPages.signin);
 
                   Get.snackbar(
-                    "Warning",
+                    "Info",
                     "Please login to continue",
-                    backgroundColor: warningColor,
+                    backgroundColor: primaryColor,
                     snackPosition: SnackPosition.TOP,
                     animationDuration: const Duration(seconds: 1),
                     duration: const Duration(seconds: 1),
@@ -93,9 +96,9 @@ class DashboardScreen extends GetView<DashboardController> {
                           Get.toNamed(AppPages.signin);
 
                           Get.snackbar(
-                            "Warning",
+                            "Info",
                             "Please login to continue",
-                            backgroundColor: warningColor,
+                            backgroundColor: primaryColor,
                             snackPosition: SnackPosition.TOP,
                             animationDuration: const Duration(seconds: 1),
                             duration: const Duration(seconds: 1),

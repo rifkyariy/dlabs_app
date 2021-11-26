@@ -22,7 +22,7 @@ class Apps extends StatelessWidget {
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         getPages: AppPages.routes,
-        initialRoute: AppPages.dashboard,
+        initialRoute: AppPages.splash,
       ),
     );
   }

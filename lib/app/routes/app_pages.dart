@@ -1,6 +1,8 @@
 import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:dlabs_apps/app/modules/forgot_password/bindings/forgot_password_binding.dart';
 import 'package:dlabs_apps/app/modules/forgot_password/views/forgot_password_screen.dart';
+import 'package:dlabs_apps/app/modules/personal_booking/bindings/personal_booking_binding.dart';
+import 'package:dlabs_apps/app/modules/personal_booking/views/personal_booking.dart';
 import 'package:dlabs_apps/app/modules/signin/bindings/signin_binding.dart';
 import 'package:dlabs_apps/app/modules/signin/views/sign_in.dart';
 import 'package:dlabs_apps/app/modules/signup/bindings/sign_up_binding.dart';
@@ -22,6 +24,7 @@ class AppPages {
   static const signup = Routes.signup;
   static const forgotPassword = Routes.forgotPassword;
   static const updatePersonalInfo = Routes.updatePersonalInfo;
+  static const personalBooking = Routes.personalBooking;
 
   static final routes = [
     GetPage(
@@ -58,6 +61,12 @@ class AppPages {
       name: _Paths.updatePersonalInfo,
       page: () => const UpdatePersonalInfoScreen(),
       binding: UpdatePersonalInfoBinding(),
+    ),
+
+    GetPage(
+      name: _Paths.personalBooking,
+      page: () => const PersonalBooking(),
+      binding: PersonalBookingBinding(),
     )
   ];
 }

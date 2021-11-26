@@ -40,9 +40,9 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       Get.toNamed(AppPages.signin);
 
                       Get.snackbar(
-                        "Warning",
+                        "Info",
                         "Please login to continue",
-                        backgroundColor: warningColor,
+                        backgroundColor: primaryColor,
                         snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),
@@ -53,9 +53,9 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       Get.toNamed(AppPages.signin);
 
                       Get.snackbar(
-                        "Warning",
+                        "Info",
                         "Please login to continue",
-                        backgroundColor: warningColor,
+                        backgroundColor: primaryColor,
                         snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),
@@ -66,9 +66,9 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       Get.toNamed(AppPages.signin);
 
                       Get.snackbar(
-                        "Warning",
+                        "Info",
                         "Please login to continue",
-                        backgroundColor: warningColor,
+                        backgroundColor: primaryColor,
                         snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),
@@ -79,9 +79,9 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       Get.toNamed(AppPages.signin);
 
                       Get.snackbar(
-                        "Warning",
+                        "Info",
                         "Please login to continue",
-                        backgroundColor: warningColor,
+                        backgroundColor: primaryColor,
                         snackPosition: SnackPosition.TOP,
                         animationDuration: const Duration(seconds: 1),
                         duration: const Duration(seconds: 1),

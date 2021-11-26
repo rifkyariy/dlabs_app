@@ -53,3 +53,6 @@ TextStyle smallTextStyle(Color textColor) => GoogleFonts.lato(
 
 TextStyle appTextStyleLatoFs14Fw500 = GoogleFonts.lato(
     color: blackColor, fontSize: 14, fontWeight: FontWeight.w500);
+
+TextStyle BoldTextStyle(Color textColor) => GoogleFonts.lato(
+    color: textColor, fontWeight: FontWeight.w700, fontSize: 16);

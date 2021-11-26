@@ -152,9 +152,11 @@ class AuthRepository {
         return _GoogleUserStatus();
       }
     } catch (e) {
+      print("$e");
+
       Get.snackbar(
         "Error",
-        "Unknown error has occured, please try again later",
+        "$e",
         backgroundColor: dangerColor,
         snackPosition: SnackPosition.TOP,
         animationDuration: const Duration(seconds: 1),

@@ -10,6 +10,7 @@ abstract class Routes {
   static const resetPassword = _Paths.resetPassword;
   static const forgotPassword = _Paths.forgotPassword;
   static const updatePersonalInfo = _Paths.updatePersonalInfo;
+  static const personalBooking = _Paths.personalBooking;
 }
 
 abstract class _Paths {
@@ -20,4 +21,6 @@ abstract class _Paths {
   static const resetPassword = '/reset-password';
   static const forgotPassword = '/forgot-password';
   static const updatePersonalInfo = '/update-personal-info';
+
+  static const personalBooking = '/booking/personal';
 }

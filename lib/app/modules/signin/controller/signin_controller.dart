@@ -136,6 +136,8 @@ class SignInController extends GetxController {
 
   Future<void> handleGoogleSignIn() async {
     try {
+      // sign out
+      _googleSignIn.signOut();
       final GoogleSignInAccount? _googleUser =
           await _googleSignIn.signIn().then(
         (result) {
@@ -172,6 +174,7 @@ class SignInController extends GetxController {
 
                 final _parameters = <String, String>{
                   "fullName": _googleSignIn.currentUser!.displayName!,
+                  "photoUrl": _googleSignIn.currentUser!.photoUrl ?? ""
                 };
 
                 // Go to dashboard
@@ -185,6 +188,7 @@ class SignInController extends GetxController {
       //
       this._googleUser = _googleUser;
     } catch (e) {
+      print(e);
       Get.snackbar(
         "Error",
         "Unknown Error, Please try again later",

@@ -1,6 +1,38 @@
+import 'package:dlabs_apps/app/data/models/user_model.dart';
+import 'package:dlabs_apps/app/data/repository/auth_repository.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardController extends GetxController {
+  final AuthRepository _auth = Get.put(AuthRepository());
+
+  late RxString? fullname = "".obs;
+  late RxString? gender = "".obs;
+
+  Future<UserModel> getUserData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token") ?? '';
+
+      UserModel userData = await _auth.getUserData(token: token);
+
+      return userData;
+    } catch (e) {
+      print(e);
+      throw e;
+    }
+  }
+
+  @override
+  void onInit() async {
+    super.onInit();
+    await getUserData().then((result) {
+      print(result.full_name.split(" "));
+      fullname!.value = result.full_name.split(" ").elementAt(0);
+      gender!.value = result.gender;
+    });
+  }
+
   final dummyServiceData = <_Service>[
     _Service(
       "Swab Antigen",
@@ -38,6 +70,8 @@ class DashboardController extends GetxController {
       "https://cdn.discordapp.com/attachments/900022715321311259/911572726915944468/unknown.png",
     ),
   ];
+
+  void setState(Null Function() param0) {}
 }
 
 class _Service {
