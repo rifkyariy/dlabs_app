@@ -1,8 +1,11 @@
+import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class SignUpController extends GetxController {
+  final SignInController signInController = Get.find();
+
   // Text Controllers
 
   final TextEditingController fullNameController = TextEditingController();

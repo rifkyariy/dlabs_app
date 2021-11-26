@@ -1,4 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
@@ -11,157 +12,178 @@ class SignInScreen extends GetView<SignInController> {
 
   @override
   Widget build(BuildContext context) {
+    SizeScalling.init(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: whiteColor,
-      body: Padding(
-        padding: const EdgeInsets.only(top: 67.0, left: 24.0, right: 24.0),
-        child: Column(
-          children: [
-            // Logo and Header
-            Center(
-              child: Image.asset(
-                'assets/image/logo-dlab.png',
-                width: 102,
-                height: 43,
+      appBar: AppBar(
+          leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_sharp,
               ),
-            ),
-            const SizedBox(height: 67),
-
-            // Header Text
-            Text(
-              'Welcome to Direct Lab',
-              textAlign: TextAlign.center,
-              style: titleTextStyle(blackColor),
-            ),
-
-            const SizedBox(height: 8),
-
-            Text(
-              'Sign in to continue',
-              textAlign: TextAlign.right,
-              style: subtitleTextStyle(greyColor),
-            ),
-
-            const SizedBox(height: 44),
-
-            // Regular Login
-            // Email Input
-            Obx(
-              () => TextInput(
-                label: 'Email Address',
-                name: 'email',
-                placeholder: 'e.g. mail@address.com',
-                errorMsg: controller.emailErrorMessage.value,
-                controller: controller.emailController,
+              color: primaryColor,
+              onPressed: () => Navigator.pop(context)),
+          title: Text('', style: BoldTextStyle(blackColor)),
+          centerTitle: true,
+          actions: [],
+          elevation: 0.0,
+          backgroundColor: whiteColor,
+          shadowColor: lightGreyColor),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: SizeScalling().setHeight(20),
+            left: SizeScalling().setHeight(24),
+            right: SizeScalling().setHeight(24),
+          ),
+          child: Column(
+            children: [
+              // Logo and Header
+              Center(
+                child: Image.asset(
+                  'assets/image/logo-dlab.png',
+                  width: SizeScalling().setWidth(100),
+                  height: SizeScalling().setHeight(40),
+                ),
               ),
-            ),
+              SizedBox(height: SizeScalling().setHeight(40)),
 
-            // Password Input
-            Obx(
-              () => TextInput(
-                label: 'Password',
-                name: 'password',
-                errorMsg: controller.passwordErrorMessage.value,
-                type: 'password',
-                controller: controller.passwordController,
+              // Header Text
+              Text(
+                'Welcome to Direct Lab',
+                textAlign: TextAlign.center,
+                style: titleTextStyle(blackColor),
               ),
-            ),
 
-            // Forgot Password
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () => Get.toNamed(AppPages.forgotPassword),
-                  child: Text(
-                    'Forgot Password ?',
-                    style: smallTextStyle(primaryColor),
+              SizedBox(height: SizeScalling().setHeight(8)),
+
+              Text(
+                'Sign in to continue',
+                textAlign: TextAlign.right,
+                style: subtitleTextStyle(greyColor),
+              ),
+
+              SizedBox(height: SizeScalling().setHeight(30)),
+
+              // Regular Login
+              // Email Input
+              Obx(
+                () => TextInput(
+                  label: 'Email Address',
+                  name: 'email',
+                  placeholder: 'e.g. mail@address.com',
+                  errorMsg: controller.emailErrorMessage.value,
+                  controller: controller.emailController,
+                ),
+              ),
+
+              // Password Input
+              Obx(
+                () => TextInput(
+                  label: 'Password',
+                  name: 'password',
+                  errorMsg: controller.passwordErrorMessage.value,
+                  type: 'password',
+                  controller: controller.passwordController,
+                ),
+              ),
+
+              // Forgot Password
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () => Get.toNamed(AppPages.forgotPassword),
+                    child: Text(
+                      'Forgot Password ?',
+                      style: smallTextStyle(primaryColor),
+                    ),
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.end,
+              ),
+
+              SizedBox(height: SizeScalling().setHeight(8)),
+
+              // Sign In Button
+              Obx(
+                () => Button(
+                  text: 'Sign In',
+                  textColor: whiteColor,
+                  onClicked: () {
+                    controller.loginHandler();
+                  },
+                  isLoading: controller.isLoading.value,
+                ),
+              ),
+              SizedBox(height: SizeScalling().setHeight(16)),
+
+              // Divider
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset(
+                    'assets/image/line-divider.png',
                   ),
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.end,
-            ),
-
-            const SizedBox(height: 10),
-
-            // Sign In Button
-            Obx(
-              () => Button(
-                text: 'Sign In',
-                textColor: whiteColor,
-                onClicked: () {
-                  controller.handleGoogleSignIn();
-                },
-                isLoading: controller.isLoading.value,
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Divider
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/image/line-divider.png',
-                ),
-                Text(
-                  'or',
-                  style: smallTextStyle(blackColor),
-                ),
-                Image.asset(
-                  'assets/image/line-divider.png',
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-
-            // Google Button
-            Center(
-                child: ElevatedButton.icon(
-              icon: Image.asset(
-                'assets/image/logo-google-48dp.png',
-                width: 20.5,
-                height: 20.5,
-              ),
-              label: Text(
-                'Sign In with Google',
-                style: subtitleTextStyle(blackColor),
-              ),
-              onPressed: () => controller.handleGoogleSignIn(),
-              style: ElevatedButton.styleFrom(
-                primary: whiteColor,
-                elevation: 0,
-                minimumSize: const Size(double.infinity, 46),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1.0,
-                    color: lightGreyColor,
+                  Text(
+                    'or',
+                    style: smallTextStyle(blackColor),
                   ),
-                  borderRadius: BorderRadius.circular(4.8),
-                ),
-              ),
-            )),
-            const Spacer(),
-
-            // Sign Up
-            Row(
-              children: [
-                Text(
-                  'Don’t have an account? ',
-                  style: regularTextStyle(blackColor),
-                ),
-                TextButton(
-                  child: Text(
-                    'Sign Up',
-                    style: regularTextStyle(dangerColor),
+                  Image.asset(
+                    'assets/image/line-divider.png',
                   ),
-                  onPressed: () => Get.toNamed(AppPages.signup),
+                ],
+              ),
+              SizedBox(height: SizeScalling().setHeight(16)),
+
+              // Google Button
+              Center(
+                  child: ElevatedButton.icon(
+                icon: Image.asset(
+                  'assets/image/logo-google-48dp.png',
+                  width: 20.5,
+                  height: 20.5,
                 ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-            ),
-            const SizedBox(height: 16),
-          ],
+                label: Text(
+                  'Sign In with Google',
+                  style: subtitleTextStyle(blackColor),
+                ),
+                onPressed: () => controller.handleGoogleSignIn(),
+                style: ElevatedButton.styleFrom(
+                  primary: whiteColor,
+                  elevation: 0,
+                  minimumSize: const Size(double.infinity, 46),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1.0,
+                      color: lightGreyColor,
+                    ),
+                    borderRadius: BorderRadius.circular(4.8),
+                  ),
+                ),
+              )),
+              const SizedBox(height: 16),
+
+              // Sign Up
+              Row(
+                children: [
+                  Text(
+                    'Don’t have an account? ',
+                    style: regularTextStyle(blackColor),
+                  ),
+                  TextButton(
+                    child: Text(
+                      'Sign Up',
+                      style: regularTextStyle(dangerColor),
+                    ),
+                    onPressed: () => Get.toNamed(AppPages.signup),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.center,
+              ),
+              const SizedBox(height: 16),
+            ],
+          ),
         ),
       ),
     );

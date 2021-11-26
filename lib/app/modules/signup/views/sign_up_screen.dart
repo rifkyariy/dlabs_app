@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:dlabs_apps/app/global_widgets/button.dart';
 import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/app/modules/signup/controller/sign_up_controller.dart';
@@ -12,37 +13,57 @@ class SignUpScreen extends GetView<SignUpController> {
 
   @override
   Widget build(BuildContext context) {
+    SizeScalling.init(context);
+
     return Scaffold(
       backgroundColor: whiteColor,
+      appBar: AppBar(
+          leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_sharp,
+              ),
+              color: primaryColor,
+              onPressed: () => Navigator.pop(context)),
+          title: Text('', style: BoldTextStyle(blackColor)),
+          centerTitle: true,
+          actions: [],
+          elevation: 0.0,
+          backgroundColor: whiteColor,
+          shadowColor: lightGreyColor),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 67.0, left: 24.0, right: 24.0),
+          padding: EdgeInsets.only(
+            top: SizeScalling().setHeight(20),
+            left: SizeScalling().setWidth(24),
+            right: SizeScalling().setWidth(24),
+          ),
           child: Column(
             children: [
               // Logo and Header
               Center(
                 child: Image.asset(
                   'assets/image/logo-dlab.png',
-                  width: 102,
-                  height: 43,
+                  width: SizeScalling().setWidth(100),
+                  height: SizeScalling().setHeight(40),
                 ),
               ),
 
-              const SizedBox(height: 40),
+              SizedBox(height: SizeScalling().setWidth(40)),
 
               // Google Login
               Center(
                 child: ElevatedButton.icon(
                   icon: Image.asset(
                     'assets/image/logo-google-48dp.png',
-                    width: 20.5,
-                    height: 20.5,
+                    width: SizeScalling().setWidth(20),
+                    height: SizeScalling().setHeight(20),
                   ),
                   label: Text(
                     'Sign Up with Google',
                     style: subtitleTextStyle(blackColor),
                   ),
-                  onPressed: () {},
+                  onPressed: () =>
+                      controller.signInController.handleGoogleSignIn(),
                   style: ElevatedButton.styleFrom(
                     primary: whiteColor,
                     elevation: 0,
@@ -58,7 +79,7 @@ class SignUpScreen extends GetView<SignUpController> {
                 ),
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: SizeScalling().setHeight(16)),
 
               // Divider
               Row(
@@ -77,7 +98,7 @@ class SignUpScreen extends GetView<SignUpController> {
                 ],
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: SizeScalling().setHeight(16)),
 
               // Step Header
               Row(
@@ -95,7 +116,7 @@ class SignUpScreen extends GetView<SignUpController> {
               ),
               Divider(color: greyColor),
 
-              const SizedBox(height: 16),
+              SizedBox(height: SizeScalling().setHeight(16)),
 
               // Full Name
               Obx(

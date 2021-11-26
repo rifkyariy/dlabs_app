@@ -1,4 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:flutter/material.dart';
 import 'input_field.dart';
 
@@ -22,6 +23,8 @@ class TextInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeScalling.init(context);
+
     return Column(
       children: [
         // Password Label
@@ -50,7 +53,7 @@ class TextInput extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 2,
+          height: SizeScalling().setHeight(2),
         ),
       ],
     );

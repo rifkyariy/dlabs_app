@@ -1,4 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:flutter/material.dart';
 
 class InputFieldContainer extends StatelessWidget {
@@ -15,8 +16,12 @@ class InputFieldContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: const EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 5),
+      margin: EdgeInsets.symmetric(vertical: SizeScalling().setHeight(8)),
+      padding: EdgeInsets.only(
+          top: SizeScalling().setHeight(2),
+          bottom: SizeScalling().setHeight(2),
+          left: SizeScalling().setWidth(10),
+          right: SizeScalling().setWidth(4)),
       width: size.width * 0.9,
       decoration: BoxDecoration(
           color: whiteColor,

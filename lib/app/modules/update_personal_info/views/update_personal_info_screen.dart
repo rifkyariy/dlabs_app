@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:dlabs_apps/app/global_widgets/button.dart';
 import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/app/modules/update_personal_info/controller/update_personal_info_controller.dart';
@@ -11,12 +12,30 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
 
   @override
   Widget build(BuildContext context) {
+    SizeScalling.init(context);
+
     return Scaffold(
       backgroundColor: whiteColor,
+      appBar: AppBar(
+          leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_sharp,
+              ),
+              color: primaryColor,
+              onPressed: () => Navigator.pop(context)),
+          title: Text('', style: BoldTextStyle(blackColor)),
+          centerTitle: true,
+          actions: [],
+          elevation: 0.0,
+          backgroundColor: whiteColor,
+          shadowColor: lightGreyColor),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(
-              top: 67.0, left: 24.0, right: 24.0, bottom: 24.0),
+          padding: EdgeInsets.only(
+            top: SizeScalling().setHeight(20),
+            left: SizeScalling().setWidth(24),
+            right: SizeScalling().setWidth(24),
+          ),
           child: Column(
             children: [
               // Logo and Header
@@ -41,7 +60,8 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                     'Sign Up with Google',
                     style: subtitleTextStyle(blackColor),
                   ),
-                  onPressed: () {},
+                  onPressed: () =>
+                      controller.signInController.handleGoogleSignIn(),
                   style: ElevatedButton.styleFrom(
                     primary: whiteColor,
                     elevation: 0,

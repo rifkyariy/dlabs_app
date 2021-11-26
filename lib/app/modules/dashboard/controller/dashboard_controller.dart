@@ -14,6 +14,8 @@ class DashboardController extends GetxController {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString("token") ?? '';
 
+      print(token);
+
       UserModel userData = await _auth.getUserData(token: token);
 
       return userData;
