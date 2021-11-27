@@ -1,6 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
-import 'package:dlabs_apps/app/data/models/user_model.dart';
 import 'package:dlabs_apps/app/global_widgets/app_bottom_sheet_component.dart';
 import 'package:dlabs_apps/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:dlabs_apps/app/modules/dashboard/controller/dashboard_controller.dart';
@@ -39,13 +38,14 @@ class DashboardScreen extends GetView<DashboardController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Avatar Component
-                Obx(() => DashboardHeaderComponent(
-                      name: controller.fullname!.value,
-                      notificationExist: false,
-                      notificationCount: 1,
-                      gender: controller.gender!.value,
-                      photoUrl: Get.parameters['photoUrl'],
-                    )),
+                DashboardHeaderComponent(
+                  name: Get.parameters['fullName'] ?? '',
+                  notificationExist: false,
+                  notificationCount: 1,
+                  gender: Get.parameters['gender'],
+                  photoUrl: Get.parameters['photoUrl'],
+                ),
+
                 // Banner
                 DashboardBannerComponent(onPressed: () {
                   Get.toNamed(AppPages.signin);

@@ -11,7 +11,7 @@ class AuthRepository {
     return 'Basic ' + base64Encode(utf8.encode('$username:$password'));
   }
 
-  Future<UserModel> login({
+  Future<UserModel?> login({
     required String email,
     required String password,
   }) async {
@@ -28,7 +28,7 @@ class AuthRepository {
       return getUserData(token: data['token']);
     } else {
       String error = jsonDecode(response.body)['errors'];
-      throw (error);
+      return UserModel(errors: error);
     }
   }
 
@@ -49,12 +49,13 @@ class AuthRepository {
     user.image = userData.containsKey('image')
         ? "https://devapi-dl.konsultasi.in/" + userData['image']
         : "";
-    user.token = "Bearer " + token;
-
+    user.token = token;
+    user.status = jsonDecode(response.body)['status'];
+    user.errors = jsonDecode(response.body)['errors'];
     return user;
   }
 
-  Future<UserModel> register({
+  Future<UserModel?> register({
     required String email,
     required String password,
     required String fullname,
@@ -136,7 +137,7 @@ class AuthRepository {
 
       if (response.statusCode == 200) {
         return _GoogleUserStatus(
-          status: data['status'],
+          status: jsonDecode(response.body)['status'],
           email: data['email'],
           isRegistered: data['isRegistered'],
           token: data['token'],
@@ -144,16 +145,14 @@ class AuthRepository {
         );
       } else if (response.statusCode == 404) {
         _GoogleUserStatus(
-          status: data['status'],
-          errors: data['errors'],
+          status: jsonDecode(response.body)['status'],
+          errors: jsonDecode(response.body)['errors'],
         );
       } else {
         // if no response from server return null
         return _GoogleUserStatus();
       }
     } catch (e) {
-      print("$e");
-
       Get.snackbar(
         "Error",
         "$e",

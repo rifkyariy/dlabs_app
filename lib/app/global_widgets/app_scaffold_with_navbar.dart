@@ -3,6 +3,7 @@ import 'package:dlabs_apps/app/core/utils/app_icons.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppScaffoldWithBottomNavBar extends StatelessWidget {
   const AppScaffoldWithBottomNavBar({
@@ -28,7 +29,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
       bottomNavigationBar: visibleBottomNavBar ?? false
           ? BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              onTap: (index) {
+              onTap: (index) async {
                 if (index == currentIndex) {
                   return;
                 } else {
@@ -76,7 +77,12 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       );
                       break;
                     case 4:
-                      Get.toNamed(AppPages.signin);
+                      SharedPreferences sp =
+                          await SharedPreferences.getInstance();
+
+                      sp.remove('googleKey');
+                      sp.remove('apiToken');
+                      Get.offAndToNamed(AppPages.signin);
 
                       Get.snackbar(
                         "Info",

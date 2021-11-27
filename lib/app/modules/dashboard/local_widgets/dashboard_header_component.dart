@@ -26,10 +26,12 @@ class DashboardHeaderComponent extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: SizeScalling().setRadius(22.5),
-            backgroundImage: NetworkImage(photoUrl ??
-                (gender == "1"
-                    ? 'https://cdn.discordapp.com/attachments/900022715321311259/913815656770711633/app-profile-picture-female.png'
-                    : 'https://cdn.discordapp.com/attachments/900022715321311259/911343059827064832/app-profile-picture.png')),
+            backgroundImage: NetworkImage(
+              photoUrl ??
+                  (gender == "1"
+                      ? 'https://cdn.discordapp.com/attachments/900022715321311259/913815656770711633/app-profile-picture-female.png'
+                      : 'https://cdn.discordapp.com/attachments/900022715321311259/911343059827064832/app-profile-picture.png'),
+            ),
           ),
           Container(
             padding: const EdgeInsets.only(left: 12),

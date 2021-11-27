@@ -1,38 +1,17 @@
-import 'package:dlabs_apps/app/data/models/user_model.dart';
-import 'package:dlabs_apps/app/data/repository/auth_repository.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardController extends GetxController {
-  final AuthRepository _auth = Get.put(AuthRepository());
-
-  late RxString? fullname = "".obs;
-  late RxString? gender = "".obs;
-
-  Future<UserModel> getUserData() async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String token = prefs.getString("token") ?? '';
-
-      print(token);
-
-      UserModel userData = await _auth.getUserData(token: token);
-
-      return userData;
-    } catch (e) {
-      print(e);
-      throw e;
-    }
-  }
+  late RxString fullname = "".obs;
+  late RxString gender = "".obs;
+  late RxString photoUrl = "".obs;
 
   @override
   void onInit() async {
     super.onInit();
-    await getUserData().then((result) {
-      print(result.full_name.split(" "));
-      fullname!.value = result.full_name.split(" ").elementAt(0);
-      gender!.value = result.gender;
-    });
+
+    fullname.value = Get.parameters['fullName'] ?? '';
+    gender.value = Get.parameters['gender'] ?? '1';
+    photoUrl.value = Get.parameters['photoUrl'] ?? '';
   }
 
   final dummyServiceData = <_Service>[

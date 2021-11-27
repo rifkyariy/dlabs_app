@@ -31,21 +31,15 @@ class SignInController extends GetxController {
   RxString emailErrorMessage = ''.obs;
   RxString passwordErrorMessage = ''.obs;
 
-  Future<String> login({
+  Future<UserModel?> login({
     required String email,
     required String password,
   }) async {
-    isLoading.value = true;
     try {
       _user = await _auth.login(email: email, password: password);
-      isLoading.value = false;
-      return "";
+      return _user;
     } catch (e) {
-      isLoading.value = false;
-
-      String error = "$e";
-
-      return error;
+      return _user;
     }
   }
 
@@ -92,6 +86,7 @@ class SignInController extends GetxController {
   }
 
   void loginHandler() async {
+    isLoading.value = true;
     bool isEmailValid = RegExp(
             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
         .hasMatch(emailController.text);
@@ -105,16 +100,31 @@ class SignInController extends GetxController {
         passwordErrorMessage.value = '';
 
         if (isPasswordLength) {
-          String status = await login(
+          // Login Handleer
+          UserModel? _user = await login(
             email: emailController.text,
             password: passwordController.text,
           );
-          if (status == "") {
-            Get.toNamed(AppPages.dashboard);
+
+          if (_user != null && _user.status == '200') {
+            isLoading.value = false;
+            print("USER STATUS ${_user.status}");
+            // Save backend token to local storage.
+            await _storage.write('apiToken', stringValue: _user.token);
+
+            final _parameters = <String, String>{
+              "fullName": _user.full_name!,
+              "photoUrl": _user.image!,
+              "userGender": _user.gender!,
+            };
+
+            // Go to dashboard
+            Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
           } else {
+            isLoading.value = false;
             Get.snackbar(
               "Error",
-              status == "find user error"
+              _user!.errors == "find user error"
                   ? "You don't have an account yet, Please sign up."
                   : "Invalid email or password",
               backgroundColor: dangerColor,
@@ -123,13 +133,16 @@ class SignInController extends GetxController {
             );
           }
         } else {
+          isLoading.value = false;
           passwordErrorMessage.value =
               'Your password must be at least 8 characters.';
         }
       } else {
+        isLoading.value = false;
         passwordErrorMessage.value = "Your password can't be blank.";
       }
     } else {
+      isLoading.value = false;
       emailErrorMessage.value = 'Please enter a valid email address.';
     }
   }
@@ -167,14 +180,34 @@ class SignInController extends GetxController {
                 // If user google account valid, save google token to local storage.
 
                 // Save google access token to local storage.
-                _storage.write('googleKey', stringValue: googleKey.accessToken);
+                await _storage.write(
+                  'googleKey',
+                  stringValue: googleKey.accessToken,
+                );
 
                 // Save backend token to local storage.
-                _storage.write('token', stringValue: _user.token);
+                await _storage.write('apiToken', stringValue: _user.token);
+
+                // Save google username to local storage
+                await _storage.write(
+                  'googleFullName',
+                  stringValue: _googleSignIn.currentUser!.displayName,
+                );
+
+                // Save photo url to local storage
+                await _storage.write(
+                  'googlePhotoUrl',
+                  stringValue: _googleSignIn.currentUser!.photoUrl ?? "",
+                );
+
+                final UserModel _appUser = await _auth.getUserData(
+                  token: _user.token!,
+                );
 
                 final _parameters = <String, String>{
                   "fullName": _googleSignIn.currentUser!.displayName!,
-                  "photoUrl": _googleSignIn.currentUser!.photoUrl ?? ""
+                  "photoUrl": _googleSignIn.currentUser!.photoUrl ?? "",
+                  "gender": _appUser.gender ?? '1',
                 };
 
                 // Go to dashboard
@@ -188,7 +221,6 @@ class SignInController extends GetxController {
       //
       this._googleUser = _googleUser;
     } catch (e) {
-      print(e);
       Get.snackbar(
         "Error",
         "Unknown Error, Please try again later",

@@ -2,39 +2,55 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppStorageService extends GetxService {
-  late SharedPreferences sharedPreferences;
-
   Future<AppStorageService> init() async {
     return this;
   }
 
-  @override
-  void onInit() async {
-    super.onInit();
-    sharedPreferences = await SharedPreferences.getInstance();
-  }
-
-  void write(
+  Future<void> write(
     String key, {
     String? stringValue,
     int? intValue,
     bool? boolValue,
     double? doublevalue,
-  }) {
+  }) async {
     if (stringValue != null) {
-      sharedPreferences.setString(key, stringValue);
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setString(key, stringValue);
     }
 
     if (intValue != null) {
-      sharedPreferences.setInt(key, intValue);
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setInt(key, intValue);
     }
 
     if (boolValue != null) {
-      sharedPreferences.setBool(key, boolValue);
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setBool(key, boolValue);
     }
 
     if (doublevalue != null) {
-      sharedPreferences.setDouble(key, doublevalue);
+      final sharedPreferences = await SharedPreferences.getInstance();
+      await sharedPreferences.setDouble(key, doublevalue);
     }
+  }
+
+  Future<int?> readInt(String key) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getInt(key);
+  }
+
+  Future<String?> readString(String key) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getString(key);
+  }
+
+  Future<bool?> readBool(String key) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getBool(key);
+  }
+
+  Future<double?> readDouble(String key) async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    return sharedPreferences.getDouble(key);
   }
 }

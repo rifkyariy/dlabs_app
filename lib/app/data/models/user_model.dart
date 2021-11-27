@@ -1,26 +1,30 @@
 class UserModel {
-  late int id;
-  late String email;
-  late String full_name;
-  late String identity_number;
-  late String phone;
-  late String birth_date;
-  late String gender;
-  late String address;
-  late String image;
+  late int? id;
+  late String? email;
+  late String? full_name;
+  late String? identity_number;
+  late String? phone;
+  late String? birth_date;
+  late String? gender;
+  late String? address;
+  late String? image;
   late String? token;
+  dynamic status;
+  String? errors;
 
   UserModel({
-    required this.id,
-    required this.email,
-    required this.full_name,
-    required this.identity_number,
-    required this.phone,
-    required this.birth_date,
-    required this.gender,
-    required this.address,
-    required this.image,
-    required this.token,
+    this.id,
+    this.email,
+    this.full_name,
+    this.identity_number,
+    this.phone,
+    this.birth_date,
+    this.gender,
+    this.address,
+    this.image,
+    this.token,
+    this.status,
+    this.errors,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +38,8 @@ class UserModel {
     address = json['address'];
     token = json['token'];
     image = json.containsKey('image') ? json['image'] : "";
+    status = json['status'];
+    errors = json['errors'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,7 +53,9 @@ class UserModel {
       'gender': gender,
       'address': address,
       'image': image,
-      'token': token
+      'token': token,
+      'status': status,
+      'errors': errors,
     };
   }
 }
