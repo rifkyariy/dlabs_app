@@ -1,5 +1,6 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
+import 'package:dlabs_apps/app/global_widgets/app_google_button.dart';
 import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
@@ -137,31 +138,12 @@ class SignInScreen extends GetView<SignInController> {
               SizedBox(height: SizeScalling().setHeight(16)),
 
               // Google Button
-              Center(
-                  child: ElevatedButton.icon(
-                icon: Image.asset(
-                  'assets/image/logo-google-48dp.png',
-                  width: 20.5,
-                  height: 20.5,
+              Obx(
+                () => AppGoogleButton(
+                  onPressed: () async => controller.handleGoogleSignIn(),
+                  isLoading: controller.isGoogleLoading.value,
                 ),
-                label: Text(
-                  'Sign In with Google',
-                  style: subtitleTextStyle(blackColor),
-                ),
-                onPressed: () => controller.handleGoogleSignIn(),
-                style: ElevatedButton.styleFrom(
-                  primary: whiteColor,
-                  elevation: 0,
-                  minimumSize: const Size(double.infinity, 46),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1.0,
-                      color: lightGreyColor,
-                    ),
-                    borderRadius: BorderRadius.circular(4.8),
-                  ),
-                ),
-              )),
+              ),
               const SizedBox(height: 16),
 
               // Sign Up

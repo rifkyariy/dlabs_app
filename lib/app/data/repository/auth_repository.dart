@@ -42,17 +42,23 @@ class AuthRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var userData = jsonDecode(response.body)['data'];
+    if (response.statusCode == 200) {
+      var userData = jsonDecode(response.body)['data'];
 
-    UserModel user = UserModel.fromJson(userData);
-
-    user.image = userData.containsKey('image')
-        ? "https://devapi-dl.konsultasi.in/" + userData['image']
-        : "";
-    user.token = token;
-    user.status = jsonDecode(response.body)['status'];
-    user.errors = jsonDecode(response.body)['errors'];
-    return user;
+      UserModel user = UserModel.fromJson(userData);
+      user.image = userData.containsKey('image')
+          ? "https://devapi-dl.konsultasi.in/" + userData['image']
+          : "";
+      user.token = token;
+      user.status = jsonDecode(response.body)['status'];
+      user.errors = jsonDecode(response.body)['errors'];
+      return user;
+    } else {
+      return UserModel(
+        status: jsonDecode(response.body)['status'],
+        errors: jsonDecode(response.body)['message'],
+      );
+    }
   }
 
   Future<UserModel?> register({

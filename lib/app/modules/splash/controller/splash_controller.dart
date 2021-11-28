@@ -14,12 +14,7 @@ class SplashController extends GetxController {
   late String? apiToken;
   late String? googlePhotoUrl;
 
-  @override
-  void onInit() async {
-    super.onInit();
-
-    // Get Shared Pereference Data
-
+  void checkIfUserAlreadySignin() async {
     googleAuthKey = await _appStorageService.readString('googleKey');
     apiToken = await _appStorageService.readString('apiToken');
     googleFullName = await _appStorageService.readString('googleFullName');
@@ -92,7 +87,7 @@ class SplashController extends GetxController {
         UserModel? _userData = await _authRepository.getUserData(
           token: apiToken ?? '',
         );
-
+        print("Sampai sini");
         if (_userData.status == '200') {
           await _appStorageService.write('isLoggedIn', boolValue: true);
           final _parameters = <String, String>{

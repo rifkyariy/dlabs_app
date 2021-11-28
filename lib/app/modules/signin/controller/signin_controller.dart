@@ -26,6 +26,7 @@ class SignInController extends GetxController {
 
   // State
   RxBool isLoading = false.obs;
+  RxBool isGoogleLoading = false.obs;
 
   // Message
   RxString emailErrorMessage = ''.obs;
@@ -108,7 +109,7 @@ class SignInController extends GetxController {
 
           if (_user != null && _user.status == '200') {
             isLoading.value = false;
-            print("USER STATUS ${_user.status}");
+
             // Save backend token to local storage.
             await _storage.write('apiToken', stringValue: _user.token);
 
@@ -154,6 +155,7 @@ class SignInController extends GetxController {
     try {
       // sign out
       _googleSignIn.signOut();
+      isGoogleLoading.value = true;
       final GoogleSignInAccount? _googleUser =
           await _googleSignIn.signIn().then(
         (result) {
@@ -165,12 +167,10 @@ class SignInController extends GetxController {
                 displayName: _googleSignIn.currentUser!.displayName!,
               );
 
-              print(googleKey.accessToken);
-              print(_googleSignIn.currentUser!.displayName!);
               // If User is not registered then go to update personal info with parameters
 
-              print(_user!.status);
-              if (_user.status != '500' && _user.isRegistered != 1) {
+              if (_user!.status != '500' && _user.isRegistered != 1) {
+                isGoogleLoading.value = false;
                 final _parameters = <String, String>{
                   "fullName": _googleSignIn.currentUser!.displayName!,
                   "email": _googleSignIn.currentUser!.email,
@@ -219,6 +219,7 @@ class SignInController extends GetxController {
                 // Set is Logged in
                 await _storage.write('isLoggedIn', boolValue: true);
 
+                isGoogleLoading.value = false;
                 // Go to dashboard
                 Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
               }
@@ -230,6 +231,7 @@ class SignInController extends GetxController {
       //
       this._googleUser = _googleUser;
     } catch (e) {
+      isGoogleLoading.value = false;
       Get.snackbar(
         "Error",
         "Unknown Error, Please try again later",

@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var duration = const Duration(seconds: 1);
 
     return Timer(duration, () {
-      controller.onInit();
+      controller.checkIfUserAlreadySignin();
     });
   }
 
