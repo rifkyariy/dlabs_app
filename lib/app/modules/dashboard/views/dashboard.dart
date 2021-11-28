@@ -38,13 +38,13 @@ class DashboardScreen extends GetView<DashboardController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Avatar Component
-                DashboardHeaderComponent(
-                  name: Get.parameters['fullName'] ?? '',
-                  notificationExist: false,
-                  notificationCount: 1,
-                  gender: Get.parameters['gender'],
-                  photoUrl: Get.parameters['photoUrl'],
-                ),
+                Obx(() => DashboardHeaderComponent(
+                      name: Get.parameters['fullName']!.split(" ").elementAt(0),
+                      notificationExist: controller.isLoggedIn.value,
+                      notificationCount: 0,
+                      gender: Get.parameters['gender'] ?? '0',
+                      photoUrl: Get.parameters['photoUrl'] ?? '',
+                    )),
 
                 // Banner
                 DashboardBannerComponent(onPressed: () {

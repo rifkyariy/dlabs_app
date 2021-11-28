@@ -1,8 +1,13 @@
-import 'package:dlabs_apps/app/routes/app_pages.dart';
+import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
+import 'package:dlabs_apps/app/data/models/location_model.dart';
+import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class PersonalBookingController extends GetxController {
+  final AppStorageService storage = Get.find();
+  final MasterDataRepository _masterData = Get.put(MasterDataRepository());
+
   // Text Controllers
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -14,7 +19,6 @@ class PersonalBookingController extends GetxController {
   // State
   RxBool isLoading = false.obs;
   RxString genderValue = '0'.obs;
-  final currentSelectedValue = ''.obs;
 
   // Error Message
   RxString fullNameErrorMessage = ''.obs;
@@ -24,22 +28,52 @@ class PersonalBookingController extends GetxController {
   RxString dateOfBirthErrorMessage = ''.obs;
   RxString addressErrorMessage = ''.obs;
 
-  String? selectedDrowpdown = 'abc';
-  List<String> dropdownTextList = ['abc', 'def', 'ghi'];
-  final List<Map<String, dynamic>> _items = [
+  RxString selectedService = '1'.obs;
+  List<Map<String, dynamic>> serviceList = [
     {
-      'value': 'boxValue',
-      'label': 'Box Label',
+      'id': '1',
+      'value': 'Walk In',
     },
     {
-      'value': 'circleValue',
-      'label': 'Circle Label',
+      'id': '2',
+      'value': 'Home Services',
     },
     {
-      'value': 'starValue',
-      'label': 'Star Label',
+      'id': '3',
+      'value': 'Drive Thru',
+    },
+    {
+      'id': '4',
+      'value': 'Corporate Services',
     },
   ];
+
+  List<Map<String, dynamic>> testPurposeList = [
+    {
+      'id': '1',
+      'value': 'Check Up',
+    },
+    {
+      'id': '2',
+      'value': 'Make Sure',
+    },
+  ];
+
+  late List<dynamic> locationLists;
+
+  @override
+  void onInit() async {
+    // TODO: implement onInit
+    super.onInit();
+    _masterData
+        .getLocationList(token: await storage.readString('apiToken') ?? '')
+        .then((data) {
+      var activeLocationLists =
+          data.toList().where((element) => element['status'] == 'Active');
+
+      locationLists = data.toList();
+    });
+  }
 
   // Validation
 

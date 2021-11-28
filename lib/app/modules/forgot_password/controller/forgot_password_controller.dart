@@ -43,7 +43,7 @@ class ForgotPasswordController extends GetxController {
           'Please check verification code on your email.',
           backgroundColor: Colors.lightGreen,
           colorText: whiteColor,
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
         );
       } else {
         isLoading.value = false;

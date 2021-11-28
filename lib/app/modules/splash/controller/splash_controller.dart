@@ -38,7 +38,7 @@ class SplashController extends GetxController {
       final _parameters = <String, String>{
         "photoUrl": '',
         "fullName": '',
-        "gender": '1'
+        "gender": '0'
       };
       Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
 

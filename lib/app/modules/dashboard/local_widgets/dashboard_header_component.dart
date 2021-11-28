@@ -27,8 +27,9 @@ class DashboardHeaderComponent extends StatelessWidget {
           CircleAvatar(
             radius: SizeScalling().setRadius(22.5),
             backgroundImage: NetworkImage(
-              photoUrl ??
-                  (gender == "1"
+              photoUrl!.isNotEmpty
+                  ? photoUrl!
+                  : (gender == "1"
                       ? 'https://cdn.discordapp.com/attachments/900022715321311259/913815656770711633/app-profile-picture-female.png'
                       : 'https://cdn.discordapp.com/attachments/900022715321311259/911343059827064832/app-profile-picture.png'),
             ),
@@ -62,29 +63,39 @@ class DashboardHeaderComponent extends StatelessWidget {
             },
             child: SizedBox(
               child: notificationExist ?? false
-                  ? Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        Icon(
-                          Icons.notifications_none_outlined,
-                          color: primaryColor,
-                        ),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Container(
-                            color: Colors.red,
-                            width: 12,
-                            height: 12,
-                            child: Center(
-                              child: Text(
-                                "$notificationCount",
-                                style: appNotificationNumberTextStyle,
-                              ),
+                  ? notificationCount != 0
+                      ? Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            Icon(
+                              Icons.notifications_none_outlined,
+                              color: primaryColor,
                             ),
-                          ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Container(
+                                color: Colors.red,
+                                width: 12,
+                                height: 12,
+                                child: Center(
+                                  child: Text(
+                                    "$notificationCount",
+                                    style: appNotificationNumberTextStyle,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         )
-                      ],
-                    )
+                      : Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            Icon(
+                              Icons.notifications_none_outlined,
+                              color: primaryColor,
+                            ),
+                          ],
+                        )
                   : null,
             ),
           )

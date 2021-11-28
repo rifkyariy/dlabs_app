@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: Image.asset(
         'assets/image/logo-dlab.png',
         width: 160,
-        height: 70,
+        height: 160,
       )),
     );
   }

@@ -1,17 +1,19 @@
+import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
+  final AppStorageService storage = Get.find();
   late RxString fullname = "".obs;
   late RxString gender = "".obs;
   late RxString photoUrl = "".obs;
+  late RxBool isLoggedIn = false.obs;
 
   @override
   void onInit() async {
+    // TODO: implement onInit
     super.onInit();
-
-    fullname.value = Get.parameters['fullName'] ?? '';
-    gender.value = Get.parameters['gender'] ?? '1';
-    photoUrl.value = Get.parameters['photoUrl'] ?? '';
+    isLoggedIn.value = (await storage.readBool('isLoggedIn'))!;
+    print("auth status : $isLoggedIn");
   }
 
   final dummyServiceData = <_Service>[
@@ -51,8 +53,6 @@ class DashboardController extends GetxController {
       "https://cdn.discordapp.com/attachments/900022715321311259/911572726915944468/unknown.png",
     ),
   ];
-
-  void setState(Null Function() param0) {}
 }
 
 class _Service {

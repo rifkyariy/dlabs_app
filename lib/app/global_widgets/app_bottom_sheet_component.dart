@@ -30,8 +30,18 @@ class AppBottomSheetComponent extends StatelessWidget {
             "Please, choose who this medical test is needed for",
             style: appServiceSubtitleTextStyle,
           ),
-          const AppBookingCartComponent(),
-          const AppBookingCartComponent(),
+          const AppBookingCartComponent(
+            title: 'Personal',
+            desc:
+                'This option is provided for personal needs. For private and seamless service ',
+            icon: AppIcons.profile,
+          ),
+          const AppBookingCartComponent(
+            title: 'Organization',
+            desc:
+                'This option is provided for organization needs. For security and safety at work',
+            icon: AppIcons.group,
+          ),
           TextButton.icon(
             style: TextButton.styleFrom(
               primary: greyColor,

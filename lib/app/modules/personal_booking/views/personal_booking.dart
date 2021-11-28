@@ -13,25 +13,6 @@ class PersonalBooking extends GetView<PersonalBookingController> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> _items = [
-      {
-        'value': '1',
-        'label': 'Walk In',
-      },
-      {
-        'value': '2',
-        'label': 'Home Services',
-      },
-      {
-        'value': '3',
-        'label': 'Drive Thru',
-      },
-      {
-        'value': '4',
-        'label': 'Corporate Services',
-      },
-    ];
-
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -64,13 +45,13 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               ),
 
               // Test Date
-              SelectInput(
-                items: _items,
-                controller: controller.dateOfBirthController,
-                label: 'Service',
-                errorMsg: "",
-                name: '',
-              ),
+              Obx(() => SelectInput(
+                    items: controller.serviceList,
+                    selectedItem: controller.selectedService.value,
+                    label: 'Service',
+                    errorMsg: "",
+                    name: '',
+                  )),
 
               // Patient Subject
               const Align(
@@ -226,14 +207,13 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               const SizedBox(height: 16),
 
               // Test Purpose
-              SelectInput(
-                items: _items,
-                placeholder: "Box Label",
-                controller: controller.dateOfBirthController,
-                label: 'Test Purpose',
-                errorMsg: "",
-                name: '',
-              ),
+              Obx(() => SelectInput(
+                    items: controller.testPurposeList,
+                    selectedItem: controller.selectedService.value,
+                    label: 'Test Purpose',
+                    errorMsg: "",
+                    name: '',
+                  )),
 
               // Test Date
               TextInput(
@@ -245,24 +225,22 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               ),
 
               // Test Location
-              SelectInput(
-                items: _items,
-                placeholder: "Box Label",
-                controller: controller.dateOfBirthController,
-                label: 'Location',
-                errorMsg: "",
-                name: '',
-              ),
+              Obx(() => SelectInput(
+                    items: controller.serviceList,
+                    selectedItem: controller.selectedService.value,
+                    label: 'Location',
+                    errorMsg: "",
+                    name: '',
+                  )),
 
               // Test Type
-              SelectInput(
-                items: _items,
-                placeholder: "Box Label",
-                controller: controller.dateOfBirthController,
-                label: 'Test Type',
-                errorMsg: "",
-                name: '',
-              ),
+              Obx(() => SelectInput(
+                    items: controller.serviceList,
+                    selectedItem: controller.selectedService.value,
+                    label: 'Service',
+                    errorMsg: "",
+                    name: '',
+                  )),
 
               Align(
                 alignment: Alignment.centerLeft,

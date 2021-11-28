@@ -112,10 +112,13 @@ class SignInController extends GetxController {
             // Save backend token to local storage.
             await _storage.write('apiToken', stringValue: _user.token);
 
+            // Set is Logged in
+            await _storage.write('isLoggedIn', boolValue: true);
+
             final _parameters = <String, String>{
-              "fullName": _user.full_name!,
-              "photoUrl": _user.image!,
-              "userGender": _user.gender!,
+              "fullName": _user.full_name ?? '',
+              "photoUrl": _user.image ?? '',
+              "userGender": _user.gender ?? '0',
             };
 
             // Go to dashboard
@@ -162,9 +165,12 @@ class SignInController extends GetxController {
                 displayName: _googleSignIn.currentUser!.displayName!,
               );
 
+              print(googleKey.accessToken);
+              print(_googleSignIn.currentUser!.displayName!);
               // If User is not registered then go to update personal info with parameters
 
-              if (_user!.isRegistered != 1) {
+              print(_user!.status);
+              if (_user.status != '500' && _user.isRegistered != 1) {
                 final _parameters = <String, String>{
                   "fullName": _googleSignIn.currentUser!.displayName!,
                   "email": _googleSignIn.currentUser!.email,
@@ -209,6 +215,9 @@ class SignInController extends GetxController {
                   "photoUrl": _googleSignIn.currentUser!.photoUrl ?? "",
                   "gender": _appUser.gender ?? '1',
                 };
+
+                // Set is Logged in
+                await _storage.write('isLoggedIn', boolValue: true);
 
                 // Go to dashboard
                 Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);

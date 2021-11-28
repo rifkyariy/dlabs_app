@@ -1,11 +1,14 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/core/utils/app_icons.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
+import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppBookingCartComponent extends StatelessWidget {
-  const AppBookingCartComponent({Key? key}) : super(key: key);
+  const AppBookingCartComponent({Key? key, this.title, this.desc, this.icon})
+      : super(key: key);
+  final String? title, desc;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -42,18 +45,18 @@ class AppBookingCartComponent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Personal",
+                        title ?? "",
                         style: appBannerTitleTextStyle,
                       ),
                       Icon(
-                        AppIcons.group,
+                        icon,
                         color: whiteColor,
                       ),
                     ],
                   ),
                 ),
                 Text(
-                  "This option is provided for personal needs. For private and seamless service ",
+                  desc ?? "",
                   style: smallTextStyle(Colors.white),
                 )
               ],
@@ -67,16 +70,11 @@ class AppBookingCartComponent extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  // TODO Change This Implement Head to Head
-                  Get.snackbar(
-                    "Error",
-                    "No Route Specified",
-                    backgroundColor: dangerColor,
-                    snackPosition: SnackPosition.BOTTOM,
-                    animationDuration: const Duration(seconds: 1),
-                    duration: const Duration(seconds: 1),
-                    colorText: whiteColor,
-                  );
+                  // Close Bottom Sheet
+                  Navigator.pop(context);
+
+                  // Route to Personal Booking
+                  Get.toNamed(AppPages.personalBooking);
                 },
               ),
             ),

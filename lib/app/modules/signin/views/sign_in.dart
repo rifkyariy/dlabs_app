@@ -23,7 +23,7 @@ class SignInScreen extends GetView<SignInController> {
                 Icons.arrow_back_ios_sharp,
               ),
               color: primaryColor,
-              onPressed: () => Navigator.pop(context)),
+              onPressed: () => Navigator.pop(context, true)),
           title: Text('', style: BoldTextStyle(blackColor)),
           centerTitle: true,
           actions: [],
