@@ -175,6 +175,7 @@ class SignInController extends GetxController {
                   "fullName": _googleSignIn.currentUser!.displayName!,
                   "email": _googleSignIn.currentUser!.email,
                   "password": _user.password ?? 'DirectLab123',
+                  "googlePhotoUrl": _googleSignIn.currentUser!.photoUrl ?? ''
                 };
 
                 Get.toNamed(

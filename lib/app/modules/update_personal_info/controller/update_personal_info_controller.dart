@@ -1,4 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 
 class UpdatePersonalInfoController extends GetxController {
   SignInController signInController = Get.find();
+  final AppStorageService _appStorageService = Get.find();
 
   // Text Controller
   final TextEditingController idNumberController = TextEditingController();
@@ -47,7 +49,13 @@ class UpdatePersonalInfoController extends GetxController {
             if (status == "") {
               isLoading.value = false;
 
-              Get.toNamed(AppPages.dashboard);
+              final _parameters = <String, String>{
+                "fullName": Get.parameters['fullName']!,
+                "gender": genderValue.value,
+                "photoUrl": Get.parameters['googlePhotoUrl'] ?? '',
+              };
+
+              Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
             } else {
               isLoading.value = false;
               Get.snackbar(

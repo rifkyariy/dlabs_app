@@ -46,10 +46,8 @@ class SplashController extends GetxController {
           displayName: googleFullName ?? '',
         );
 
-        print(_googleUser!.token);
-
         // If google user exist and status code from backend OK then go to dashboard with named
-        if (_googleUser.status == '200') {
+        if (_googleUser!.status == '200') {
           await _appStorageService.write('isLoggedIn', boolValue: true);
 
           final _parameters = <String, String>{
@@ -87,7 +85,7 @@ class SplashController extends GetxController {
         UserModel? _userData = await _authRepository.getUserData(
           token: apiToken ?? '',
         );
-        print("Sampai sini");
+
         if (_userData.status == '200') {
           await _appStorageService.write('isLoggedIn', boolValue: true);
           final _parameters = <String, String>{

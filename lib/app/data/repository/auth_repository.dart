@@ -150,7 +150,7 @@ class AuthRepository {
           password: data['password'],
         );
       } else if (response.statusCode == 404) {
-        _GoogleUserStatus(
+        return _GoogleUserStatus(
           status: jsonDecode(response.body)['status'],
           errors: jsonDecode(response.body)['errors'],
         );
