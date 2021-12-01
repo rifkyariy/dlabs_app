@@ -20,10 +20,6 @@ class SplashController extends GetxController {
     googleFullName = await _appStorageService.readString('googleFullName');
     googlePhotoUrl = await _appStorageService.readString('googlePhotoUrl');
 
-    print(googleAuthKey);
-    print(apiToken);
-    print(googleFullName);
-    print(googlePhotoUrl);
     // If no google auth key & api Token null (Logged Out)
     if (googleAuthKey == null && apiToken == null) {
       // Set Shared Pereference is Logged In to false.
