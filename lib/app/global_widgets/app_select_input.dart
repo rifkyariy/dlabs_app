@@ -43,7 +43,7 @@ class _SelectInputState extends State<SelectInput> {
                     color:
                         widget.errorMsg == "" ? lightGreyColor : dangerColor)),
             child: DropdownButton<String>(
-              underline: SizedBox(),
+              underline: const SizedBox(),
               isExpanded: true,
               value: widget.selectedItem,
               items: widget.items.map((Map item) {

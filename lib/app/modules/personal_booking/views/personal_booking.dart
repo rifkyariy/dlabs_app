@@ -234,13 +234,15 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                   )),
 
               // Test Type
-              Obx(() => SelectInput(
-                    items: controller.serviceList,
-                    selectedItem: controller.selectedService.value,
-                    label: 'Service',
-                    errorMsg: "",
-                    name: '',
-                  )),
+              Obx(
+                () => SelectInput(
+                  items: controller.serviceList,
+                  selectedItem: controller.selectedService.value,
+                  label: 'Service',
+                  errorMsg: "",
+                  name: '',
+                ),
+              ),
 
               Align(
                 alignment: Alignment.centerLeft,

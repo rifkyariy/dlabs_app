@@ -4,14 +4,19 @@ import 'package:flutter/material.dart';
 import 'input_field.dart';
 
 class TextInput extends StatelessWidget {
+  /// Creates variety of text input.
+  ///
+  /// The [type] default is text.
+  /// We can use other type such as date, number, date, password.
+  /// non-negative.
   final TextEditingController controller;
-  String label;
-  String name;
-  String type;
-  String errorMsg;
-  String placeholder;
+  final String label;
+  final String name;
+  final String type;
+  final String errorMsg;
+  final String placeholder;
 
-  TextInput({
+  const TextInput({
     Key? key,
     required this.controller,
     required this.label,
