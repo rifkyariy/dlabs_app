@@ -2,6 +2,10 @@ import 'package:dlabs_apps/app/data/models/patient_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+// TODO add RX Error for input fields.
+// TODO implements service etc api in here.
+//
+
 class OrganizationBookingController extends GetxController {
   // Text Controller
   // .....
@@ -40,7 +44,7 @@ class OrganizationBookingController extends GetxController {
   RxString searchText = ''.obs;
 
   // DummyList (For testng purposes)
-  late RxList<PatientModel> patientList = _generatedItems.obs;
+  late RxList<PatientModel> patientList = <PatientModel>[].obs;
 
   // User search goes here.
   RxList<PatientModel> searchResult = <PatientModel>[].obs;
@@ -51,7 +55,6 @@ class OrganizationBookingController extends GetxController {
   // TODO Change this to dynamic using API, this is only for testing purposes
   // Test Type DropDown Selected Item
   // Still buggy, cant be used, price on UI not updated when it should be updated
-
   RxString testTypeSelected = '1'.obs;
   RxList<Map<String, dynamic>> testTypeItems = [
     {'id': '1', 'value': 'SWAB Antigen', 'price': 1000000.0},
@@ -59,6 +62,7 @@ class OrganizationBookingController extends GetxController {
     {'id': '3', 'value': 'Rapid Antigen', 'price': 75000.0},
   ].obs;
 
+  // Init
   @override
   void onInit() {
     super.onInit();
@@ -89,10 +93,49 @@ class OrganizationBookingController extends GetxController {
       return;
     }
     for (PatientModel patient in patientList) {
-      if (patient.fullName.toLowerCase().contains(search)) {
+      if (patient.fullName.toLowerCase().contains(search.toLowerCase())) {
         searchResult.add(patient);
       }
     }
+  }
+
+  /// Update patient data based on index
+  /// Get the update data from text controller.
+  ///
+  void updatePatientData(
+    int index, {
+    required RxList<PatientModel> list,
+    required bool onSearch,
+  }) {
+    var _patient = list.elementAt(index);
+
+    _patient.identityNumber = patientIDNumberController.text;
+    _patient.fullName = patientFullNameController.text;
+    _patient.email = patientEmailController.text;
+    _patient.phoneNumber = patientPhoneController.text;
+    _patient.dateOfBirth = patientDateController.text;
+    _patient.gender = patientGenderController.text;
+    _patient.address = patientAddressController.text;
+    // TODO add patient type and price to here
+
+    // Refresh used to trigger OBX that the List Item has been changed.
+    patientList.refresh();
+  }
+
+  /// Update text controller on update page based on [patientList].elementAt(index)
+  /// This is responsible for update page data.
+  void updateTextControllerBasedOnIndex(int index) {
+    var _patient = patientList.elementAt(index);
+
+    patientIDNumberController.text = _patient.identityNumber;
+    patientFullNameController.text = _patient.fullName;
+    patientEmailController.text = _patient.email;
+    patientPhoneController.text = _patient.phoneNumber;
+    patientDateController.text = _patient.dateOfBirth;
+    patientGenderController.text = _patient.gender;
+    patientAddressController.text = _patient.address;
+
+    // TODO add test type and test price to here
   }
 
   /// Still so much error on this
@@ -100,7 +143,22 @@ class OrganizationBookingController extends GetxController {
   /// Need to meet to discuss about this.
   /// Still need lot of reconstruction
   /// WARNING this is just testing.
-  void onAddPatient() {}
+  void onAddPatient() {
+    patientList.add(
+      PatientModel(
+        fullName: patientFullNameController.text,
+        address: patientAddressController.text,
+        dateOfBirth: patientDateController.text,
+        email: patientEmailController.text,
+        gender: patientGenderController.text,
+        identityNumber: patientIDNumberController.text,
+        phoneNumber: patientPhoneController.text,
+        testPrice: testTypeItems[0]['price'],
+        testType: testTypeItems[0]['value'],
+      ),
+    );
+  }
+  //TODO implement onAddPatient here instead of use in outside.
 
   // Generate dummy data for testing purposes
   final _generatedItems = List<PatientModel>.generate(
@@ -120,6 +178,16 @@ class OrganizationBookingController extends GetxController {
       );
     },
   );
+
+  void clearTextController() {
+    patientIDNumberController.clear();
+    patientFullNameController.clear();
+    patientEmailController.clear();
+    patientPhoneController.clear();
+    patientDateController.clear();
+    patientGenderController.clear();
+    patientAddressController.clear();
+  }
 
   // Dispose any controller.
   @override

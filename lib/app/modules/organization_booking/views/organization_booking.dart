@@ -106,6 +106,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               const SizedBox(height: 16),
 
               // Test Purpses
+              // TODO still need to rev
               SelectInput(
                 items: const [
                   {
@@ -136,6 +137,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                 name: 'date of birth',
               ),
 
+              // TODO still need to rev
               // Service
               SelectInput(
                 items: const [
@@ -231,7 +233,12 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               // Add patient data button
 
               OutlinedButton(
-                onPressed: () => {Get.to(() => AddOrUpdatePatient())},
+                onPressed: () {
+                  Get.to(() => AddOrUpdatePatient(
+                        isUpdateMode: false,
+                        onSearch: false,
+                      ));
+                },
                 child: const Text('Add Patient Data'),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 43),
@@ -261,15 +268,25 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                             : 5,
                         itemBuilder: (context, index) {
                           return BookingListTile(
-                            key: Key(index.toString()),
-                            title: controller.patientList[index].fullName,
-                            subtitle:
-                                'ID No : ${controller.patientList[index].identityNumber}',
-                            deleteButtonPressed: (context) {
-                              controller.patientList.removeAt(index);
-                              controller.updateTotalPrice();
-                            },
-                          );
+                              key: Key(index.toString()),
+                              title: controller.patientList[index].fullName,
+                              subtitle:
+                                  'ID No : ${controller.patientList[index].identityNumber}',
+                              deleteButtonPressed: (context) {
+                                controller.patientList.removeAt(index);
+                                controller.updateTotalPrice();
+                              },
+                              updateButtonPressed: (context) {
+                                controller
+                                    .updateTextControllerBasedOnIndex(index);
+                                Get.to(
+                                  () => AddOrUpdatePatient(
+                                    onSearch: false,
+                                    isUpdateMode: true,
+                                    updateIndex: index,
+                                  ),
+                                );
+                              });
                         },
                       ),
 

@@ -1,8 +1,10 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/modules/organization_booking/controller/organization_controller.dart';
 import 'package:dlabs_apps/app/modules/organization_booking/local_widgets/booking_list_tile.dart';
+import 'package:dlabs_apps/app/modules/organization_booking/views/add_or_update_patient.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:get/state_manager.dart';
 
 class ViewPatientList extends StatelessWidget {
@@ -179,6 +181,16 @@ class ViewPatientList extends StatelessWidget {
                       // Update the price
                       controller.updateTotalPrice();
                     },
+                    updateButtonPressed: (context) {
+                      controller.updateTextControllerBasedOnIndex(index);
+                      Get.to(
+                        () => AddOrUpdatePatient(
+                          onSearch: false,
+                          isUpdateMode: true,
+                          updateIndex: index,
+                        ),
+                      );
+                    },
                   );
                 },
               )
@@ -207,6 +219,18 @@ class ViewPatientList extends StatelessWidget {
 
                           // Update the price.
                           controller.updateTotalPrice();
+                        },
+                        updateButtonPressed: (context) {
+                          int idx = controller.patientDataIndex(
+                              controller.searchResult[index].identityNumber);
+                          controller.updateTextControllerBasedOnIndex(idx);
+                          Get.to(
+                            () => AddOrUpdatePatient(
+                              onSearch: true,
+                              isUpdateMode: true,
+                              updateIndex: index,
+                            ),
+                          );
                         },
                       );
                     },

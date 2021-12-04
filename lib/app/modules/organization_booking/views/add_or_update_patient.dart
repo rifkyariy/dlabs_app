@@ -7,7 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddOrUpdatePatient extends StatelessWidget {
-  AddOrUpdatePatient({Key? key}) : super(key: key);
+  AddOrUpdatePatient({
+    Key? key,
+    required this.isUpdateMode,
+    this.updateIndex,
+    required this.onSearch,
+  }) : super(key: key);
+  final bool isUpdateMode, onSearch;
+  final int? updateIndex;
 
   final OrganizationBookingController controller =
       Get.put(OrganizationBookingController());
@@ -164,28 +171,31 @@ class AddOrUpdatePatient extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 24, right: 24),
                 child: TextButton(
-                  onPressed: () {
-                    /// TODO it works like charm but still not good enough.
-                    /// Unclean
-                    /// Still need to ref
-                    controller.patientList.add(
-                      PatientModel(
-                        fullName: controller.patientFullNameController.text,
-                        address: controller.patientAddressController.text,
-                        dateOfBirth: controller.patientDateController.text,
-                        email: controller.patientEmailController.text,
-                        gender: controller.patientGenderController.text,
-                        identityNumber:
-                            controller.patientIDNumberController.text,
-                        phoneNumber: controller.patientPhoneController.text,
-                        testPrice: controller.testTypeItems[0]['price'],
-                        testType: controller.testTypeItems[0]['value'],
-                      ),
-                    );
-                    controller.updateTotalPrice;
-                    Get.back();
-                  },
-                  child: Text('Add', style: regularTextStyle(whiteColor)),
+                  onPressed: isUpdateMode
+                      ? () {
+                          controller.updatePatientData(
+                            updateIndex ?? 0,
+                            onSearch: onSearch,
+                            list: onSearch
+                                ? controller.searchResult
+                                : controller.patientList,
+                          );
+                          controller.clearTextController();
+                          Get.back();
+                        }
+                      : () {
+                          /// TODO it works like charm but still not good enough.
+                          /// Unclean
+                          /// Still need to ref
+                          controller.onAddPatient();
+                          controller.updateTotalPrice();
+                          controller.clearTextController();
+                          Get.back();
+                        },
+                  child: Text(
+                    isUpdateMode ? 'Update' : 'Add',
+                    style: regularTextStyle(whiteColor),
+                  ),
                   style: TextButton.styleFrom(
                     primary: whiteColor,
                     backgroundColor: primaryColor,
