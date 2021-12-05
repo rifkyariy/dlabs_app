@@ -1,4 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:dlabs_apps/app/global_widgets/app_select_input.dart';
 import 'package:dlabs_apps/app/global_widgets/button.dart';
 import 'package:dlabs_apps/app/global_widgets/navbar.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PersonalBooking extends GetView<PersonalBookingController> {
-  const PersonalBooking({Key? key}) : super(key: key);
+  PersonalBooking({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 Icons.arrow_back_ios_sharp,
               ),
               color: Color(0xff000000),
-              onPressed: () => Navigator.pop(context)),
+              onPressed: () => Navigator.pop(context, true)),
           title: Text('Personal Book Test', style: BoldTextStyle(blackColor)),
           centerTitle: true,
           actions: [],
@@ -46,8 +47,8 @@ class PersonalBooking extends GetView<PersonalBookingController> {
 
               // Test Date
               Obx(() => SelectInput(
-                    items: controller.serviceList,
-                    selectedItem: controller.selectedService.value,
+                    items: controller.serviceList!.value,
+                    selectedItem: controller.selectedService,
                     label: 'Service',
                     errorMsg: "",
                     name: '',
@@ -62,20 +63,22 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 children: [
                   Obx(
                     () => Radio(
-                      value: '0',
-                      groupValue: controller.genderValue.value,
+                      value: 'myself',
+                      groupValue: controller.patientSubject.value,
                       onChanged: (String? value) {
-                        controller.genderValue.value = value ?? '0';
+                        controller.patientSubject.value = value ?? 'myself';
+                        controller.toggleFillPatient();
                       },
                     ),
                   ),
                   const Text('My Self'),
                   Obx(
                     () => Radio(
-                      value: '1',
-                      groupValue: controller.genderValue.value,
+                      value: 'other',
+                      groupValue: controller.patientSubject.value,
                       onChanged: (String? value) {
-                        controller.genderValue.value = value ?? '1';
+                        controller.patientSubject.value = value ?? 'other';
+                        controller.toggleFillPatient();
                       },
                     ),
                   ),
@@ -147,6 +150,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 controller: controller.dateOfBirthController,
                 label: 'Date of Birth',
                 type: 'date',
+                lastDate: DateTime.now(),
                 errorMsg: controller.dateOfBirthErrorMessage.value,
                 name: 'date of birth',
               ),
@@ -207,47 +211,66 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               const SizedBox(height: 16),
 
               // Test Purpose
-              Obx(() => SelectInput(
-                    items: controller.testPurposeList,
-                    selectedItem: controller.selectedService.value,
-                    label: 'Test Purpose',
-                    errorMsg: "",
-                    name: '',
-                  )),
+              SelectInput(
+                items: controller.testPurposeList,
+                selectedItem: controller.selectedTestPurpose,
+                label: 'Test Purpose',
+                errorMsg: "",
+                name: '',
+              ),
 
               // Test Date
               TextInput(
-                controller: controller.dateOfBirthController,
+                controller: controller.testDateController,
                 label: 'Test Date',
                 type: 'date',
                 errorMsg: "",
+                firstDate: DateTime.now(),
                 name: 'date of birth',
               ),
 
               // Test Location
               Obx(() => SelectInput(
-                    items: controller.serviceList,
-                    selectedItem: controller.selectedService.value,
+                    items: controller.locationList!.value,
+                    selectedItem: controller.selectedLocation,
                     label: 'Location',
                     errorMsg: "",
                     name: '',
                   )),
 
+              Align(
+                alignment: Alignment.topLeft,
+                child: Row(
+                  children: [
+                    Image.asset('assets/image/pin-icon.png',
+                        width: SizeScalling().setWidth(15)),
+                    SizedBox(
+                      width: SizeScalling().setWidth(10),
+                    ),
+                    Flexible(
+                      child: Obx(() => Text(controller.locationAddress.value)),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: SizeScalling().setHeight(10),
+              ),
               // Test Type
               Obx(() => SelectInput(
-                    items: controller.serviceList,
-                    selectedItem: controller.selectedService.value,
-                    label: 'Service',
+                    items: controller.testTypeList!.value,
+                    selectedItem: controller.selectedTestType,
+                    label: 'Test Type',
                     errorMsg: "",
                     name: '',
                   )),
 
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'Price : Rp. 100.000,-',
-                  style: regularTextStyle(primaryColor),
-                ),
+                child: Obx(() => Text(
+                      'Price : ${controller.servicePrice.value}',
+                      style: regularTextStyle(primaryColor),
+                    )),
               ),
 
               const SizedBox(height: 29),
@@ -269,10 +292,10 @@ class PersonalBooking extends GetView<PersonalBookingController> {
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'Total Price : Rp. 100.000,-',
-                  style: regularTextStyle(blackColor),
-                ),
+                child: Obx(() => Text(
+                      'Total Price : ${controller.servicePrice.value}',
+                      style: regularTextStyle(blackColor),
+                    )),
               ),
               const SizedBox(
                 height: 8,
@@ -281,7 +304,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 () => Button(
                   text: 'Next',
                   textColor: whiteColor,
-                  onClicked: () => controller.signUpHandler(),
+                  onClicked: () => controller.personalBookHandler(),
                   isLoading: controller.isLoading.value,
                 ),
               ),

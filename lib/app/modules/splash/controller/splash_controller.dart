@@ -55,6 +55,8 @@ class SplashController extends GetxController {
         } else {
           await _appStorageService.write('isLoggedIn', boolValue: false);
 
+          // TODO dashboard atau ke signin
+          Get.offAndToNamed(AppPages.signin);
           Get.snackbar(
             "Session Expired",
             "Please Login Again",
@@ -62,9 +64,6 @@ class SplashController extends GetxController {
             colorText: whiteColor,
             snackPosition: SnackPosition.TOP,
           );
-
-          // TODO dashboard atau ke signin
-          Get.offAndToNamed(AppPages.signin);
           // Get.offAndToNamed(AppPages.dashboard);
         }
       } catch (e) {
@@ -87,6 +86,7 @@ class SplashController extends GetxController {
           final _parameters = <String, String>{
             "photoUrl": _userData.image ?? '',
             "fullName": _userData.full_name ?? '',
+            "gender": _userData.gender ?? '',
           };
           Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
         } else {

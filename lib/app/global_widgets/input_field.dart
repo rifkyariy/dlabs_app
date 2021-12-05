@@ -11,15 +11,20 @@ class InputField extends StatefulWidget {
   final IconData icon;
   String type;
   bool status;
+  DateTime firstDate;
+  DateTime lastDate;
 
   InputField(
       {Key? key,
       required this.hintText,
       required this.controller,
       required this.type,
+      DateTime? firstDate,
+      DateTime? lastDate,
       this.icon = Icons.person,
       required this.status})
-      : super(key: key);
+      : firstDate = firstDate ?? DateTime(1990),
+        lastDate = lastDate ?? DateTime(2101);
 
   @override
   State<InputField> createState() => _InputFieldState();
@@ -49,9 +54,9 @@ class _InputFieldState extends State<InputField> {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime(
-                        1900), //DateTime.now() - not to allow to choose before today.
-                    lastDate: DateTime(2101));
+                    firstDate: widget
+                        .firstDate, //DateTime.now() - not to allow to choose before today.
+                    lastDate: widget.lastDate);
 
                 if (pickedDate != null) {
                   String formattedDate =

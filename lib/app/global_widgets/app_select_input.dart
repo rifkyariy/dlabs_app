@@ -2,14 +2,17 @@ import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class SelectInput extends StatefulWidget {
-  String label, name, errorMsg, selectedItem;
-  List<Map<String, dynamic>> items;
+  String label, name, errorMsg;
+  TextEditingController selectedItem;
+  List<Map<String, dynamic>>? items;
+  void Function(String?)? onChanged;
 
   SelectInput({
     Key? key,
     required this.label,
     required this.name,
     this.errorMsg = "",
+    this.onChanged,
     required this.selectedItem,
     required this.items,
   }) : super(key: key);
@@ -45,30 +48,31 @@ class _SelectInputState extends State<SelectInput> {
             child: DropdownButton<String>(
               underline: SizedBox(),
               isExpanded: true,
-              value: widget.selectedItem,
-              items: widget.items.map((Map item) {
+              value: widget.selectedItem.text,
+              items: widget.items!.map((Map item) {
                 return DropdownMenuItem<String>(
                   value: item['id'],
                   child: Text(item['value']),
                 );
               }).toList(),
               onChanged: (String? selected) {
+                print(widget.selectedItem);
                 setState(() {
-                  widget.selectedItem = selected!;
+                  widget.selectedItem.text = selected!;
                 });
               },
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(bottom: 4),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              widget.errorMsg,
-              style: smallTextStyle(dangerColor),
-            ),
-          ),
+          padding: const EdgeInsets.only(bottom: 8),
+          // child: Align(
+          //   alignment: Alignment.centerLeft,
+          //   child: Text(
+          //     widget.errorMsg,
+          //     style: smallTextStyle(dangerColor),
+          //   ),
+          // ),
         ),
       ],
     );
