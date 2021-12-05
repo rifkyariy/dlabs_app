@@ -52,17 +52,8 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       );
                       break;
                     case 2:
-                      Get.toNamed(AppPages.signin);
+                      middleButtonPressed!();
 
-                      Get.snackbar(
-                        "Info",
-                        "Please login to continue",
-                        backgroundColor: primaryColor,
-                        snackPosition: SnackPosition.TOP,
-                        animationDuration: const Duration(seconds: 1),
-                        duration: const Duration(seconds: 1),
-                        colorText: whiteColor,
-                      );
                       break;
                     case 3:
                       Get.toNamed(AppPages.signin);

@@ -22,13 +22,28 @@ class DashboardScreen extends GetView<DashboardController> {
       visibleFloatingActionButton: true,
       currentIndex: 0,
       middleButtonPressed: () {
-        showModalBottomSheet(
-          backgroundColor: Colors.transparent,
-          context: context,
-          builder: (context) {
-            return const AppBottomSheetComponent();
-          },
-        );
+        // Check if user authenticated based on name
+        if (Get.parameters['fullName']!.length > 0) {
+          showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) {
+              return const AppBottomSheetComponent();
+            },
+          );
+        } else {
+          Get.toNamed(AppPages.signin);
+
+          Get.snackbar(
+            "Info",
+            "Please login to continue",
+            backgroundColor: primaryColor,
+            snackPosition: SnackPosition.TOP,
+            animationDuration: const Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
+            colorText: whiteColor,
+          );
+        }
       },
       body: SingleChildScrollView(
         child: SizedBox(
@@ -38,19 +53,18 @@ class DashboardScreen extends GetView<DashboardController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Avatar Component
-                Obx(
-                  () => DashboardHeaderComponent(
-                    name: Get.parameters['fullName']!.split(" ").elementAt(0),
-                    notificationExist: controller.isLoggedIn.value,
-                    notificationCount: 1,
-                    gender: Get.parameters['gender'] ?? '0',
-                    photoUrl: Get.parameters['photoUrl'] ?? '',
-                  ),
+                DashboardHeaderComponent(
+                  name: Get.parameters['fullName']!.split(" ").elementAt(0),
+                  notificationExist:
+                      Get.parameters['fullName']!.length > 0 ? true : false,
+                  notificationCount: 0,
+                  gender: Get.parameters['gender'] ?? '0',
+                  photoUrl: Get.parameters['photoUrl'] ?? '',
                 ),
 
                 // Banner
                 DashboardBannerComponent(onPressed: () {
-                  Get.toNamed(AppPages.signin);
+                  Get.offAndToNamed(AppPages.signin);
 
                   Get.snackbar(
                     "Info",
@@ -94,7 +108,7 @@ class DashboardScreen extends GetView<DashboardController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed(AppPages.signin);
+                          Get.offAndToNamed(AppPages.signin);
 
                           Get.snackbar(
                             "Info",

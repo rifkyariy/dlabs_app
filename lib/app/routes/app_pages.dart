@@ -68,7 +68,7 @@ class AppPages {
 
     GetPage(
       name: _Paths.personalBooking,
-      page: () => const PersonalBooking(),
+      page: () => PersonalBooking(),
       binding: PersonalBookingBinding(),
     ),
 

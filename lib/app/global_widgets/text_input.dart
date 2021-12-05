@@ -10,21 +10,26 @@ class TextInput extends StatelessWidget {
   /// We can use other type such as date, number, date, password.
   /// non-negative.
   final TextEditingController controller;
-  final String label;
-  final String name;
-  final String type;
-  final String errorMsg;
-  final String placeholder;
+  String label;
+  String name;
+  String type;
+  String errorMsg;
+  String placeholder;
+  DateTime firstDate;
+  DateTime lastDate;
 
   const TextInput({
     Key? key,
     required this.controller,
     required this.label,
     required this.name,
+    DateTime? firstDate,
+    DateTime? lastDate,
     this.errorMsg = "",
     this.type = "text",
     this.placeholder = "",
-  }) : super(key: key);
+  })  : firstDate = firstDate ?? DateTime(1990),
+        lastDate = lastDate ?? DateTime(2101);
 
   @override
   Widget build(BuildContext context) {
@@ -32,17 +37,19 @@ class TextInput extends StatelessWidget {
 
     return Column(
       children: [
-        // Password Label
+        // Label
         Align(
           alignment: Alignment.centerLeft,
           child: Text(label),
         ),
-        // Password Input
+        // Input
         Align(
           alignment: Alignment.centerLeft,
           child: InputField(
             controller: controller,
             hintText: placeholder,
+            firstDate: firstDate,
+            lastDate: lastDate,
             status: errorMsg == "" ? false : true,
             type: type,
           ),

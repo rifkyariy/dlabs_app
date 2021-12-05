@@ -40,6 +40,7 @@ class SignInController extends GetxController {
       _user = await _auth.login(email: email, password: password);
       return _user;
     } catch (e) {
+      print(e);
       return _user;
     }
   }
@@ -119,7 +120,7 @@ class SignInController extends GetxController {
             final _parameters = <String, String>{
               "fullName": _user.full_name ?? '',
               "photoUrl": _user.image ?? '',
-              "userGender": _user.gender ?? '0',
+              "gender": _user.gender ?? '0',
             };
 
             // Go to dashboard
@@ -167,6 +168,8 @@ class SignInController extends GetxController {
                 displayName: _googleSignIn.currentUser!.displayName!,
               );
 
+              print(googleKey.accessToken);
+
               // If User is not registered then go to update personal info with parameters
 
               if (_user!.status != '500' && _user.isRegistered != 1) {
@@ -207,6 +210,8 @@ class SignInController extends GetxController {
                   stringValue: _googleSignIn.currentUser!.photoUrl ?? "",
                 );
 
+                print('appToken : ${_user.token}');
+
                 final UserModel _appUser = await _auth.getUserData(
                   token: _user.token!,
                 );
@@ -241,5 +246,12 @@ class SignInController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
     }
+  }
+
+  void onInit() async {
+    // TODO: implement onInit
+    super.onInit();
+    print("auth status : ");
+    print(await _storage.readBool('isLoggedIn'));
   }
 }

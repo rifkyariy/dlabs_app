@@ -140,6 +140,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                 type: 'date',
                 errorMsg: controller.dateOfBirthErrorMessage.value,
                 name: 'date of birth',
+                lastDate: DateTime.now(),
               ),
 
               // Gender

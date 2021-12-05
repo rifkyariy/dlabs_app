@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:dlabs_apps/app/data/models/user_model.dart';
 
 class AuthRepository {
-  final String BaseUrl = "https://devapi-dl.konsultasi.in/v1/web";
+  final String baseUrl = "https://api-lims.kayabe.id/v1/web";
 
   String basicAuthenticationHeader(String username, String password) {
     return 'Basic ' + base64Encode(utf8.encode('$username:$password'));
@@ -15,7 +15,7 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    var url = Uri.parse("$BaseUrl/auth/login");
+    var url = Uri.parse("$baseUrl/auth/login");
     var headers = <String, String>{
       'Content-Type': 'application/json',
       'Authorization': basicAuthenticationHeader(email, password)
@@ -33,7 +33,7 @@ class AuthRepository {
   }
 
   Future<UserModel> getUserData({required String token}) async {
-    var url = Uri.parse("$BaseUrl/profile/me");
+    var url = Uri.parse("$baseUrl/profile/me");
 
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ class AuthRepository {
 
       UserModel user = UserModel.fromJson(userData);
       user.image = userData.containsKey('image')
-          ? "https://devapi-dl.konsultasi.in/" + userData['image']
+          ? "https://api-lims.kayabe.id/" + userData['image']
           : "";
       user.token = token;
       user.status = jsonDecode(response.body)['status'];
@@ -71,7 +71,7 @@ class AuthRepository {
     required String gender,
     required String address,
   }) async {
-    var url = Uri.parse("$BaseUrl/auth/register");
+    var url = Uri.parse("$baseUrl/auth/register");
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -104,7 +104,7 @@ class AuthRepository {
   }
 
   Future<bool> forgotPassword({required String email}) async {
-    final url = Uri.parse("$BaseUrl/auth/forgot-password");
+    final url = Uri.parse("$baseUrl/auth/forgot-password");
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
@@ -125,7 +125,7 @@ class AuthRepository {
     required String accessToken,
     required String displayName,
   }) async {
-    final url = Uri.parse("$BaseUrl/auth/google/verify");
+    final url = Uri.parse("$baseUrl/auth/google/verify");
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'

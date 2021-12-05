@@ -128,15 +128,15 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                 name: '',
               ),
 
-              // Test Date
-              TextInput(
-                controller: controller.testDateController,
-                label: 'Test Date*',
-                type: 'date',
-                errorMsg: "",
-                name: 'date of birth',
-              ),
-
+              // // Test Date
+              // TextInput(
+              //   controller: controller.testDateController,
+              //   label: 'Test Date*',
+              //   type: 'date',
+              //   errorMsg: "",
+              //   name: 'date of birth',
+              // ),
+              
               // TODO still need to rev
               // Service
               SelectInput(
