@@ -1,13 +1,13 @@
 class PatientModel {
-  final String identityNumber;
-  final String fullName;
-  final String email;
-  final String phoneNumber;
-  final String dateOfBirth;
-  final String gender;
-  final String address;
-  final String testType;
-  final double testPrice;
+  String identityNumber;
+  String fullName;
+  String email;
+  String phoneNumber;
+  String dateOfBirth;
+  String gender;
+  String address;
+  String testType;
+  double testPrice;
 
   PatientModel({
     required this.identityNumber,
