@@ -12,7 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({
+    this.fullName,
+    this.gender,
+    this.photoUrl,
+    Key? key,
+  }) : super(key: key);
+  final String? fullName, gender, photoUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +29,7 @@ class DashboardScreen extends GetView<DashboardController> {
       currentIndex: 0,
       middleButtonPressed: () {
         // Check if user authenticated based on name
-        if (Get.parameters['fullName']!.length > 0) {
+        if (fullName != null) {
           showModalBottomSheet(
             backgroundColor: Colors.transparent,
             context: context,
@@ -54,12 +60,12 @@ class DashboardScreen extends GetView<DashboardController> {
               children: [
                 // Avatar Component
                 DashboardHeaderComponent(
-                  name: Get.parameters['fullName']!.split(" ").elementAt(0),
-                  notificationExist:
-                      Get.parameters['fullName']!.length > 0 ? true : false,
+                  name:
+                      fullName != null ? fullName!.split(" ").elementAt(0) : '',
+                  notificationExist: fullName != null ? true : false,
                   notificationCount: 0,
-                  gender: Get.parameters['gender'] ?? '0',
-                  photoUrl: Get.parameters['photoUrl'] ?? '',
+                  gender: gender ?? '0',
+                  photoUrl: photoUrl ?? '',
                 ),
 
                 // Banner

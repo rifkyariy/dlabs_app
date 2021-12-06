@@ -78,6 +78,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       sp.remove('googleKey');
                       sp.remove('apiToken');
                       sp.remove('googlePhotoUrl');
+                      sp.remove('credentials');
 
                       Get.toNamed(AppPages.signin);
 

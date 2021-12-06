@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
+import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -49,13 +53,25 @@ class UpdatePersonalInfoController extends GetxController {
             if (status == "") {
               isLoading.value = false;
 
-              final _parameters = <String, String>{
-                "fullName": Get.parameters['fullName']!,
-                "gender": genderValue.value,
-                "photoUrl": Get.parameters['googlePhotoUrl'] ?? '',
-              };
+              // Save credentials to local storage
+              String credential =
+                  '${Get.parameters['email']!}:${Get.parameters['password']!}';
+              Codec<String, String> stringToBase64 = utf8.fuse(base64);
+              String encoded = stringToBase64.encode(credential);
 
-              Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
+              await _appStorageService.write(
+                'credentials',
+                stringValue: encoded,
+              );
+
+              Get.off(
+                () => DashboardScreen(
+                  fullName: Get.parameters['fullName'],
+                  gender: genderValue.value,
+                  photoUrl: Get.parameters['googlePhotoUrl'],
+                ),
+                binding: DashboardBinding(),
+              );
             } else {
               isLoading.value = false;
               Get.snackbar(

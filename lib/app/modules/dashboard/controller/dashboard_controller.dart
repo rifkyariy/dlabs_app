@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
 
@@ -14,8 +12,8 @@ class DashboardController extends GetxController {
   @override
   void onInit() async {
     // TODO: implement onInit
-    isLoggedIn.value = (await storage.readBool('isLoggedIn'))!;
-    apiToken.value = (await storage.readString('apiToken'))!;
+    isLoggedIn.value = await storage.readBool('isLoggedIn') ?? false;
+    apiToken.value = await storage.readString('apiToken') ?? '';
 
     print("auth status : $isLoggedIn , $apiToken");
     super.onInit();

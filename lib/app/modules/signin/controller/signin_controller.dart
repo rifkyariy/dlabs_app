@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/data/models/user_model.dart';
 import 'package:dlabs_apps/app/data/repository/auth_repository.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
+import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -40,7 +44,6 @@ class SignInController extends GetxController {
       _user = await _auth.login(email: email, password: password);
       return _user;
     } catch (e) {
-      print(e);
       return _user;
     }
   }
@@ -117,14 +120,24 @@ class SignInController extends GetxController {
             // Set is Logged in
             await _storage.write('isLoggedIn', boolValue: true);
 
-            final _parameters = <String, String>{
-              "fullName": _user.full_name ?? '',
-              "photoUrl": _user.image ?? '',
-              "gender": _user.gender ?? '0',
-            };
+            // Write credential to local storage
+            // encode to base64
+            String credential =
+                '${emailController.text}:${passwordController.text}';
+            Codec<String, String> stringToBase64 = utf8.fuse(base64);
+            String encoded = stringToBase64.encode(credential);
+
+            await _storage.write('credentials', stringValue: encoded);
 
             // Go to dashboard
-            Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
+            Get.off(
+              () => DashboardScreen(
+                fullName: _user.full_name,
+                photoUrl: _user.image,
+                gender: _user.gender,
+              ),
+              binding: DashboardBinding(),
+            );
           } else {
             isLoading.value = false;
             Get.snackbar(
@@ -154,88 +167,67 @@ class SignInController extends GetxController {
 
   Future<void> handleGoogleSignIn() async {
     try {
-      // sign out
-      _googleSignIn.signOut();
-      isGoogleLoading.value = true;
-      final GoogleSignInAccount? _googleUser =
-          await _googleSignIn.signIn().then(
-        (result) {
-          result!.authentication.then(
-            (googleKey) async {
-              // Check google access token in backend
-              final _user = await _auth.verifyGoogleAccount(
-                accessToken: googleKey.accessToken!,
-                displayName: _googleSignIn.currentUser!.displayName!,
-              );
+      // Login using google
+      final _googleUser = await _auth.googleAuth(silent: false);
 
-              print(googleKey.accessToken);
-
-              // If User is not registered then go to update personal info with parameters
-
-              if (_user!.status != '500' && _user.isRegistered != 1) {
-                isGoogleLoading.value = false;
-                final _parameters = <String, String>{
-                  "fullName": _googleSignIn.currentUser!.displayName!,
-                  "email": _googleSignIn.currentUser!.email,
-                  "password": _user.password ?? 'DirectLab123',
-                  "googlePhotoUrl": _googleSignIn.currentUser!.photoUrl ?? ''
-                };
-
-                Get.toNamed(
-                  AppPages.updatePersonalInfo,
-                  parameters: _parameters,
-                );
-              } else {
-                // If user already registered, save api token to local storage.
-                // If user google account valid, save google token to local storage.
-
-                // Save google access token to local storage.
-                await _storage.write(
-                  'googleKey',
-                  stringValue: googleKey.accessToken,
-                );
-
-                // Save backend token to local storage.
-                await _storage.write('apiToken', stringValue: _user.token);
-
-                // Save google username to local storage
-                await _storage.write(
-                  'googleFullName',
-                  stringValue: _googleSignIn.currentUser!.displayName,
-                );
-
-                // Save photo url to local storage
-                await _storage.write(
-                  'googlePhotoUrl',
-                  stringValue: _googleSignIn.currentUser!.photoUrl ?? "",
-                );
-
-                print('appToken : ${_user.token}');
-
-                final UserModel _appUser = await _auth.getUserData(
-                  token: _user.token!,
-                );
-
-                final _parameters = <String, String>{
-                  "fullName": _googleSignIn.currentUser!.displayName!,
-                  "photoUrl": _googleSignIn.currentUser!.photoUrl ?? "",
-                  "gender": _appUser.gender ?? '1',
-                };
-
-                // Set is Logged in
-                await _storage.write('isLoggedIn', boolValue: true);
-
-                isGoogleLoading.value = false;
-                // Go to dashboard
-                Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
-              }
-            },
-          );
-        },
+      // Check google credential Suw.
+      final _user = await _auth.verifyGoogleAccount(
+        accessToken: _googleUser.accessToken ?? '',
+        displayName: _googleUser.displayName ?? '',
       );
 
-      //
-      this._googleUser = _googleUser;
+      if (_user!.status != '500' && _user.isRegistered != 1) {
+        isGoogleLoading.value = false;
+        final _parameters = <String, String>{
+          "fullName": _googleUser.displayName!,
+          "email": _googleUser.email!,
+          "password": _user.password ?? 'DirectLab123',
+          "googlePhotoUrl": _googleUser.photoUrl ?? ''
+        };
+
+        Get.toNamed(AppPages.updatePersonalInfo, parameters: _parameters);
+      } else {
+        // If user already registered, save api token to local storage.
+        // If user google account valid, save google token to local storage.
+
+        // Save google access token to local storage.
+        await _storage.write(
+          'googleKey',
+          stringValue: _googleUser.accessToken,
+        );
+
+        // Save backend token to local storage.
+        await _storage.write('apiToken', stringValue: _user.token);
+
+        // Save google username to local storage
+        await _storage.write(
+          'googleFullName',
+          stringValue: _googleUser.displayName,
+        );
+
+        // Save photo url to local storage
+        await _storage.write(
+          'googlePhotoUrl',
+          stringValue: _googleUser.photoUrl ?? "",
+        );
+
+        final UserModel _appUser = await _auth.getUserData(token: _user.token!);
+
+        // Set is Logged in
+        await _storage.write('isLoggedIn', boolValue: true);
+
+        isGoogleLoading.value = false;
+
+        // Go to dashboard
+        Get.off(
+          () => DashboardScreen(
+            fullName: _googleUser.displayName,
+            photoUrl: _googleUser.photoUrl,
+            gender: _appUser.gender,
+          ),
+          binding: DashboardBinding(),
+        );
+      }
     } catch (e) {
       isGoogleLoading.value = false;
       Get.snackbar(
@@ -248,8 +240,8 @@ class SignInController extends GetxController {
     }
   }
 
+  @override
   void onInit() async {
-    // TODO: implement onInit
     super.onInit();
     print("auth status : ");
     print(await _storage.readBool('isLoggedIn'));
