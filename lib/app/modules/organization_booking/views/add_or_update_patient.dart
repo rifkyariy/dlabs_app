@@ -142,6 +142,7 @@ class AddOrUpdatePatient extends StatelessWidget {
                     name: 'address',
                   ),
                 ),
+<<<<<<< HEAD
                 // SelectInput(
                 //   items: controller.testTypeItems,
                 //   selectedItem: controller.testTypeSelected.value,
@@ -149,6 +150,15 @@ class AddOrUpdatePatient extends StatelessWidget {
                 //   errorMsg: "",
                 //   name: '',
                 // ),
+=======
+                SelectInput(
+                  items: controller.testTypeItems,
+                  selectedItem: controller.testTypeSelected.value,
+                  label: 'Test Type*',
+                  errorMsg: "",
+                  name: '',
+                ),
+>>>>>>> 2f7a030f20d4c89829b57e055fb97175cb4ca13f
                 Obx(() {
                   int _indexSelected =
                       int.parse(controller.testTypeSelected.value);
