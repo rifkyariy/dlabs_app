@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/data/models/google_user_model.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:dlabs_apps/app/data/models/user_model.dart';
 
 class AuthRepository {
+  final GoogleSignIn _googleSignin = GoogleSignIn();
   final String baseUrl = "https://api-lims.kayabe.id/v1/web";
 
   String basicAuthenticationHeader(String username, String password) {
@@ -168,6 +171,46 @@ class AuthRepository {
         duration: const Duration(seconds: 2),
         colorText: whiteColor,
       );
+    }
+  }
+
+  Future<GoogleUserModel> googleAuth({required bool silent}) async {
+    GoogleSignInAccount? _googleUser;
+    late GoogleUserModel _googleUserModel;
+
+    try {
+      if (silent) {
+        await _googleSignin.signInSilently().then((result) async {
+          await result!.authentication.then((googleKey) async {
+            _googleUser = _googleSignin.currentUser;
+            _googleUserModel = GoogleUserModel(
+              id: _googleUser!.id,
+              accessToken: googleKey.accessToken,
+              displayName: _googleUser!.displayName,
+              email: _googleUser!.email,
+              photoUrl: _googleUser!.photoUrl,
+              serverAuthCode: _googleUser!.serverAuthCode,
+            );
+          });
+        });
+      } else {
+        await _googleSignin.signIn().then((result) async {
+          await result!.authentication.then((googleKey) async {
+            _googleUser = _googleSignin.currentUser;
+            _googleUserModel = GoogleUserModel(
+              id: _googleUser!.id,
+              accessToken: googleKey.accessToken,
+              displayName: _googleUser!.displayName,
+              email: _googleUser!.email,
+              photoUrl: _googleUser!.photoUrl,
+              serverAuthCode: _googleUser!.serverAuthCode,
+            );
+          });
+        });
+      }
+      return _googleUserModel;
+    } catch (e) {
+      return GoogleUserModel();
     }
   }
 }

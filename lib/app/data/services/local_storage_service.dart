@@ -14,43 +14,48 @@ class AppStorageService extends GetxService {
     double? doublevalue,
   }) async {
     if (stringValue != null) {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setString(key, stringValue);
+      final _sharedPreferences = await SharedPreferences.getInstance();
+      await _sharedPreferences.setString(key, stringValue);
     }
 
     if (intValue != null) {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setInt(key, intValue);
+      final _sharedPreferences = await SharedPreferences.getInstance();
+      await _sharedPreferences.setInt(key, intValue);
     }
 
     if (boolValue != null) {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setBool(key, boolValue);
+      final _sharedPreferences = await SharedPreferences.getInstance();
+      await _sharedPreferences.setBool(key, boolValue);
     }
 
     if (doublevalue != null) {
-      final sharedPreferences = await SharedPreferences.getInstance();
-      await sharedPreferences.setDouble(key, doublevalue);
+      final _sharedPreferences = await SharedPreferences.getInstance();
+      await _sharedPreferences.setDouble(key, doublevalue);
     }
   }
 
   Future<int?> readInt(String key) async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getInt(key);
+    final _sharedPreferences = await SharedPreferences.getInstance();
+    return _sharedPreferences.getInt(key);
   }
 
   Future<String?> readString(String key) async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getString(key);
+    final _sharedPreferences = await SharedPreferences.getInstance();
+    return _sharedPreferences.getString(key);
   }
 
   Future<bool?> readBool(String key) async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getBool(key);
+    final _sharedPreferences = await SharedPreferences.getInstance();
+    return _sharedPreferences.getBool(key);
   }
 
   Future<double?> readDouble(String key) async {
-    final sharedPreferences = await SharedPreferences.getInstance();
-    return sharedPreferences.getDouble(key);
+    final _sharedPreferences = await SharedPreferences.getInstance();
+    return _sharedPreferences.getDouble(key);
+  }
+
+  Future<void> remove(String key) async {
+    final _sharedPreferences = await SharedPreferences.getInstance();
+    await _sharedPreferences.remove(key);
   }
 }

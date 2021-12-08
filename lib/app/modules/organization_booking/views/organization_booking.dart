@@ -160,29 +160,6 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               //   name: '',
               // ),
 
-              // TODO still need to rev
-              // Service
-              // SelectInput(
-              //   items: const [
-              //     {
-              //       'id': '1',
-              //       'value': 'Check Up',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //   ],
-              //   selectedItem: '1',
-              //   label: 'Service*',
-              //   errorMsg: "",
-              //   name: '',
-              // ),
-
               // Service
 
               // TODO still need to rev
