@@ -41,6 +41,12 @@ class PersonalBookingController extends GetxController {
   RxString genderValue = '0'.obs;
   RxString patientSubject = 'myself'.obs;
 
+  RxString question1 = '0'.obs;
+  RxString question2 = '0'.obs;
+  RxString question3 = '0'.obs;
+  RxString question4 = '0'.obs;
+  RxString question5 = '0'.obs;
+
   // Dropdown Data
   TextEditingController selectedService = TextEditingController(text: '1');
   TextEditingController selectedTestPurpose = TextEditingController(text: '1');
@@ -204,12 +210,6 @@ class PersonalBookingController extends GetxController {
   }
 
   void personalBookHandler() async {
-    // final _parameters = <String, String>{
-    //   "service": ,
-    //   "patient_subject": ,
-    //   "id_number": ,
-    // };
-
-    // Get.offAndToNamed(AppPages.dashboard, parameters: _parameters);
+    Get.toNamed(AppPages.questionnaire);
   }
 }

@@ -5,6 +5,7 @@ import 'package:dlabs_apps/app/modules/organization_booking/bindings/organizatio
 import 'package:dlabs_apps/app/modules/organization_booking/views/organization_booking.dart';
 import 'package:dlabs_apps/app/modules/personal_booking/bindings/personal_booking_binding.dart';
 import 'package:dlabs_apps/app/modules/personal_booking/views/personal_booking.dart';
+import 'package:dlabs_apps/app/modules/personal_booking/views/questionnaire.dart';
 import 'package:dlabs_apps/app/modules/signin/bindings/signin_binding.dart';
 import 'package:dlabs_apps/app/modules/signin/views/sign_in.dart';
 import 'package:dlabs_apps/app/modules/signup/bindings/sign_up_binding.dart';
@@ -27,6 +28,7 @@ class AppPages {
   static const forgotPassword = Routes.forgotPassword;
   static const updatePersonalInfo = Routes.updatePersonalInfo;
   static const personalBooking = Routes.personalBooking;
+  static const questionnaire = Routes.questionnaire;
   static const organizationBooking = Routes.organizationBooking;
 
   static final routes = [
@@ -69,6 +71,12 @@ class AppPages {
     GetPage(
       name: _Paths.personalBooking,
       page: () => PersonalBooking(),
+      binding: PersonalBookingBinding(),
+    ),
+
+    GetPage(
+      name: _Paths.questionnaire,
+      page: () => Questionnaire(),
       binding: PersonalBookingBinding(),
     ),
 

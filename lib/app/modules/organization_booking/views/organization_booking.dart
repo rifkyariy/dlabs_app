@@ -105,7 +105,8 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Divider(color: greyColor),
               const SizedBox(height: 16),
 
-              // // Test Purpses
+              // Test Purpses
+              // TODO still need to rev
               // SelectInput(
               //   items: const [
               //     {
@@ -136,7 +137,8 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               //   name: 'date of birth',
               // ),
 
-              // // Service
+              // TODO still need to rev
+              // Service
               // SelectInput(
               //   items: const [
               //     {
@@ -158,7 +160,9 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               //   name: '',
               // ),
 
-              // // Service
+              // Service
+
+              // TODO still need to rev
               // SelectInput(
               //   items: const [
               //     {
@@ -216,7 +220,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                     const Spacer(),
                     Text('Total Data : ', style: regularTextStyle(blackColor)),
                     Text(
-                      controller.dummyList.length.toString(),
+                      controller.patientList.length.toString(),
                       style: BoldTextStyle(blackColor),
                     )
                   ],
@@ -229,7 +233,12 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               // Add patient data button
 
               OutlinedButton(
-                onPressed: () => {Get.to(() => AddOrUpdatePatient())},
+                onPressed: () {
+                  Get.to(() => AddOrUpdatePatient(
+                        isUpdateMode: false,
+                        onSearch: false,
+                      ));
+                },
                 child: const Text('Add Patient Data'),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 43),
@@ -249,31 +258,41 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       ListView.builder(
-                        semanticChildCount: controller.dummyList.length < 5
-                            ? controller.dummyList.length
+                        semanticChildCount: controller.patientList.length < 5
+                            ? controller.patientList.length
                             : 5,
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: controller.dummyList.length < 5
-                            ? controller.dummyList.length
+                        itemCount: controller.patientList.length < 5
+                            ? controller.patientList.length
                             : 5,
                         itemBuilder: (context, index) {
                           return BookingListTile(
-                            key: Key(index.toString()),
-                            title: controller.dummyList[index].fullName,
-                            subtitle:
-                                'ID No : ${controller.dummyList[index].identityNumber}',
-                            deleteButtonPressed: (context) {
-                              controller.dummyList.removeAt(index);
-                              controller.updateTotalPrice();
-                            },
-                          );
+                              key: Key(index.toString()),
+                              title: controller.patientList[index].fullName,
+                              subtitle:
+                                  'ID No : ${controller.patientList[index].identityNumber}',
+                              deleteButtonPressed: (context) {
+                                controller.patientList.removeAt(index);
+                                controller.updateTotalPrice();
+                              },
+                              updateButtonPressed: (context) {
+                                controller
+                                    .updateTextControllerBasedOnIndex(index);
+                                Get.to(
+                                  () => AddOrUpdatePatient(
+                                    onSearch: false,
+                                    isUpdateMode: true,
+                                    updateIndex: index,
+                                  ),
+                                );
+                              });
                         },
                       ),
 
                       // View All Botton
 
-                      controller.dummyList.isEmpty
+                      controller.patientList.isEmpty
                           ? const SizedBox()
                           : Container(
                               width: double.infinity,
