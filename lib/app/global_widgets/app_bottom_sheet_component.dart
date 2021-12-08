@@ -1,6 +1,7 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/app_icons.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
+import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'app_booking_cart_component.dart';
@@ -35,12 +36,14 @@ class AppBottomSheetComponent extends StatelessWidget {
             desc:
                 'This option is provided for personal needs. For private and seamless service ',
             icon: AppIcons.profile,
+            url: AppPages.personalBooking,
           ),
           const AppBookingCartComponent(
             title: 'Organization',
             desc:
                 'This option is provided for organization needs. For security and safety at work',
             icon: AppIcons.group,
+            url: AppPages.organizationBooking,
           ),
           TextButton.icon(
             style: TextButton.styleFrom(

@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AppBookingCartComponent extends StatelessWidget {
-  const AppBookingCartComponent({Key? key, this.title, this.desc, this.icon})
+  const AppBookingCartComponent(
+      {Key? key, this.title, this.desc, this.icon, this.url})
       : super(key: key);
   final String? title, desc;
   final IconData? icon;
+  final String? url;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class AppBookingCartComponent extends StatelessWidget {
                   Navigator.pop(context);
 
                   // Route to Personal Booking
-                  Get.toNamed(AppPages.personalBooking);
+                  Get.toNamed(url ?? '');
                 },
               ),
             ),
