@@ -18,7 +18,7 @@ class TextInput extends StatelessWidget {
   DateTime firstDate;
   DateTime lastDate;
 
-  const TextInput({
+  TextInput({
     Key? key,
     required this.controller,
     required this.label,

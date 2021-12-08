@@ -22,7 +22,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 Icons.arrow_back_ios_sharp,
               ),
               color: Color(0xff000000),
-              onPressed: () => Navigator.pop(context, true)),
+              onPressed: () => Navigator.pop(context)),
           title: Text('Personal Book Test', style: BoldTextStyle(blackColor)),
           centerTitle: true,
           actions: [],

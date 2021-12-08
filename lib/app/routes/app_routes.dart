@@ -11,6 +11,7 @@ abstract class Routes {
   static const forgotPassword = _Paths.forgotPassword;
   static const updatePersonalInfo = _Paths.updatePersonalInfo;
   static const personalBooking = _Paths.personalBooking;
+  static const questionnaire = _Paths.questionnaire;
   static const organizationBooking = _Paths.organizationBooking;
 }
 
@@ -24,5 +25,6 @@ abstract class _Paths {
   static const updatePersonalInfo = '/update-personal-info';
 
   static const personalBooking = '/booking/personal';
+  static const questionnaire = '/booking/personal/questionnaire';
   static const organizationBooking = '/booking/organization';
 }

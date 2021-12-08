@@ -107,26 +107,26 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
 
               // Test Purpses
               // TODO still need to rev
-              SelectInput(
-                items: const [
-                  {
-                    'id': '1',
-                    'value': 'Check Up',
-                  },
-                  {
-                    'id': '2',
-                    'value': 'Make Sure',
-                  },
-                  {
-                    'id': '2',
-                    'value': 'Make Sure',
-                  },
-                ],
-                selectedItem: '1',
-                label: 'Test Purpose*',
-                errorMsg: "",
-                name: '',
-              ),
+              // SelectInput(
+              //   items: const [
+              //     {
+              //       'id': '1',
+              //       'value': 'Check Up',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //   ],
+              //   selectedItem: '1',
+              //   label: 'Test Purpose*',
+              //   errorMsg: "",
+              //   name: '',
+              // ),
 
               // // Test Date
               // TextInput(
@@ -136,53 +136,76 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               //   errorMsg: "",
               //   name: 'date of birth',
               // ),
-              
+
               // TODO still need to rev
               // Service
-              SelectInput(
-                items: const [
-                  {
-                    'id': '1',
-                    'value': 'Check Up',
-                  },
-                  {
-                    'id': '2',
-                    'value': 'Make Sure',
-                  },
-                  {
-                    'id': '2',
-                    'value': 'Make Sure',
-                  },
-                ],
-                selectedItem: '1',
-                label: 'Service*',
-                errorMsg: "",
-                name: '',
-              ),
+              // SelectInput(
+              //   items: const [
+              //     {
+              //       'id': '1',
+              //       'value': 'Check Up',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //   ],
+              //   selectedItem: '1',
+              //   label: 'Service*',
+              //   errorMsg: "",
+              //   name: '',
+              // ),
+
+              // TODO still need to rev
+              // Service
+              // SelectInput(
+              //   items: const [
+              //     {
+              //       'id': '1',
+              //       'value': 'Check Up',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //   ],
+              //   selectedItem: '1',
+              //   label: 'Service*',
+              //   errorMsg: "",
+              //   name: '',
+              // ),
 
               // Service
 
               // TODO still need to rev
-              SelectInput(
-                items: const [
-                  {
-                    'id': '1',
-                    'value': 'Check Up',
-                  },
-                  {
-                    'id': '2',
-                    'value': 'Make Sure',
-                  },
-                  {
-                    'id': '2',
-                    'value': 'Make Sure',
-                  },
-                ],
-                selectedItem: '1',
-                label: 'Location*',
-                errorMsg: "",
-                name: '',
-              ),
+              // SelectInput(
+              //   items: const [
+              //     {
+              //       'id': '1',
+              //       'value': 'Check Up',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //     {
+              //       'id': '2',
+              //       'value': 'Make Sure',
+              //     },
+              //   ],
+              //   selectedItem: '1',
+              //   label: 'Location*',
+              //   errorMsg: "",
+              //   name: '',
+              // ),
 
               // Map text, this is cool btw
               SizedBox(
