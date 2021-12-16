@@ -1,6 +1,6 @@
 import 'package:dlabs_apps/app/core/utils/app_icons.dart';
+import 'package:dlabs_apps/app/global_widgets/slideable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 
 class BookingListTile extends StatelessWidget {
   const BookingListTile({
