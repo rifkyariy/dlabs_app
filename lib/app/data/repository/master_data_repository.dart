@@ -60,4 +60,22 @@ class MasterDataRepository {
 
     return locationList;
   }
+
+  Future getQuestionnaire(
+      {required String token, required String testTypeId}) async {
+    var url = Uri.parse("$baseUrl/master/kuesioner/$testTypeId");
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'fendpoint': '/master',
+      'Authorization': 'Bearer $token',
+    });
+
+    var questionList = (jsonDecode(response.body)["data"]["list"] as List)
+        .map((e) => e as Map<String, dynamic>)
+        .toList();
+
+    return questionList;
+  }
 }

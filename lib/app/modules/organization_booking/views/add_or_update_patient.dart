@@ -88,9 +88,9 @@ class AddOrUpdatePatient extends StatelessWidget {
                 Obx(
                   () => TextInput(
                     controller: controller.patientPhoneController,
-                    label: "Phone*",
+                    label: "Phone",
                     name: "Phone",
-                    type: 'number',
+                    type: 'phone',
                     placeholder: '',
                     errorMsg: controller.picIdNumberErrorMessage.value,
                   ),

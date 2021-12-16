@@ -24,6 +24,9 @@ class SplashController extends GetxController {
     googleFullName = await _storage.readString('googleFullName');
     googlePhotoUrl = await _storage.readString('googlePhotoUrl');
 
+    print('google : $googleAuthKey');
+    print('api token : $apiToken');
+
     // If no google auth key & api Token null (Logged Out)
     if (googleAuthKey == null && apiToken == null) {
       // Set Shared Pereference is Logged In to false.
@@ -44,6 +47,7 @@ class SplashController extends GetxController {
           displayName: googleFullName ?? '',
         );
 
+        // print(_googleUser.status);
         // If google user exist and status code from backend OK then go to dashboard with named
         if (_googleUser!.status == '200') {
           await _storage.write('isLoggedIn', boolValue: true);
@@ -59,15 +63,15 @@ class SplashController extends GetxController {
           /// Silent Login
           /// @_onGoogleTokenExpired()
           /// Login using google silent login.
-          /// Must no token in loacl storage
+          /// Must no token in locla storage
 
           _onGoogleTokenExpired();
         }
       } catch (e) {
         Get.snackbar(
-          "Error",
-          "Unknown Error, Please try again later",
-          backgroundColor: dangerColor,
+          "Something Went Wrong",
+          "Please try again later",
+          backgroundColor: primaryColor,
           colorText: whiteColor,
           snackPosition: SnackPosition.TOP,
         );
@@ -99,7 +103,7 @@ class SplashController extends GetxController {
         Get.snackbar(
           "Error",
           "Unknown Error, Please try again later",
-          backgroundColor: dangerColor,
+          backgroundColor: primaryColor,
           colorText: whiteColor,
           snackPosition: SnackPosition.TOP,
         );
@@ -160,9 +164,9 @@ class SplashController extends GetxController {
       }
     } catch (e) {
       Get.snackbar(
-        "Silent Login Failed",
+        "Something Went Wrong",
         "Redirecting to dashboard",
-        backgroundColor: warningColor,
+        backgroundColor: primaryColor,
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
