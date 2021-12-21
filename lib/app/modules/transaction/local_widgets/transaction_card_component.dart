@@ -1,6 +1,8 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
+import 'package:dlabs_apps/app/data/services/currency_formatting.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionCardComponent extends StatelessWidget {
   const TransactionCardComponent({
@@ -87,6 +89,32 @@ class TransactionCardComponent extends StatelessWidget {
         _boxColor = greenSuccessColor;
         _textColor = greenSuccessColor;
         break;
+      case TRANSACTIONSTATUS.readyToSample:
+        _status = 'Ready to Sample';
+        break;
+      case TRANSACTIONSTATUS.paymentRejected:
+        _status = 'Payment Rejected';
+        _boxColor = redAlertColor;
+        _textColor = redAlertColor;
+        break;
+      case TRANSACTIONSTATUS.confirmed:
+        _status = 'Confirmed';
+        break;
+      case TRANSACTIONSTATUS.partiallyToSample:
+        _status = 'Partially to Sample';
+        break;
+      case TRANSACTIONSTATUS.partiallyToLab:
+        _status = 'Partially to Lab';
+        break;
+      case TRANSACTIONSTATUS.labProcess:
+        _status = 'Lab Process';
+        break;
+      case TRANSACTIONSTATUS.readyToRelease:
+        _status = 'Ready to Release';
+        break;
+      case TRANSACTIONSTATUS.partiallyDone:
+        _status = 'Partially Done';
+        break;
     }
 
     return Padding(
@@ -131,13 +159,14 @@ class TransactionCardComponent extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                date,
+                DateFormat.yMMMMd('en_US').format(DateTime.parse(date)),
                 style: regularTextStyle(greyColor, fontSize: 10),
               )
             ],
           ),
           Text(
-            'Rp $price,-',
+            CurrencyFormat.convertToIdr(price, 2),
+            // 'Rp $price,-',
             style: BoldTextStyle(blackColor, fontSize: 12),
           )
         ],

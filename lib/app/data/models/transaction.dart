@@ -7,7 +7,7 @@ class Transaction {
   final String date;
   final double price;
   final TRANSACTIONSTATUS status;
-  final PatientModel patient;
+  final PatientModel? patient;
 
   Transaction({
     required this.id,
@@ -15,6 +15,6 @@ class Transaction {
     required this.date,
     required this.price,
     required this.status,
-    required this.patient,
+    this.patient,
   });
 }

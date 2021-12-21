@@ -1,9 +1,9 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
-import 'package:dlabs_apps/app/modules/personal_transaction/controller/transaction_view_controller.dart';
-import 'package:dlabs_apps/app/modules/personal_transaction/local_widgets/transaction_card_component.dart';
+import 'package:dlabs_apps/app/modules/transaction/local_widgets/transaction_card_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
 
 class TransactionHistoryView extends GetView<TransactionViewController> {
   const TransactionHistoryView({Key? key}) : super(key: key);
@@ -53,9 +53,11 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
       child: ListView.builder(
         itemCount: controller.transactions.length,
         itemBuilder: (context, index) {
-          bool _isInProgress = (controller.transactions[index].status !=
-                  TRANSACTIONSTATUS.canceled) &&
-              (controller.transactions[index].status != TRANSACTIONSTATUS.done);
+          TRANSACTIONSTATUS _status = controller.transactions[index].status;
+
+          bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
+              (_status != TRANSACTIONSTATUS.done) &&
+              (_status != TRANSACTIONSTATUS.paymentRejected);
 
           if (_isInProgress) {
             return TransactionCardComponent(
@@ -79,11 +81,13 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
       child: ListView.builder(
         itemCount: controller.transactions.length,
         itemBuilder: (context, index) {
-          bool _isDoneOrCanceled = (controller.transactions[index].status ==
-                  TRANSACTIONSTATUS.canceled) ||
-              (controller.transactions[index].status == TRANSACTIONSTATUS.done);
+          TRANSACTIONSTATUS _status = controller.transactions[index].status;
 
-          if (_isDoneOrCanceled) {
+          bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
+              (_status != TRANSACTIONSTATUS.done) &&
+              (_status != TRANSACTIONSTATUS.paymentRejected);
+
+          if (!_isInProgress) {
             return TransactionCardComponent(
               date: controller.transactions[index].date,
               id: controller.transactions[index].id,

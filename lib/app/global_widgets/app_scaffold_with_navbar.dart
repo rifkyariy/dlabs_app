@@ -1,5 +1,8 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/app_icons.dart';
+import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+
+import 'package:dlabs_apps/app/modules/transaction/views/transaction_history/transaction_history_view.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,16 +42,11 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       Get.offAndToNamed(AppPages.dashboard);
                       break;
                     case 1:
-                      Get.toNamed(AppPages.signin);
+                      // Get.toNamed(AppPages.signin);
 
-                      Get.snackbar(
-                        "Info",
-                        "Please login to continue",
-                        backgroundColor: primaryColor,
-                        snackPosition: SnackPosition.TOP,
-                        animationDuration: const Duration(seconds: 1),
-                        duration: const Duration(seconds: 1),
-                        colorText: whiteColor,
+                      Get.to(
+                        () => TransactionHistoryView(),
+                        binding: TransactionHistoryViewBinding(),
                       );
                       break;
                     case 2:
@@ -58,14 +56,9 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                     case 3:
                       Get.toNamed(AppPages.signin);
 
-                      Get.snackbar(
-                        "Info",
-                        "Please login to continue",
-                        backgroundColor: primaryColor,
-                        snackPosition: SnackPosition.TOP,
-                        animationDuration: const Duration(seconds: 1),
-                        duration: const Duration(seconds: 1),
-                        colorText: whiteColor,
+                      Get.to(
+                        () => TransactionHistoryView(),
+                        binding: TransactionHistoryViewBinding(),
                       );
                       break;
                     case 4:
