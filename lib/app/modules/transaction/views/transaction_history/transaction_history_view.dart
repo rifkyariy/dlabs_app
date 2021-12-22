@@ -51,9 +51,10 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
   Widget _inProgressTransactionList() {
     return SizedBox(
       child: ListView.builder(
-        itemCount: controller.transactions.length,
+        itemCount: controller.transactionHistory.length,
         itemBuilder: (context, index) {
-          TRANSACTIONSTATUS _status = controller.transactions[index].status;
+          TRANSACTIONSTATUS _status =
+              controller.transactionHistory[index].status;
 
           bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
               (_status != TRANSACTIONSTATUS.done) &&
@@ -61,11 +62,11 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
 
           if (_isInProgress) {
             return TransactionCardComponent(
-              date: controller.transactions[index].date,
-              id: controller.transactions[index].id,
-              price: controller.transactions[index].price,
-              status: controller.transactions[index].status,
-              type: controller.transactions[index].type,
+              date: controller.transactionHistory[index].date,
+              id: controller.transactionHistory[index].id,
+              price: controller.transactionHistory[index].price,
+              status: controller.transactionHistory[index].status,
+              type: controller.transactionHistory[index].type,
               onTap: () => {},
             );
           } else {
@@ -79,9 +80,10 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
   Widget _doneTransactionList() {
     return SizedBox(
       child: ListView.builder(
-        itemCount: controller.transactions.length,
+        itemCount: controller.transactionHistory.length,
         itemBuilder: (context, index) {
-          TRANSACTIONSTATUS _status = controller.transactions[index].status;
+          TRANSACTIONSTATUS _status =
+              controller.transactionHistory[index].status;
 
           bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
               (_status != TRANSACTIONSTATUS.done) &&
@@ -89,11 +91,11 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
 
           if (!_isInProgress) {
             return TransactionCardComponent(
-              date: controller.transactions[index].date,
-              id: controller.transactions[index].id,
-              price: controller.transactions[index].price,
-              status: controller.transactions[index].status,
-              type: controller.transactions[index].type,
+              date: controller.transactionHistory[index].date,
+              id: controller.transactionHistory[index].id,
+              price: controller.transactionHistory[index].price,
+              status: controller.transactionHistory[index].status,
+              type: controller.transactionHistory[index].type,
               onTap: () => {},
             );
           } else {

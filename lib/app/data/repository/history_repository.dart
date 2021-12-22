@@ -50,8 +50,10 @@ class HistoryRepository {
     }
   }
 
-  Future<TrxDetailData?> getDetailHistory(
-      {required String token, required String idTransaction}) async {
+  Future<TrxDetailData?> getDetailHistory({
+    required String token,
+    required String idTransaction,
+  }) async {
     final url = Uri.parse('$_kbaseUrl/history-trx/$idTransaction');
 
     try {

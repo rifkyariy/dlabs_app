@@ -1,5 +1,6 @@
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
 import 'package:dlabs_apps/app/data/models/transaction.dart';
+import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
 import 'package:dlabs_apps/app/data/models/trx_history_model/trx_history_row.dart';
 import 'package:dlabs_apps/app/data/repository/history_repository.dart';
 import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
@@ -11,11 +12,18 @@ class TransactionViewController extends GetxController {
   final HistoryRepository _historyRepository = Get.find();
   final MasterDataRepository _masterData = Get.find();
 
-  late String? _apiToken;
+  // /// Transaction History
+  // RxList<TrxHistoryRow> history = <TrxHistoryRow>[].obs;
 
-  RxList<TrxHistoryRow> history = <TrxHistoryRow>[].obs;
+  /// This is List that hold Services
+  ///
   RxList<Map<String, dynamic>> serviceList = <Map<String, dynamic>>[].obs;
-  RxList<Transaction> transactions = <Transaction>[].obs;
+
+  /// This is the list that holds the transcations
+  /// This list is displayed on history tab.
+  RxList<Transaction> transactionHistory = <Transaction>[].obs;
+
+  TrxDetailData trxDetailData = const TrxDetailData();
 
   @override
   void onInit() async {
@@ -25,7 +33,7 @@ class TransactionViewController extends GetxController {
   }
 
   Future<void> getServiceList() async {
-    _apiToken = await _storage.readString('apiToken');
+    final _apiToken = await _storage.readString('apiToken');
 
     try {
       serviceList.value =
@@ -36,7 +44,7 @@ class TransactionViewController extends GetxController {
   }
 
   Future<void> getServiceTypeList() async {
-    _apiToken = await _storage.readString('apiToken');
+    final _apiToken = await _storage.readString('apiToken');
 
     try {
       serviceList.value = await _masterData.getTypeTestList(
@@ -47,10 +55,10 @@ class TransactionViewController extends GetxController {
   }
 
   Future<void> getHistoryRowList() async {
-    _apiToken = await _storage.readString('apiToken');
+    final _apiToken = await _storage.readString('apiToken');
 
     try {
-      transactions.value = ((await _historyRepository.getHistoryList(
+      transactionHistory.value = ((await _historyRepository.getHistoryList(
                 token: _apiToken ?? '',
               )) ??
               [])
@@ -64,6 +72,20 @@ class TransactionViewController extends GetxController {
             ),
           )
           .toList();
+    } catch (e) {
+      e.printError();
+    }
+  }
+
+  Future<void> getDetailTransaction(String transactionId) async {
+    final _apiToken = await _storage.readString('apiToken');
+
+    try {
+      trxDetailData = await _historyRepository.getDetailHistory(
+            token: _apiToken ?? '',
+            idTransaction: transactionId,
+          ) ??
+          const TrxDetailData();
     } catch (e) {
       e.printError();
     }
@@ -93,7 +115,7 @@ class TransactionViewController extends GetxController {
         return TRANSACTIONSTATUS.partiallyToLab;
       case 'LAB PROCESS':
         return TRANSACTIONSTATUS.labProcess;
-      case 'READY TO RELASE':
+      case 'READY TO RELEASE':
         return TRANSACTIONSTATUS.readyToRelease;
       case 'PARTIALLY DONE':
         return TRANSACTIONSTATUS.partiallyDone;
