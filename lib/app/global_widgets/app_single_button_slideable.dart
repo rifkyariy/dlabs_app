@@ -13,12 +13,14 @@ class AppSingleButtonSlideable extends StatelessWidget {
     this.buttonLabel,
     this.trailing,
     this.isThreeLine,
+    this.icon,
   }) : super(key: key);
 
   final Function(BuildContext)? buttonPressed;
   final Widget? title, subtitle, leading, trailing;
   final String? buttonLabel;
   final bool? isThreeLine;
+  final IconData? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class AppSingleButtonSlideable extends StatelessWidget {
             onPressed: buttonPressed,
             backgroundColor: primaryColor,
             foregroundColor: Colors.white,
-            icon: AppIcons.download,
+            icon: icon ?? AppIcons.download,
             label: buttonLabel,
             labelStyle: mediumTextStyle(whiteColor, fontSize: 12),
           ),

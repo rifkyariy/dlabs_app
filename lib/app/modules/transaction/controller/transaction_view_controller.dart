@@ -4,7 +4,10 @@ import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_d
 import 'package:dlabs_apps/app/data/repository/history_repository.dart';
 import 'package:dlabs_apps/app/data/services/app_converter.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
+import 'package:dlabs_apps/app/modules/organization_booking/views/view_patient_list.dart';
 import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -150,6 +153,15 @@ class TransactionViewController extends GetxController {
         () => const PersonalTransactionDetailView(),
         binding: TransactionHistoryViewBinding(),
       );
+    } else {
+      Get.to(
+        () => const OrganizationTransactionDetailView(),
+        binding: TransactionHistoryViewBinding(),
+      );
     }
+  }
+
+  void toPatientListScreen() {
+    Get.to(() => const TransactionPatientListView());
   }
 }
