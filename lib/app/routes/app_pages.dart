@@ -12,7 +12,8 @@ import 'package:dlabs_apps/app/modules/signin/views/sign_in.dart';
 import 'package:dlabs_apps/app/modules/signup/bindings/sign_up_binding.dart';
 import 'package:dlabs_apps/app/modules/signup/views/sign_up_screen.dart';
 import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/transaction_detail/personal_transaction_detail_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:dlabs_apps/app/modules/update_personal_info/bindings/update_personal_info_binding.dart';
 import 'package:dlabs_apps/app/modules/update_personal_info/views/update_personal_info_screen.dart';
 import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
@@ -92,7 +93,7 @@ class AppPages {
 
     GetPage(
       name: _Paths.transactionHistory,
-      page: () => PersonalTransactionDetailView(),
+      page: () => PersonalTransactionPatientInformationView(),
       binding: TransactionHistoryViewBinding(),
     ),
   ];

@@ -38,71 +38,121 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
             ],
           ),
         ),
-        body: TabBarView(
-          children: [
-            Obx(() => _inProgressTransactionList()),
-            Obx(() => _doneTransactionList()),
-          ],
-        ),
+        body: controller.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : TabBarView(
+                children: [
+                  Obx(
+                    () => RefreshIndicator(
+                      child: _inProgressTransactionList(),
+                      onRefresh: () async {
+                        await controller.updateHistoryRowList();
+                      },
+                    ),
+                  ),
+                  Obx(
+                    () => RefreshIndicator(
+                        child: _doneTransactionList(),
+                        onRefresh: () async {
+                          await controller.updateHistoryRowList();
+                        }),
+                  ),
+                ],
+              ),
       ),
     );
   }
 
   Widget _inProgressTransactionList() {
-    return SizedBox(
-      child: ListView.builder(
-        itemCount: controller.transactionHistory.length,
-        itemBuilder: (context, index) {
-          TRANSACTIONSTATUS _status =
-              controller.transactionHistory[index].status;
+    return controller.isLoading.value
+        ? const Center(
+            child: SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : SizedBox(
+            child: ListView.builder(
+              itemCount: controller.transactionHistory.length,
+              itemBuilder: (context, index) {
+                TRANSACTIONSTATUS _status =
+                    controller.transactionHistory[index].status;
 
-          bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
-              (_status != TRANSACTIONSTATUS.done) &&
-              (_status != TRANSACTIONSTATUS.paymentRejected);
+                bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
+                    (_status != TRANSACTIONSTATUS.done) &&
+                    (_status != TRANSACTIONSTATUS.paymentRejected);
 
-          if (_isInProgress) {
-            return TransactionCardComponent(
-              date: controller.transactionHistory[index].date,
-              id: controller.transactionHistory[index].id,
-              price: controller.transactionHistory[index].price,
-              status: controller.transactionHistory[index].status,
-              type: controller.transactionHistory[index].type,
-              onTap: () => {},
-            );
-          } else {
-            return const SizedBox();
-          }
-        },
-      ),
-    );
+                if (_isInProgress) {
+                  return TransactionCardComponent(
+                    date: controller.transactionHistory[index].date,
+                    id: controller.transactionHistory[index].id,
+                    price: controller.transactionHistory[index].price,
+                    status: controller.transactionHistory[index].status,
+                    type: controller.transactionHistory[index].type,
+                    onTap: () async {
+                      final _transactionId =
+                          controller.transactionHistory[index].id;
+                      final _status =
+                          controller.transactionHistory[index].status;
+
+                      controller.onTransactionCardPressed(
+                        transactionId: _transactionId,
+                        status: _status,
+                      );
+                    },
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          );
   }
 
   Widget _doneTransactionList() {
-    return SizedBox(
-      child: ListView.builder(
-        itemCount: controller.transactionHistory.length,
-        itemBuilder: (context, index) {
-          TRANSACTIONSTATUS _status =
-              controller.transactionHistory[index].status;
+    return controller.isLoading.value
+        ? const Center(
+            child: SizedBox(
+              height: 30,
+              width: 30,
+              child: CircularProgressIndicator(),
+            ),
+          )
+        : SizedBox(
+            child: ListView.builder(
+              itemCount: controller.transactionHistory.length,
+              itemBuilder: (context, index) {
+                TRANSACTIONSTATUS _status =
+                    controller.transactionHistory[index].status;
 
-          bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
-              (_status != TRANSACTIONSTATUS.done) &&
-              (_status != TRANSACTIONSTATUS.paymentRejected);
+                bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
+                    (_status != TRANSACTIONSTATUS.done) &&
+                    (_status != TRANSACTIONSTATUS.paymentRejected);
 
-          if (!_isInProgress) {
-            return TransactionCardComponent(
-              date: controller.transactionHistory[index].date,
-              id: controller.transactionHistory[index].id,
-              price: controller.transactionHistory[index].price,
-              status: controller.transactionHistory[index].status,
-              type: controller.transactionHistory[index].type,
-              onTap: () => {},
-            );
-          } else {
-            return const SizedBox();
-          }
-        },
-      ),
-    );
+                if (!_isInProgress) {
+                  return TransactionCardComponent(
+                    date: controller.transactionHistory[index].date,
+                    id: controller.transactionHistory[index].id,
+                    price: controller.transactionHistory[index].price,
+                    status: controller.transactionHistory[index].status,
+                    type: controller.transactionHistory[index].type,
+                    onTap: () async {
+                      final _transactionId =
+                          controller.transactionHistory[index].id;
+                      final _status =
+                          controller.transactionHistory[index].status;
+                      await controller.onTransactionCardPressed(
+                        transactionId: _transactionId,
+                        status: _status,
+                      );
+                    },
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          );
   }
 }

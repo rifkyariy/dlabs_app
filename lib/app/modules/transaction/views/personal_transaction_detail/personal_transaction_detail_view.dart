@@ -1,3 +1,6 @@
+import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
+import 'package:dlabs_apps/app/data/services/app_converter.dart';
+import 'package:dlabs_apps/app/data/services/currency_formatting.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
@@ -6,6 +9,7 @@ import 'package:dlabs_apps/app/global_widgets/app_title_with_button.dart';
 import 'package:dlabs_apps/app/global_widgets/app_detail_information_box.dart';
 import 'package:dlabs_apps/app/global_widgets/app_detail_information_item.dart';
 import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
+import 'package:intl/intl.dart';
 
 class PersonalTransactionDetailView extends GetView<TransactionViewController> {
   const PersonalTransactionDetailView({Key? key}) : super(key: key);
@@ -34,13 +38,20 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
         child: Column(
           children: [
             /// Header Component
-            _headerComponent(enabled: true),
+            _headerComponent(
+              enabled:
+                  controller.currentTransactionStatus == TRANSACTIONSTATUS.done
+                      ? true
+                      : false,
+            ),
 
             /// App Detailed Box
             AppDetailInformationBox(
               title: 'Invoice for',
               header: AppTitleWithButton(
-                title: 'Done',
+                title: AppConverter.transactionEnumToString(
+                  controller.currentTransactionStatus,
+                ),
                 buttonLabel: 'View Status',
                 onTap: () => {},
               ),
@@ -54,19 +65,19 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               /// Trailing Button
               trailing: [
                 AppDetailInformationItem(
-                  '34918172628763',
+                  controller.transactionDetail.identityNumber ?? '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  'Muhammad Akbar ',
+                  controller.transactionDetail.name ?? '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  'bonny.darma@address.com',
+                  controller.transactionDetail.email ?? '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  '+(62) 897856823423',
+                  controller.transactionDetail.phone ?? '',
                   color: blackColor,
                 ),
               ],
@@ -84,19 +95,27 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               ],
               trailing: [
                 AppDetailInformationItem(
-                  'Check Up',
+                  controller.transactionDetail.testPurpose ?? '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  '16/07/2021 11:30 AM',
+                  DateFormat.yMMMMd('en_US').format(
+                    DateTime.parse(controller.transactionDetail.testDate ?? ''),
+                  ),
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  'Drive Thru',
+                  controller.transactionDetail.services ?? '',
+                  color: blackColor,
+                ),
+
+                /// TODO change this if error
+                AppDetailInformationItem(
+                  controller.transactionDetail.locationName ?? '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  'Jl. Aries Utama IV No.7, RT.12/RW.8, Meruya Utara, Kec. Kembangan, Kota Jakarta Barat.',
+                  controller.transactionDetail.locationAddress ?? '',
                   color: blackColor,
                 ),
               ],
@@ -105,9 +124,9 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
             const SizedBox(height: 15),
 
             AppDetailInformationBox(
-              title: 'Test Information',
+              title: 'Romy Roma',
               header: AppTitleWithButton(
-                title: 'Done',
+                title: 'Patient Information',
                 buttonLabel: 'View Detail',
                 onTap: () {},
               ),
@@ -115,15 +134,13 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               /// Leading
               leading: [
                 AppDetailInformationItem(
-                  'Romy Roma',
-                  style: BoldTextStyle(blackColor, fontSize: 12),
-                ),
-                AppDetailInformationItem(
-                  '+(62) 8978567898',
+                  (controller.transactionDetail.patientList ?? [])[0].phone ??
+                      '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  'Jl. Godean KM 5. Perum Jeruk II D 18, Gamping, Sleman, Yogyakarta 55529',
+                  (controller.transactionDetail.patientList ?? [])[0].address ??
+                      '',
                   color: blackColor,
                 ),
               ],
@@ -138,8 +155,13 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
 
                 /// Disabled Button For Title Only
                 AppTitleWithButton(
-                  title: 'Swab Antigen',
-                  buttonLabel: 'Rp 800.000,-',
+                  title: (controller.transactionDetail.patientList ?? [])[0]
+                          .testTypeText ??
+                      '',
+                  buttonLabel: CurrencyFormat.convertToIdr(
+                    (controller.transactionDetail.price ?? 0),
+                    2,
+                  ),
                   titleColor: primaryColor,
                   padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                 ),
@@ -148,7 +170,12 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   padding:
                       const EdgeInsets.only(left: 25, right: 25, bottom: 5),
                   child: AppDetailInformationItem(
-                    '21 Oktober 2021',
+                    DateFormat.yMMMMd('en_US').format(
+                      DateTime.parse(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .createdDate ??
+                              ''),
+                    ),
                     color: greyColor,
                   ),
                 ),
@@ -162,7 +189,10 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                 /// Disabled Button For Title Only
                 AppTitleWithButton(
                   title: 'Total Price',
-                  buttonLabel: 'Rp 800.000,-',
+                  buttonLabel: CurrencyFormat.convertToIdr(
+                    (controller.transactionDetail.price ?? 0),
+                    2,
+                  ),
                   titleColor: blackColor,
                   buttonLabelColor: blackColor,
                   padding: const EdgeInsets.fromLTRB(25, 10, 25, 15),
@@ -180,7 +210,10 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               ],
               trailing: [
                 AppDetailInformationItem(
-                  'Rp 800.000,-',
+                  CurrencyFormat.convertToIdr(
+                    (controller.transactionDetail.price ?? 0),
+                    2,
+                  ),
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
@@ -188,7 +221,8 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  '12/10/2021 14.00',
+                  /// TODO change to payment date
+                  (controller.transactionDetail.transactionDate ?? ''),
                   color: blackColor,
                 ),
               ],
@@ -199,7 +233,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
       ),
 
       /// Bottom Button
-      bottomNavigationBar: _bottomButtonComponent(offline: false),
+      bottomNavigationBar: _bottomButtonComponent(offline: true),
     );
   }
 
@@ -270,7 +304,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'DL210717.15',
+                      controller.transactionDetail.transactionId ?? '',
                       style: BoldTextStyle(primaryColor, fontSize: 20),
                     ),
                     const SizedBox(height: 15),

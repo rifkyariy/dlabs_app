@@ -45,24 +45,28 @@ class PersonalTransactionPatientInformationView
                 /// Left Part of the table
                 /// Consist of title and Information
                 ///
+                _boldDetailInformationItem('Nationality'),
+                _mediumDetailInformationItem('Indonesia'),
+                _boldDetailInformationItem('Identity Number'),
+                _mediumDetailInformationItem('3401918272728'),
                 _boldDetailInformationItem('Full Name'),
                 _mediumDetailInformationItem('Romy Roma'),
-                _boldDetailInformationItem('Date of Birth'),
-                _mediumDetailInformationItem('17/07/1987'),
                 _boldDetailInformationItem('Email'),
-                _mediumDetailInformationItem('bonny.darma@gmail.com'),
+                _mediumDetailInformationItem('romram@gmail.com'),
               ],
               trailing: [
                 ///
                 /// Right Side of the table
                 /// Consist of title and information
                 ///
-                _boldDetailInformationItem('Identity Number'),
-                _mediumDetailInformationItem('3401918272728'),
+                _boldDetailInformationItem('Date of birth'),
+                _mediumDetailInformationItem('17/07/1990'),
                 _boldDetailInformationItem('Gender'),
                 _mediumDetailInformationItem('Male'),
                 _boldDetailInformationItem('Phone'),
                 _mediumDetailInformationItem('089789567898'),
+                _boldDetailInformationItem('Location'),
+                _mediumDetailInformationItem('Kebon Jeruk'),
               ],
             ),
 

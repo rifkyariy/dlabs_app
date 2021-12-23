@@ -14,3 +14,5 @@ enum TRANSACTIONSTATUS {
   readyToRelease,
   partiallyDone
 }
+
+enum TRANSACTIONTYPE { organization, personal }

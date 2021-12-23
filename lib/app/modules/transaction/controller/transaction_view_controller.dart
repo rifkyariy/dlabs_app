@@ -1,126 +1,155 @@
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
 import 'package:dlabs_apps/app/data/models/transaction.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
-import 'package:dlabs_apps/app/data/models/trx_history_model/trx_history_row.dart';
 import 'package:dlabs_apps/app/data/repository/history_repository.dart';
-import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
+import 'package:dlabs_apps/app/data/services/app_converter.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
+import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TransactionViewController extends GetxController {
   final AppStorageService _storage = Get.find();
   final HistoryRepository _historyRepository = Get.find();
-  final MasterDataRepository _masterData = Get.find();
 
-  // /// Transaction History
-  // RxList<TrxHistoryRow> history = <TrxHistoryRow>[].obs;
-
-  /// This is List that hold Services
+  /// Current Transaction status.
+  /// It will changes when user tap the History Card
   ///
-  RxList<Map<String, dynamic>> serviceList = <Map<String, dynamic>>[].obs;
+  TRANSACTIONSTATUS currentTransactionStatus = TRANSACTIONSTATUS.newTransaction;
 
   /// This is the list that holds the transcations
-  /// This list is displayed on history tab.
+  /// This list is displayed on history screen.
+  ///
   RxList<Transaction> transactionHistory = <Transaction>[].obs;
 
-  TrxDetailData trxDetailData = const TrxDetailData();
+  /// This is the Transaction Detail Information
+  /// It holds for both personal and organization booking
+  ///
+  late TrxDetailData transactionDetail;
+
+  /// State
+  /// This is the state of the screen
+  ///
+  RxBool isLoading = false.obs;
 
   @override
   void onInit() async {
-    getHistoryRowList();
-    getServiceList();
+    updateHistoryRowList(enableLoadingEffect: true);
+
     super.onInit();
   }
 
-  Future<void> getServiceList() async {
+  /// This will update the [transactionHistory] list
+  /// If [enableLoadingEffect] is set to enable, then when this method being called
+  /// [isLoading] will have true value on first method call.
+  Future<void> updateHistoryRowList({bool? enableLoadingEffect}) async {
     final _apiToken = await _storage.readString('apiToken');
 
     try {
-      serviceList.value =
-          await _masterData.getServicesList(token: _apiToken ?? '');
+      isLoading.value = enableLoadingEffect ?? false;
+
+      transactionHistory.value =
+          ((await _historyRepository.getHistoryList(token: _apiToken ?? '')) ??
+                  [])
+              // Map TRXHistoryRow Model to Transaction
+              .map(
+        (t) {
+          return Transaction(
+            id: t.transactionId ?? "",
+            type: t.services ?? "",
+            date: t.testDate ?? "",
+            price: double.parse(t.price ?? "00"),
+            status: AppConverter.transactionStatusToEnum(t.statusText!),
+          );
+        },
+      ).toList();
+
+      isLoading.value = false;
     } catch (e) {
+      isLoading.value = false;
       e.printError();
     }
   }
 
-  Future<void> getServiceTypeList() async {
+  /// This will return [TrxDetailData] object
+  /// [TrxDetailData] is object that holds Transaction Detail
+  /// All Information in Transaction Detail live in [TrxDetailData]
+  Future<TrxDetailData> getDetailTransaction(String transactionId) async {
     final _apiToken = await _storage.readString('apiToken');
 
     try {
-      serviceList.value = await _masterData.getTypeTestList(
-          token: _apiToken ?? '', locationId: '');
-    } catch (e) {
-      e.printError();
-    }
-  }
-
-  Future<void> getHistoryRowList() async {
-    final _apiToken = await _storage.readString('apiToken');
-
-    try {
-      transactionHistory.value = ((await _historyRepository.getHistoryList(
-                token: _apiToken ?? '',
-              )) ??
-              [])
-          .map(
-            (e) => Transaction(
-              id: e.transactionId ?? "",
-              type: e.services ?? "",
-              date: e.testDate ?? "",
-              price: double.parse(e.price ?? "00"),
-              status: _statusConverter(e.statusText!),
-            ),
-          )
-          .toList();
-    } catch (e) {
-      e.printError();
-    }
-  }
-
-  Future<void> getDetailTransaction(String transactionId) async {
-    final _apiToken = await _storage.readString('apiToken');
-
-    try {
-      trxDetailData = await _historyRepository.getDetailHistory(
+      final _trxDetailData = await _historyRepository.getDetailHistory(
             token: _apiToken ?? '',
             idTransaction: transactionId,
           ) ??
           const TrxDetailData();
+
+      return _trxDetailData;
+    } catch (e) {
+      e.printError();
+      throw Exception(e);
+    }
+  }
+
+  /// Handle Tap on Transaction History CARD
+  /// Will update [transactionDetail] based on [transactionId]
+  /// Will update [currentTransactionStatus] based on [status]
+  Future<void> onTransactionCardPressed({
+    required String transactionId,
+    required TRANSACTIONSTATUS status,
+  }) async {
+    try {
+      // Set current Transaction Type to the one that user clicked
+      currentTransactionStatus = status;
+
+      // Show Loading Overlay
+      // Load detail transaction
+      await Get.showOverlay(
+        asyncFunction: () async {
+          transactionDetail = await getDetailTransaction(transactionId);
+        },
+        loadingWidget: const Center(
+          child: SizedBox(
+            height: 30,
+            width: 30,
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+
+      // Go to payment screen if [status] is NEW Transaction
+      //
+      if (status == TRANSACTIONSTATUS.newTransaction) toPaymentScreen();
+
+      // If [transactionDetail.isPrivate] is 1 then go to Personal Page
+      //  TRANSACTIONTYPE.personal
+      if (status != TRANSACTIONSTATUS.newTransaction &&
+          (transactionDetail.isPrivate ?? 1) == 1) {
+        toDetailTransactionScreen(TRANSACTIONTYPE.personal);
+      }
+
+      // If [transactionDetail.isPrivate] is not 1 then go to Organization Page
+      // TRANSACTIONTYPE.organization
+      if (status != TRANSACTIONSTATUS.newTransaction &&
+          (transactionDetail.isPrivate ?? 1) != 1) {
+        toDetailTransactionScreen(TRANSACTIONTYPE.organization);
+      }
     } catch (e) {
       e.printError();
     }
   }
 
-  TRANSACTIONSTATUS _statusConverter(String status) {
-    switch (status.toUpperCase()) {
-      case 'NEW':
-        return TRANSACTIONSTATUS.newTransaction;
-      case 'CANCEL':
-        return TRANSACTIONSTATUS.canceled;
-      case 'READY TO LAB':
-        return TRANSACTIONSTATUS.readyToLab;
-      case 'READY TO SAMPLE':
-        return TRANSACTIONSTATUS.readyToSample;
-      case 'PAYMENT REJECTED':
-        return TRANSACTIONSTATUS.paymentRejected;
-      case 'DONE':
-        return TRANSACTIONSTATUS.done;
-      case 'RESULT VERIFICATION':
-        return TRANSACTIONSTATUS.resultVerification;
-      case 'CONFIRMED':
-        return TRANSACTIONSTATUS.confirmed;
-      case 'PARTIALLY TO SAMPLE':
-        return TRANSACTIONSTATUS.partiallyToSample;
-      case 'PARTIALLY TO LAB':
-        return TRANSACTIONSTATUS.partiallyToLab;
-      case 'LAB PROCESS':
-        return TRANSACTIONSTATUS.labProcess;
-      case 'READY TO RELEASE':
-        return TRANSACTIONSTATUS.readyToRelease;
-      case 'PARTIALLY DONE':
-        return TRANSACTIONSTATUS.partiallyDone;
-      default:
-        return TRANSACTIONSTATUS.newTransaction;
+  /// Go to payment screen
+  void toPaymentScreen() {}
+
+  /// Go to the different screen based on [transactiontype]
+  void toDetailTransactionScreen(TRANSACTIONTYPE transactiontype) {
+    if (TRANSACTIONTYPE.personal == transactiontype) {
+      Get.to(
+        () => const PersonalTransactionDetailView(),
+        binding: TransactionHistoryViewBinding(),
+      );
     }
   }
 }
