@@ -53,7 +53,11 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   controller.currentTransactionStatus,
                 ),
                 buttonLabel: 'View Status',
-                onTap: () => {},
+                onTap: () => {}, // TODO create on tap handler
+                titleColor: controller.currentTransactionStatus ==
+                        TRANSACTIONSTATUS.canceled
+                    ? dangerColor
+                    : blackColor,
               ),
               leading: const [
                 AppDetailInformationItem('Identity Number'),
@@ -233,7 +237,12 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
       ),
 
       /// Bottom Button
-      bottomNavigationBar: _bottomButtonComponent(offline: true),
+      bottomNavigationBar: _bottomButtonComponent(
+        offline:
+            controller.currentTransactionStatus == TRANSACTIONSTATUS.canceled
+                ? false
+                : true,
+      ),
     );
   }
 

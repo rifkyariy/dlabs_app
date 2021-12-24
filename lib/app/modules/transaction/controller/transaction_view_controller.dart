@@ -128,14 +128,14 @@ class TransactionViewController extends GetxController {
       // If [transactionDetail.isPrivate] is 1 then go to Personal Page
       //  TRANSACTIONTYPE.personal
       if (status != TRANSACTIONSTATUS.newTransaction &&
-          (transactionDetail.isPrivate ?? 1) == 1) {
+          (transactionDetail.isPrivate ?? '1') == '1') {
         toDetailTransactionScreen(TRANSACTIONTYPE.personal);
       }
 
       // If [transactionDetail.isPrivate] is not 1 then go to Organization Page
       // TRANSACTIONTYPE.organization
       if (status != TRANSACTIONSTATUS.newTransaction &&
-          (transactionDetail.isPrivate ?? 1) != 1) {
+          (transactionDetail.isPrivate ?? '1') != '1') {
         toDetailTransactionScreen(TRANSACTIONTYPE.organization);
       }
     } catch (e) {

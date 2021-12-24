@@ -1,6 +1,7 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/app_icons.dart';
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
+import 'package:dlabs_apps/app/data/services/app_converter.dart';
 import 'package:dlabs_apps/app/data/services/currency_formatting.dart';
 
 import 'package:dlabs_apps/app/global_widgets/app_detail_information_box.dart';
@@ -50,9 +51,14 @@ class OrganizationTransactionDetailView
             /// App Detailed Box
             AppDetailInformationBox(
               header: AppTitleWithButton(
-                title: 'Done',
+                title: AppConverter.transactionEnumToString(
+                    controller.currentTransactionStatus),
                 buttonLabel: 'View Status',
-                onTap: () => {},
+                onTap: () => {}, // Create onTap Handler
+                titleColor: controller.currentTransactionStatus ==
+                        TRANSACTIONSTATUS.canceled
+                    ? dangerColor
+                    : blackColor,
               ),
               title: 'Invoice for',
               leading: [
@@ -232,7 +238,12 @@ class OrganizationTransactionDetailView
       ),
 
       /// Bottom Button
-      bottomNavigationBar: _bottomButtonComponent(offline: true),
+      bottomNavigationBar: _bottomButtonComponent(
+        offline:
+            controller.currentTransactionStatus == TRANSACTIONSTATUS.canceled
+                ? false
+                : true,
+      ),
     );
   }
 
