@@ -6,10 +6,15 @@ import 'package:dlabs_apps/app/modules/organization_booking/views/organization_b
 import 'package:dlabs_apps/app/modules/personal_booking/bindings/personal_booking_binding.dart';
 import 'package:dlabs_apps/app/modules/personal_booking/views/personal_booking.dart';
 import 'package:dlabs_apps/app/modules/personal_booking/views/questionnaire.dart';
+
 import 'package:dlabs_apps/app/modules/signin/bindings/signin_binding.dart';
 import 'package:dlabs_apps/app/modules/signin/views/sign_in.dart';
 import 'package:dlabs_apps/app/modules/signup/bindings/sign_up_binding.dart';
 import 'package:dlabs_apps/app/modules/signup/views/sign_up_screen.dart';
+import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:dlabs_apps/app/modules/update_personal_info/bindings/update_personal_info_binding.dart';
 import 'package:dlabs_apps/app/modules/update_personal_info/views/update_personal_info_screen.dart';
 import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
@@ -30,6 +35,7 @@ class AppPages {
   static const personalBooking = Routes.personalBooking;
   static const questionnaire = Routes.questionnaire;
   static const organizationBooking = Routes.organizationBooking;
+  static const transactionHistory = Routes.transactionHistory;
 
   static final routes = [
     GetPage(
@@ -84,6 +90,12 @@ class AppPages {
       name: _Paths.organizationBooking,
       page: () => OrganizationBooking(),
       binding: OrganizationBookingBinding(),
-    )
+    ),
+
+    GetPage(
+      name: _Paths.transactionHistory,
+      page: () => OrganizationTransactionDetailView(),
+      binding: TransactionHistoryViewBinding(),
+    ),
   ];
 }

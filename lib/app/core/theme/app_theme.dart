@@ -7,7 +7,10 @@ Color primaryColor = const Color(0xff1176BC);
 Color dangerColor = const Color(0xffE8322F);
 Color warningColor = const Color(0xffFFA031);
 Color greyColor = const Color(0xffA0A0A0);
-Color lightGreyColor = const Color(0xffE0E0E0);
+Color lightGreyColor = const Color(0xFFF5F5F5);
+Color greenSuccessColor = const Color(0xFF28A745);
+Color redAlertColor = const Color(0xFFDC3545);
+Color scaffoldBackgroundColor = const Color(0xFFFBFBFB);
 
 TextStyle titleTextStyle(textColor) => GoogleFonts.lato(
       color: textColor,
@@ -42,17 +45,33 @@ TextStyle appAvatarSubtitleTextStyle = GoogleFonts.lato(
 TextStyle subtitleTextStyle(textColor) => GoogleFonts.lato(
     color: textColor, fontWeight: FontWeight.w400, fontSize: 16);
 
-TextStyle mediumTextStyle(Color textColor) => GoogleFonts.lato(
-    color: textColor, fontWeight: FontWeight.w500, fontSize: 16);
-
-TextStyle regularTextStyle(textColor) => GoogleFonts.lato(
-    color: textColor, fontWeight: FontWeight.w400, fontSize: 14);
-
-TextStyle smallTextStyle(Color textColor) => GoogleFonts.lato(
-    color: textColor, fontWeight: FontWeight.w500, fontSize: 11);
+TextStyle mediumTextStyle(Color textColor, {double? fontSize}) =>
+    GoogleFonts.lato(
+      color: textColor,
+      fontWeight: FontWeight.w500,
+      fontSize: fontSize ?? 16,
+    );
 
 TextStyle appTextStyleLatoFs14Fw500 = GoogleFonts.lato(
     color: blackColor, fontSize: 14, fontWeight: FontWeight.w500);
 
-TextStyle BoldTextStyle(Color textColor) => GoogleFonts.lato(
-    color: textColor, fontWeight: FontWeight.w700, fontSize: 16);
+TextStyle regularTextStyle(Color textColor, {double? fontSize}) =>
+    GoogleFonts.lato(
+      color: textColor,
+      fontWeight: FontWeight.w400,
+      fontSize: fontSize ?? 14,
+    );
+
+TextStyle smallTextStyle(Color textColor, {double? fontSize}) =>
+    GoogleFonts.lato(
+      color: textColor,
+      fontWeight: FontWeight.w500,
+      fontSize: fontSize ?? 11,
+    );
+
+TextStyle BoldTextStyle(Color textColor, {double? fontSize}) =>
+    GoogleFonts.lato(
+      color: textColor,
+      fontWeight: FontWeight.w700,
+      fontSize: fontSize ?? 16,
+    );

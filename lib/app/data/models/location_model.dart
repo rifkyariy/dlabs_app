@@ -40,26 +40,26 @@ class LocationModel {
   factory LocationModel.fromJson(Map<String, dynamic> json) => LocationModel(
         locationName: json["location_name"],
         locationAddress: json["location_address"],
-        latitude: json["latitude"] == null ? null : json["latitude"],
-        longitude: json["longitude"] == null ? null : json["longitude"],
+        latitude: json["latitude"],
+        longitude: json["longitude"],
         status: json["status"],
         createdDate: json["created_date"],
         createdBy: json["created_by"],
         updatedDate: json["updated_date"],
         updatedBy: json["updated_by"],
-        id: json["id"] == null ? null : json["id"],
+        id: json["id"],
       );
 
   Map<String, dynamic> toJson() => {
         "location_name": locationName,
         "location_address": locationAddress,
-        "latitude": latitude == null ? null : latitude,
-        "longitude": longitude == null ? null : longitude,
+        "latitude": latitude,
+        "longitude": longitude,
         "status": status,
         "created_date": createdDate,
         "created_by": createdBy,
         "updated_date": updatedDate,
         "updated_by": updatedBy,
-        "id": id == null ? null : id,
+        "id": id,
       };
 }
