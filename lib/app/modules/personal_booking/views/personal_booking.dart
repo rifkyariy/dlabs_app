@@ -109,6 +109,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                   type: 'number',
                   errorMsg: controller.identityNumberErrorMessage.value,
                   name: 'identity number',
+                  placeholder: '3372050909098998',
                   isDisabled: controller.patientSubject.value == 'myself',
                 ),
               ),
@@ -119,6 +120,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                   controller: controller.fullNameController,
                   label: "Full Name",
                   name: "fullname",
+                  placeholder: 'Romy Roma',
                   errorMsg: controller.fullNameErrorMessage.value,
                   isDisabled: controller.patientSubject.value == 'myself',
                 ),
@@ -141,6 +143,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                   controller: controller.phoneNumberController,
                   label: 'Phone Number',
                   type: 'phone',
+                  placeholder: '+628625378973',
                   errorMsg: controller.phoneNumberErrorMessage.value,
                   name: 'phone number',
                 ),
@@ -222,12 +225,14 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               const SizedBox(height: 16),
 
               // Test Purpose
-              SelectInput(
-                items: controller.testPurposeList,
-                selectedItem: controller.selectedTestPurpose,
-                label: 'Test Purpose',
-                errorMsg: "",
-                name: '',
+              Obx(
+                () => SelectInput(
+                  items: controller.testPurposeList!.value,
+                  selectedItem: controller.selectedTestPurpose,
+                  label: 'Test Purpose',
+                  errorMsg: "",
+                  name: '',
+                ),
               ),
 
               // Test Date

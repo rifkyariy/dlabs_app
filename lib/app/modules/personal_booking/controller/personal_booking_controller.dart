@@ -41,6 +41,7 @@ class PersonalBookingController extends GetxController {
   RxList<Map<String, dynamic>>? serviceList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? locationList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? testTypeList = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>>? testPurposeList = <Map<String, dynamic>>[].obs;
 
   // Radio Data
   RxString genderValue = '0'.obs;
@@ -55,21 +56,10 @@ class PersonalBookingController extends GetxController {
   RxString selectedServiceString = ''.obs;
   RxString locationAddress = ''.obs;
   RxString locationName = ''.obs;
-  RxString serviceName = ''.obs;
+
+  RxString serviceName = ''.obs; // test_type_name
   RxString servicePrice = '0'.obs;
   RxString servicePriceString = '0'.obs;
-
-  // list of purpose list
-  List<Map<String, dynamic>> testPurposeList = [
-    {
-      'id': '1',
-      'value': 'Check Up',
-    },
-    {
-      'id': '2',
-      'value': 'Make Sure',
-    },
-  ];
 
   // State
   RxBool isLoading = false.obs;
@@ -113,6 +103,14 @@ class PersonalBookingController extends GetxController {
     return convertIntoList(apiServiceKey, result);
   }
 
+  // Get List of Test Purpose
+  Future<List<Map<String, dynamic>>> getListofTestPurposes(token) async {
+    var result = await _masterData.getTestPurposeList(token: token);
+    var apiServiceKey = ["id", "test_purpose"];
+
+    return convertIntoList(apiServiceKey, result);
+  }
+
   // Get List of Services
   Future<List<Map<String, dynamic>>> getListofLocation(token) async {
     var result = await _masterData.getLocationList(token: token);
@@ -152,6 +150,9 @@ class PersonalBookingController extends GetxController {
     apiToken = await storage.readString('apiToken');
     await getListofServices(apiToken)
         .then((result) => serviceList!.value = result.toList());
+
+    await getListofTestPurposes(apiToken)
+        .then((result) => testPurposeList!.value = result.toList());
 
     await getListofLocation(apiToken)
         .then((result) => locationList!.value = result.toList());
@@ -214,6 +215,7 @@ class PersonalBookingController extends GetxController {
     }
   }
 
+  // Set location
   void _triggerLocationAddress() {
     selectedServiceString.value = selectedService.text;
 
@@ -260,7 +262,9 @@ class PersonalBookingController extends GetxController {
     radioData.refresh();
   }
 
-  void disposeAll() {}
+  void disposeAll() {
+    //TODO Add dispose all
+  }
 
   void personalBookHandler() async {
     bool isFullNameLengthValid = fullNameController.text.length >= 6;
@@ -360,10 +364,16 @@ class PersonalBookingController extends GetxController {
     }
     var questionnaire = radioData;
 
+    var selectedServiceName = serviceList!
+        .where((listItem) => listItem['id'] == selectedService.text);
+
+    var selectedTestPurposeName = testPurposeList!
+        .where((listItem) => listItem['id'] == selectedTestPurpose.text);
+
     // Payload send to API
     var payload = {
       "transaction_detail": {
-        "services": selectedService.text,
+        "services": selectedServiceName.first['services_name'],
         "type_test_id": int.parse(selectedTestType.text),
         "myself": patientSubject.value,
         "identity_number": idNumberController.text,
@@ -372,16 +382,17 @@ class PersonalBookingController extends GetxController {
         "phone": phoneNumberController.text,
         "test_date": testDateController.text,
         "location_name": locationName.value,
-        "location_address": selectedService == 1
+        "location_address": selectedService.text == '1'
             ? locationAddress.value
             : testLocationController.text,
         "price": int.parse(servicePrice.value),
         "gender": genderValue.value,
         "birth_date": dateOfBirthController.text,
         "address": addressController.text,
+        "test_purpose": selectedTestPurposeName.first['test_purpose']
       },
       "patient_list": {
-        "services": selectedService.text,
+        "services": selectedServiceName.first['services_name'],
         "identity_number": idNumberController.text,
         "full_name": fullNameController.text,
         "email": emailController.text,

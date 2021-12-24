@@ -6,7 +6,7 @@ import 'package:dlabs_apps/app/modules/organization_booking/controller/organizat
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AddOrUpdatePatient extends StatelessWidget {
+class AddOrUpdatePatient extends StatefulWidget {
   AddOrUpdatePatient({
     Key? key,
     required this.isUpdateMode,
@@ -16,8 +16,20 @@ class AddOrUpdatePatient extends StatelessWidget {
   final bool isUpdateMode, onSearch;
   final int? updateIndex;
 
+  @override
+  State<AddOrUpdatePatient> createState() => _AddOrUpdatePatientState();
+}
+
+class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
   final OrganizationBookingController controller =
       Get.put(OrganizationBookingController());
+
+  @override
+  void initState() {
+    controller.addPriceListener();
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +53,7 @@ class AddOrUpdatePatient extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -59,30 +71,30 @@ class AddOrUpdatePatient extends StatelessWidget {
                 Obx(
                   () => TextInput(
                     controller: controller.patientIDNumberController,
-                    label: "Identity Number*",
+                    label: "Identity Number",
                     name: "Identity Number",
                     placeholder: '',
-                    errorMsg: controller.picIdNumberErrorMessage.value,
+                    errorMsg: controller.identityNumberErrorMessage.value,
                     type: "number",
                   ),
                 ),
                 Obx(
                   () => TextInput(
                     controller: controller.patientFullNameController,
-                    label: "Full Name*",
+                    label: "Full Name",
                     name: "Full Name",
                     placeholder: 'Romy Roma',
-                    errorMsg: controller.picIdNumberErrorMessage.value,
+                    errorMsg: controller.fullNameErrorMessage.value,
                     type: "text",
                   ),
                 ),
                 Obx(
                   () => TextInput(
                     controller: controller.patientEmailController,
-                    label: "Email*",
+                    label: "Email",
                     name: "Email",
                     placeholder: 'e.g. mail@address.com',
-                    errorMsg: controller.picIdNumberErrorMessage.value,
+                    errorMsg: controller.emailErrorMessage.value,
                   ),
                 ),
                 Obx(
@@ -92,7 +104,7 @@ class AddOrUpdatePatient extends StatelessWidget {
                     name: "Phone",
                     type: 'phone',
                     placeholder: '',
-                    errorMsg: controller.picIdNumberErrorMessage.value,
+                    errorMsg: controller.phoneNumberErrorMessage.value,
                   ),
                 ),
                 Obx(
@@ -100,9 +112,10 @@ class AddOrUpdatePatient extends StatelessWidget {
                     controller: controller.patientDateController,
                     label: 'Date of Birth',
                     type: 'date',
-                    errorMsg: controller.picIdNumberErrorMessage.value,
+                    errorMsg: controller.dateOfBirthErrorMessage.value,
                     name: 'date of birth',
                     placeholder: '16/07/2021',
+                    lastDate: DateTime.now(),
                   ),
                 ),
                 const Align(
@@ -136,24 +149,25 @@ class AddOrUpdatePatient extends StatelessWidget {
                 Obx(
                   () => TextInput(
                     controller: controller.patientAddressController,
-                    label: 'Address*',
-                    errorMsg: controller.picIdNumberErrorMessage.value,
+                    label: 'Address',
+                    errorMsg: controller.addressErrorMessage.value,
                     type: 'textarea',
                     name: 'address',
                   ),
                 ),
-                // SelectInput(
-                //   items: controller.testTypeItems,
-                //   selectedItem: controller.testTypeSelected.value,
-                //   label: 'Test Type*',
-                //   errorMsg: "",
-                //   name: '',
-                // ),
+                // Test Type
+                Obx(
+                  () => SelectInput(
+                    items: controller.testTypeList!.value,
+                    selectedItem: controller.selectedTestType,
+                    label: 'Test Type',
+                    errorMsg: "",
+                    name: '',
+                  ),
+                ),
                 Obx(() {
-                  int _indexSelected =
-                      int.parse(controller.testTypeSelected.value);
                   return Text(
-                    'Price : Rp ${controller.testTypeItems[_indexSelected - 1]['price']},-',
+                    'Price : ${controller.servicePriceString}',
                     style: regularTextStyle(primaryColor),
                   );
                 })
@@ -171,15 +185,16 @@ class AddOrUpdatePatient extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 24, right: 24),
                 child: TextButton(
-                  onPressed: isUpdateMode
+                  onPressed: widget.isUpdateMode
                       ? () {
                           controller.updatePatientData(
-                            updateIndex ?? 0,
-                            onSearch: onSearch,
-                            list: onSearch
+                            widget.updateIndex ?? 0,
+                            onSearch: widget.onSearch,
+                            list: widget.onSearch
                                 ? controller.searchResult
                                 : controller.patientList,
                           );
+                          controller.updateTotalPrice();
                           controller.clearTextController();
                           Get.back();
                         }
@@ -187,13 +202,14 @@ class AddOrUpdatePatient extends StatelessWidget {
                           /// TODO it works like charm but still not good enough.
                           /// Unclean
                           /// Still need to ref
-                          controller.onAddPatient();
-                          controller.updateTotalPrice();
-                          controller.clearTextController();
-                          Get.back();
+                          if (controller.onAddPatient()) {
+                            controller.updateTotalPrice();
+                            controller.clearTextController();
+                            Get.back();
+                          }
                         },
                   child: Text(
-                    isUpdateMode ? 'Update' : 'Add',
+                    widget.isUpdateMode ? 'Update' : 'Add',
                     style: regularTextStyle(whiteColor),
                   ),
                   style: TextButton.styleFrom(

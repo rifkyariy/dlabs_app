@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MasterDataRepository {
+  final String base = "https://api-lims.kayabe.id/";
   final String baseUrl = "https://api-lims.kayabe.id/v1/web";
 
   String basicAuthenticationHeader(String username, String password) {
@@ -77,5 +78,36 @@ class MasterDataRepository {
         .toList();
 
     return questionList;
+  }
+
+  Future getTestPurposeList({required String token}) async {
+    var url = Uri.parse("$baseUrl/test-purpose/list");
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    var purposeList = (jsonDecode(response.body)["data"]["list"] as List)
+        .map((e) => e as Map<String, dynamic>)
+        .toList();
+
+    return purposeList;
+  }
+
+  Future getCompanyData({required String token}) async {
+    var url = Uri.parse("$baseUrl/setting/company");
+
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token',
+    });
+
+    var result = (jsonDecode(response.body)["data"]);
+    result['image'] = "${base}${result['image']}";
+
+    return result;
   }
 }
