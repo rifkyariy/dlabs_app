@@ -128,11 +128,13 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
             const SizedBox(height: 15),
 
             AppDetailInformationBox(
-              title: 'Romy Roma',
+              title: (controller.transactionDetail.patientList ?? [])[0]
+                      .fullName ??
+                  '',
               header: AppTitleWithButton(
                 title: 'Patient Information',
                 buttonLabel: 'View Detail',
-                onTap: () {},
+                onTap: controller.toPatientDetailScrenn,
               ),
 
               /// Leading

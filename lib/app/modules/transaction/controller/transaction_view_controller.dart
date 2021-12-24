@@ -1,20 +1,24 @@
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
+import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_data_model.dart';
 import 'package:dlabs_apps/app/data/models/transaction.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
 import 'package:dlabs_apps/app/data/repository/history_repository.dart';
+import 'package:dlabs_apps/app/data/repository/transaction_repository.dart';
 import 'package:dlabs_apps/app/data/services/app_converter.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
-import 'package:dlabs_apps/app/modules/organization_booking/views/view_patient_list.dart';
 import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/medical_questionnarie_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TransactionViewController extends GetxController {
   final AppStorageService _storage = Get.find();
   final HistoryRepository _historyRepository = Get.find();
+  final TransactionRepository _transactionRepository = Get.find();
 
   /// Current Transaction status.
   /// It will changes when user tap the History Card
@@ -25,6 +29,12 @@ class TransactionViewController extends GetxController {
   /// This list is displayed on history screen.
   ///
   RxList<Transaction> transactionHistory = <Transaction>[].obs;
+
+  /// This is the list that holds the medical questionnaire from backend
+  /// This list is displayed on transaction/patient-detail screen, and also
+  /// Medical questionnaire screen
+  List<QuestionnaireDataModel>? medicalQuestionnaireList =
+      <QuestionnaireDataModel>[].obs;
 
   /// This is the Transaction Detail Information
   /// It holds for both personal and organization booking
@@ -75,6 +85,20 @@ class TransactionViewController extends GetxController {
     }
   }
 
+  Future<void> updateMedicalQuestionnaireList(String transactionId) async {
+    final _apiToken = await _storage.readString('apiToken');
+
+    try {
+      medicalQuestionnaireList =
+          await _transactionRepository.getDetailQuestionaireList(
+        token: _apiToken ?? '',
+        transactionId: transactionId,
+      );
+    } catch (e) {
+      e.printError();
+    }
+  }
+
   /// This will return [TrxDetailData] object
   /// [TrxDetailData] is object that holds Transaction Detail
   /// All Information in Transaction Detail live in [TrxDetailData]
@@ -111,6 +135,12 @@ class TransactionViewController extends GetxController {
       await Get.showOverlay(
         asyncFunction: () async {
           transactionDetail = await getDetailTransaction(transactionId);
+
+          // If Transaction not new and not organization
+          if (status != TRANSACTIONSTATUS.newTransaction &&
+              (transactionDetail.isPrivate ?? '1') == '1') {
+            await updateMedicalQuestionnaireList(transactionId);
+          }
         },
         loadingWidget: const Center(
           child: SizedBox(
@@ -163,5 +193,13 @@ class TransactionViewController extends GetxController {
 
   void toPatientListScreen() {
     Get.to(() => const TransactionPatientListView());
+  }
+
+  void toPatientDetailScrenn() {
+    Get.to(() => const PersonalTransactionPatientInformationView());
+  }
+
+  void toMedicalQuestionnaireListView() {
+    Get.to(() => const MedicalQuestionnarieView());
   }
 }

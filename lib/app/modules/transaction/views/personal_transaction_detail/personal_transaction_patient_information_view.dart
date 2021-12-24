@@ -46,13 +46,24 @@ class PersonalTransactionPatientInformationView
                 /// Consist of title and Information
                 ///
                 _boldDetailInformationItem('Nationality'),
-                _mediumDetailInformationItem('Indonesia'),
+                _mediumDetailInformationItem(
+                    (controller.transactionDetail.patientList ?? [])[0]
+                            .nationality ??
+                        ''),
                 _boldDetailInformationItem('Identity Number'),
-                _mediumDetailInformationItem('3401918272728'),
+                _mediumDetailInformationItem(
+                    (controller.transactionDetail.patientList ?? [])[0]
+                            .identityNumber ??
+                        ''),
                 _boldDetailInformationItem('Full Name'),
-                _mediumDetailInformationItem('Romy Roma'),
+                _mediumDetailInformationItem(
+                    (controller.transactionDetail.patientList ?? [])[0]
+                            .fullName ??
+                        ''),
                 _boldDetailInformationItem('Email'),
-                _mediumDetailInformationItem('romram@gmail.com'),
+                _mediumDetailInformationItem(
+                    (controller.transactionDetail.patientList ?? [])[0].email ??
+                        ''),
               ],
               trailing: [
                 ///
@@ -60,13 +71,26 @@ class PersonalTransactionPatientInformationView
                 /// Consist of title and information
                 ///
                 _boldDetailInformationItem('Date of birth'),
-                _mediumDetailInformationItem('17/07/1990'),
+                _mediumDetailInformationItem(
+                    (controller.transactionDetail.patientList ?? [])[0]
+                            .birthDate ??
+                        ''),
                 _boldDetailInformationItem('Gender'),
-                _mediumDetailInformationItem('Male'),
+                _mediumDetailInformationItem(
+                    ((controller.transactionDetail.patientList ?? [])[0]
+                                    .gender ??
+                                '') ==
+                            '1'
+                        ? "Male"
+                        : "Female"),
                 _boldDetailInformationItem('Phone'),
-                _mediumDetailInformationItem('089789567898'),
+                _mediumDetailInformationItem(
+                    (controller.transactionDetail.patientList ?? [])[0].phone ??
+                        ''),
                 _boldDetailInformationItem('Location'),
-                _mediumDetailInformationItem('Kebon Jeruk'),
+
+                /// TODO make this dynamic
+                // _mediumDetailInformationItem(''),
               ],
             ),
 
@@ -83,7 +107,8 @@ class PersonalTransactionPatientInformationView
                   style: BoldTextStyle(blackColor, fontSize: 13),
                 ),
                 AppDetailInformationItem(
-                  'Perumahan Jeruk, Jl. Merbabu. IV  No.7 Meruya Utara, Kec. Kembangan, Kota Jakarta Barat.',
+                  (controller.transactionDetail.patientList ?? [])[0].address ??
+                      '',
                   padding: const EdgeInsets.only(top: 5),
                   style: mediumTextStyle(blackColor, fontSize: 13),
                 ),
@@ -103,29 +128,38 @@ class PersonalTransactionPatientInformationView
                 title: 'Medical Questionnaire',
                 buttonLabel: 'View All',
                 titleColor: primaryColor,
+                onTap: controller.toMedicalQuestionnaireListView,
               ),
               bottom: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Card(
                     margin: EdgeInsets.zero,
-                    child: Column(
-                      children: [
-                        /// Questionaire list
-
-                        _listTile(
-                          title: 'Do you have high blood pressure?',
-                          subtitle: 'Yes',
-                        ),
-                        _listTile(
-                          title: 'Do you have high blood pressure?',
-                          subtitle: 'Yes',
-                        ),
-                        _listTile(
-                          title: 'Do you have high blood pressure?',
-                          subtitle: 'Yes',
-                        ),
-                      ],
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      semanticChildCount:
+                          (controller.medicalQuestionnaireList ?? []).length < 3
+                              ? (controller.medicalQuestionnaireList ?? [])
+                                  .length
+                              : 3,
+                      itemCount:
+                          (controller.medicalQuestionnaireList ?? []).length < 3
+                              ? (controller.medicalQuestionnaireList ?? [])
+                                  .length
+                              : 3,
+                      itemBuilder: (context, index) {
+                        return _listTile(
+                          title:
+                              (controller.medicalQuestionnaireList ?? [])[index]
+                                      .questionnaire ??
+                                  '',
+                          subtitle:
+                              (controller.medicalQuestionnaireList ?? [])[index]
+                                      .jawaban ??
+                                  '',
+                        );
+                      },
                     ),
                   ),
                 )
@@ -144,6 +178,7 @@ class PersonalTransactionPatientInformationView
                 title: 'Medical History',
                 buttonLabel: 'View All',
                 titleColor: primaryColor,
+                onTap: () {},
               ),
               bottom: [
                 Padding(

@@ -25,21 +25,21 @@ class MedicalQuestionnarieView extends GetView<TransactionViewController> {
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
-      body: ListView(
-        children: [
-          _listTile(
-            title: 'Do you have high blood pressure?',
-            subtitle: 'Yes',
-          ),
-          _listTile(
-            title: 'Do you have high blood pressure?',
-            subtitle: 'Yes',
-          ),
-          _listTile(
-            title: 'Do you have high blood pressure?',
-            subtitle: 'Yes',
-          ),
-        ],
+      body: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: false,
+        semanticChildCount: (controller.medicalQuestionnaireList ?? []).length,
+        itemCount: (controller.medicalQuestionnaireList ?? []).length,
+        itemBuilder: (context, index) {
+          return _listTile(
+            title: (controller.medicalQuestionnaireList ?? [])[index]
+                    .questionnaire ??
+                '',
+            subtitle:
+                (controller.medicalQuestionnaireList ?? [])[index].jawaban ??
+                    '',
+          );
+        },
       ),
     );
   }

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import 'package:dlabs_apps/app/modules/personal_booking/views/questionnaire.dart';
+import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_data_model.dart';
+import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_model.dart';
 import 'package:http/http.dart' as http;
 
 class TransactionRepository {
   final String _kbaseUrl = "https://api-lims.kayabe.id/v1/web";
 
-  Future<List<Questionnaire>?> getDetailQuestionaireList({
+  Future<List<QuestionnaireDataModel>?> getDetailQuestionaireList({
     required String token,
     required String transactionId,
   }) async {
@@ -25,7 +26,7 @@ class TransactionRepository {
 
       switch (_response.statusCode) {
         case 200:
-          return (jsonDecode(_response.body)['data']);
+          return (QuestionnaireModel.fromJson(_response.body)).data;
 
         case 401:
           throw Exception('Authentication Failed');
