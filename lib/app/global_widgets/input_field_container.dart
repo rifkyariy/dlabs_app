@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 class InputFieldContainer extends StatelessWidget {
   final Widget child;
   bool status;
+  bool isDisabled;
 
   InputFieldContainer({
     Key? key,
+    this.isDisabled = false,
     required this.child,
     required this.status,
   }) : super(key: key);
@@ -24,7 +26,7 @@ class InputFieldContainer extends StatelessWidget {
           right: SizeScalling().setWidth(4)),
       width: size.width * 0.9,
       decoration: BoxDecoration(
-          color: whiteColor,
+          color: isDisabled ? lightGreyColor : whiteColor,
           borderRadius: BorderRadius.circular(4.8),
           border: Border.all(color: status ? dangerColor : lightGreyColor)),
       child: child,

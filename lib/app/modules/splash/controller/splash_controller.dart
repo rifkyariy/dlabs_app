@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/data/models/user_model.dart';
 import 'package:dlabs_apps/app/data/repository/auth_repository.dart';
+import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
@@ -12,17 +13,32 @@ import 'package:get/get.dart';
 class SplashController extends GetxController {
   final AppStorageService _storage = Get.put(AppStorageService());
   final AuthRepository _auth = Get.put(AuthRepository());
+  final MasterDataRepository _masterData = Get.put(MasterDataRepository());
+
+  RxString companyLogo = "".obs;
+  RxBool isVisible = false.obs;
 
   late String? googleAuthKey;
   late String? googleFullName;
   late String? apiToken;
   late String? googlePhotoUrl;
 
+  void getCompanyData() async {
+    apiToken = await _storage.readString('apiToken');
+    var companyData = await _masterData.getCompanyData(token: apiToken!);
+
+    companyLogo.value = companyData['image'];
+    isVisible.value = true;
+  }
+
   void isUserSignedIn() async {
     googleAuthKey = await _storage.readString('googleKey');
     apiToken = await _storage.readString('apiToken');
     googleFullName = await _storage.readString('googleFullName');
     googlePhotoUrl = await _storage.readString('googlePhotoUrl');
+
+    print('google : $googleAuthKey');
+    print('api token : $apiToken');
 
     // If no google auth key & api Token null (Logged Out)
     if (googleAuthKey == null && apiToken == null) {
@@ -44,6 +60,7 @@ class SplashController extends GetxController {
           displayName: googleFullName ?? '',
         );
 
+        // print(_googleUser.status);
         // If google user exist and status code from backend OK then go to dashboard with named
         if (_googleUser!.status == '200') {
           await _storage.write('isLoggedIn', boolValue: true);
@@ -59,15 +76,15 @@ class SplashController extends GetxController {
           /// Silent Login
           /// @_onGoogleTokenExpired()
           /// Login using google silent login.
-          /// Must no token in loacl storage
+          /// Must no token in locla storage
 
           _onGoogleTokenExpired();
         }
       } catch (e) {
         Get.snackbar(
-          "Error",
-          "Unknown Error, Please try again later",
-          backgroundColor: dangerColor,
+          "Something Went Wrong",
+          "Please try again later",
+          backgroundColor: primaryColor,
           colorText: whiteColor,
           snackPosition: SnackPosition.TOP,
         );
@@ -99,7 +116,7 @@ class SplashController extends GetxController {
         Get.snackbar(
           "Error",
           "Unknown Error, Please try again later",
-          backgroundColor: dangerColor,
+          backgroundColor: primaryColor,
           colorText: whiteColor,
           snackPosition: SnackPosition.TOP,
         );
@@ -160,9 +177,9 @@ class SplashController extends GetxController {
       }
     } catch (e) {
       Get.snackbar(
-        "Silent Login Failed",
+        "Something Went Wrong",
         "Redirecting to dashboard",
-        backgroundColor: warningColor,
+        backgroundColor: primaryColor,
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );

@@ -17,11 +17,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    super.initState();
     startSplashScreen();
+    super.initState();
   }
 
   startSplashScreen() async {
+    controller.getCompanyData();
+
     var duration = const Duration(seconds: 1);
 
     return Timer(duration, () {
@@ -34,11 +36,14 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Color(0xffffffff),
       body: Center(
-          child: Image.asset(
-        'assets/image/logo-dlab.png',
-        width: 160,
-        height: 160,
-      )),
+        child: Obx(
+          () => Visibility(
+            child: Image.network('${controller.companyLogo.value}',
+                width: 140, height: 140),
+            visible: controller.isVisible.value,
+          ),
+        ),
+      ),
     );
   }
 }

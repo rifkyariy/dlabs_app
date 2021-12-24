@@ -141,11 +141,11 @@ class SignInController extends GetxController {
           } else {
             isLoading.value = false;
             Get.snackbar(
-              "Error",
+              "Something Went Wrong",
               _user!.errors == "find user error"
                   ? "You don't have an account yet, Please sign up."
                   : "Invalid email or password",
-              backgroundColor: dangerColor,
+              backgroundColor: primaryColor,
               colorText: whiteColor,
               snackPosition: SnackPosition.TOP,
             );
@@ -231,9 +231,9 @@ class SignInController extends GetxController {
     } catch (e) {
       isGoogleLoading.value = false;
       Get.snackbar(
-        "Error",
-        "Unknown Error, Please try again later",
-        backgroundColor: dangerColor,
+        "Something Went Wrong",
+        "Please try again later",
+        backgroundColor: primaryColor,
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
@@ -243,7 +243,5 @@ class SignInController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    print("auth status : ");
-    print(await _storage.readBool('isLoggedIn'));
   }
 }

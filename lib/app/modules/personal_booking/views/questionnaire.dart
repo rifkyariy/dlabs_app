@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Questionnaire extends GetView<PersonalBookingController> {
-  const Questionnaire({Key? key}) : super(key: key);
+  Questionnaire({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,187 +25,64 @@ class Questionnaire extends GetView<PersonalBookingController> {
           elevation: 2.0,
           backgroundColor: whiteColor,
           shadowColor: lightGreyColor),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 25.0, left: 24.0, right: 24.0),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Fill this questionnaire to book a test for medical history',
-                  style: regularTextStyle(greyColor),
+      body: Container(
+        child: Obx(
+          () => ListView.builder(
+            padding: const EdgeInsets.only(top: 25.0, left: 24.0, right: 24.0),
+            physics: const AlwaysScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: controller.radioData.length,
+            itemBuilder: (context, index) => Column(
+              children: [
+                if (index == 0)
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Fill this questionnaire to book a test for medical history',
+                            style: regularTextStyle(greyColor),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      )),
+                SizedBox(
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      controller.radioData[index]['questionnaire'],
+                      style: regularTextStyle(blackColor),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 27.0,
-              ),
-
-              // Blood Pressure
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Do you have high blood pressure?'),
-              ),
-              Row(
-                children: [
-                  Obx(
-                    () => Radio(
-                      value: '1',
-                      groupValue: controller.question1.value,
+                Row(
+                  children: [
+                    Radio(
+                      groupValue: controller.radioGroupValue[index],
+                      value: controller.radioValue[index][0],
                       onChanged: (String? value) {
-                        controller.question1.value = value ?? '1';
+                        controller.radioGroupValue[index] =
+                            value ?? value![index][0];
+                        controller.refreshList();
                       },
                     ),
-                  ),
-                  const Text('Yes'),
-                  Obx(
-                    () => Radio(
-                      value: '0',
-                      groupValue: controller.question1.value,
+                    const Text('Yes'),
+                    Radio(
+                      groupValue: controller.radioGroupValue[index],
+                      value: controller.radioValue[index][1],
                       onChanged: (String? value) {
-                        controller.patientSubject.value = value ?? '0';
+                        controller.radioGroupValue[index] =
+                            value ?? value![index][1];
+                        controller.refreshList();
                       },
                     ),
-                  ),
-                  const Text('No'),
-                ],
-              ),
-              const SizedBox(
-                height: 27.0,
-              ),
-
-              // Blood Pressure
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Do you have asthma?'),
-              ),
-              Row(
-                children: [
-                  Obx(
-                    () => Radio(
-                      value: '1',
-                      groupValue: controller.question2.value,
-                      onChanged: (String? value) {
-                        controller.question2.value = value ?? '1';
-                      },
-                    ),
-                  ),
-                  const Text('Yes'),
-                  Obx(
-                    () => Radio(
-                      value: '0',
-                      groupValue: controller.question2.value,
-                      onChanged: (String? value) {
-                        controller.question2.value = value ?? '0';
-                      },
-                    ),
-                  ),
-                  const Text('No'),
-                ],
-              ),
-              const SizedBox(
-                height: 27.0,
-              ),
-
-              // Blood Pressure
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Do you have diabetes?'),
-              ),
-              Row(
-                children: [
-                  Obx(
-                    () => Radio(
-                      value: '1',
-                      groupValue: controller.question3.value,
-                      onChanged: (String? value) {
-                        controller.question3.value = value ?? '1';
-                      },
-                    ),
-                  ),
-                  const Text('Yes'),
-                  Obx(
-                    () => Radio(
-                      value: '0',
-                      groupValue: controller.question3.value,
-                      onChanged: (String? value) {
-                        controller.question3.value = value ?? '0';
-                      },
-                    ),
-                  ),
-                  const Text('No'),
-                ],
-              ),
-              const SizedBox(
-                height: 27.0,
-              ),
-
-              // Blood Pressure
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Do you have low blood pressure?'),
-              ),
-              Row(
-                children: [
-                  Obx(
-                    () => Radio(
-                      value: '1',
-                      groupValue: controller.question4.value,
-                      onChanged: (String? value) {
-                        controller.question4.value = value ?? '1';
-                      },
-                    ),
-                  ),
-                  const Text('Yes'),
-                  Obx(
-                    () => Radio(
-                      value: '0',
-                      groupValue: controller.question4.value,
-                      onChanged: (String? value) {
-                        controller.question4.value = value ?? '0';
-                      },
-                    ),
-                  ),
-                  const Text('No'),
-                ],
-              ),
-              const SizedBox(
-                height: 27.0,
-              ),
-
-              // Blood Pressure
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Do you have any drug allergies?'),
-              ),
-              Row(
-                children: [
-                  Obx(
-                    () => Radio(
-                      value: '1',
-                      groupValue: controller.question5.value,
-                      onChanged: (String? value) {
-                        controller.question5.value = value ?? '1';
-                      },
-                    ),
-                  ),
-                  const Text('Yes'),
-                  Obx(
-                    () => Radio(
-                      value: '0',
-                      groupValue: controller.question5.value,
-                      onChanged: (String? value) {
-                        controller.question5.value = value ?? '0';
-                      },
-                    ),
-                  ),
-                  const Text('No'),
-                ],
-              ),
-              const SizedBox(
-                height: 27.0,
-              ),
-            ],
+                    const Text('No'),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -224,7 +101,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Obx(() => Text(
-                      'Total Price : ${controller.servicePrice.value}',
+                      'Total Price : ${controller.servicePriceString.value}',
                       style: regularTextStyle(blackColor),
                     )),
               ),
@@ -249,14 +126,26 @@ class Questionnaire extends GetView<PersonalBookingController> {
                             ),
                             actions: <Widget>[
                               ElevatedButton(
-                                child: const Text('Confirm'),
+                                style: ElevatedButton.styleFrom(
+                                    primary: whiteColor,
+                                    elevation: 0,
+                                    side:
+                                        BorderSide(width: 1, color: greyColor)),
+                                child: Text('Cancel',
+                                    style: mediumTextStyle(greyColor)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
                               ElevatedButton(
-                                child: const Text('Confirm'),
+                                style: ElevatedButton.styleFrom(
+                                  primary: primaryColor,
+                                  elevation: 0,
+                                ),
+                                child: Text('Confirm',
+                                    style: mediumTextStyle(whiteColor)),
                                 onPressed: () {
+                                  controller.createPersonalBooking();
                                   Navigator.of(context).pop();
                                 },
                               ),

@@ -11,6 +11,7 @@ class InputField extends StatefulWidget {
   final IconData icon;
   String type;
   bool status;
+  bool isDisabled;
   DateTime firstDate;
   DateTime lastDate;
 
@@ -22,6 +23,7 @@ class InputField extends StatefulWidget {
       DateTime? firstDate,
       DateTime? lastDate,
       this.icon = Icons.person,
+      this.isDisabled = false,
       required this.status})
       : firstDate = firstDate ?? DateTime(1990),
         lastDate = lastDate ?? DateTime(2101);
@@ -43,13 +45,18 @@ class _InputFieldState extends State<InputField> {
   Widget build(BuildContext context) {
     return InputFieldContainer(
       status: widget.status,
+      isDisabled: widget.isDisabled,
       child: TextFormField(
         obscureText: widget.type == 'password' ? !visibility : visibility,
         enableSuggestions: false,
-        readOnly: widget.type == 'date' ? true : false,
+        readOnly: widget.type == 'date'
+            ? true
+            : widget.isDisabled == true
+                ? true
+                : false,
         minLines: widget.type == 'textarea' ? 4 : 1,
         maxLines: widget.type == 'textarea' ? null : 1,
-        onTap: widget.type == 'date'
+        onTap: widget.type == 'date' && widget.isDisabled == false
             ? () async {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
@@ -77,10 +84,12 @@ class _InputFieldState extends State<InputField> {
         controller: widget.controller,
         inputFormatters: widget.type == 'number'
             ? [LengthLimitingTextInputFormatter(16)]
-            : [],
+            : widget.type == 'phone'
+                ? [LengthLimitingTextInputFormatter(12)]
+                : [],
         keyboardType: widget.type == 'textarea'
             ? TextInputType.multiline
-            : (widget.type == 'number'
+            : (widget.type == 'number' || widget.type == 'phone'
                 ? TextInputType.number
                 : (widget.type == 'email'
                     ? TextInputType.datetime

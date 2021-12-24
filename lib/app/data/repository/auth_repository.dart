@@ -163,9 +163,9 @@ class AuthRepository {
       }
     } catch (e) {
       Get.snackbar(
-        "Error",
+        "Something Went Wrong",
         "$e",
-        backgroundColor: dangerColor,
+        backgroundColor: primaryColor,
         snackPosition: SnackPosition.TOP,
         animationDuration: const Duration(seconds: 1),
         duration: const Duration(seconds: 2),

@@ -23,7 +23,6 @@ class UpdatePersonalInfoController extends GetxController {
   RxBool isLoading = false.obs;
 
   // Error Messages
-
   RxString identityNumberErrorMessage = ''.obs;
   RxString phoneNumberErrorMessage = ''.obs;
   RxString dateOfBirthErrorMessage = ''.obs;
@@ -32,64 +31,71 @@ class UpdatePersonalInfoController extends GetxController {
   RxString genderValue = '1'.obs;
 
   void signUpHandler() async {
+    bool isIdNumberValid = idNumberController.text.length == 16;
+
     if (!GetUtils.isNull(idNumberController.text)) {
-      identityNumberErrorMessage.value = '';
-      if (!GetUtils.isNull(phoneNumberController.text)) {
-        phoneNumberErrorMessage.value = '';
-        if (!GetUtils.isNull(dateOfBirthController.text)) {
-          dateOfBirthErrorMessage.value = '';
-          if (!GetUtils.isNull(addressController.text)) {
-            isLoading.value = true;
-            final String status = await signInController.register(
-              email: Get.parameters['email']!,
-              password: Get.parameters['password']!,
-              fullname: Get.parameters['fullName']!,
-              identityNumber: idNumberController.text,
-              phoneNumber: phoneNumberController.text,
-              dateOfBirth: dateOfBirthController.text,
-              gender: genderValue.value,
-              address: addressController.text,
-            );
-            if (status == "") {
-              isLoading.value = false;
-
-              // Save credentials to local storage
-              String credential =
-                  '${Get.parameters['email']!}:${Get.parameters['password']!}';
-              Codec<String, String> stringToBase64 = utf8.fuse(base64);
-              String encoded = stringToBase64.encode(credential);
-
-              await _appStorageService.write(
-                'credentials',
-                stringValue: encoded,
+      if (isIdNumberValid) {
+        identityNumberErrorMessage.value = '';
+        if (!GetUtils.isNull(phoneNumberController.text)) {
+          phoneNumberErrorMessage.value = '';
+          if (!GetUtils.isNull(dateOfBirthController.text)) {
+            dateOfBirthErrorMessage.value = '';
+            if (!GetUtils.isNull(addressController.text)) {
+              isLoading.value = true;
+              final String status = await signInController.register(
+                email: Get.parameters['email']!,
+                password: Get.parameters['password']!,
+                fullname: Get.parameters['fullName']!,
+                identityNumber: idNumberController.text,
+                phoneNumber: phoneNumberController.text,
+                dateOfBirth: dateOfBirthController.text,
+                gender: genderValue.value,
+                address: addressController.text,
               );
+              if (status == "") {
+                isLoading.value = false;
 
-              Get.off(
-                () => DashboardScreen(
-                  fullName: Get.parameters['fullName'],
-                  gender: genderValue.value,
-                  photoUrl: Get.parameters['googlePhotoUrl'],
-                ),
-                binding: DashboardBinding(),
-              );
+                // Save credentials to local storage
+                String credential =
+                    '${Get.parameters['email']!}:${Get.parameters['password']!}';
+                Codec<String, String> stringToBase64 = utf8.fuse(base64);
+                String encoded = stringToBase64.encode(credential);
+
+                await _appStorageService.write(
+                  'credentials',
+                  stringValue: encoded,
+                );
+
+                Get.off(
+                  () => DashboardScreen(
+                    fullName: Get.parameters['fullName'],
+                    gender: genderValue.value,
+                    photoUrl: Get.parameters['googlePhotoUrl'],
+                  ),
+                  binding: DashboardBinding(),
+                );
+              } else {
+                isLoading.value = false;
+                Get.snackbar(
+                  "Something Went Wrong",
+                  status,
+                  backgroundColor: primaryColor,
+                  colorText: whiteColor,
+                  snackPosition: SnackPosition.TOP,
+                );
+              }
             } else {
-              isLoading.value = false;
-              Get.snackbar(
-                "Error",
-                status,
-                backgroundColor: dangerColor,
-                colorText: whiteColor,
-                snackPosition: SnackPosition.BOTTOM,
-              );
+              addressErrorMessage.value = 'Address can\'t be blank';
             }
           } else {
-            addressErrorMessage.value = 'Address can\'t be blank';
+            dateOfBirthErrorMessage.value = 'Date of birth can\'t be blank';
           }
         } else {
-          dateOfBirthErrorMessage.value = 'Date of birth can\'t be blank';
+          phoneNumberErrorMessage.value = 'Please enter a valid phone number';
         }
       } else {
-        phoneNumberErrorMessage.value = 'Please enter a valid phone number';
+        identityNumberErrorMessage.value =
+            'Please enter a valid identity number';
       }
     } else {
       identityNumberErrorMessage.value = 'Please enter a valid identity number';

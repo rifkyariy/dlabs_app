@@ -128,7 +128,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               TextInput(
                 controller: controller.phoneNumberController,
                 label: 'Phone Number',
-                type: 'number',
+                type: 'phone',
                 errorMsg: controller.phoneNumberErrorMessage.value,
                 name: 'phone number',
               ),
