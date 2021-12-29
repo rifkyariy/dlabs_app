@@ -40,10 +40,10 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
             children: [
               // Logo and Header
               Center(
-                child: Image.asset(
-                  'assets/image/logo-dlab.png',
-                  width: 102,
-                  height: 43,
+                child: Image.network(
+                  'https://api-lims.kayabe.id/asset/uploads/setting/20211207041411LOGO KAYABE No Text.png',
+                  width: SizeScalling().setWidth(100),
+                  height: SizeScalling().setHeight(60),
                 ),
               ),
               const SizedBox(height: 40),

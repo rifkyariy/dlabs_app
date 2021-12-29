@@ -96,14 +96,10 @@ class MasterDataRepository {
     return purposeList;
   }
 
-  Future getCompanyData({required String token}) async {
+  Future getCompanyData() async {
     var url = Uri.parse("$baseUrl/setting/company");
 
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    });
+    final response = await http.get(url);
 
     var result = (jsonDecode(response.body)["data"]);
     result['image'] = "${base}${result['image']}";

@@ -173,24 +173,24 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 children: [
                   Obx(
                     () => Radio(
-                      value: '0',
-                      groupValue: controller.genderValue.value,
-                      onChanged: controller.patientSubject.value == 'myself'
-                          ? null
-                          : (String? value) {
-                              controller.genderValue.value = value ?? '0';
-                            },
-                    ),
-                  ),
-                  const Text('Male'),
-                  Obx(
-                    () => Radio(
                       value: '1',
                       groupValue: controller.genderValue.value,
                       onChanged: controller.patientSubject.value == 'myself'
                           ? null
                           : (String? value) {
                               controller.genderValue.value = value ?? '1';
+                            },
+                    ),
+                  ),
+                  const Text('Male'),
+                  Obx(
+                    () => Radio(
+                      value: '0',
+                      groupValue: controller.genderValue.value,
+                      onChanged: controller.patientSubject.value == 'myself'
+                          ? null
+                          : (String? value) {
+                              controller.genderValue.value = value ?? '0';
                             },
                     ),
                   ),

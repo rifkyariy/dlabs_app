@@ -126,20 +126,20 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                   children: [
                     Obx(
                       () => Radio(
-                        value: '0',
+                        value: '1',
                         groupValue: controller.genderValue.value,
                         onChanged: (String? value) {
-                          controller.genderValue.value = value ?? '0';
+                          controller.genderValue.value = value ?? '1';
                         },
                       ),
                     ),
                     const Text('Male'),
                     Obx(
                       () => Radio(
-                        value: '1',
+                        value: '0',
                         groupValue: controller.genderValue.value,
                         onChanged: (String? value) {
-                          controller.genderValue.value = value ?? '1';
+                          controller.genderValue.value = value ?? '0';
                         },
                       ),
                     ),
