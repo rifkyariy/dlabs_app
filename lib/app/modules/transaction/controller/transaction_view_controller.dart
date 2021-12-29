@@ -10,6 +10,7 @@ import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_
 import 'package:dlabs_apps/app/modules/transaction/views/medical_questionnarie_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_personal.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:flutter/material.dart';
@@ -137,8 +138,7 @@ class TransactionViewController extends GetxController {
           transactionDetail = await getDetailTransaction(transactionId);
 
           // If Transaction not new and not organization
-          if (status != TRANSACTIONSTATUS.newTransaction &&
-              (transactionDetail.isPrivate ?? '1') == '1') {
+          if ((transactionDetail.isPrivate ?? '1') == '1') {
             await updateMedicalQuestionnaireList(transactionId);
           }
         },
@@ -153,7 +153,15 @@ class TransactionViewController extends GetxController {
 
       // Go to payment screen if [status] is NEW Transaction
       //
-      if (status == TRANSACTIONSTATUS.newTransaction) toPaymentScreen();
+      if (status == TRANSACTIONSTATUS.newTransaction &&
+          (transactionDetail.isPrivate ?? '1') == '1') {
+        toPaymentScreen(TRANSACTIONTYPE.personal);
+      }
+
+      if (status == TRANSACTIONSTATUS.newTransaction &&
+          (transactionDetail.isPrivate ?? '1') != '1') {
+        toPaymentScreen(TRANSACTIONTYPE.organization);
+      }
 
       // If [transactionDetail.isPrivate] is 1 then go to Personal Page
       //  TRANSACTIONTYPE.personal
@@ -174,7 +182,19 @@ class TransactionViewController extends GetxController {
   }
 
   /// Go to payment screen
-  void toPaymentScreen() {}
+  void toPaymentScreen(TRANSACTIONTYPE transactiontype) {
+    if (transactiontype == TRANSACTIONTYPE.personal) {
+      Get.to(
+        () => const PersonalPaymentView(),
+        binding: TransactionHistoryViewBinding(),
+      );
+    } else {
+      Get.to(
+        () => const OrganizationTransactionDetailView(),
+        binding: TransactionHistoryViewBinding(),
+      );
+    }
+  }
 
   /// Go to the different screen based on [transactiontype]
   void toDetailTransactionScreen(TRANSACTIONTYPE transactiontype) {
