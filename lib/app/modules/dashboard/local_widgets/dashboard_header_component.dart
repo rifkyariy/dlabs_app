@@ -55,8 +55,8 @@ class DashboardHeaderComponent extends StatelessWidget {
               Get.toNamed(AppPages.signin);
 
               Get.snackbar(
-                "Info",
                 "Please login to continue",
+                "",
                 backgroundColor: primaryColor,
                 snackPosition: SnackPosition.TOP,
                 animationDuration: const Duration(seconds: 1),

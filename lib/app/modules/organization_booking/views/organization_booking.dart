@@ -1,6 +1,8 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/app_icons.dart';
+import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:dlabs_apps/app/global_widgets/app_select_input.dart';
+import 'package:dlabs_apps/app/global_widgets/button.dart';
 import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/app/modules/organization_booking/controller/organization_controller.dart';
 import 'package:dlabs_apps/app/modules/organization_booking/local_widgets/booking_list_tile.dart';
@@ -14,6 +16,8 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
 
   @override
   Widget build(BuildContext context) {
+    SizeScalling.init(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -52,9 +56,11 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Obx(
                 () => TextInput(
                   controller: controller.picIdNumberController,
-                  label: "PIC ID Number*",
+                  label: "PIC ID Number",
                   name: "PIC ID Number",
                   placeholder: '3372050909098998',
+                  type: 'number',
+                  isDisabled: true,
                   errorMsg: controller.picIdNumberErrorMessage.value,
                 ),
               ),
@@ -62,37 +68,42 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Obx(
                 () => TextInput(
                   controller: controller.picEmailController,
-                  label: "PIC Email*",
+                  label: "PIC Email",
                   name: "PIC Email",
                   placeholder: 'e.g. mail@address.com',
-                  errorMsg: controller.picIdNumberErrorMessage
-                      .value, //TODO tambah error message
+                  isDisabled: true,
+                  errorMsg: controller
+                      .picEmailErrorMessage.value, //TODO tambah error message
                 ),
               ),
 
               Obx(
                 () => TextInput(
                   controller: controller.picPhoneController,
-                  label: "PIC Phone*",
+                  label: "PIC Phone",
                   name: "PIC Phone",
                   placeholder: '+628123456789',
-                  errorMsg: controller.picIdNumberErrorMessage
-                      .value, //TODO tambah error message
+                  type: 'phone',
+                  isDisabled: true,
+                  errorMsg: controller
+                      .picPhoneErrorMessage.value, //TODO tambah error message
                 ),
               ),
 
               Obx(
                 () => TextInput(
                   controller: controller.picNameController,
-                  label: "PIC Name*",
-                  name: "PIC Phone",
+                  label: "PIC Name",
+                  name: "PIC Name",
                   placeholder: 'Romy Roma',
-                  errorMsg: controller.picIdNumberErrorMessage
-                      .value, //TODO tambah error message
+                  isDisabled: true,
+                  errorMsg: controller
+                      .picNameErrorMessage.value, //TODO tambah error message
                 ),
               ),
 
-              const SizedBox(height: 55),
+              // Divider Header
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -105,109 +116,89 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Divider(color: greyColor),
               const SizedBox(height: 16),
 
-              // Test Purpses
-              // TODO still need to rev
-              // SelectInput(
-              //   items: const [
-              //     {
-              //       'id': '1',
-              //       'value': 'Check Up',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //   ],
-              //   selectedItem: '1',
-              //   label: 'Test Purpose*',
-              //   errorMsg: "",
-              //   name: '',
-              // ),
-
-              // // Test Date
-              // TextInput(
-              //   controller: controller.testDateController,
-              //   label: 'Test Date*',
-              //   type: 'date',
-              //   errorMsg: "",
-              //   name: 'date of birth',
-              // ),
-
-              // TODO still need to rev
-              // Service
-              // SelectInput(
-              //   items: const [
-              //     {
-              //       'id': '1',
-              //       'value': 'Check Up',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //   ],
-              //   selectedItem: '1',
-              //   label: 'Service*',
-              //   errorMsg: "",
-              //   name: '',
-              // ),
-
-              // Service
-
-              // TODO still need to rev
-              // SelectInput(
-              //   items: const [
-              //     {
-              //       'id': '1',
-              //       'value': 'Check Up',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //     {
-              //       'id': '2',
-              //       'value': 'Make Sure',
-              //     },
-              //   ],
-              //   selectedItem: '1',
-              //   label: 'Location*',
-              //   errorMsg: "",
-              //   name: '',
-              // ),
-
-              // Map text, this is cool btw
-              SizedBox(
-                width: double.infinity,
-                child: Row(
-                  children: [
-                    Icon(AppIcons.waypoint, color: primaryColor),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        children: <Widget>[
-                          // Long text for testing flexibleity
-                          Text(
-                            'Jl. Aries Utama IV No.7, RT.12/RW.8, Meruya Utara, Kec. Kembangan, Kota Jakarta Barat.',
-                            textAlign: TextAlign.justify,
-                            style: regularTextStyle(blackColor),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+              // Test Purpose
+              Obx(
+                () => SelectInput(
+                  items: controller.testPurposeList!.value,
+                  selectedItem: controller.selectedTestPurpose,
+                  label: 'Test Purpose',
+                  errorMsg: "",
+                  name: '',
                 ),
               ),
 
-              const SizedBox(height: 55),
+              // Test Date
+              TextInput(
+                controller: controller.testDateController,
+                label: 'Test Date',
+                type: 'date',
+                errorMsg: "",
+                firstDate: DateTime.now(),
+                name: 'test date',
+              ),
+
+              // Test Date
+              Obx(() => SelectInput(
+                    items: controller.serviceList!.value,
+                    selectedItem: controller.selectedService,
+                    label: 'Service',
+                    errorMsg: "",
+                    name: '',
+                  )),
+
+              // Test Location
+              Obx(() => SelectInput(
+                    items: controller.locationList!.value,
+                    selectedItem: controller.selectedLocation,
+                    label: 'Location',
+                    errorMsg: "",
+                    name: '',
+                    isDisabled: controller.selectedServiceString.value != '1'
+                        ? true
+                        : false,
+                  )),
+
+              Obx(
+                () => Visibility(
+                  visible: controller.selectedServiceString.value == '1',
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Row(
+                      children: [
+                        Image.asset('assets/image/pin-icon.png',
+                            width: SizeScalling().setWidth(15)),
+                        SizedBox(
+                          width: SizeScalling().setWidth(10),
+                        ),
+                        Flexible(
+                          child: Text(
+                            controller.locationAddress.value,
+                            style: smallTextStyle(blackColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // Address
+              Obx(
+                () => Visibility(
+                  visible: controller.selectedServiceString.value != '1'
+                      ? true
+                      : false,
+                  child: TextInput(
+                    controller: controller.testLocationController,
+                    label: 'Location Address',
+                    errorMsg: controller.testLocationErrorMessage.value,
+                    type: 'textarea',
+                    name: 'address',
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
 
               Obx(
                 () => Row(
@@ -234,16 +225,32 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
 
               OutlinedButton(
                 onPressed: () {
+                  controller.clearTextController();
                   Get.to(() => AddOrUpdatePatient(
                         isUpdateMode: false,
                         onSearch: false,
                       ));
                 },
-                child: const Text('Add Patient Data'),
+                child: Text(
+                  'Add Patient Data',
+                  style: BoldTextStyle(primaryColor),
+                ),
                 style: OutlinedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 43),
                   primary: primaryColor,
                   side: BorderSide(color: primaryColor),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Obx(
+                () => Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    controller.patientListErrorMessage.value,
+                    style: smallTextStyle(dangerColor),
+                  ),
                 ),
               ),
 
@@ -273,8 +280,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                               subtitle:
                                   'ID No : ${controller.patientList[index].identityNumber}',
                               deleteButtonPressed: (context) {
-                                controller.patientList.removeAt(index);
-                                controller.updateTotalPrice();
+                                controller.deletePatient(index);
                               },
                               updateButtonPressed: (context) {
                                 controller
@@ -290,8 +296,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                         },
                       ),
 
-                      // View All Botton
-
+                      // View All Button
                       controller.patientList.isEmpty
                           ? const SizedBox()
                           : Container(
@@ -351,14 +356,48 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24),
-              child: TextButton(
-                onPressed: () {},
-                child: Text('Submit', style: regularTextStyle(whiteColor)),
-                style: TextButton.styleFrom(
-                  primary: whiteColor,
-                  backgroundColor: primaryColor,
-                  minimumSize: const Size(double.infinity, 45),
-                ),
+              child: Button(
+                text: 'Submit',
+                textColor: whiteColor,
+                onClicked: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Confirmation'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: const <Widget>[
+                                Text(
+                                    'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: whiteColor,
+                                  elevation: 0,
+                                  side: BorderSide(width: 1, color: greyColor)),
+                              child: Text('Cancel',
+                                  style: mediumTextStyle(greyColor)),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: primaryColor,
+                                elevation: 0,
+                              ),
+                              child: Text('Confirm',
+                                  style: mediumTextStyle(whiteColor)),
+                              onPressed: () {
+                                controller.organizationBookHandler();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        )),
+                isLoading: controller.isLoading.value,
               ),
             ),
             const SizedBox(height: 5),

@@ -20,7 +20,7 @@ class AppArticleCardComponent extends StatelessWidget {
           Get.snackbar(
             "Error",
             "No Route Specified",
-            backgroundColor: dangerColor,
+            backgroundColor: primaryColor,
             snackPosition: SnackPosition.TOP,
             animationDuration: const Duration(seconds: 1),
             duration: const Duration(seconds: 1),

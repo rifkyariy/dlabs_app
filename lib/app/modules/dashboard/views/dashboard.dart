@@ -41,8 +41,8 @@ class DashboardScreen extends GetView<DashboardController> {
           Get.toNamed(AppPages.signin);
 
           Get.snackbar(
-            "Info",
             "Please login to continue",
+            "",
             backgroundColor: primaryColor,
             snackPosition: SnackPosition.TOP,
             animationDuration: const Duration(seconds: 1),
@@ -73,8 +73,8 @@ class DashboardScreen extends GetView<DashboardController> {
                   Get.offAndToNamed(AppPages.signin);
 
                   Get.snackbar(
-                    "Info",
                     "Please login to continue",
+                    "",
                     backgroundColor: primaryColor,
                     snackPosition: SnackPosition.TOP,
                     animationDuration: const Duration(seconds: 1),
@@ -117,8 +117,8 @@ class DashboardScreen extends GetView<DashboardController> {
                           Get.offAndToNamed(AppPages.signin);
 
                           Get.snackbar(
-                            "Info",
                             "Please login to continue",
+                            "",
                             backgroundColor: primaryColor,
                             snackPosition: SnackPosition.TOP,
                             animationDuration: const Duration(seconds: 1),

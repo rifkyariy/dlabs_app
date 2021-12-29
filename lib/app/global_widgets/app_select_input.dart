@@ -6,6 +6,7 @@ class SelectInput extends StatefulWidget {
   TextEditingController selectedItem;
   List<Map<String, dynamic>>? items;
   void Function(String?)? onChanged;
+  bool isDisabled;
 
   SelectInput({
     Key? key,
@@ -13,6 +14,7 @@ class SelectInput extends StatefulWidget {
     required this.name,
     this.errorMsg = "",
     this.onChanged,
+    this.isDisabled = false,
     required this.selectedItem,
     required this.items,
   }) : super(key: key);
@@ -55,12 +57,14 @@ class _SelectInputState extends State<SelectInput> {
                   child: Text(item['value']),
                 );
               }).toList(),
-              onChanged: (String? selected) {
-                print(widget.selectedItem);
-                setState(() {
-                  widget.selectedItem.text = selected!;
-                });
-              },
+              onChanged: !widget.isDisabled
+                  ? (String? selected) {
+                      print(widget.selectedItem);
+                      setState(() {
+                        widget.selectedItem.text = selected!;
+                      });
+                    }
+                  : null,
             ),
           ),
         ),

@@ -174,12 +174,10 @@ class ViewPatientList extends StatelessWidget {
                     subtitle:
                         'ID No : ${controller.patientList[index].identityNumber}',
                     deleteButtonPressed: (context) {
+                      // TODO add alert button
                       // Delete Button Pressed
                       // Remove dummyList at x index
-                      controller.patientList.removeAt(index);
-
-                      // Update the price
-                      controller.updateTotalPrice();
+                      controller.deletePatient(index);
                     },
                     updateButtonPressed: (context) {
                       controller.updateTextControllerBasedOnIndex(index);
@@ -215,10 +213,7 @@ class ViewPatientList extends StatelessWidget {
                           // Remove patient data on x index
 
                           controller.searchResult.removeAt(index);
-                          controller.patientList.removeAt(idx);
-
-                          // Update the price.
-                          controller.updateTotalPrice();
+                          controller.deletePatient(idx);
                         },
                         updateButtonPressed: (context) {
                           int idx = controller.patientDataIndex(

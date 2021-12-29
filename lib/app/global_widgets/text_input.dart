@@ -17,6 +17,7 @@ class TextInput extends StatelessWidget {
   String placeholder;
   DateTime firstDate;
   DateTime lastDate;
+  bool isDisabled;
 
   TextInput({
     Key? key,
@@ -27,6 +28,7 @@ class TextInput extends StatelessWidget {
     DateTime? lastDate,
     this.errorMsg = "",
     this.type = "text",
+    this.isDisabled = false,
     this.placeholder = "",
   })  : firstDate = firstDate ?? DateTime(1990),
         lastDate = lastDate ?? DateTime(2101);
@@ -52,6 +54,7 @@ class TextInput extends StatelessWidget {
             lastDate: lastDate,
             status: errorMsg == "" ? false : true,
             type: type,
+            isDisabled: isDisabled,
           ),
         ),
         Padding(

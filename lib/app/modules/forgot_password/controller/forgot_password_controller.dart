@@ -51,11 +51,11 @@ class ForgotPasswordController extends GetxController {
 
         // Display error snackbar
         Get.snackbar(
-          'Error',
+          'Something Went Wrong',
           'User not found',
-          backgroundColor: dangerColor,
+          backgroundColor: primaryColor,
           colorText: whiteColor,
-          snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.TOP,
         );
       }
     } else {
