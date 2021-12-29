@@ -10,6 +10,7 @@ class AppTitleWithButton extends StatelessWidget {
     this.titleColor,
     this.padding,
     this.buttonLabelColor,
+    this.trailing,
   }) : super(key: key);
 
   /// This is the title
@@ -32,17 +33,23 @@ class AppTitleWithButton extends StatelessWidget {
   /// Callback for buttons
   final GestureTapCallback? onTap;
 
+  /// Widget behind button
+  final Widget? trailing;
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       padding: padding ?? const EdgeInsets.fromLTRB(25, 11, 25, 11),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             title,
             style: BoldTextStyle(titleColor ?? blackColor, fontSize: 12),
           ),
+          const Spacer(),
           GestureDetector(
             onTap: onTap,
             child: Text(
@@ -52,6 +59,10 @@ class AppTitleWithButton extends StatelessWidget {
                 fontSize: 12,
               ),
             ),
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: trailing ?? const SizedBox(),
           )
         ],
       ),
