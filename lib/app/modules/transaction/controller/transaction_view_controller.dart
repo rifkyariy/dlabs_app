@@ -10,7 +10,8 @@ import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_
 import 'package:dlabs_apps/app/modules/transaction/views/medical_questionnarie_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_personal.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/payment/organization_payment_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/payment/personal_payment_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:flutter/material.dart';
@@ -190,7 +191,7 @@ class TransactionViewController extends GetxController {
       );
     } else {
       Get.to(
-        () => const OrganizationTransactionDetailView(),
+        () => const OrganizationPaymentView(),
         binding: TransactionHistoryViewBinding(),
       );
     }
@@ -221,5 +222,14 @@ class TransactionViewController extends GetxController {
 
   void toMedicalQuestionnaireListView() {
     Get.to(() => const MedicalQuestionnarieView());
+  }
+
+  void onOfflineDialogButtonPressed() {}
+
+  void onOnlineDialogButtonPressed() {}
+
+  bool isHomeService() {
+    print(transactionDetail.services);
+    return (transactionDetail.services ?? '') == 'Home Service';
   }
 }

@@ -314,7 +314,7 @@ class OrganizationTransactionDetailView
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'DL210717.15',
+                      controller.transactionDetail.transactionId ?? '',
                       style: BoldTextStyle(primaryColor, fontSize: 20),
                     ),
                     const SizedBox(height: 15),

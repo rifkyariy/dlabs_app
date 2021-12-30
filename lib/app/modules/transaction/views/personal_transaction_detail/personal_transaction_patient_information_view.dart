@@ -40,80 +40,135 @@ class PersonalTransactionPatientInformationView
               elevation: 0,
               shadowColor: Colors.transparent,
               flex: FlexGroup(3, 2),
-              leading: [
-                ///
-                /// Left Part of the table
-                /// Consist of title and Information
-                ///
-                _boldDetailInformationItem('Nationality'),
-                _mediumDetailInformationItem(
-                    (controller.transactionDetail.patientList ?? [])[0]
-                            .nationality ??
-                        ''),
-                _boldDetailInformationItem('Identity Number'),
-                _mediumDetailInformationItem(
-                    (controller.transactionDetail.patientList ?? [])[0]
-                            .identityNumber ??
-                        ''),
-                _boldDetailInformationItem('Full Name'),
-                _mediumDetailInformationItem(
-                    (controller.transactionDetail.patientList ?? [])[0]
-                            .fullName ??
-                        ''),
-                _boldDetailInformationItem('Email'),
-                _mediumDetailInformationItem(
-                    (controller.transactionDetail.patientList ?? [])[0].email ??
-                        ''),
-              ],
-              trailing: [
-                ///
-                /// Right Side of the table
-                /// Consist of title and information
-                ///
-                _boldDetailInformationItem('Date of birth'),
-                _mediumDetailInformationItem(
-                    (controller.transactionDetail.patientList ?? [])[0]
-                            .birthDate ??
-                        ''),
-                _boldDetailInformationItem('Gender'),
-                _mediumDetailInformationItem(
-                    ((controller.transactionDetail.patientList ?? [])[0]
-                                    .gender ??
-                                '') ==
-                            '1'
-                        ? "Male"
-                        : "Female"),
-                _boldDetailInformationItem('Phone'),
-                _mediumDetailInformationItem(
-                    (controller.transactionDetail.patientList ?? [])[0].phone ??
-                        ''),
-                _boldDetailInformationItem('Location'),
-
-                /// TODO make this dynamic
-                // _mediumDetailInformationItem(''),
-              ],
+              leading: controller.isHomeService()
+                  ? [
+                      _boldDetailInformationItem('Nationality'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .nationality ??
+                              ''),
+                      _boldDetailInformationItem('Full Name'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .fullName ??
+                              ''),
+                      _boldDetailInformationItem('Email'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .email ??
+                              ''),
+                      _boldDetailInformationItem('Location'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .address ??
+                              ''),
+                    ]
+                  : [
+                      ///
+                      /// Left Part of the table
+                      /// Consist of title and Information
+                      ///
+                      _boldDetailInformationItem('Nationality'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .nationality ??
+                              ''),
+                      _boldDetailInformationItem('Identity Number'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .identityNumber ??
+                              ''),
+                      _boldDetailInformationItem('Full Name'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .fullName ??
+                              ''),
+                      _boldDetailInformationItem('Email'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .email ??
+                              ''),
+                    ],
+              trailing: controller.isHomeService()
+                  ? [
+                      _boldDetailInformationItem('Date of birth'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .birthDate ??
+                              ''),
+                      _boldDetailInformationItem('Identity Number'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .identityNumber ??
+                              ''),
+                      _boldDetailInformationItem('Gender'),
+                      _mediumDetailInformationItem(
+                        ((controller.transactionDetail.patientList ?? [])[0]
+                                        .gender ??
+                                    '') ==
+                                '1'
+                            ? "Male"
+                            : "Female",
+                      ),
+                      _boldDetailInformationItem('Phone'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .phone ??
+                              ''),
+                    ]
+                  : [
+                      ///
+                      /// Right Side of the table
+                      /// Consist of title and information
+                      ///
+                      _boldDetailInformationItem('Date of birth'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .birthDate ??
+                              ''),
+                      _boldDetailInformationItem('Gender'),
+                      _mediumDetailInformationItem(
+                        ((controller.transactionDetail.patientList ?? [])[0]
+                                        .gender ??
+                                    '') ==
+                                '1'
+                            ? "Male"
+                            : "Female",
+                      ),
+                      _boldDetailInformationItem('Phone'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .phone ??
+                              ''),
+                      _boldDetailInformationItem('Location'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.locationAddress ?? '')),
+                    ],
             ),
 
             /// Adress
             /// Separated because of flex
-            AppDetailInformationBox(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              shadowColor: Colors.transparent,
-              contentPadding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
-              leading: [
-                AppDetailInformationItem(
-                  'Address',
-                  style: BoldTextStyle(blackColor, fontSize: 13),
-                ),
-                AppDetailInformationItem(
-                  (controller.transactionDetail.patientList ?? [])[0].address ??
-                      '',
-                  padding: const EdgeInsets.only(top: 5),
-                  style: mediumTextStyle(blackColor, fontSize: 13),
-                ),
-              ],
-            ),
+            controller.isHomeService()
+                ? const SizedBox()
+                : AppDetailInformationBox(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                    leading: [
+                      AppDetailInformationItem(
+                        'Address',
+                        style: BoldTextStyle(blackColor, fontSize: 13),
+                      ),
+                      AppDetailInformationItem(
+                        (controller.transactionDetail.patientList ?? [])[0]
+                                .address ??
+                            '',
+                        padding: const EdgeInsets.only(top: 5),
+                        style: mediumTextStyle(blackColor, fontSize: 13),
+                      ),
+                    ],
+                  ),
 
             /// Medical Questionaire
             ///
