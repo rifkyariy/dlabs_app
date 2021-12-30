@@ -346,7 +346,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 height: 8,
               ),
               Obx(
-                () => Button(
+                () => AppButton(
                   text: 'Next',
                   textColor: whiteColor,
                   onClicked: () => controller.personalBookHandler(),

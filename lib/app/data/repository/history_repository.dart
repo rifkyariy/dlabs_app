@@ -1,4 +1,6 @@
 import 'package:dlabs_apps/app/data/dtos/history_dto.dart';
+import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_data.dart';
+import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_model.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_history_model.dart';
 import 'package:dlabs_apps/app/data/models/trx_history_model/trx_history_model.dart';
@@ -67,6 +69,50 @@ class HistoryRepository {
       switch (_response.statusCode) {
         case 200:
           return (TrxDetailHistoryModel.fromJson(_response.body).data);
+
+        case 401:
+          throw Exception('Authentication Failed');
+
+        case 500:
+          throw Exception('Internal Server Error');
+
+        default:
+          throw Exception('${_response.statusCode} ${_response.reasonPhrase}');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<List<MedicalHistoryData>?> getMedicalHistory({
+    required String token,
+    required String transactionId,
+    required String patientId,
+  }) async {
+    final url = Uri.parse('$_kbaseUrl/sample/history');
+
+    try {
+      final _response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'fendpoint': '/sample',
+          'Authorization': 'Bearer $token',
+        },
+        body: HistoryDto(
+          maxRows: 9999999,
+          orderBy: 'created_date',
+          orderType: 'desc',
+          page: 1,
+          search: const [SearchDto(value: '')],
+          patientId: patientId,
+          transactionId: transactionId,
+        ).toJson(),
+      );
+
+      switch (_response.statusCode) {
+        case 200:
+          return (MedicalHistoryModel.fromJson(_response.body)).data!.rows;
 
         case 401:
           throw Exception('Authentication Failed');

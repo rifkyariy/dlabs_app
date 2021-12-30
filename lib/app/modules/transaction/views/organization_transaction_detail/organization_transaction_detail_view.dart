@@ -331,7 +331,13 @@ class OrganizationTransactionDetailView
                 children: [
                   IconButton(
                     enableFeedback: false,
-                    onPressed: enabled ?? false ? () {} : null,
+                    onPressed: enabled ?? false
+                        ? () {
+                            controller.onInvoiceButtonPressed(
+                              controller.transactionDetail.transactionId ?? '',
+                            );
+                          }
+                        : null,
                     icon: Icon(
                       AppIcons.invoice,
                       color: enabled ?? false ? primaryColor : greyColor,

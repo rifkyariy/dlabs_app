@@ -108,7 +108,7 @@ class SignInScreen extends GetView<SignInController> {
 
               // Sign In Button
               Obx(
-                () => Button(
+                () => AppButton(
                   text: 'Sign In',
                   textColor: whiteColor,
                   onClicked: () {

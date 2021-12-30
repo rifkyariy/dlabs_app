@@ -18,6 +18,8 @@ class AppDetailInformationBox extends StatelessWidget {
     this.boxMargin,
     this.divider,
     this.boxPadding,
+    this.dividerColor,
+    this.dividerThickness,
   }) : super(key: key);
 
   /// Leading content.
@@ -67,6 +69,11 @@ class AppDetailInformationBox extends StatelessWidget {
   /// This is widget exactly below header.
   final Widget? divider;
 
+  /// Header divider color
+  final Color? dividerColor;
+
+  final double? dividerThickness;
+
   @override
   Widget build(BuildContext context) {
     /// Spread radius
@@ -114,8 +121,8 @@ class AppDetailInformationBox extends StatelessWidget {
           (header != null)
               ? (divider ??
                   Divider(
-                    color: greyColor,
-                    thickness: 0.3,
+                    color: dividerColor ?? greyColor,
+                    thickness: dividerThickness ?? 0.3,
                     height: 0,
                   ))
               : const SizedBox(),

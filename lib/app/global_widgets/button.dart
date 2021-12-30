@@ -1,13 +1,13 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
-class Button extends StatelessWidget {
+class AppButton extends StatelessWidget {
   final String text;
   final Color textColor;
   final VoidCallback onClicked;
   final bool? isLoading;
 
-  const Button({
+  const AppButton({
     required this.text,
     required this.textColor,
     required this.onClicked,

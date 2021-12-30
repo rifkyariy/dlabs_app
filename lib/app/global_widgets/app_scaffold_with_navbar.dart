@@ -1,8 +1,8 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/app_icons.dart';
 import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 
-import 'package:dlabs_apps/app/modules/transaction/views/transaction_history/transaction_history_view.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

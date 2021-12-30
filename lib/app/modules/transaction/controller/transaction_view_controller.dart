@@ -1,4 +1,6 @@
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
+import 'package:dlabs_apps/app/data/models/invoice_model/invoice_data.dart';
+import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_data.dart';
 import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_data_model.dart';
 import 'package:dlabs_apps/app/data/models/transaction.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
@@ -7,6 +9,7 @@ import 'package:dlabs_apps/app/data/repository/transaction_repository.dart';
 import 'package:dlabs_apps/app/data/services/app_converter.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/invoice_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/medical_questionnarie_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
@@ -38,10 +41,18 @@ class TransactionViewController extends GetxController {
   List<QuestionnaireDataModel>? medicalQuestionnaireList =
       <QuestionnaireDataModel>[].obs;
 
+  /// This is the list that holds the medical history from backend
+  /// This list is displayed on transaction/medical history screen
+  List<MedicalHistoryData>? medicalHistoryList = <MedicalHistoryData>[];
+
   /// This is the Transaction Detail Information
   /// It holds for both personal and organization booking
   ///
   late TrxDetailData transactionDetail;
+
+  /// This is the Invoice Detail Information
+  /// It holds for the transaction invoice on specific transaction ID
+  late InvoiceData invoiceData;
 
   /// State
   /// This is the state of the screen
@@ -101,6 +112,23 @@ class TransactionViewController extends GetxController {
     }
   }
 
+  Future<void> updateMedicalHistoryList({
+    required String transactionId,
+    required String patientId,
+  }) async {
+    final _apiToken = await _storage.readString('apiToken');
+
+    try {
+      medicalHistoryList = await _historyRepository.getMedicalHistory(
+        token: _apiToken ?? '',
+        transactionId: transactionId,
+        patientId: patientId,
+      );
+    } catch (e) {
+      e.printError();
+    }
+  }
+
   /// This will return [TrxDetailData] object
   /// [TrxDetailData] is object that holds Transaction Detail
   /// All Information in Transaction Detail live in [TrxDetailData]
@@ -119,6 +147,42 @@ class TransactionViewController extends GetxController {
       e.printError();
       throw Exception(e);
     }
+  }
+
+  /// This will return [InvoiceData] object
+  /// [InvoiceData] is object that holds Invoice Data
+  /// All Information in Invoice Data live in [InvoiceData]
+  Future<InvoiceData> getInvoiceData(String transactionId) async {
+    final _apiToken = await _storage.readString('apiToken');
+    try {
+      final _invoiceData = await _transactionRepository.getInvoiceData(
+            token: _apiToken ?? '',
+            idTransaction: transactionId,
+          ) ??
+          const InvoiceData();
+      return _invoiceData;
+    } catch (e) {
+      e.printError();
+      throw Exception(e);
+    }
+  }
+
+  /// TODO kasih komen
+
+  Future<void> onInvoiceButtonPressed(String transactionId) async {
+    await Get.showOverlay(
+      asyncFunction: () async {
+        invoiceData = await getInvoiceData(transactionId);
+      },
+      loadingWidget: const Center(
+        child: SizedBox(
+          height: 30,
+          width: 30,
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+    toInvoiceView();
   }
 
   /// Handle Tap on Transaction History CARD
@@ -224,12 +288,13 @@ class TransactionViewController extends GetxController {
     Get.to(() => const MedicalQuestionnarieView());
   }
 
+  void toInvoiceView() {
+    Get.to(() => const InvoiceView(), binding: TransactionHistoryViewBinding());
+  }
+
   void onOfflineDialogButtonPressed() {}
 
   void onOnlineDialogButtonPressed() {}
 
-  bool isHomeService() {
-    print(transactionDetail.services);
-    return (transactionDetail.services ?? '') == 'Home Service';
-  }
+  bool isHomeService() => (transactionDetail.services ?? '') == 'Home Service';
 }

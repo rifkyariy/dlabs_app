@@ -109,7 +109,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
                 height: 8,
               ),
               Obx(
-                () => Button(
+                () => AppButton(
                   text: 'Submit',
                   textColor: whiteColor,
                   onClicked: () => showDialog(

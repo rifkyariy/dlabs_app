@@ -174,7 +174,7 @@ class SignUpScreen extends GetView<SignUpController> {
         ),
         // Submit Button
         child: Obx(
-          () => Button(
+          () => AppButton(
             text: 'Next',
             textColor: whiteColor,
             onClicked: () => controller.signUpHandler(),

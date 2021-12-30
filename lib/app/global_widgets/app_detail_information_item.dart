@@ -9,6 +9,7 @@ class AppDetailInformationItem extends StatelessWidget {
     this.color,
     this.style,
     this.padding,
+    this.bold,
   }) : super(key: key);
 
   /// The text
@@ -24,6 +25,9 @@ class AppDetailInformationItem extends StatelessWidget {
   /// Padding override, default is top 10
   final EdgeInsetsGeometry? padding;
 
+  /// Text type
+  final bool? bold;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,10 +37,15 @@ class AppDetailInformationItem extends StatelessWidget {
           Text(
             text,
             style: style ??
-                regularTextStyle(
-                  color ?? greyColor,
-                  fontSize: 12,
-                ),
+                (bold ?? false
+                    ? BoldTextStyle(
+                        color ?? greyColor,
+                        fontSize: 12,
+                      )
+                    : regularTextStyle(
+                        color ?? greyColor,
+                        fontSize: 12,
+                      )),
           ),
         ],
       ),

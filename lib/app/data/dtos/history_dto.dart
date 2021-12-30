@@ -9,6 +9,8 @@ class HistoryDto {
   final String? orderBy;
   final String? orderType;
   final List<SearchDto>? search;
+  final String? patientId;
+  final String? transactionId;
 
   const HistoryDto({
     this.page,
@@ -16,6 +18,8 @@ class HistoryDto {
     this.orderBy,
     this.orderType,
     this.search,
+    this.patientId,
+    this.transactionId,
   });
 
   factory HistoryDto.fromMap(Map<String, dynamic> data) => HistoryDto(
@@ -23,6 +27,8 @@ class HistoryDto {
         maxRows: data['max_rows'] as int?,
         orderBy: data['order_by'] as String?,
         orderType: data['order_type'] as String?,
+        patientId: data['trx_patient_id'] as String?,
+        transactionId: data['transaction_id'] as String?,
         search: (data['search'] as List<dynamic>?)
             ?.map((e) => SearchDto.fromMap(e as Map<String, dynamic>))
             .toList(),
@@ -33,6 +39,8 @@ class HistoryDto {
         'max_rows': maxRows,
         'order_by': orderBy,
         'order_type': orderType,
+        'trx_patient_id': patientId,
+        'transaction_id': transactionId,
         'search': search?.map((e) => e.toMap()).toList(),
       };
 

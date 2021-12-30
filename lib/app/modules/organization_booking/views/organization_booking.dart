@@ -356,7 +356,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24),
-              child: Button(
+              child: AppButton(
                 text: 'Submit',
                 textColor: whiteColor,
                 onClicked: () => showDialog(

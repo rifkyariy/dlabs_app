@@ -196,7 +196,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
         ),
         // Submit Button
         child: Obx(
-          () => Button(
+          () => AppButton(
             text: 'Sign Up',
             textColor: whiteColor,
             onClicked: () => controller.signUpHandler(),

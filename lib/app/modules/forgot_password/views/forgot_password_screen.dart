@@ -63,7 +63,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
               const SizedBox(height: 24),
 
               Obx(
-                () => Button(
+                () => AppButton(
                   text: 'Reset Password',
                   textColor: whiteColor,
                   onClicked: () => controller.forgotPasswordHandler(),
