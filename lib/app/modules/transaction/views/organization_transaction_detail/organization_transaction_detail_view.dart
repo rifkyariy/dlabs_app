@@ -201,6 +201,19 @@ class OrganizationTransactionDetailView
                           '',
                       subtitle:
                           'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''}',
+                      onPressed: (context) async {
+                        await controller.updateMedicalHistoryList(
+                          transactionId:
+                              controller.transactionDetail.transactionId ?? '',
+                          patientId:
+                              (controller.transactionDetail.patientList ??
+                                      [])[index]
+                                  .id
+                                  .toString(),
+                        );
+
+                        controller.toMedicalHistoryListView();
+                      },
                     );
                   },
                 ),
@@ -381,6 +394,7 @@ class OrganizationTransactionDetailView
   Widget _singleButtonSlideable({
     required String title,
     required String subtitle,
+    Function(BuildContext)? onPressed,
   }) {
     return AppSingleButtonSlideable(
       leading: CircleAvatar(
@@ -401,6 +415,7 @@ class OrganizationTransactionDetailView
       buttonLabel: 'View Detail',
       isThreeLine: false,
       icon: AppIcons.article,
+      buttonPressed: onPressed,
     );
   }
 }

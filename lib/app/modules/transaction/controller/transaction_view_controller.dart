@@ -1,15 +1,21 @@
+import 'dart:io';
+
+import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/data/models/transaction.dart';
+import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_patient_list.dart';
+import 'package:dlabs_apps/app/data/services/app_converter.dart';
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
+import 'package:dlabs_apps/app/data/repository/history_repository.dart';
 import 'package:dlabs_apps/app/data/models/invoice_model/invoice_data.dart';
 import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_data.dart';
 import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_data_model.dart';
-import 'package:dlabs_apps/app/data/models/transaction.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
-import 'package:dlabs_apps/app/data/repository/history_repository.dart';
 import 'package:dlabs_apps/app/data/repository/transaction_repository.dart';
-import 'package:dlabs_apps/app/data/services/app_converter.dart';
+import 'package:dlabs_apps/app/data/services/file_downloader.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/invoice_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/medical_history_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/medical_questionnarie_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
@@ -19,6 +25,7 @@ import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_de
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 class TransactionViewController extends GetxController {
   final AppStorageService _storage = Get.find();
@@ -205,6 +212,11 @@ class TransactionViewController extends GetxController {
           // If Transaction not new and not organization
           if ((transactionDetail.isPrivate ?? '1') == '1') {
             await updateMedicalQuestionnaireList(transactionId);
+            await updateMedicalHistoryList(
+              transactionId: transactionId,
+              patientId:
+                  '${(transactionDetail.patientList ?? <TrxDetailPatientList>[]).first.id}',
+            );
           }
         },
         loadingWidget: const Center(
@@ -288,6 +300,10 @@ class TransactionViewController extends GetxController {
     Get.to(() => const MedicalQuestionnarieView());
   }
 
+  void toMedicalHistoryListView() {
+    Get.to(() => const MedicalHistoryView());
+  }
+
   void toInvoiceView() {
     Get.to(() => const InvoiceView(), binding: TransactionHistoryViewBinding());
   }
@@ -295,6 +311,38 @@ class TransactionViewController extends GetxController {
   void onOfflineDialogButtonPressed() {}
 
   void onOnlineDialogButtonPressed() {}
+
+  void onDownloadButtonPressed(String url) async {
+    Get.showOverlay(
+      asyncFunction: () async {
+        await downloadFile(url, url.split('/').last);
+      },
+      loadingWidget: const Center(
+        child: SizedBox(
+          height: 30,
+          width: 30,
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  downloadFile(String url, String fileName) async {
+    final Directory? _downloadPath = Directory('/storage/emulated/0/Download');
+
+    await FileDownloader.downloadFile(
+      url: url,
+      path: '${_downloadPath!.path}/$fileName',
+    );
+
+    Get.snackbar(
+      'Download Completed',
+      'File saved to download directory',
+      backgroundColor: primaryColor,
+      colorText: whiteColor,
+      snackPosition: SnackPosition.TOP,
+    );
+  }
 
   bool isHomeService() => (transactionDetail.services ?? '') == 'Home Service';
 }

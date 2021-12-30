@@ -26,33 +26,26 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
-      body: ListView(
-        children: [
-          _singleButtonSlideable(
-            title: 'Sample 1 • Swab PCR',
-            subtitle:
-                'Take care of your health by taking vitamins and drugs that the doctor has given.',
-            trailing: 'Positif',
-          ),
-          _singleButtonSlideable(
-            title: 'Sample 1 • Swab PCR',
-            subtitle:
-                'Take care of your health by taking vitamins and drugs that the doctor has given.',
-            trailing: 'Positif',
-          ),
-          _singleButtonSlideable(
-            title: 'Sample 1 • Swab PCR',
-            subtitle:
-                'Take care of your health by taking vitamins and drugs that the doctor has given.',
-            trailing: 'Positif',
-          ),
-          _singleButtonSlideable(
-            title: 'Sample 1 • Swab PCR',
-            subtitle:
-                'Take care of your health by taking vitamins and drugs that the doctor has given.',
-            trailing: 'Positif',
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: (controller.medicalHistoryList ?? []).length,
+        itemBuilder: (context, index) {
+          if (controller.medicalHistoryList != null) {
+            return _singleButtonSlideable(
+              title:
+                  'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
+              subtitle: '${controller.medicalHistoryList![index].noteResult}',
+              trailing: controller.medicalHistoryList![index].result!
+                  .split('/')
+                  .first,
+              buttonPressed: (context) {
+                controller.onDownloadButtonPressed(
+                    controller.medicalHistoryList![index].sampleFile ?? '');
+              },
+            );
+          }
+
+          return const SizedBox();
+        },
       ),
     );
   }
@@ -61,6 +54,7 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
     required String title,
     required String subtitle,
     required String trailing,
+    Function(BuildContext)? buttonPressed,
   }) {
     return AppSingleButtonSlideable(
       title: Text(
@@ -77,6 +71,7 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
       ),
       buttonLabel: 'Download',
       isThreeLine: true,
+      buttonPressed: buttonPressed,
     );
   }
 }

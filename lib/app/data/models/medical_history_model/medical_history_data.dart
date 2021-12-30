@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class Row extends Equatable {
+class MedicalHistoryData extends Equatable {
   final int? barcodeValue;
   final String? sampleId;
   final String? identityNumber;
@@ -18,7 +18,7 @@ class Row extends Equatable {
   final String? testTypeText;
   final String? sampleFile;
 
-  const Row({
+  const MedicalHistoryData({
     this.barcodeValue,
     this.sampleId,
     this.identityNumber,
@@ -35,7 +35,8 @@ class Row extends Equatable {
     this.sampleFile,
   });
 
-  factory Row.fromMap(Map<String, dynamic> data) => Row(
+  factory MedicalHistoryData.fromMap(Map<String, dynamic> data) =>
+      MedicalHistoryData(
         barcodeValue: data['barcode_value'] as int?,
         sampleId: data['sample_id'] as String?,
         identityNumber: data['identity_number'] as String?,
@@ -71,17 +72,18 @@ class Row extends Equatable {
 
   /// `dart:convert`
   ///
-  /// Parses the string and returns the resulting Json object as [Row].
-  factory Row.fromJson(String data) {
-    return Row.fromMap(json.decode(data) as Map<String, dynamic>);
+  /// Parses the string and returns the resulting Json object as [MedicalHistoryData].
+  factory MedicalHistoryData.fromJson(String data) {
+    return MedicalHistoryData.fromMap(
+        json.decode(data) as Map<String, dynamic>);
   }
 
   /// `dart:convert`
   ///
-  /// Converts [Row] to a JSON string.
+  /// Converts [MedicalHistoryData] to a JSON string.
   String toJson() => json.encode(toMap());
 
-  Row copyWith({
+  MedicalHistoryData copyWith({
     int? barcodeValue,
     String? sampleId,
     String? identityNumber,
@@ -97,7 +99,7 @@ class Row extends Equatable {
     String? testTypeText,
     String? sampleFile,
   }) {
-    return Row(
+    return MedicalHistoryData(
       barcodeValue: barcodeValue ?? this.barcodeValue,
       sampleId: sampleId ?? this.sampleId,
       identityNumber: identityNumber ?? this.identityNumber,

@@ -105,7 +105,7 @@ class HistoryRepository {
           orderType: 'desc',
           page: 1,
           search: const [SearchDto(value: '')],
-          patientId: patientId,
+          patientId: int.parse(patientId),
           transactionId: transactionId,
         ).toJson(),
       );

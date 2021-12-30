@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-import 'data.dart';
+import 'medical_history_datum.dart';
 
 class MedicalHistoryModel extends Equatable {
   final String? status;
   final String? message;
-  final Data? data;
+  final MedicalHistoryDatum? data;
 
   const MedicalHistoryModel({this.status, this.message, this.data});
 
@@ -17,7 +17,7 @@ class MedicalHistoryModel extends Equatable {
       message: data['message'] as String?,
       data: data['data'] == null
           ? null
-          : Data.fromMap(data['data'] as Map<String, dynamic>),
+          : MedicalHistoryDatum.fromMap(data['data'] as Map<String, dynamic>),
     );
   }
 
@@ -43,7 +43,7 @@ class MedicalHistoryModel extends Equatable {
   MedicalHistoryModel copyWith({
     String? status,
     String? message,
-    Data? data,
+    MedicalHistoryDatum? data,
   }) {
     return MedicalHistoryModel(
       status: status ?? this.status,

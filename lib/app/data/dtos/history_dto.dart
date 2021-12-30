@@ -9,7 +9,7 @@ class HistoryDto {
   final String? orderBy;
   final String? orderType;
   final List<SearchDto>? search;
-  final String? patientId;
+  final int? patientId;
   final String? transactionId;
 
   const HistoryDto({
@@ -27,7 +27,7 @@ class HistoryDto {
         maxRows: data['max_rows'] as int?,
         orderBy: data['order_by'] as String?,
         orderType: data['order_type'] as String?,
-        patientId: data['trx_patient_id'] as String?,
+        patientId: data['trx_patient_id'] as int?,
         transactionId: data['transaction_id'] as String?,
         search: (data['search'] as List<dynamic>?)
             ?.map((e) => SearchDto.fromMap(e as Map<String, dynamic>))

@@ -233,39 +233,48 @@ class PersonalTransactionPatientInformationView
                 title: 'Medical History',
                 buttonLabel: 'View All',
                 titleColor: primaryColor,
-                onTap: () {},
+                onTap: controller.toMedicalHistoryListView,
               ),
               bottom: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Card(
                     margin: EdgeInsets.zero,
-                    child: Column(
-                      children: [
-                        /// Questionaire list
+                    child: ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      semanticChildCount:
+                          (controller.medicalHistoryList ?? []).length < 3
+                              ? (controller.medicalHistoryList ?? []).length
+                              : 3,
+                      itemCount:
+                          (controller.medicalHistoryList ?? []).length < 3
+                              ? (controller.medicalHistoryList ?? []).length
+                              : 3,
+                      itemBuilder: (context, index) {
+                        if (controller.medicalHistoryList != null) {
+                          return _singleButtonSlideable(
+                            title:
+                                'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
+                            subtitle:
+                                '${controller.medicalHistoryList![index].noteResult}',
+                            trailing: controller
+                                .medicalHistoryList![index].result!
+                                .split('/')
+                                .first,
+                            onPressed: (context) {
+                              controller.onDownloadButtonPressed(controller
+                                      .medicalHistoryList![index].sampleFile ??
+                                  '');
+                            },
+                          );
+                        }
 
-                        _singleButtonSlideable(
-                          title: 'Sample 1 • Swab PCR',
-                          subtitle:
-                              'Take care of your health by taking vitamins and drugs that the doctor has given.',
-                          trailing: 'Positif',
-                        ),
-                        _singleButtonSlideable(
-                          title: 'Sample 1 • Swab PCR',
-                          subtitle:
-                              'Take care of your health by taking vitamins and drugs that the doctor has given.',
-                          trailing: 'Positif',
-                        ),
-                        _singleButtonSlideable(
-                          title: 'Sample 1 • Swab PCR',
-                          subtitle:
-                              'Take care of your health by taking vitamins and drugs that the doctor has given.',
-                          trailing: 'Positif',
-                        ),
-                      ],
+                        return const SizedBox();
+                      },
                     ),
                   ),
-                )
+                ),
               ],
             ),
 
@@ -293,6 +302,7 @@ class PersonalTransactionPatientInformationView
     required String title,
     required String subtitle,
     required String trailing,
+    Function(BuildContext)? onPressed,
   }) {
     return AppSingleButtonSlideable(
       title: Text(
@@ -309,6 +319,7 @@ class PersonalTransactionPatientInformationView
       ),
       buttonLabel: 'Download',
       isThreeLine: true,
+      buttonPressed: onPressed,
     );
   }
 
