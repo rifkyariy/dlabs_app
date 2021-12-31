@@ -1,5 +1,5 @@
-// ignore_for_file: file_names
 
+// ignore_for_file: file_names
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
 import 'package:dlabs_apps/app/global_widgets/button.dart';
