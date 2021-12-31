@@ -202,17 +202,7 @@ class OrganizationTransactionDetailView
                       subtitle:
                           'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''}',
                       onPressed: (context) async {
-                        await controller.updateMedicalHistoryList(
-                          transactionId:
-                              controller.transactionDetail.transactionId ?? '',
-                          patientId:
-                              (controller.transactionDetail.patientList ??
-                                      [])[index]
-                                  .id
-                                  .toString(),
-                        );
-
-                        controller.toMedicalHistoryListView();
+                        await controller.onViewDetailButtonPressed(index);
                       },
                     );
                   },
@@ -274,7 +264,9 @@ class OrganizationTransactionDetailView
               /// If online then close if offline then fuck
               onPressed: offline ?? false
                   ? () {
-                      /// If offline payment method, then download the payment proof
+                      controller.onDownloadPaymentProofButtonPressed(
+                        controller.transactionDetail.transactionId ?? '',
+                      );
                     }
                   : () {
                       Get.back();

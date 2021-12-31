@@ -1,4 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/global_widgets/app_empty_state.dart';
 import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,22 +26,26 @@ class MedicalQuestionnarieView extends GetView<TransactionViewController> {
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
-      body: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: false,
-        semanticChildCount: (controller.medicalQuestionnaireList ?? []).length,
-        itemCount: (controller.medicalQuestionnaireList ?? []).length,
-        itemBuilder: (context, index) {
-          return _listTile(
-            title: (controller.medicalQuestionnaireList ?? [])[index]
-                    .questionnaire ??
-                '',
-            subtitle:
-                (controller.medicalQuestionnaireList ?? [])[index].jawaban ??
-                    '',
-          );
-        },
-      ),
+      body: (controller.medicalQuestionnaireList ?? []).isEmpty
+          ? const AppEmptyStatePlaceholder(
+              messages: 'There is no medical questionnaire data')
+          : ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: false,
+              semanticChildCount:
+                  (controller.medicalQuestionnaireList ?? []).length,
+              itemCount: (controller.medicalQuestionnaireList ?? []).length,
+              itemBuilder: (context, index) {
+                return _listTile(
+                  title: (controller.medicalQuestionnaireList ?? [])[index]
+                          .questionnaire ??
+                      '',
+                  subtitle: (controller.medicalQuestionnaireList ?? [])[index]
+                          .jawaban ??
+                      '',
+                );
+              },
+            ),
     );
   }
 

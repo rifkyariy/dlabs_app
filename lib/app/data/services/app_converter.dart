@@ -29,6 +29,8 @@ class AppConverter {
         return TRANSACTIONSTATUS.readyToRelease;
       case 'PARTIALLY DONE':
         return TRANSACTIONSTATUS.partiallyDone;
+      case 'PAYMENT':
+        return TRANSACTIONSTATUS.payment;
       default:
         return TRANSACTIONSTATUS.newTransaction;
     }
@@ -64,6 +66,8 @@ class AppConverter {
         return "Ready to Release";
       case TRANSACTIONSTATUS.partiallyDone:
         return "Partially Done";
+      case TRANSACTIONSTATUS.payment:
+        return "Payment";
     }
   }
 }

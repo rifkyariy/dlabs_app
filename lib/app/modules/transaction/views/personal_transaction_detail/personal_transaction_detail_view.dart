@@ -262,7 +262,9 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               /// If online then close if offline then fuck
               onPressed: offline ?? false
                   ? () {
-                      /// If offline payment method, then download the payment proof
+                      controller.onDownloadPaymentProofButtonPressed(
+                        controller.transactionDetail.transactionId ?? '',
+                      );
                     }
                   : () {
                       Get.back();

@@ -12,7 +12,8 @@ enum TRANSACTIONSTATUS {
   partiallyToLab,
   labProcess,
   readyToRelease,
-  partiallyDone
+  partiallyDone,
+  payment
 }
 
 enum TRANSACTIONTYPE { organization, personal }

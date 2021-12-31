@@ -115,6 +115,9 @@ class TransactionCardComponent extends StatelessWidget {
       case TRANSACTIONSTATUS.partiallyDone:
         _status = 'Partially Done';
         break;
+      case TRANSACTIONSTATUS.payment:
+        _status = 'Payment';
+        break;
     }
 
     return Padding(

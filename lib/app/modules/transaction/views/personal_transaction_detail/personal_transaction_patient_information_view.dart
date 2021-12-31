@@ -1,6 +1,7 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/global_widgets/app_detail_information_box.dart';
 import 'package:dlabs_apps/app/global_widgets/app_detail_information_item.dart';
+import 'package:dlabs_apps/app/global_widgets/app_empty_state.dart';
 import 'package:dlabs_apps/app/global_widgets/app_single_button_slideable.dart';
 import 'package:dlabs_apps/app/global_widgets/app_title_with_button.dart';
 import 'package:flutter/material.dart';
@@ -190,32 +191,41 @@ class PersonalTransactionPatientInformationView
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Card(
                     margin: EdgeInsets.zero,
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      semanticChildCount:
-                          (controller.medicalQuestionnaireList ?? []).length < 3
-                              ? (controller.medicalQuestionnaireList ?? [])
-                                  .length
-                              : 3,
-                      itemCount:
-                          (controller.medicalQuestionnaireList ?? []).length < 3
-                              ? (controller.medicalQuestionnaireList ?? [])
-                                  .length
-                              : 3,
-                      itemBuilder: (context, index) {
-                        return _listTile(
-                          title:
-                              (controller.medicalQuestionnaireList ?? [])[index]
-                                      .questionnaire ??
-                                  '',
-                          subtitle:
-                              (controller.medicalQuestionnaireList ?? [])[index]
-                                      .jawaban ??
-                                  '',
-                        );
-                      },
-                    ),
+                    child: (controller.medicalQuestionnaireList ?? []).isEmpty
+                        ? const AppEmptyStatePlaceholder(
+                            messages: 'There is no medical questionnaire data')
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            semanticChildCount:
+                                (controller.medicalQuestionnaireList ?? [])
+                                            .length <
+                                        3
+                                    ? (controller.medicalQuestionnaireList ??
+                                            [])
+                                        .length
+                                    : 3,
+                            itemCount: (controller.medicalQuestionnaireList ??
+                                            [])
+                                        .length <
+                                    3
+                                ? (controller.medicalQuestionnaireList ?? [])
+                                    .length
+                                : 3,
+                            itemBuilder: (context, index) {
+                              return _listTile(
+                                title: (controller.medicalQuestionnaireList ??
+                                            [])[index]
+                                        .questionnaire ??
+                                    '',
+                                subtitle:
+                                    (controller.medicalQuestionnaireList ??
+                                                [])[index]
+                                            .jawaban ??
+                                        '',
+                              );
+                            },
+                          ),
                   ),
                 )
               ],
@@ -240,39 +250,48 @@ class PersonalTransactionPatientInformationView
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Card(
                     margin: EdgeInsets.zero,
-                    child: ListView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      semanticChildCount:
-                          (controller.medicalHistoryList ?? []).length < 3
-                              ? (controller.medicalHistoryList ?? []).length
-                              : 3,
-                      itemCount:
-                          (controller.medicalHistoryList ?? []).length < 3
-                              ? (controller.medicalHistoryList ?? []).length
-                              : 3,
-                      itemBuilder: (context, index) {
-                        if (controller.medicalHistoryList != null) {
-                          return _singleButtonSlideable(
-                            title:
-                                'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
-                            subtitle:
-                                '${controller.medicalHistoryList![index].noteResult}',
-                            trailing: controller
-                                .medicalHistoryList![index].result!
-                                .split('/')
-                                .first,
-                            onPressed: (context) {
-                              controller.onDownloadButtonPressed(controller
-                                      .medicalHistoryList![index].sampleFile ??
-                                  '');
-                            },
-                          );
-                        }
+                    child: (controller.medicalHistoryList ?? []).isEmpty
+                        ? const AppEmptyStatePlaceholder(
+                            messages: 'There is no medical history data',
+                            medical: true,
+                            maximumSize: Size(200, 150),
+                          )
+                        : ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            semanticChildCount:
+                                (controller.medicalHistoryList ?? []).length < 3
+                                    ? (controller.medicalHistoryList ?? [])
+                                        .length
+                                    : 3,
+                            itemCount:
+                                (controller.medicalHistoryList ?? []).length < 3
+                                    ? (controller.medicalHistoryList ?? [])
+                                        .length
+                                    : 3,
+                            itemBuilder: (context, index) {
+                              if (controller.medicalHistoryList != null) {
+                                return _singleButtonSlideable(
+                                  title:
+                                      'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
+                                  subtitle:
+                                      '${controller.medicalHistoryList![index].noteResult}',
+                                  trailing: controller
+                                      .medicalHistoryList![index].result!
+                                      .split('/')
+                                      .first,
+                                  onPressed: (context) {
+                                    controller.onDownloadButtonPressed(
+                                        controller.medicalHistoryList![index]
+                                                .sampleFile ??
+                                            '');
+                                  },
+                                );
+                              }
 
-                        return const SizedBox();
-                      },
-                    ),
+                              return const SizedBox();
+                            },
+                          ),
                   ),
                 ),
               ],

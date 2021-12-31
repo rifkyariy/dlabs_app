@@ -1,4 +1,5 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/global_widgets/app_empty_state.dart';
 import 'package:dlabs_apps/app/global_widgets/app_single_button_slideable.dart';
 import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:flutter/material.dart';
@@ -26,27 +27,33 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
-      body: ListView.builder(
-        itemCount: (controller.medicalHistoryList ?? []).length,
-        itemBuilder: (context, index) {
-          if (controller.medicalHistoryList != null) {
-            return _singleButtonSlideable(
-              title:
-                  'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
-              subtitle: '${controller.medicalHistoryList![index].noteResult}',
-              trailing: controller.medicalHistoryList![index].result!
-                  .split('/')
-                  .first,
-              buttonPressed: (context) {
-                controller.onDownloadButtonPressed(
-                    controller.medicalHistoryList![index].sampleFile ?? '');
-              },
-            );
-          }
+      body: (controller.medicalHistoryList ?? []).isEmpty
+          ? const AppEmptyStatePlaceholder(
+              messages: 'There is no medical history data',
+            )
+          : ListView.builder(
+              itemCount: (controller.medicalHistoryList ?? []).length,
+              itemBuilder: (context, index) {
+                if (controller.medicalHistoryList != null) {
+                  return _singleButtonSlideable(
+                    title:
+                        'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
+                    subtitle:
+                        '${controller.medicalHistoryList![index].noteResult}',
+                    trailing: controller.medicalHistoryList![index].result!
+                        .split('/')
+                        .first,
+                    buttonPressed: (context) {
+                      controller.onDownloadButtonPressed(
+                          controller.medicalHistoryList![index].sampleFile ??
+                              '');
+                    },
+                  );
+                }
 
-          return const SizedBox();
-        },
-      ),
+                return const SizedBox();
+              },
+            ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/data/models/payment_proof_model.dart';
 import 'package:dlabs_apps/app/data/models/transaction.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_patient_list.dart';
 import 'package:dlabs_apps/app/data/services/app_converter.dart';
@@ -24,8 +25,9 @@ import 'package:dlabs_apps/app/modules/transaction/views/payment/personal_paymen
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 
 class TransactionViewController extends GetxController {
   final AppStorageService _storage = Get.find();
@@ -102,6 +104,7 @@ class TransactionViewController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       e.printError();
+      throw Exception(e);
     }
   }
 
@@ -116,6 +119,7 @@ class TransactionViewController extends GetxController {
       );
     } catch (e) {
       e.printError();
+      throw Exception(e);
     }
   }
 
@@ -132,7 +136,7 @@ class TransactionViewController extends GetxController {
         patientId: patientId,
       );
     } catch (e) {
-      e.printError();
+      throw Exception(e);
     }
   }
 
@@ -172,6 +176,13 @@ class TransactionViewController extends GetxController {
       e.printError();
       throw Exception(e);
     }
+  }
+
+  Future<String> getPaymentProof(String transactionId) async {
+    final _apiToken = await _storage.readString('apiToken') ?? '';
+    final _paymentProofUrl = await _transactionRepository.getPaymentProof(
+        token: _apiToken, transactionId: transactionId);
+    return (_paymentProofUrl ?? const PaymentProofModel()).data ?? '';
   }
 
   /// TODO kasih komen
@@ -259,7 +270,7 @@ class TransactionViewController extends GetxController {
   }
 
   /// Go to payment screen
-  void toPaymentScreen(TRANSACTIONTYPE transactiontype) {
+  toPaymentScreen(TRANSACTIONTYPE transactiontype) {
     if (transactiontype == TRANSACTIONTYPE.personal) {
       Get.to(
         () => const PersonalPaymentView(),
@@ -274,7 +285,7 @@ class TransactionViewController extends GetxController {
   }
 
   /// Go to the different screen based on [transactiontype]
-  void toDetailTransactionScreen(TRANSACTIONTYPE transactiontype) {
+  toDetailTransactionScreen(TRANSACTIONTYPE transactiontype) {
     if (TRANSACTIONTYPE.personal == transactiontype) {
       Get.to(
         () => const PersonalTransactionDetailView(),
@@ -288,60 +299,161 @@ class TransactionViewController extends GetxController {
     }
   }
 
-  void toPatientListScreen() {
+  toPatientListScreen() {
     Get.to(() => const TransactionPatientListView());
   }
 
-  void toPatientDetailScrenn() {
+  toPatientDetailScrenn() {
     Get.to(() => const PersonalTransactionPatientInformationView());
   }
 
-  void toMedicalQuestionnaireListView() {
+  toMedicalQuestionnaireListView() {
     Get.to(() => const MedicalQuestionnarieView());
   }
 
-  void toMedicalHistoryListView() {
+  toMedicalHistoryListView() {
     Get.to(() => const MedicalHistoryView());
   }
 
-  void toInvoiceView() {
+  toInvoiceView() {
     Get.to(() => const InvoiceView(), binding: TransactionHistoryViewBinding());
   }
 
-  void onOfflineDialogButtonPressed() {}
+  onOfflineDialogButtonPressed() {}
 
-  void onOnlineDialogButtonPressed() {}
+  onOnlineDialogButtonPressed() {}
 
-  void onDownloadButtonPressed(String url) async {
+  onViewDetailButtonPressed(int index) async {
+    try {
+      await Get.showOverlay(
+        asyncFunction: () async {
+          await updateMedicalHistoryList(
+            transactionId: transactionDetail.transactionId ?? '',
+            patientId:
+                (transactionDetail.patientList ?? [])[index].id.toString(),
+          );
+        },
+        loadingWidget: const Center(
+          child: SizedBox(
+            height: 30,
+            width: 30,
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+      toMedicalHistoryListView();
+    } catch (e) {
+      Get.snackbar(
+        'Error!',
+        'Something went wrong!',
+        backgroundColor: warningColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
+
+  onDownloadPaymentProofButtonPressed(String transactionId) async {
+    final _url = await getPaymentProof(transactionId);
     Get.showOverlay(
       asyncFunction: () async {
-        await downloadFile(url, url.split('/').last);
+        await _downloadFile(
+          '${dotenv.env['BASE_URL']}$_url',
+          _url.split('/').last,
+        );
       },
-      loadingWidget: const Center(
-        child: SizedBox(
-          height: 30,
-          width: 30,
-          child: CircularProgressIndicator(),
+      loadingWidget: Center(
+        child: Card(
+          child: SizedBox(
+            width: 100,
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(),
+                ),
+                SizedBox(height: 20),
+                Text("Downloading")
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  downloadFile(String url, String fileName) async {
-    final Directory? _downloadPath = Directory('/storage/emulated/0/Download');
-
-    await FileDownloader.downloadFile(
-      url: url,
-      path: '${_downloadPath!.path}/$fileName',
+  onDownloadButtonPressed(String url) async {
+    Get.showOverlay(
+      asyncFunction: () async {
+        await _downloadFile(
+          url,
+          url.split('/').last,
+        );
+      },
+      loadingWidget: Center(
+        child: Card(
+          child: SizedBox(
+            width: 100,
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(),
+                ),
+                SizedBox(height: 20),
+                Text("Downloading")
+              ],
+            ),
+          ),
+        ),
+      ),
     );
+  }
 
-    Get.snackbar(
-      'Download Completed',
-      'File saved to download directory',
-      backgroundColor: primaryColor,
-      colorText: whiteColor,
-      snackPosition: SnackPosition.TOP,
-    );
+  _downloadFile(
+    String url,
+    String fileName,
+  ) async {
+    final Directory _path = Directory('/storage/emulated/0/Download');
+
+    try {
+      await FileDownloader.downloadFile(
+        url: url,
+        path: '${_path.path}/$fileName',
+      );
+
+      Get.snackbar(
+        'Download Completed!',
+        'File saved to download directory',
+        backgroundColor: primaryColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    } catch (e) {
+      e.toString() == 'file-already-exist'
+          ? Get.snackbar(
+              'File Already Exist!',
+              'File already saved to download directory',
+              backgroundColor: primaryColor,
+              colorText: whiteColor,
+              snackPosition: SnackPosition.TOP,
+            )
+          : Get.snackbar(
+              'Error!',
+              'Something went wrong!',
+              backgroundColor: warningColor,
+              colorText: whiteColor,
+              snackPosition: SnackPosition.TOP,
+            );
+    }
   }
 
   bool isHomeService() => (transactionDetail.services ?? '') == 'Home Service';

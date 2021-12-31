@@ -1,5 +1,6 @@
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/app_icons.dart';
+import 'package:dlabs_apps/app/global_widgets/app_empty_state.dart';
 import 'package:dlabs_apps/app/global_widgets/app_single_button_slideable.dart';
 import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:flutter/material.dart';
@@ -28,28 +29,35 @@ class TransactionPatientListView extends GetView<TransactionViewController> {
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
-      body: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        semanticChildCount:
-            (controller.transactionDetail.patientList ?? []).length,
-        itemCount: (controller.transactionDetail.patientList ?? []).length,
-        itemBuilder: (context, index) {
-          return _singleButtonSlideable(
-            title: (controller.transactionDetail.patientList ?? [])[index]
-                    .fullName ??
-                '',
-            subtitle:
-                'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''}',
-          );
-        },
-      ),
+      body: (controller.transactionDetail.patientList ?? []).isEmpty
+          ? const AppEmptyStatePlaceholder(messages: 'No patient data')
+          : ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              semanticChildCount:
+                  (controller.transactionDetail.patientList ?? []).length,
+              itemCount:
+                  (controller.transactionDetail.patientList ?? []).length,
+              itemBuilder: (context, index) {
+                return _singleButtonSlideable(
+                  title: (controller.transactionDetail.patientList ?? [])[index]
+                          .fullName ??
+                      '',
+                  subtitle:
+                      'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''}',
+                  onPressed: (context) async {
+                    controller.onViewDetailButtonPressed(index);
+                  },
+                );
+              },
+            ),
     );
   }
 
   Widget _singleButtonSlideable({
     required String title,
     required String subtitle,
+    Function(BuildContext)? onPressed,
   }) {
     return AppSingleButtonSlideable(
       leading: CircleAvatar(
@@ -70,6 +78,7 @@ class TransactionPatientListView extends GetView<TransactionViewController> {
       buttonLabel: 'View Detail',
       isThreeLine: false,
       icon: AppIcons.article,
+      buttonPressed: onPressed,
     );
   }
 }

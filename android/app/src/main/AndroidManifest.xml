@@ -2,11 +2,16 @@
     package="com.dicrectlabs.dlabs_apps">
     
    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+   <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
    <uses-permission android:name="android.permission.INTERNET"/>
    
+   
    <application
+        android:requestLegacyExternalStorage="true"
         android:label="Direct Labs"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
