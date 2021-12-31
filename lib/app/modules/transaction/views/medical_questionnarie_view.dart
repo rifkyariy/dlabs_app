@@ -26,7 +26,7 @@ class MedicalQuestionnarieView extends GetView<TransactionViewController> {
         ),
       ),
       body: ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         shrinkWrap: false,
         semanticChildCount: (controller.medicalQuestionnaireList ?? []).length,
         itemCount: (controller.medicalQuestionnaireList ?? []).length,

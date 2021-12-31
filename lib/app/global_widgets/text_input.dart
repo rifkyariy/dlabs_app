@@ -42,7 +42,10 @@ class TextInput extends StatelessWidget {
         // Label
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(label),
+          child: Text(
+            label,
+            style: mediumTextStyle(blackColor, fontSize: 14),
+          ),
         ),
         // Input
         Align(

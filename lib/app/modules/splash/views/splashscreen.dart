@@ -39,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Obx(
           () => Visibility(
             // child: Text('Logo'),
-            // child: CachedNetworkImageProvider(controller.companyLogo.value),
             child: Image.network(controller.companyLogo.value,
                 width: 140, height: 140),
             visible: controller.isVisible.value,

@@ -98,7 +98,7 @@ class AppDetailInformationBox extends StatelessWidget {
         color: backgroundColor ?? Colors.white,
         boxShadow: [
           BoxShadow(
-            color: shadowColor ?? greyColor.withOpacity(0.5),
+            color: shadowColor ?? greyColor.withOpacity(0.3),
             spreadRadius: _spreadRadius,
             blurRadius: _blurRadius,
             offset: Offset(0, _offSet),
@@ -123,7 +123,7 @@ class AppDetailInformationBox extends StatelessWidget {
           // Detailed Information
           Container(
             padding:
-                contentPadding ?? const EdgeInsets.fromLTRB(25, 10, 25, 10),
+                contentPadding ?? const EdgeInsets.fromLTRB(25, 15, 25, 15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

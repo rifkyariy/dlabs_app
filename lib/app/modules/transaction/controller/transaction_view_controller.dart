@@ -3,6 +3,7 @@ import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_dat
 import 'package:dlabs_apps/app/data/models/transaction.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
 import 'package:dlabs_apps/app/data/repository/history_repository.dart';
+import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
 import 'package:dlabs_apps/app/data/repository/transaction_repository.dart';
 import 'package:dlabs_apps/app/data/services/app_converter.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
@@ -10,6 +11,7 @@ import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_
 import 'package:dlabs_apps/app/modules/transaction/views/medical_questionnarie_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_offline.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_personal.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
@@ -18,6 +20,7 @@ import 'package:get/get.dart';
 
 class TransactionViewController extends GetxController {
   final AppStorageService _storage = Get.find();
+  final MasterDataRepository _master = Get.find();
   final HistoryRepository _historyRepository = Get.find();
   final TransactionRepository _transactionRepository = Get.find();
 
@@ -41,6 +44,11 @@ class TransactionViewController extends GetxController {
   /// It holds for both personal and organization booking
   ///
   late TrxDetailData transactionDetail;
+  late TextEditingController selectedPaymentMethod =
+      TextEditingController(text: '1');
+  late RxString selectedPaymentMethodName = "".obs;
+  late RxString selectedAccountHolder = "".obs;
+  late RxString selectedAccountNumber = "".obs;
 
   /// State
   /// This is the state of the screen
@@ -50,6 +58,20 @@ class TransactionViewController extends GetxController {
   @override
   void onInit() async {
     updateHistoryRowList(enableLoadingEffect: true);
+
+    await getOfflinePaymentMethod().then((result) {
+      paymentMethodList!.value = result.toList();
+
+      var filteredList = paymentMethodList!.where((listItem) =>
+          listItem['id'] == selectedPaymentMethod.text.toString());
+
+      selectedPaymentMethodName.value =
+          filteredList.toList().elementAt(0)['payment_name'];
+      selectedAccountHolder.value =
+          filteredList.toList().elementAt(0)['acc_holder_name'];
+      selectedAccountNumber.value =
+          filteredList.toList().elementAt(0)['acc_number'];
+    });
 
     super.onInit();
   }
@@ -221,5 +243,40 @@ class TransactionViewController extends GetxController {
 
   void toMedicalQuestionnaireListView() {
     Get.to(() => const MedicalQuestionnarieView());
+  }
+
+  void toOfflinePayment() {
+    Get.to(
+      () => const PaymentOfflineView(),
+      binding: TransactionHistoryViewBinding(),
+    );
+  }
+
+  RxList<Map<String, dynamic>>? paymentMethodList =
+      <Map<String, dynamic>>[].obs;
+
+  // Reusable Function
+  List<Map<String, dynamic>> convertIntoList(
+      List keyName, List<Map<String, dynamic>> data) {
+    var defaultKey = ["id", "value"];
+
+    for (var item in data) {
+      for (var i = 0; i < keyName.length; i++) {
+        if (item.containsKey(keyName[i])) {
+          var value = item[keyName[i]];
+          item[defaultKey[i]] = "$value";
+        }
+      }
+    }
+
+    return data;
+  }
+
+  Future<List<Map<String, dynamic>>> getOfflinePaymentMethod() async {
+    final _apiToken = await _storage.readString('apiToken');
+    var result = await await _master.getOfflinePaymentMethod(token: _apiToken!);
+    var apiServiceKey = ["id", "payment_name"];
+
+    return convertIntoList(apiServiceKey, result);
   }
 }

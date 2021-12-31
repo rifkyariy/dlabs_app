@@ -32,7 +32,10 @@ class _SelectInputState extends State<SelectInput> {
         // Label
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(widget.label),
+          child: Text(
+            widget.label,
+            style: mediumTextStyle(blackColor, fontSize: 14),
+          ),
         ),
         // Select Input
         Align(

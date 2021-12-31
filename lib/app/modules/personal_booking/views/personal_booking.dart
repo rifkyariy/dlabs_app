@@ -165,9 +165,12 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               ),
 
               // Gender
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Gender'),
+                child: Text(
+                  'Gender',
+                  style: mediumTextStyle(blackColor, fontSize: 14),
+                ),
               ),
               Row(
                 children: [
@@ -182,7 +185,10 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             },
                     ),
                   ),
-                  const Text('Male'),
+                  Text(
+                    'Male',
+                    style: mediumTextStyle(blackColor, fontSize: 14),
+                  ),
                   Obx(
                     () => Radio(
                       value: '0',
@@ -194,7 +200,10 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             },
                     ),
                   ),
-                  const Text('Female'),
+                  Text(
+                    'Female',
+                    style: mediumTextStyle(blackColor, fontSize: 14),
+                  ),
                 ],
               ),
 

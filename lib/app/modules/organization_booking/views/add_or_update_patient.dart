@@ -118,9 +118,12 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                     lastDate: DateTime.now(),
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('Gender'),
+                  child: Text(
+                    'Gender',
+                    style: mediumTextStyle(blackColor, fontSize: 14),
+                  ),
                 ),
                 Row(
                   children: [
@@ -133,7 +136,10 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                         },
                       ),
                     ),
-                    const Text('Male'),
+                    Text(
+                      'Male',
+                      style: mediumTextStyle(blackColor, fontSize: 14),
+                    ),
                     Obx(
                       () => Radio(
                         value: '0',
@@ -143,7 +149,10 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                         },
                       ),
                     ),
-                    const Text('Female'),
+                    Text(
+                      'Female',
+                      style: mediumTextStyle(blackColor, fontSize: 14),
+                    ),
                   ],
                 ),
                 Obx(
