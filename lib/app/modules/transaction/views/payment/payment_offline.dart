@@ -256,7 +256,15 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                   TransactionTextButton(
                     title: "Choose File",
                     isWhiteBackground: true,
-                    onPressed: () {}, // TODO
+                    onPressed: () async {
+                      await controller.getLocalFile();
+                    }, // TODO
+                  ),
+                  Obx(
+                    () => Text(
+                      controller.uploadedFilename!.value,
+                      style: smallTextStyle(greyColor),
+                    ),
                   ),
                   const SizedBox(
                     height: 8,

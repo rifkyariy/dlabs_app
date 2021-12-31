@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
 import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_data_model.dart';
 import 'package:dlabs_apps/app/data/models/transaction.dart';
@@ -15,6 +17,7 @@ import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_offline
 import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_personal.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -278,5 +281,23 @@ class TransactionViewController extends GetxController {
     var apiServiceKey = ["id", "payment_name"];
 
     return convertIntoList(apiServiceKey, result);
+  }
+
+  late RxString? uploadedFilename = ''.obs;
+
+  Future<void> getLocalFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'png'],
+    );
+
+    if (result != null) {
+      // File file = File(result.files.single.path!);
+      PlatformFile file = result.files.first;
+      uploadedFilename!.value = file.name;
+      print(file.name);
+    } else {
+      // User canceled the picker
+    }
   }
 }
