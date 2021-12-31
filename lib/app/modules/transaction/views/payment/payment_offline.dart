@@ -305,7 +305,14 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                   child: TransactionTextButton(
                     title: "Upload",
                     isWhiteBackground: false,
-                    onPressed: () {}, // TODO
+                    onPressed: () async {
+                      print(controller.paymentProofLocation);
+                      await controller.onUploadPaymentProofPressed(
+                        path: controller.paymentProofLocation,
+                        transactionId:
+                            controller.transactionDetail.transactionId ?? '',
+                      );
+                    }, // TODO
                   ),
                 ),
               ],

@@ -26,6 +26,7 @@ import 'package:dlabs_apps/app/modules/transaction/views/payment/personal_paymen
 import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_offline.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -62,10 +63,14 @@ class TransactionViewController extends GetxController {
   /// It holds for both personal and organization booking
   ///
   late TrxDetailData transactionDetail;
+
   late TextEditingController selectedPaymentMethod =
       TextEditingController(text: '1');
+
   late RxString selectedPaymentMethodName = "".obs;
+
   late RxString selectedAccountHolder = "".obs;
+
   late RxString selectedAccountNumber = "".obs;
 
   /// This is the Invoice Detail Information
@@ -76,6 +81,8 @@ class TransactionViewController extends GetxController {
   /// This is the state of the screen
   ///
   RxBool isLoading = false.obs;
+
+  late String paymentProofLocation;
 
   @override
   void onInit() async {
@@ -206,6 +213,32 @@ class TransactionViewController extends GetxController {
     final _paymentProofUrl = await _transactionRepository.getPaymentProof(
         token: _apiToken, transactionId: transactionId);
     return (_paymentProofUrl ?? const PaymentProofModel()).data ?? '';
+  }
+
+  Future cancelTransaction(String transactionId) async {
+    final _apiToken = await _storage.readString('apiToken') ?? '';
+    try {
+      await _transactionRepository.cancelTransaction(
+          token: _apiToken, transactionId: transactionId);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future uploadPaymentProof({
+    required String path,
+    required String transactionId,
+  }) async {
+    final _apiToken = await _storage.readString('apiToken') ?? '';
+    try {
+      await _transactionRepository.uploadPaymentProof(
+        path: path,
+        token: _apiToken,
+        transactionId: transactionId,
+      );
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   /// TODO kasih komen
@@ -409,6 +442,84 @@ class TransactionViewController extends GetxController {
     );
   }
 
+  onCancelTransactionButtonPressed(String transactionId) async {
+    try {
+      await Get.showOverlay(
+        asyncFunction: () async {
+          await cancelTransaction(transactionId);
+        },
+        loadingWidget: const Center(
+          child: SizedBox(
+            height: 30,
+            width: 30,
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+
+      Get.back();
+
+      Get.snackbar(
+        'Transaction Cancelled',
+        'Transaction cancelled successfully',
+        backgroundColor: greenSuccessColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error!',
+        'Something went wrong!',
+        backgroundColor: warningColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
+
+  onUploadPaymentProofPressed({
+    required String path,
+    required String transactionId,
+  }) async {
+    Get.showOverlay(
+      asyncFunction: () async {
+        await uploadPaymentProof(path: path, transactionId: transactionId);
+      },
+      loadingWidget: Center(
+        child: Card(
+          child: SizedBox(
+            width: 100,
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                SizedBox(
+                  height: 30,
+                  width: 30,
+                  child: CircularProgressIndicator(),
+                ),
+                SizedBox(height: 20),
+                Text("Uploading")
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    Get.back();
+    Get.back();
+
+    Get.snackbar(
+      'Upload Successfull',
+      'Payment proof uploaded !',
+      backgroundColor: greenSuccessColor,
+      colorText: whiteColor,
+      snackPosition: SnackPosition.TOP,
+    );
+  }
+
   onDownloadButtonPressed(String url) async {
     Get.showOverlay(
       asyncFunction: () async {
@@ -480,6 +591,7 @@ class TransactionViewController extends GetxController {
   }
 
   bool isHomeService() => (transactionDetail.services ?? '') == 'Home Service';
+
   void toOfflinePayment() {
     Get.to(
       () => const PaymentOfflineView(),
@@ -517,18 +629,21 @@ class TransactionViewController extends GetxController {
 
   late RxString? uploadedFilename = ''.obs;
 
-  Future<void> getLocalFile() async {
+  Future<String> getLocalFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['jpg', 'pdf', 'png'],
     );
 
     if (result != null) {
-      // File file = File(result.files.single.path!);
       PlatformFile file = result.files.first;
       uploadedFilename!.value = file.name;
       print(file.name);
+
+      paymentProofLocation = File(result.files.single.path!).path;
+      return File(result.files.single.path!).path;
     } else {
+      return '';
       // User canceled the picker
     }
   }

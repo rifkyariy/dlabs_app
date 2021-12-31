@@ -307,7 +307,13 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                   child: TransactionTextButton(
                     title: "Cancel",
                     isWhiteBackground: true,
-                    onPressed: () {}, // TODO
+                    onPressed: () {
+                      Get.dialog(
+                        GetPlatform.isIOS
+                            ? _iosDialog(cancelDialog: true)
+                            : _androidDialog(cancelDialog: true),
+                      );
+                    }, // TODO
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -332,7 +338,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
     );
   }
 
-  Widget _androidDialog() {
+  Widget _androidDialog({bool cancelDialog = false}) {
     return SimpleDialog(
       title: Align(
         alignment: Alignment.topLeft,
@@ -340,12 +346,14 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Payment Option",
+              cancelDialog ? "Warning!" : "Payment Option",
               style: BoldTextStyle(blackColor, fontSize: 19),
             ),
             const SizedBox(height: 18),
             Text(
-              "Please select a payment method",
+              cancelDialog
+                  ? "Are you sure want to cancel this transaction?"
+                  : "Please select a payment method",
               style: regularTextStyle(
                 blackColor,
                 fontSize: 14,
@@ -360,27 +368,38 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
       ),
       children: [
         TransactionTextButton(
-          title: 'Online',
+          title: cancelDialog ? 'Yes' : 'Online',
           isWhiteBackground: false,
-          onPressed: () {},
+          onPressed: cancelDialog
+              ? () async {
+                  Get.back();
+                  await controller.onCancelTransactionButtonPressed(
+                    controller.transactionDetail.transactionId ?? '',
+                  );
+                }
+              : () {},
         ),
         const SizedBox(height: 15),
         TransactionTextButton(
-          title: 'Offline',
+          title: cancelDialog ? 'No' : 'Offline',
           isWhiteBackground: true,
-          onPressed: () {
-            // Destroy Dialog Modal
-            Get.back();
+          onPressed: cancelDialog
+              ? () {
+                  Get.back();
+                }
+              : () {
+                  // Destroy Dialog Modal
+                  Get.back();
 
-            // Redirect into offline payment method
-            controller.toOfflinePayment();
-          },
+                  // Redirect into offline payment method
+                  controller.toOfflinePayment();
+                },
         )
       ],
     );
   }
 
-  Widget _iosDialog() {
+  Widget _iosDialog({bool cancelDialog = false}) {
     return SimpleDialog(
       contentPadding: const EdgeInsets.only(top: 24),
       backgroundColor: const Color(0xC7FBFBFB),
@@ -391,12 +410,14 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Payment Option",
+              cancelDialog ? "Warning!" : "Payment Option",
               style: BoldTextStyle(blackColor, fontSize: 19),
             ),
             const SizedBox(height: 18),
             Text(
-              "Please select a payment method",
+              cancelDialog
+                  ? "Are you sure want to cancel this transaction?"
+                  : "Please select a payment method",
               style: regularTextStyle(
                 blackColor,
                 fontSize: 14,
@@ -408,18 +429,30 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
       children: [
         const Divider(height: 0, thickness: 1),
         TransactionIosButton(
-          title: 'Online',
-          onPressed: () {},
+          title: cancelDialog ? 'Yes' : 'Online',
+          onPressed: cancelDialog
+              ? () async {
+                  Get.back();
+                  await controller.onCancelTransactionButtonPressed(
+                    controller.transactionDetail.transactionId ?? '',
+                  );
+                }
+              : () {},
         ),
         const Divider(height: 0, thickness: 1),
         TransactionIosButton(
-          title: 'Offline',
-          onPressed: () {
-            // Destroy Dialog Modal
-            Get.back();
-            // Redirect into offline payment method
-            controller.toOfflinePayment();
-          },
+          title: cancelDialog ? 'No' : 'Offline',
+          onPressed: cancelDialog
+              ? () {
+                  Get.back();
+                }
+              : () {
+                  // Destroy Dialog Modal
+                  Get.back();
+
+                  // Redirect into offline payment method
+                  controller.toOfflinePayment();
+                },
         )
       ],
     );
