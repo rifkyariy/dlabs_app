@@ -23,6 +23,7 @@ class SignInController extends GetxController {
 
   //Google Sign in
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  RxString companyLogo = "".obs;
 
   // Text Controllers
   final TextEditingController emailController = TextEditingController();
@@ -242,6 +243,11 @@ class SignInController extends GetxController {
 
   @override
   void onInit() async {
+    await _storage.readString('companyLogo').then((companyImage) {
+      companyLogo.value = companyImage!;
+    });
+
+    print(companyLogo);
     super.onInit();
   }
 }

@@ -356,48 +356,51 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 24, right: 24),
-              child: AppButton(
-                text: 'Submit',
-                textColor: whiteColor,
-                onClicked: () => showDialog(
+              child: Obx(
+                () => AppButton(
+                  text: 'Submit',
+                  isLoading: controller.isLoading.value,
+                  textColor: whiteColor,
+                  onClicked: () => showDialog(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Confirmation'),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: const <Widget>[
-                                Text(
-                                    'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
-                              ],
-                            ),
-                          ),
-                          actions: <Widget>[
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: whiteColor,
-                                  elevation: 0,
-                                  side: BorderSide(width: 1, color: greyColor)),
-                              child: Text('Cancel',
-                                  style: mediumTextStyle(greyColor)),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: primaryColor,
-                                elevation: 0,
-                              ),
-                              child: Text('Confirm',
-                                  style: mediumTextStyle(whiteColor)),
-                              onPressed: () {
-                                controller.organizationBookHandler();
-                                Navigator.of(context).pop();
-                              },
-                            ),
+                      title: const Text('Confirmation'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: const <Widget>[
+                            Text(
+                                'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
                           ],
-                        )),
-                isLoading: controller.isLoading.value,
+                        ),
+                      ),
+                      actions: <Widget>[
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: whiteColor,
+                              elevation: 0,
+                              side: BorderSide(width: 1, color: greyColor)),
+                          child:
+                              Text('Cancel', style: mediumTextStyle(greyColor)),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: primaryColor,
+                            elevation: 0,
+                          ),
+                          child: Text('Confirm',
+                              style: mediumTextStyle(whiteColor)),
+                          onPressed: () {
+                            controller.organizationBookHandler();
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 5),

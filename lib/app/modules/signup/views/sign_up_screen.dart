@@ -41,10 +41,10 @@ class SignUpScreen extends GetView<SignUpController> {
             children: [
               // Logo and Header
               Center(
-                child: Image.asset(
-                  'assets/image/logo-dlab.png',
+                child: Image.network(
+                  'https://api-lims.kayabe.id/asset/uploads/setting/20211207041411LOGO KAYABE No Text.png',
                   width: SizeScalling().setWidth(100),
-                  height: SizeScalling().setHeight(40),
+                  height: SizeScalling().setHeight(60),
                 ),
               ),
 

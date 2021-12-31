@@ -19,11 +19,11 @@ class MasterDataRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var locationList = (jsonDecode(response.body)["data"]["list"] as List)
+    var result = (jsonDecode(response.body)["data"]["list"] as List)
         .map((e) => e as Map<String, dynamic>)
         .toList();
 
-    return locationList;
+    return result;
   }
 
   Future getTypeTestList(
@@ -37,12 +37,11 @@ class MasterDataRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var locationList =
-        (jsonDecode(response.body)["data"]["test_type_list"] as List)
-            .map((e) => e as Map<String, dynamic>)
-            .toList();
+    var result = (jsonDecode(response.body)["data"]["test_type_list"] as List)
+        .map((e) => e as Map<String, dynamic>)
+        .toList();
 
-    return locationList;
+    return result;
   }
 
   Future getServicesList({required String token}) async {
@@ -55,11 +54,13 @@ class MasterDataRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var locationList = (jsonDecode(response.body)["data"]["list"] as List)
+    var result = (jsonDecode(response.body)["data"]["list"] as List)
         .map((e) => e as Map<String, dynamic>)
         .toList();
 
-    return locationList;
+    print(result);
+
+    return result;
   }
 
   Future getQuestionnaire(
@@ -73,11 +74,11 @@ class MasterDataRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var questionList = (jsonDecode(response.body)["data"]["list"] as List)
+    var result = (jsonDecode(response.body)["data"]["list"] as List)
         .map((e) => e as Map<String, dynamic>)
         .toList();
 
-    return questionList;
+    return result;
   }
 
   Future getTestPurposeList({required String token}) async {
@@ -89,24 +90,37 @@ class MasterDataRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var purposeList = (jsonDecode(response.body)["data"]["list"] as List)
+    var result = (jsonDecode(response.body)["data"]["list"] as List)
         .map((e) => e as Map<String, dynamic>)
         .toList();
 
-    return purposeList;
+    return result;
   }
 
-  Future getCompanyData({required String token}) async {
+  Future getCompanyData() async {
     var url = Uri.parse("$baseUrl/setting/company");
+
+    final response = await http.get(url);
+
+    var result = (jsonDecode(response.body)["data"]);
+    result['image'] = "${base}${result['image']}";
+
+    return result;
+  }
+
+  Future getOfflinePaymentMethod({required String token}) async {
+    var url = Uri.parse("$baseUrl/master/payment-method");
 
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
+      'fendpoint': '/master',
       'Authorization': 'Bearer $token',
     });
 
-    var result = (jsonDecode(response.body)["data"]);
-    result['image'] = "${base}${result['image']}";
+    var result = (jsonDecode(response.body)["data"]["list"] as List)
+        .map((e) => e as Map<String, dynamic>)
+        .toList();
 
     return result;
   }

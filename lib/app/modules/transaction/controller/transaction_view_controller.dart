@@ -11,6 +11,7 @@ import 'package:dlabs_apps/app/data/models/invoice_model/invoice_data.dart';
 import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_data.dart';
 import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_data_model.dart';
 import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
+import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
 import 'package:dlabs_apps/app/data/repository/transaction_repository.dart';
 import 'package:dlabs_apps/app/data/services/file_downloader.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
@@ -22,8 +23,10 @@ import 'package:dlabs_apps/app/modules/transaction/views/organization_transactio
 import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/payment/organization_payment_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/payment/personal_payment_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_offline.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -31,6 +34,7 @@ import 'package:get/get.dart';
 
 class TransactionViewController extends GetxController {
   final AppStorageService _storage = Get.find();
+  final MasterDataRepository _master = Get.find();
   final HistoryRepository _historyRepository = Get.find();
   final TransactionRepository _transactionRepository = Get.find();
 
@@ -58,6 +62,11 @@ class TransactionViewController extends GetxController {
   /// It holds for both personal and organization booking
   ///
   late TrxDetailData transactionDetail;
+  late TextEditingController selectedPaymentMethod =
+      TextEditingController(text: '1');
+  late RxString selectedPaymentMethodName = "".obs;
+  late RxString selectedAccountHolder = "".obs;
+  late RxString selectedAccountNumber = "".obs;
 
   /// This is the Invoice Detail Information
   /// It holds for the transaction invoice on specific transaction ID
@@ -71,6 +80,20 @@ class TransactionViewController extends GetxController {
   @override
   void onInit() async {
     updateHistoryRowList(enableLoadingEffect: true);
+
+    await getOfflinePaymentMethod().then((result) {
+      paymentMethodList!.value = result.toList();
+
+      var filteredList = paymentMethodList!.where((listItem) =>
+          listItem['id'] == selectedPaymentMethod.text.toString());
+
+      selectedPaymentMethodName.value =
+          filteredList.toList().elementAt(0)['payment_name'];
+      selectedAccountHolder.value =
+          filteredList.toList().elementAt(0)['acc_holder_name'];
+      selectedAccountNumber.value =
+          filteredList.toList().elementAt(0)['acc_number'];
+    });
 
     super.onInit();
   }
@@ -457,4 +480,56 @@ class TransactionViewController extends GetxController {
   }
 
   bool isHomeService() => (transactionDetail.services ?? '') == 'Home Service';
+  void toOfflinePayment() {
+    Get.to(
+      () => const PaymentOfflineView(),
+      binding: TransactionHistoryViewBinding(),
+    );
+  }
+
+  RxList<Map<String, dynamic>>? paymentMethodList =
+      <Map<String, dynamic>>[].obs;
+
+  // Reusable Function
+  List<Map<String, dynamic>> convertIntoList(
+      List keyName, List<Map<String, dynamic>> data) {
+    var defaultKey = ["id", "value"];
+
+    for (var item in data) {
+      for (var i = 0; i < keyName.length; i++) {
+        if (item.containsKey(keyName[i])) {
+          var value = item[keyName[i]];
+          item[defaultKey[i]] = "$value";
+        }
+      }
+    }
+
+    return data;
+  }
+
+  Future<List<Map<String, dynamic>>> getOfflinePaymentMethod() async {
+    final _apiToken = await _storage.readString('apiToken');
+    var result = await await _master.getOfflinePaymentMethod(token: _apiToken!);
+    var apiServiceKey = ["id", "payment_name"];
+
+    return convertIntoList(apiServiceKey, result);
+  }
+
+  late RxString? uploadedFilename = ''.obs;
+
+  Future<void> getLocalFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'pdf', 'png'],
+    );
+
+    if (result != null) {
+      // File file = File(result.files.single.path!);
+      PlatformFile file = result.files.first;
+      uploadedFilename!.value = file.name;
+      print(file.name);
+    } else {
+      // User canceled the picker
+    }
+  }
 }

@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
   startSplashScreen() async {
     controller.getCompanyData();
 
-    var duration = const Duration(seconds: 1);
+    var duration = const Duration(seconds: 2);
 
     return Timer(duration, () {
       controller.isUserSignedIn();
@@ -38,7 +38,8 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Obx(
           () => Visibility(
-            child: Image.network('${controller.companyLogo.value}',
+            // child: Text('Logo'),
+            child: Image.network(controller.companyLogo.value,
                 width: 140, height: 140),
             visible: controller.isVisible.value,
           ),

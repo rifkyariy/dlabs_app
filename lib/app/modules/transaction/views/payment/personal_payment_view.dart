@@ -215,7 +215,11 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               header: AppTitleWithButton(
                 title: 'Payment Detail',
                 buttonLabel: 'Choose',
-                onTap: () {},
+                onTap: () {
+                  Get.dialog(
+                    GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
+                  );
+                },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   color: primaryColor,
@@ -236,7 +240,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  'BCA',
+                  controller.selectedPaymentMethodName.value,
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
@@ -364,7 +368,13 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
         TransactionTextButton(
           title: 'Offline',
           isWhiteBackground: true,
-          onPressed: () {},
+          onPressed: () {
+            // Destroy Dialog Modal
+            Get.back();
+
+            // Redirect into offline payment method
+            controller.toOfflinePayment();
+          },
         )
       ],
     );
@@ -404,7 +414,12 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
         const Divider(height: 0, thickness: 1),
         TransactionIosButton(
           title: 'Offline',
-          onPressed: () {},
+          onPressed: () {
+            // Destroy Dialog Modal
+            Get.back();
+            // Redirect into offline payment method
+            controller.toOfflinePayment();
+          },
         )
       ],
     );

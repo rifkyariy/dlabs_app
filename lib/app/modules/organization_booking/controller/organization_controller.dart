@@ -636,6 +636,7 @@ class OrganizationBookingController extends GetxController {
 
       addPatientOnDB(payload);
 
+      // // locally add
       // patientList.add(
       //   PatientModel(
       //     fullName: patientFullNameController.text,
