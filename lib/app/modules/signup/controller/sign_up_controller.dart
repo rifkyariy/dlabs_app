@@ -1,3 +1,4 @@
+import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +6,7 @@ import 'package:get/get.dart';
 
 class SignUpController extends GetxController {
   final SignInController signInController = Get.find();
+  final AppStorageService _storage = Get.find();
 
   // Text Controllers
 
@@ -22,6 +24,7 @@ class SignUpController extends GetxController {
   RxString emailErrorMessage = ''.obs;
   RxString passwordErrorMessage = ''.obs;
   RxString passwordConfirmErrorMessage = ''.obs;
+  RxString companyLogo = "".obs;
 
   // Validation
 
@@ -76,5 +79,14 @@ class SignUpController extends GetxController {
     } else {
       fullNameErrorMessage.value = 'Your full name can\'t be blank.';
     }
+  }
+
+  @override
+  void onInit() async {
+    await _storage.readString('companyLogo').then((companyImage) {
+      companyLogo.value = companyImage!;
+    });
+
+    super.onInit();
   }
 }

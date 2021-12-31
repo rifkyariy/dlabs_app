@@ -21,25 +21,16 @@ class SplashController extends GetxController {
   late String? googleAuthKey;
   late String? googleFullName;
   late String? apiToken;
-  late String? storageCompanyLogo;
+  late String storageCompanyLogo = "";
   late String? googlePhotoUrl;
 
   void getCompanyData() async {
-    apiToken = await _storage.readString('apiToken');
-    storageCompanyLogo = await _storage.readString('companyLogo');
-    print(storageCompanyLogo);
-
-    if (storageCompanyLogo != null || storageCompanyLogo != "") {
+    await _masterData.getCompanyData().then((company) {
+      companyLogo.value = company['image'].toString();
       isVisible.value = true;
-      companyLogo.value = storageCompanyLogo!;
-    } else {
-      var companyData = await _masterData.getCompanyData().then((company) {
-        companyLogo.value = company['image'];
-        isVisible.value = true;
-        _storage.write('companyLogo', stringValue: company['image']);
-        print(companyLogo);
-      });
-    }
+      _storage.write('companyLogo', stringValue: company['image'].toString());
+      print(companyLogo);
+    });
   }
 
   void isUserSignedIn() async {

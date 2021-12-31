@@ -5,7 +5,6 @@ import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
 import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
-import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +26,7 @@ class UpdatePersonalInfoController extends GetxController {
   RxString phoneNumberErrorMessage = ''.obs;
   RxString dateOfBirthErrorMessage = ''.obs;
   RxString addressErrorMessage = ''.obs;
+  RxString companyLogo = ''.obs;
 
   RxString genderValue = '1'.obs;
 
@@ -100,5 +100,14 @@ class UpdatePersonalInfoController extends GetxController {
     } else {
       identityNumberErrorMessage.value = 'Please enter a valid identity number';
     }
+  }
+
+  @override
+  void onInit() async {
+    await _appStorageService.readString('companyLogo').then((companyImage) {
+      companyLogo.value = companyImage!;
+    });
+
+    super.onInit();
   }
 }
