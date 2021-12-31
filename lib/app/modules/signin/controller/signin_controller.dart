@@ -247,7 +247,6 @@ class SignInController extends GetxController {
       companyLogo.value = companyImage!;
     });
 
-    print(companyLogo);
     super.onInit();
   }
 }

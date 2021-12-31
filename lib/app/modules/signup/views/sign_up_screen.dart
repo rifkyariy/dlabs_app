@@ -40,11 +40,13 @@ class SignUpScreen extends GetView<SignUpController> {
           child: Column(
             children: [
               // Logo and Header
-              Center(
-                child: Image.network(
-                  'https://api-lims.kayabe.id/asset/uploads/setting/20211207041411LOGO KAYABE No Text.png',
-                  width: SizeScalling().setWidth(100),
-                  height: SizeScalling().setHeight(60),
+              Obx(
+                () => Center(
+                  child: Image.network(
+                    controller.companyLogo.value,
+                    width: SizeScalling().setWidth(100),
+                    height: SizeScalling().setHeight(60),
+                  ),
                 ),
               ),
 
