@@ -27,6 +27,7 @@ import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_offline
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/tracking/tracking_process_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -588,6 +589,13 @@ class TransactionViewController extends GetxController {
               snackPosition: SnackPosition.TOP,
             );
     }
+  }
+
+  toTrackingProcessView() {
+    Get.to(
+      () => TrackingProcessView(),
+      binding: TransactionHistoryViewBinding(),
+    );
   }
 
   bool isHomeService() => (transactionDetail.services ?? '') == 'Home Service';

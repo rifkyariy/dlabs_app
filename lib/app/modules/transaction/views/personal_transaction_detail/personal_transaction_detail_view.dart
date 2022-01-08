@@ -53,7 +53,9 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   controller.currentTransactionStatus,
                 ),
                 buttonLabel: 'View Status',
-                onTap: () => {}, // TODO create on tap handler
+                onTap: () {
+                  controller.toTrackingProcessView();
+                },
                 titleColor: controller.currentTransactionStatus ==
                         TRANSACTIONSTATUS.canceled
                     ? dangerColor

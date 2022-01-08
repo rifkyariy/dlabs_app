@@ -45,7 +45,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       // Get.toNamed(AppPages.signin);
 
                       Get.to(
-                        () => TransactionHistoryView(),
+                        () => const TransactionHistoryView(),
                         binding: TransactionHistoryViewBinding(),
                       );
                       break;
