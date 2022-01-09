@@ -1,8 +1,8 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/data/models/patient_model.dart';
-import 'package:dlabs_apps/app/global_widgets/app_select_input.dart';
-import 'package:dlabs_apps/app/global_widgets/text_input.dart';
-import 'package:dlabs_apps/app/modules/organization_booking/controller/organization_controller.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/models/patient_model.dart';
+import 'package:kayabe_lims/app/global_widgets/app_select_input.dart';
+import 'package:kayabe_lims/app/global_widgets/text_input.dart';
+import 'package:kayabe_lims/app/modules/organization_booking/controller/organization_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

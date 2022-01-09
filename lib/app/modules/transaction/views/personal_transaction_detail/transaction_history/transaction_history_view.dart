@@ -1,10 +1,10 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
-import 'package:dlabs_apps/app/global_widgets/app_empty_state.dart';
-import 'package:dlabs_apps/app/modules/transaction/local_widgets/transaction_card_component.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/global_widgets/app_empty_state.dart';
+import 'package:kayabe_lims/app/modules/transaction/local_widgets/transaction_card_component.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 
 class TransactionHistoryView extends GetView<TransactionViewController> {
   const TransactionHistoryView({Key? key}) : super(key: key);

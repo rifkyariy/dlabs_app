@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dlabs_apps/app/data/models/trx_history_model/trx_history_row.dart';
+import 'package:kayabe_lims/app/data/models/trx_history_model/trx_history_row.dart';
 import 'package:equatable/equatable.dart';
 
 class HistoryData extends Equatable {

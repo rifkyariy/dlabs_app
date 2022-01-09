@@ -1,5 +1,5 @@
-import 'package:dlabs_apps/app/global_widgets/app_detail_information_item.dart';
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/global_widgets/app_detail_information_item.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppDetailInformationBox extends StatelessWidget {

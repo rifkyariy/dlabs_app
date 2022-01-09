@@ -1,4 +1,4 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppTitleWithButton extends StatelessWidget {

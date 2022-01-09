@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/data/models/patient_model.dart';
-import 'package:dlabs_apps/app/data/models/user_model.dart';
-import 'package:dlabs_apps/app/data/repository/auth_repository.dart';
-import 'package:dlabs_apps/app/data/repository/booking_repository.dart';
-import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
-import 'package:dlabs_apps/app/data/services/currency_formatting.dart';
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
-import 'package:dlabs_apps/app/routes/app_pages.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/models/patient_model.dart';
+import 'package:kayabe_lims/app/data/models/user_model.dart';
+import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
+import 'package:kayabe_lims/app/data/repository/booking_repository.dart';
+import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
+import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';

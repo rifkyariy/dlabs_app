@@ -1,7 +1,7 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/modules/organization_booking/controller/organization_controller.dart';
-import 'package:dlabs_apps/app/modules/organization_booking/local_widgets/booking_list_tile.dart';
-import 'package:dlabs_apps/app/modules/organization_booking/views/add_or_update_patient.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/modules/organization_booking/controller/organization_controller.dart';
+import 'package:kayabe_lims/app/modules/organization_booking/local_widgets/booking_list_tile.dart';
+import 'package:kayabe_lims/app/modules/organization_booking/views/add_or_update_patient.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_instance/src/extension_instance.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';

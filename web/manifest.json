@@ -1,6 +1,6 @@
 {
-    "name": "dlabs_apps",
-    "short_name": "dlabs_apps",
+    "name": "kayabe_lims",
+    "short_name": "kayabe_lims",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

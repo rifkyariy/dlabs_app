@@ -1,9 +1,9 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/core/utils/app_icons.dart';
-import 'package:dlabs_apps/app/global_widgets/app_detail_information_box.dart';
-import 'package:dlabs_apps/app/global_widgets/app_detail_information_item.dart';
-import 'package:dlabs_apps/app/global_widgets/app_title_with_button.dart';
-import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/global_widgets/app_detail_information_box.dart';
+import 'package:kayabe_lims/app/global_widgets/app_detail_information_item.dart';
+import 'package:kayabe_lims/app/global_widgets/app_title_with_button.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dlabs_apps/app/modules/splash/controller/splash_controller.dart';
+import 'package:kayabe_lims/app/modules/splash/controller/splash_controller.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';

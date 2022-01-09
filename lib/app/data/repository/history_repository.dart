@@ -1,10 +1,10 @@
-import 'package:dlabs_apps/app/data/dtos/history_dto.dart';
-import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_data.dart';
-import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_model.dart';
-import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
-import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_history_model.dart';
-import 'package:dlabs_apps/app/data/models/trx_history_model/trx_history_model.dart';
-import 'package:dlabs_apps/app/data/models/trx_history_model/trx_history_row.dart';
+import 'package:kayabe_lims/app/data/dtos/history_dto.dart';
+import 'package:kayabe_lims/app/data/models/medical_history_model/medical_history_data.dart';
+import 'package:kayabe_lims/app/data/models/medical_history_model/medical_history_model.dart';
+import 'package:kayabe_lims/app/data/models/trx_detail_history_model/trx_detail_data.dart';
+import 'package:kayabe_lims/app/data/models/trx_detail_history_model/trx_detail_history_model.dart';
+import 'package:kayabe_lims/app/data/models/trx_history_model/trx_history_model.dart';
+import 'package:kayabe_lims/app/data/models/trx_history_model/trx_history_row.dart';
 import 'package:http/http.dart' as http;
 
 class HistoryRepository {

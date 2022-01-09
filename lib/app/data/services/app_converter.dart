@@ -1,4 +1,4 @@
-import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
 
 class AppConverter {
   static TRANSACTIONSTATUS transactionStatusToEnum(String status) {

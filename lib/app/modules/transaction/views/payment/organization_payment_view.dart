@@ -1,16 +1,16 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/core/utils/app_icons.dart';
-import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
-import 'package:dlabs_apps/app/data/services/app_converter.dart';
-import 'package:dlabs_apps/app/data/services/currency_formatting.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/services/app_converter.dart';
+import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
 
-import 'package:dlabs_apps/app/global_widgets/app_detail_information_box.dart';
-import 'package:dlabs_apps/app/global_widgets/app_detail_information_item.dart';
-import 'package:dlabs_apps/app/global_widgets/app_single_button_slideable.dart';
-import 'package:dlabs_apps/app/global_widgets/app_title_with_button.dart';
-import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
-import 'package:dlabs_apps/app/modules/transaction/local_widgets/transaction_android_button.dart';
-import 'package:dlabs_apps/app/modules/transaction/local_widgets/transaction_ios_button.dart';
+import 'package:kayabe_lims/app/global_widgets/app_detail_information_box.dart';
+import 'package:kayabe_lims/app/global_widgets/app_detail_information_item.dart';
+import 'package:kayabe_lims/app/global_widgets/app_single_button_slideable.dart';
+import 'package:kayabe_lims/app/global_widgets/app_title_with_button.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
+import 'package:kayabe_lims/app/modules/transaction/local_widgets/transaction_android_button.dart';
+import 'package:kayabe_lims/app/modules/transaction/local_widgets/transaction_ios_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -55,7 +55,9 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                 title: AppConverter.transactionEnumToString(
                     controller.currentTransactionStatus),
                 buttonLabel: 'View Status',
-                onTap: () => {}, // Create onTap Handler
+                onTap: () {
+                  controller.toTrackingProcessView();
+                }, // Create onTap Handler
                 titleColor: controller.currentTransactionStatus ==
                         TRANSACTIONSTATUS.canceled
                     ? dangerColor

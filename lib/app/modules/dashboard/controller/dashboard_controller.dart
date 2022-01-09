@@ -1,4 +1,4 @@
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {

@@ -1,6 +1,6 @@
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
-import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
-import 'package:dlabs_apps/app/routes/app_pages.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/signin/controller/signin_controller.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
-import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
-import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
-import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:kayabe_lims/app/modules/dashboard/views/dashboard.dart';
+import 'package:kayabe_lims/app/modules/signin/controller/signin_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/data/models/google_user_model.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/models/google_user_model.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:dlabs_apps/app/data/models/user_model.dart';
+import 'package:kayabe_lims/app/data/models/user_model.dart';
 
 class AuthRepository {
   final GoogleSignIn _googleSignin = GoogleSignIn();

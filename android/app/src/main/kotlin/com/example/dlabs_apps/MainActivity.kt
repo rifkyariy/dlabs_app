@@ -1,4 +1,4 @@
-package com.dicrectlabs.dlabs_apps
+package id.kayabe.lims
 
 import io.flutter.embedding.android.FlutterActivity
 

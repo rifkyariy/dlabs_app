@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dicrectlabs.dlabs_apps">
+    package="id.kayabe.lims">
     
    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -9,7 +9,7 @@
    
    <application
         android:requestLegacyExternalStorage="true"
-        android:label="Direct Labs"
+        android:label="Kayabe LIMS"
         android:icon="@mipmap/ic_launcher">
 
         <activity

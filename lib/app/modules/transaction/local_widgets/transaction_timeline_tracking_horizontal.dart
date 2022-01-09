@@ -1,5 +1,5 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:timelines/timelines.dart';
 
@@ -19,6 +19,10 @@ class TransactionTimelineTrackingHorizontal extends StatelessWidget {
         connectorTheme: const ConnectorThemeData(space: 30.0, thickness: 3.0),
       ),
       builder: TimelineTileBuilder.connected(
+        // Jumlah indicator nya (bundaran2 nya)
+        itemCount: 4,
+
+        // Ini seberapa lebar spasi antara bundaranya
         itemExtentBuilder: (_, __) => MediaQuery.of(context).size.width / 4,
 
         // Content di atas bundaran
@@ -30,43 +34,32 @@ class TransactionTimelineTrackingHorizontal extends StatelessWidget {
             padding: const EdgeInsets.only(top: 5.0),
             child: Text(
               _processList[index],
-              style: mediumTextStyle(getColor(index), fontSize: 12),
+              style: mediumTextStyle(_getColor(index), fontSize: 12),
             ),
           );
         },
 
         // Ini bundaranya
         indicatorBuilder: (_, index) {
-          Color color;
-          Widget child;
-
           if (index <= processIndex) {
-            color = completeColor;
-            child = Icon(
-              _getIcons(index),
-              color: primaryColor,
-              size: 25,
+            return OutlinedDotIndicator(
+              size: 50,
+              color: completeColor,
+              child: Icon(
+                _getIcons(index),
+                color: completeColor,
+                size: 25,
+              ),
             );
           } else {
-            color = todoColor;
-            child = Icon(
-              _getIcons(index),
+            return OutlinedDotIndicator(
+              size: 50,
               color: todoColor,
-              size: 25,
-            );
-          }
-
-          if (index <= processIndex) {
-            return OutlinedDotIndicator(
-              size: 50,
-              color: color,
-              child: child,
-            );
-          } else {
-            return OutlinedDotIndicator(
-              size: 50,
-              color: color,
-              child: child,
+              child: Icon(
+                _getIcons(index),
+                color: todoColor,
+                size: 25,
+              ),
             );
           }
         },
@@ -75,15 +68,14 @@ class TransactionTimelineTrackingHorizontal extends StatelessWidget {
         connectorBuilder: (_, index, type) {
           if (index <= processIndex) {
             return SolidLineConnector(
-              color: getColor(index),
+              color: _getColor(index),
             );
           } else {
             return SolidLineConnector(
-              color: getColor(index),
+              color: _getColor(index),
             );
           }
         },
-        itemCount: 4,
       ),
     );
   }
@@ -103,7 +95,7 @@ class TransactionTimelineTrackingHorizontal extends StatelessWidget {
     }
   }
 
-  Color getColor(int index) {
+  Color _getColor(int index) {
     if (index <= processIndex) {
       return completeColor;
     } else {

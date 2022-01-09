@@ -1,5 +1,5 @@
-import 'package:dlabs_apps/app/core/utils/app_icons.dart';
-import 'package:dlabs_apps/app/global_widgets/slideable/flutter_slidable.dart';
+import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/global_widgets/slideable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
 
 class BookingListTile extends StatelessWidget {
