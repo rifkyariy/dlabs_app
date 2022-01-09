@@ -9,6 +9,7 @@ class UserModel {
   late String? address;
   late String? image;
   late String? token;
+  late String? nationality;
   dynamic status;
   String? errors;
 
@@ -24,6 +25,7 @@ class UserModel {
     this.image,
     this.token,
     this.status,
+    this.nationality,
     this.errors,
   });
 
@@ -37,6 +39,7 @@ class UserModel {
     gender = json['gender'];
     address = json['address'];
     token = json['token'];
+    nationality = json['nationality'];
     image = json.containsKey('image') ? json['image'] : "";
     status = json['status'];
     errors = json['errors'];
@@ -54,6 +57,7 @@ class UserModel {
       'address': address,
       'image': image,
       'token': token,
+      'nationality': nationality,
       'status': status,
       'errors': errors,
     };

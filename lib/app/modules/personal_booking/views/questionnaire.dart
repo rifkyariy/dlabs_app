@@ -112,19 +112,25 @@ class Questionnaire extends GetView<PersonalBookingController> {
                   text: 'Submit',
                   textColor: whiteColor,
                   onClicked: () => showDialog(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Confirmation'),
-                            content: SingleChildScrollView(
-                              child: ListBody(
-                                children: const <Widget>[
-                                  Text(
-                                      'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
-                                ],
-                              ),
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Confirmation'),
+                      content: SingleChildScrollView(
+                        child: ListBody(
+                          children: const <Widget>[
+                            Text(
+                                'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
+                          ],
+                        ),
+                      ),
+                      actions: <Widget>[
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
                             ),
-                            actions: <Widget>[
-                              ElevatedButton(
+                            Expanded(
+                              child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     primary: whiteColor,
                                     elevation: 0,
@@ -136,7 +142,12 @@ class Questionnaire extends GetView<PersonalBookingController> {
                                   Navigator.of(context).pop();
                                 },
                               ),
-                              ElevatedButton(
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   primary: primaryColor,
                                   elevation: 0,
@@ -148,8 +159,15 @@ class Questionnaire extends GetView<PersonalBookingController> {
                                   Navigator.of(context).pop();
                                 },
                               ),
-                            ],
-                          )),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                   isLoading: controller.isLoading.value,
                 ),
               ),

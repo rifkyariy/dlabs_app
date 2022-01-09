@@ -37,7 +37,7 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
                 if (controller.medicalHistoryList != null) {
                   return _singleButtonSlideable(
                     title:
-                        'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
+                        'Sample ${index + 1}   •   ${controller.medicalHistoryList![index].sampleType}',
                     subtitle:
                         '${controller.medicalHistoryList![index].noteResult}',
                     trailing: controller.medicalHistoryList![index].result!

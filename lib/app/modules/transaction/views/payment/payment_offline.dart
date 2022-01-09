@@ -260,10 +260,13 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                       await controller.getLocalFile();
                     }, // TODO
                   ),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   Obx(
                     () => Text(
                       controller.uploadedFilename!.value,
-                      style: smallTextStyle(greyColor),
+                      style: regularTextStyle(greyColor),
                     ),
                   ),
                   const SizedBox(
@@ -306,7 +309,6 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                     title: "Upload",
                     isWhiteBackground: false,
                     onPressed: () async {
-                      print(controller.paymentProofLocation);
                       await controller.onUploadPaymentProofPressed(
                         path: controller.paymentProofLocation,
                         transactionId:

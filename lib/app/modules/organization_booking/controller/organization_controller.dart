@@ -8,6 +8,8 @@ import 'package:dlabs_apps/app/data/repository/booking_repository.dart';
 import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
 import 'package:dlabs_apps/app/data/services/currency_formatting.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
+import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 import 'package:dlabs_apps/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -458,7 +460,10 @@ class OrganizationBookingController extends GetxController {
           payload: payload, token: apiToken!)) {
         isLoading.value = false;
         // Redirect into sign in page
-        Get.toNamed(AppPages.dashboard);
+        Get.off(
+          () => const TransactionHistoryView(),
+          binding: TransactionHistoryViewBinding(),
+        );
 
         // Display success snackbar
         Get.snackbar(
@@ -616,6 +621,8 @@ class OrganizationBookingController extends GetxController {
   onAddPatient() {
     // validating patient form
     if (validatePatient()) {
+      // check if id and test type was same
+
       Map selectedTestTypeMap = testTypeList!
           .where((listItem) => listItem['id'] == selectedTestType.text)
           .first;
@@ -634,7 +641,7 @@ class OrganizationBookingController extends GetxController {
         "address": patientAddressController.text
       };
 
-      addPatientOnDB(payload);
+      addPatientOnDB(payload, selectedTestTypeMap);
 
       // // locally add
       // patientList.add(
@@ -658,8 +665,10 @@ class OrganizationBookingController extends GetxController {
     }
   }
 
-  void addPatientOnDB(payload) async {
-    if (await _booking.addPatient(payload: payload, token: apiToken)) {
+  void addPatientOnDB(payload, selectedTestTypeMap) async {
+    try {
+      await _booking.addPatient(payload: payload, token: apiToken);
+
       // Refresh patient list
       getPatient(isAll: true);
       patientList.refresh();
@@ -674,6 +683,26 @@ class OrganizationBookingController extends GetxController {
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
+    } catch (e) {
+      if (e.toString().contains('User Identity number already used')) {
+        // Display Error snackbar
+        Get.snackbar(
+          'Error',
+          'Identity Number with Test Type (${selectedTestTypeMap["value"].toString()}) is already used',
+          backgroundColor: dangerColor,
+          colorText: whiteColor,
+          snackPosition: SnackPosition.TOP,
+        );
+      } else {
+        // Display Error snackbar
+        Get.snackbar(
+          'Oops',
+          'Something went wrong',
+          backgroundColor: dangerColor,
+          colorText: whiteColor,
+          snackPosition: SnackPosition.TOP,
+        );
+      }
     }
   }
 

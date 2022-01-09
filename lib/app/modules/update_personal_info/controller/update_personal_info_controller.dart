@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
 import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
 import 'package:dlabs_apps/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:dlabs_apps/app/modules/dashboard/views/dashboard.dart';
@@ -10,6 +11,7 @@ import 'package:get/get.dart';
 
 class UpdatePersonalInfoController extends GetxController {
   SignInController signInController = Get.find();
+  final MasterDataRepository _masterData = Get.put(MasterDataRepository());
   final AppStorageService _appStorageService = Get.find();
 
   // Text Controller
@@ -17,6 +19,8 @@ class UpdatePersonalInfoController extends GetxController {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  TextEditingController selectedNationality =
+      TextEditingController(text: 'Indonesian');
 
   // State
   RxBool isLoading = false.obs;
@@ -27,75 +31,95 @@ class UpdatePersonalInfoController extends GetxController {
   RxString dateOfBirthErrorMessage = ''.obs;
   RxString addressErrorMessage = ''.obs;
   RxString companyLogo = ''.obs;
+  RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
 
   RxString genderValue = '1'.obs;
 
+  // Reusable Function
+  List<Map<String, dynamic>> convertIntoList(
+      List keyName, List<Map<String, dynamic>> data) {
+    var defaultKey = ["id", "value"];
+
+    for (var item in data) {
+      for (var i = 0; i < keyName.length; i++) {
+        if (item.containsKey(keyName[i])) {
+          var value = item[keyName[i]];
+          item[defaultKey[i]] = "$value";
+        }
+      }
+    }
+
+    return data;
+  }
+
+  // Get List of Nationality
+  Future<List<Map<String, dynamic>>> getListofNationality(token) async {
+    var result = await _masterData.getNationalityList(token: token);
+    var apiServiceKey = ["id", "nationality"];
+
+    return convertIntoList(apiServiceKey, result);
+  }
+
   void signUpHandler() async {
-    bool isIdNumberValid = idNumberController.text.length == 16;
-
     if (!GetUtils.isNull(idNumberController.text)) {
-      if (isIdNumberValid) {
-        identityNumberErrorMessage.value = '';
-        if (!GetUtils.isNull(phoneNumberController.text)) {
-          phoneNumberErrorMessage.value = '';
-          if (!GetUtils.isNull(dateOfBirthController.text)) {
-            dateOfBirthErrorMessage.value = '';
-            if (!GetUtils.isNull(addressController.text)) {
-              isLoading.value = true;
-              final String status = await signInController.register(
-                email: Get.parameters['email']!,
-                password: Get.parameters['password']!,
-                fullname: Get.parameters['fullName']!,
-                identityNumber: idNumberController.text,
-                phoneNumber: phoneNumberController.text,
-                dateOfBirth: dateOfBirthController.text,
-                gender: genderValue.value,
-                address: addressController.text,
+      identityNumberErrorMessage.value = '';
+      if (!GetUtils.isNull(phoneNumberController.text)) {
+        phoneNumberErrorMessage.value = '';
+        if (!GetUtils.isNull(dateOfBirthController.text)) {
+          dateOfBirthErrorMessage.value = '';
+          if (!GetUtils.isNull(addressController.text)) {
+            isLoading.value = true;
+            final String status = await signInController.register(
+              email: Get.parameters['email']!,
+              password: Get.parameters['password']!,
+              fullname: Get.parameters['fullName']!,
+              identityNumber: idNumberController.text,
+              phoneNumber: phoneNumberController.text,
+              dateOfBirth: dateOfBirthController.text,
+              gender: genderValue.value,
+              address: addressController.text,
+              nationality: selectedNationality.text,
+            );
+            if (status == "") {
+              isLoading.value = false;
+
+              // Save credentials to local storage
+              String credential =
+                  '${Get.parameters['email']!}:${Get.parameters['password']!}';
+              Codec<String, String> stringToBase64 = utf8.fuse(base64);
+              String encoded = stringToBase64.encode(credential);
+
+              await _appStorageService.write(
+                'credentials',
+                stringValue: encoded,
               );
-              if (status == "") {
-                isLoading.value = false;
 
-                // Save credentials to local storage
-                String credential =
-                    '${Get.parameters['email']!}:${Get.parameters['password']!}';
-                Codec<String, String> stringToBase64 = utf8.fuse(base64);
-                String encoded = stringToBase64.encode(credential);
-
-                await _appStorageService.write(
-                  'credentials',
-                  stringValue: encoded,
-                );
-
-                Get.off(
-                  () => DashboardScreen(
-                    fullName: Get.parameters['fullName'],
-                    gender: genderValue.value,
-                    photoUrl: Get.parameters['googlePhotoUrl'],
-                  ),
-                  binding: DashboardBinding(),
-                );
-              } else {
-                isLoading.value = false;
-                Get.snackbar(
-                  "Something Went Wrong",
-                  status,
-                  backgroundColor: primaryColor,
-                  colorText: whiteColor,
-                  snackPosition: SnackPosition.TOP,
-                );
-              }
+              Get.off(
+                () => DashboardScreen(
+                  fullName: Get.parameters['fullName'],
+                  gender: genderValue.value,
+                  photoUrl: Get.parameters['googlePhotoUrl'],
+                ),
+                binding: DashboardBinding(),
+              );
             } else {
-              addressErrorMessage.value = 'Address can\'t be blank';
+              isLoading.value = false;
+              Get.snackbar(
+                "Something Went Wrong",
+                status,
+                backgroundColor: primaryColor,
+                colorText: whiteColor,
+                snackPosition: SnackPosition.TOP,
+              );
             }
           } else {
-            dateOfBirthErrorMessage.value = 'Date of birth can\'t be blank';
+            addressErrorMessage.value = 'Address can\'t be blank';
           }
         } else {
-          phoneNumberErrorMessage.value = 'Please enter a valid phone number';
+          dateOfBirthErrorMessage.value = 'Date of birth can\'t be blank';
         }
       } else {
-        identityNumberErrorMessage.value =
-            'Please enter a valid identity number';
+        phoneNumberErrorMessage.value = 'Please enter a valid phone number';
       }
     } else {
       identityNumberErrorMessage.value = 'Please enter a valid identity number';
@@ -104,9 +128,15 @@ class UpdatePersonalInfoController extends GetxController {
 
   @override
   void onInit() async {
+    String? apiToken =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJc3N1ZWRBdCI6MTYzOTU0NzExMSwiSXNzdWVyIjoiZnJvbnRlbmQiLCJlbWFpbCI6ImFuZGlrYUBnbWFpbC5jb20iLCJleHAiOiIxNjM5NTYxNTExIiwiaXNzIjoiaHR0cHM6Ly9hcGktbGltcy5rYXlhYmUuaWQiLCJyb2xlIjoiMiIsInVpZCI6IjIzIn0.svoUg3Az5b_3mTI_45OQu68dCIGgRFeMF9Zdi8jg2T0";
+
     await _appStorageService.readString('companyLogo').then((companyImage) {
       companyLogo.value = companyImage!;
     });
+
+    await getListofNationality(apiToken)
+        .then((result) => nationalityList!.value = result.toList());
 
     super.onInit();
   }

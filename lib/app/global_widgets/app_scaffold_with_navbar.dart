@@ -56,10 +56,10 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                     case 3:
                       Get.toNamed(AppPages.signin);
 
-                      Get.to(
-                        () => TransactionHistoryView(),
-                        binding: TransactionHistoryViewBinding(),
-                      );
+                      // Get.to(
+                      //   () => TransactionHistoryView(),
+                      //   binding: TransactionHistoryViewBinding(),
+                      // );
                       break;
                     case 4:
                       final googlesigin = GoogleSignIn();

@@ -82,7 +82,7 @@ class TransactionViewController extends GetxController {
   ///
   RxBool isLoading = false.obs;
 
-  late String paymentProofLocation;
+  late String paymentProofLocation = "";
 
   @override
   void onInit() async {
@@ -457,7 +457,11 @@ class TransactionViewController extends GetxController {
         ),
       );
 
-      Get.back();
+      // Redirect to transaction history
+      Get.off(
+        () => const TransactionHistoryView(),
+        binding: TransactionHistoryViewBinding(),
+      );
 
       Get.snackbar(
         'Transaction Cancelled',
@@ -477,47 +481,61 @@ class TransactionViewController extends GetxController {
     }
   }
 
+  void check(args) {}
+
   onUploadPaymentProofPressed({
     required String path,
     required String transactionId,
   }) async {
-    Get.showOverlay(
-      asyncFunction: () async {
-        await uploadPaymentProof(path: path, transactionId: transactionId);
-      },
-      loadingWidget: Center(
-        child: Card(
-          child: SizedBox(
-            width: 100,
-            height: 100,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(),
-                ),
-                SizedBox(height: 20),
-                Text("Uploading")
-              ],
+    // Check if user already select file
+    print(uploadedFilename);
+    if (uploadedFilename!.value != "") {
+      Get.showOverlay(
+        asyncFunction: () async {
+          await uploadPaymentProof(path: path, transactionId: transactionId);
+        },
+        loadingWidget: Center(
+          child: Card(
+            child: SizedBox(
+              width: 100,
+              height: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: const [
+                  SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(),
+                  ),
+                  SizedBox(height: 20),
+                  Text("Uploading")
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
 
-    Get.back();
-    Get.back();
+      Get.back();
+      Get.back();
 
-    Get.snackbar(
-      'Upload Successfull',
-      'Payment proof uploaded !',
-      backgroundColor: greenSuccessColor,
-      colorText: whiteColor,
-      snackPosition: SnackPosition.TOP,
-    );
+      Get.snackbar(
+        'Upload Successfull',
+        'Proof of Payment  uploaded !',
+        backgroundColor: greenSuccessColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    } else {
+      Get.snackbar(
+        'Invalid File',
+        'Please choose valid proof of payment',
+        backgroundColor: primaryColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
   }
 
   onDownloadButtonPressed(String url) async {
@@ -638,7 +656,6 @@ class TransactionViewController extends GetxController {
     if (result != null) {
       PlatformFile file = result.files.first;
       uploadedFilename!.value = file.name;
-      print(file.name);
 
       paymentProofLocation = File(result.files.single.path!).path;
       return File(result.files.single.path!).path;

@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 import 'package:dlabs_apps/app/core/theme/app_theme.dart';
 import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
+import 'package:dlabs_apps/app/global_widgets/app_select_input_searchable.dart';
 import 'package:dlabs_apps/app/global_widgets/button.dart';
 import 'package:dlabs_apps/app/global_widgets/text_input.dart';
 import 'package:dlabs_apps/app/modules/update_personal_info/controller/update_personal_info_controller.dart';
@@ -117,10 +118,19 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
 
               const SizedBox(height: 16),
 
+              // Nationality
+              Obx(() => SearchableSelectInput(
+                    selectedItem: controller.selectedNationality.text,
+                    items: controller.nationalityList!.value,
+                    label: 'Nationality',
+                    errorMsg: "",
+                    name: '',
+                  )),
+
               // Identity Number
               TextInput(
                 controller: controller.idNumberController,
-                label: 'Identity Number',
+                label: 'Identity Number / Passport',
                 type: 'number',
                 errorMsg: controller.identityNumberErrorMessage.value,
                 name: 'identity number',
@@ -154,20 +164,20 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                 children: [
                   Obx(
                     () => Radio(
-                      value: '0',
+                      value: '1',
                       groupValue: controller.genderValue.value,
                       onChanged: (String? value) {
-                        controller.genderValue.value = value ?? '0';
+                        controller.genderValue.value = value ?? '1';
                       },
                     ),
                   ),
                   const Text('Male'),
                   Obx(
                     () => Radio(
-                      value: '1',
+                      value: '0',
                       groupValue: controller.genderValue.value,
                       onChanged: (String? value) {
-                        controller.genderValue.value = value ?? '1';
+                        controller.genderValue.value = value ?? '0';
                       },
                     ),
                   ),
