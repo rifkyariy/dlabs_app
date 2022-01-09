@@ -240,7 +240,7 @@ class PersonalTransactionPatientInformationView
               boxMargin: const EdgeInsets.only(top: 20),
               divider: const SizedBox(),
               header: AppTitleWithButton(
-                title: 'Medical History',
+                title: 'Test Result',
                 buttonLabel: 'View All',
                 titleColor: primaryColor,
                 onTap: controller.toMedicalHistoryListView,
@@ -252,7 +252,7 @@ class PersonalTransactionPatientInformationView
                     margin: EdgeInsets.zero,
                     child: (controller.medicalHistoryList ?? []).isEmpty
                         ? const AppEmptyStatePlaceholder(
-                            messages: 'There is no medical history data',
+                            messages: 'There is no test result data',
                             medical: true,
                             maximumSize: Size(200, 150),
                           )

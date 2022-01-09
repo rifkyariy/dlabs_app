@@ -42,12 +42,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
         child: Column(
           children: [
             /// Header Component
-            _headerComponent(
-              enabled:
-                  controller.currentTransactionStatus == TRANSACTIONSTATUS.done
-                      ? true
-                      : false,
-            ),
+            _headerComponent(enabled: true),
 
             /// App Detailed Box
             AppDetailInformationBox(
@@ -302,7 +297,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                   flex: 2,
                   child: TransactionTextButton(
                     title: "Cancel",
-                    isWhiteBackground: true,
+                    isRedBackground: true,
                     onPressed: () {
                       Get.dialog(
                         GetPlatform.isIOS
@@ -322,7 +317,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                       Get.dialog(
                         GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
                       );
-                    }, // TODO
+                    }, //
                   ),
                 ),
               ],
@@ -368,7 +363,13 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                 children: [
                   IconButton(
                     enableFeedback: false,
-                    onPressed: enabled ?? false ? () {} : null,
+                    onPressed: enabled ?? false
+                        ? () {
+                            controller.onInvoiceButtonPressed(
+                              controller.transactionDetail.transactionId ?? '',
+                            );
+                          }
+                        : null,
                     icon: Icon(
                       AppIcons.invoice,
                       color: enabled ?? false ? primaryColor : greyColor,
@@ -387,14 +388,6 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
           ),
         ],
       ),
-    );
-  }
-
-  AppDetailInformationItem _boldDetailInformationItem(String text) {
-    return AppDetailInformationItem(
-      text,
-      padding: const EdgeInsets.only(top: 10),
-      style: BoldTextStyle(blackColor, fontSize: 13),
     );
   }
 

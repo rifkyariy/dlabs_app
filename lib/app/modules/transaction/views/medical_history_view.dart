@@ -23,13 +23,13 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Medical History',
+          'Test Result',
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
       body: (controller.medicalHistoryList ?? []).isEmpty
           ? const AppEmptyStatePlaceholder(
-              messages: 'There is no medical history data',
+              messages: 'There is no test result data',
             )
           : ListView.builder(
               itemCount: (controller.medicalHistoryList ?? []).length,

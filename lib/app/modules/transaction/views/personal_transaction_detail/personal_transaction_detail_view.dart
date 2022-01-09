@@ -38,12 +38,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
         child: Column(
           children: [
             /// Header Component
-            _headerComponent(
-              enabled:
-                  controller.currentTransactionStatus == TRANSACTIONSTATUS.done
-                      ? true
-                      : false,
-            ),
+            _headerComponent(enabled: true),
 
             /// App Detailed Box
             AppDetailInformationBox(

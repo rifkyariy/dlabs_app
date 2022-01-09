@@ -26,7 +26,7 @@ class InvoiceView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Medical History',
+          'Test Result',
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
