@@ -209,6 +209,12 @@ class TransactionViewController extends GetxController {
     }
   }
 
+  /// Update History List
+  refreshHistoryList() {
+    transactionHistory.refresh();
+    updateHistoryRowList(enableLoadingEffect: false);
+  }
+
   Future<String> getPaymentProof(String transactionId) async {
     final _apiToken = await _storage.readString('apiToken') ?? '';
     final _paymentProofUrl = await _transactionRepository.getPaymentProof(
