@@ -26,9 +26,11 @@ class InputFieldContainer extends StatelessWidget {
           right: SizeScalling().setWidth(4)),
       width: size.width * 0.9,
       decoration: BoxDecoration(
-          color: isDisabled ? lightGreyColor : whiteColor,
-          borderRadius: BorderRadius.circular(4.8),
-          border: Border.all(color: status ? dangerColor : lightGreyColor)),
+        color: isDisabled ? lightGreyColor : whiteColor,
+        borderRadius: BorderRadius.circular(4.8),
+        border: Border.all(
+            width: 1.5, color: status ? dangerColor : lightGreyColor),
+      ),
       child: child,
     );
   }

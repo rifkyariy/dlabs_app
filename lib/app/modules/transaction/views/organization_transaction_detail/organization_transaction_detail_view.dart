@@ -177,7 +177,9 @@ class OrganizationTransactionDetailView
               ),
               bottom: [
                 ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(left: 10, right: 10),
+
                   shrinkWrap: true,
                   semanticChildCount:
                       (controller.transactionDetail.patientList ?? []).length <

@@ -1,6 +1,8 @@
+
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:kayabe_lims/app/global_widgets/app_select_input.dart';
+import 'package:kayabe_lims/app/global_widgets/app_select_input_searchable.dart';
 import 'package:kayabe_lims/app/global_widgets/button.dart';
 import 'package:kayabe_lims/app/global_widgets/text_input.dart';
 import 'package:kayabe_lims/app/modules/personal_booking/controller/personal_booking_controller.dart';
@@ -100,6 +102,16 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               ),
               Divider(color: greyColor),
               const SizedBox(height: 16),
+
+              // Nationality
+              Obx(() => SearchableSelectInput(
+                    selectedItem: controller.selectedNationalityString.value,
+                    items: controller.nationalityList!.value,
+                    label: 'Nationality',
+                    errorMsg: "",
+                    name: '',
+                    isDisabled: controller.patientSubject.value == 'myself',
+                  )),
 
               // Identity Number
               Obx(

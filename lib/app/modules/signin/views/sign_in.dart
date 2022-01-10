@@ -55,7 +55,7 @@ class SignInScreen extends GetView<SignInController> {
 
               // Header Text
               Text(
-                'Welcome to Direct Lab',
+                'Welcome to LIMS Kayabe',
                 textAlign: TextAlign.center,
                 style: titleTextStyle(blackColor),
               ),

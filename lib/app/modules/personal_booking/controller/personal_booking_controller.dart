@@ -5,6 +5,8 @@ import 'package:kayabe_lims/app/data/repository/booking_repository.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class PersonalBookingController extends GetxController {
   TextEditingController testLocationController = TextEditingController();
   TextEditingController testDateController = TextEditingController();
 
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('yyyy-MM-dd HH:MM:ss');
 
   late String? myIdentityNumber;
   late String? myFullname;
@@ -36,12 +38,14 @@ class PersonalBookingController extends GetxController {
   late String? myDateOfBirth;
   late String? myGender;
   late String? myAddress;
+  late String myNationality;
   late String? apiToken;
 
   RxList<Map<String, dynamic>>? serviceList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? locationList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? testTypeList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? testPurposeList = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
 
   // Radio Data
   RxString genderValue = '0'.obs;
@@ -52,7 +56,10 @@ class PersonalBookingController extends GetxController {
   TextEditingController selectedTestPurpose = TextEditingController(text: '1');
   TextEditingController selectedTestType = TextEditingController(text: '1');
   TextEditingController selectedLocation = TextEditingController(text: '1');
+  TextEditingController selectedNationality =
+      TextEditingController(text: 'Indonesian');
 
+  RxString selectedNationalityString = ''.obs;
   RxString selectedServiceString = ''.obs;
   RxString locationAddress = ''.obs;
   RxString locationName = ''.obs;
@@ -93,6 +100,14 @@ class PersonalBookingController extends GetxController {
     }
 
     return data;
+  }
+
+  // Get List of Nationality
+  Future<List<Map<String, dynamic>>> getListofNationality(token) async {
+    var result = await _masterData.getNationalityList(token: token);
+    var apiServiceKey = ["id", "nationality"];
+
+    return convertIntoList(apiServiceKey, result);
   }
 
   // Get List of Services
@@ -151,6 +166,9 @@ class PersonalBookingController extends GetxController {
     await getListofServices(apiToken)
         .then((result) => serviceList!.value = result.toList());
 
+    await getListofNationality(apiToken)
+        .then((result) => nationalityList!.value = result.toList());
+
     await getListofTestPurposes(apiToken)
         .then((result) => testPurposeList!.value = result.toList());
 
@@ -166,6 +184,7 @@ class PersonalBookingController extends GetxController {
       myDateOfBirth = result.birth_date;
       myGender = result.gender;
       myAddress = result.address;
+      myNationality = result.nationality!;
     });
     toggleFillPatient(); // fill the input based on current user data
 
@@ -194,6 +213,8 @@ class PersonalBookingController extends GetxController {
       dateOfBirthController.text = myDateOfBirth ?? '';
       addressController.text = myAddress ?? '';
       genderValue.value = myGender ?? '0';
+      selectedNationality.value = TextEditingValue(text: myNationality);
+      selectedNationalityString.value = myNationality;
 
       // remove all error message
       identityNumberErrorMessage.value = "";
@@ -212,6 +233,8 @@ class PersonalBookingController extends GetxController {
       addressController.text = '';
       testLocationController.text = '';
       genderValue.value = '0';
+      selectedNationality.text = 'Indonesian';
+      selectedNationalityString.value = 'Indonesian';
     }
   }
 
@@ -270,66 +293,60 @@ class PersonalBookingController extends GetxController {
     bool isFullNameLengthValid = fullNameController.text.length >= 6;
     bool isFullNameValid = RegExp(r'[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')
         .hasMatch(fullNameController.text);
-    bool isIdNumberValid = idNumberController.text.length == 16;
     bool isEmailValid = GetUtils.isEmail(emailController.text);
 
     if (idNumberController.text != "") {
-      if (isIdNumberValid) {
-        identityNumberErrorMessage.value = "";
-        if (!GetUtils.isNull(fullNameController.text)) {
-          if (isFullNameLengthValid) {
-            if (isFullNameValid) {
-              fullNameErrorMessage.value = "";
-              if (isEmailValid) {
-                emailErrorMessage.value = "";
-                if (phoneNumberController.text != "") {
-                  phoneNumberErrorMessage.value = "";
+      identityNumberErrorMessage.value = "";
+      if (!GetUtils.isNull(fullNameController.text)) {
+        if (isFullNameLengthValid) {
+          if (isFullNameValid) {
+            fullNameErrorMessage.value = "";
+            if (isEmailValid) {
+              emailErrorMessage.value = "";
+              if (phoneNumberController.text != "") {
+                phoneNumberErrorMessage.value = "";
 
-                  if (dateOfBirthController.text != "") {
-                    dateOfBirthErrorMessage.value = "";
+                if (dateOfBirthController.text != "") {
+                  dateOfBirthErrorMessage.value = "";
 
-                    if (addressController.text != "") {
-                      addressErrorMessage.value = "";
+                  if (addressController.text != "") {
+                    addressErrorMessage.value = "";
 
-                      // Additional Validation on test location if Myself option is checked
-                      if (selectedService.text != '1') {
-                        if (testLocationController.text != "") {
-                          testLocationErrorMessage.value = "";
-                          buildQuestionnaireView();
-                        } else {
-                          testLocationErrorMessage.value =
-                              "Your location address can\'t be blank";
-                        }
-                      } else {
+                    // Additional Validation on test location if Myself option is checked
+                    if (selectedService.text != '1') {
+                      if (testLocationController.text != "") {
+                        testLocationErrorMessage.value = "";
                         buildQuestionnaireView();
+                      } else {
+                        testLocationErrorMessage.value =
+                            "Your location address can\'t be blank";
                       }
                     } else {
-                      addressErrorMessage.value = 'Address can\'t be blank';
+                      buildQuestionnaireView();
                     }
                   } else {
-                    dateOfBirthErrorMessage.value =
-                        'Date of birth can\'t be blank';
+                    addressErrorMessage.value = 'Address can\'t be blank';
                   }
                 } else {
-                  phoneNumberErrorMessage.value =
-                      "Please enter a valid phone number";
+                  dateOfBirthErrorMessage.value =
+                      'Date of birth can\'t be blank';
                 }
               } else {
-                emailErrorMessage.value = "Please enter a valid email address.";
+                phoneNumberErrorMessage.value =
+                    "Please enter a valid phone number";
               }
             } else {
-              fullNameErrorMessage.value = "Please enter valid name.";
+              emailErrorMessage.value = "Please enter a valid email address.";
             }
           } else {
-            fullNameErrorMessage.value =
-                "Your full name must be at least 6 characters.";
+            fullNameErrorMessage.value = "Please enter valid name.";
           }
         } else {
-          fullNameErrorMessage.value = "Your full name can\'t be blank.";
+          fullNameErrorMessage.value =
+              "Your full name must be at least 6 characters.";
         }
       } else {
-        identityNumberErrorMessage.value =
-            "Please enter a valid identity number";
+        fullNameErrorMessage.value = "Your full name can\'t be blank.";
       }
     } else {
       identityNumberErrorMessage.value = "Please enter a valid identity number";
@@ -394,6 +411,7 @@ class PersonalBookingController extends GetxController {
       "patient_list": {
         "services": selectedServiceName.first['services_name'],
         "identity_number": idNumberController.text,
+        "nationality": selectedNationalityString.value,
         "full_name": fullNameController.text,
         "email": emailController.text,
         "phone": phoneNumberController.text,
@@ -409,8 +427,16 @@ class PersonalBookingController extends GetxController {
     if (await _booking.createPersonalBooking(
         payload: payload, token: apiToken!)) {
       isLoading.value = false;
-      // Redirect into sign in page
-      Get.toNamed(AppPages.dashboard);
+
+      // Back to dashboard before open transaction history
+      Get.back();
+      Get.back();
+
+      // TODO redirect to detailed transaksi
+      Get.to(
+        () => const TransactionHistoryView(),
+        binding: TransactionHistoryViewBinding(),
+      );
 
       // Display success snackbar
       Get.snackbar(

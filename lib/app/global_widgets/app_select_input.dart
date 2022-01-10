@@ -45,11 +45,12 @@ class _SelectInputState extends State<SelectInput> {
                 const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
             width: size.width * 0.9,
             decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(4.8),
-                border: Border.all(
-                    color:
-                        widget.errorMsg == "" ? lightGreyColor : dangerColor)),
+              color: widget.isDisabled ? lightGreyColor : whiteColor,
+              borderRadius: BorderRadius.circular(4.8),
+              border: Border.all(
+                  width: 1.5,
+                  color: widget.errorMsg == "" ? lightGreyColor : dangerColor),
+            ),
             child: DropdownButton<String>(
               underline: const SizedBox(),
               isExpanded: true,

@@ -97,6 +97,25 @@ class MasterDataRepository {
     return result;
   }
 
+  Future getNationalityList({required String token}) async {
+    var url = Uri.parse("$baseUrl/nationality");
+
+    final body = jsonEncode({"q": ""});
+    final response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body);
+
+    var result = (jsonDecode(response.body)["data"] as List)
+        .map((e) => e as Map<String, dynamic>)
+        .toList();
+
+    return result;
+  }
+
   Future getCompanyData() async {
     var url = Uri.parse("$baseUrl/setting/company");
 

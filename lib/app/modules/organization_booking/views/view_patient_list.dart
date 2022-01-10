@@ -174,10 +174,70 @@ class ViewPatientList extends StatelessWidget {
                     subtitle:
                         'ID No : ${controller.patientList[index].identityNumber}',
                     deleteButtonPressed: (context) {
-                      // TODO add alert button
-                      // Delete Button Pressed
-                      // Remove dummyList at x index
-                      controller.deletePatient(index);
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Delete Patient'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text(
+                                  'Are you sure want to delete this patient?',
+                                  style: smallTextStyle(blackColor),
+                                ),
+                                Text('This process cannot be undone',
+                                    style: smallTextStyle(blackColor))
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: whiteColor,
+                                        elevation: 0,
+                                        side: BorderSide(
+                                            width: 1, color: greyColor)),
+                                    child: Text('Cancel',
+                                        style: mediumTextStyle(greyColor)),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: primaryColor,
+                                      elevation: 0,
+                                    ),
+                                    child: Text('Confirm',
+                                        style: mediumTextStyle(whiteColor)),
+                                    onPressed: () {
+                                      // Delete Button Pressed
+                                      // Remove dummyList at x index
+                                      controller.deletePatient(index);
+
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 20,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      );
                     },
                     updateButtonPressed: (context) {
                       controller.updateTextControllerBasedOnIndex(index);
@@ -205,15 +265,78 @@ class ViewPatientList extends StatelessWidget {
                         subtitle:
                             'ID No : ${controller.searchResult[index].identityNumber}',
                         deleteButtonPressed: (context) {
-                          // Get index with spesicfic identity Number
-                          int idx = controller.patientDataIndex(
-                              controller.searchResult[index].identityNumber);
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('Delete Patient'),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    Text(
+                                      'Are you sure want to delete this patient?',
+                                      style: regularTextStyle(blackColor),
+                                    ),
+                                    Text('This process cannot be undone',
+                                        style: regularTextStyle(blackColor))
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            primary: whiteColor,
+                                            elevation: 0,
+                                            side: BorderSide(
+                                                width: 1, color: greyColor)),
+                                        child: Text('Cancel',
+                                            style: mediumTextStyle(greyColor)),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: primaryColor,
+                                          elevation: 0,
+                                        ),
+                                        child: Text('Confirm',
+                                            style: mediumTextStyle(whiteColor)),
+                                        onPressed: () {
+                                          // Get index with spesicfic identity Number
+                                          int idx = controller.patientDataIndex(
+                                              controller.searchResult[index]
+                                                  .identityNumber);
 
-                          // Remove search result data on x index
-                          // Remove patient data on x index
+                                          // Remove search result data on x index
+                                          // Remove patient data on x index
 
-                          controller.searchResult.removeAt(index);
-                          controller.deletePatient(idx);
+                                          controller.searchResult
+                                              .removeAt(index);
+                                          controller.deletePatient(idx);
+
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
                         },
                         updateButtonPressed: (context) {
                           int idx = controller.patientDataIndex(

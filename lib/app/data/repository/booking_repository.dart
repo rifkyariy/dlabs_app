@@ -158,7 +158,6 @@ class BookingRepository {
     final response = await http.post(url, headers: headers, body: body);
 
     bool result = false;
-    print(response);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       result = true;
@@ -192,12 +191,13 @@ class BookingRepository {
     final response = await http.post(url, headers: headers, body: body);
 
     bool result = false;
-    print(response);
+    print(response.statusCode);
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       result = true;
     } else {
       final data = jsonDecode(response.body);
+
       if (data.containsKey('status')) {
         String error = jsonDecode(response.body)['errors'];
         throw (error);

@@ -73,6 +73,7 @@ class AuthRepository {
     required String dateOfBirth,
     required String gender,
     required String address,
+    required String nationality,
   }) async {
     var url = Uri.parse("$baseUrl/auth/register");
     final headers = {
@@ -87,7 +88,8 @@ class AuthRepository {
       "phone": phoneNumber,
       "birth_date": dateOfBirth,
       "gender": gender,
-      "address": address
+      "address": address,
+      "nationality": nationality
     });
     final response = await http.post(url, headers: headers, body: body);
 

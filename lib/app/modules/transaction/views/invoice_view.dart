@@ -26,7 +26,7 @@ class InvoiceView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Test Result',
+          'Invoice',
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -120,7 +120,7 @@ class InvoiceView extends GetView<TransactionViewController> {
               ),
               trailing: TextButton(
                 /// If online then close if offline then fuck
-                onPressed: () {},
+                onPressed: controller.toMedicalHistoryListView,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,

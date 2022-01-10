@@ -195,7 +195,8 @@ class PersonalTransactionPatientInformationView
                         ? const AppEmptyStatePlaceholder(
                             messages: 'There is no medical questionnaire data')
                         : ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
+                            // physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.only(left: 10, right: 10),
                             shrinkWrap: true,
                             semanticChildCount:
                                 (controller.medicalQuestionnaireList ?? [])
@@ -257,7 +258,8 @@ class PersonalTransactionPatientInformationView
                             maximumSize: Size(200, 150),
                           )
                         : ListView.builder(
-                            physics: const NeverScrollableScrollPhysics(),
+                            // physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.only(left: 10, right: 10),
                             shrinkWrap: true,
                             semanticChildCount:
                                 (controller.medicalHistoryList ?? []).length < 3

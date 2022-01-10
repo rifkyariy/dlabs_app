@@ -90,9 +90,9 @@ class DashboardScreen extends GetView<DashboardController> {
                 // Our Service
                 Padding(
                   padding: EdgeInsets.only(
-                    top: SizeScalling().setHeight(26),
-                    bottom: SizeScalling().setHeight(17),
-                  ),
+                      top: SizeScalling().setHeight(26),
+                      bottom: SizeScalling().setHeight(17),
+                      left: SizeScalling().setWidth(0)),
                   child: Text(
                     "Our Service",
                     style: mediumTextStyle(Colors.black),

@@ -58,6 +58,7 @@ class SignInController extends GetxController {
     required String dateOfBirth,
     required String? gender,
     required String address,
+    required String nationality,
   }) async {
     try {
       isLoading.value = true;
@@ -70,6 +71,7 @@ class SignInController extends GetxController {
         dateOfBirth: dateOfBirth,
         gender: gender ?? "",
         address: address,
+        nationality: nationality,
       );
       isLoading.value = false;
 

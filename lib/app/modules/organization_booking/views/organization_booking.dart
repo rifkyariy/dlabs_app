@@ -280,7 +280,75 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                               subtitle:
                                   'ID No : ${controller.patientList[index].identityNumber}',
                               deleteButtonPressed: (context) {
-                                controller.deletePatient(index);
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: const Text('Delete Patient'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Are you sure want to delete this patient?',
+                                            style: regularTextStyle(blackColor),
+                                          ),
+                                          Text('This process cannot be undone',
+                                              style:
+                                                  regularTextStyle(blackColor))
+                                        ],
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          Expanded(
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: whiteColor,
+                                                  elevation: 0,
+                                                  side: BorderSide(
+                                                      width: 1,
+                                                      color: greyColor)),
+                                              child: Text('Cancel',
+                                                  style: mediumTextStyle(
+                                                      greyColor)),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Expanded(
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: primaryColor,
+                                                elevation: 0,
+                                              ),
+                                              child: Text('Confirm',
+                                                  style: mediumTextStyle(
+                                                      whiteColor)),
+                                              onPressed: () {
+                                                // Delete Button Pressed
+                                                // Remove dummyList at x index
+                                                controller.deletePatient(index);
+
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
                               },
                               updateButtonPressed: (context) {
                                 controller
@@ -374,29 +442,47 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                         ),
                       ),
                       actions: <Widget>[
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: whiteColor,
-                              elevation: 0,
-                              side: BorderSide(width: 1, color: greyColor)),
-                          child:
-                              Text('Cancel', style: mediumTextStyle(greyColor)),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: primaryColor,
-                            elevation: 0,
-                          ),
-                          child: Text('Confirm',
-                              style: mediumTextStyle(whiteColor)),
-                          onPressed: () {
-                            controller.organizationBookHandler();
-                            Navigator.of(context).pop();
-                          },
-                        ),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: whiteColor,
+                                    elevation: 0,
+                                    side:
+                                        BorderSide(width: 1, color: greyColor)),
+                                child: Text('Cancel',
+                                    style: mediumTextStyle(greyColor)),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: primaryColor,
+                                  elevation: 0,
+                                ),
+                                child: Text('Confirm',
+                                    style: mediumTextStyle(whiteColor)),
+                                onPressed: () {
+                                  controller.organizationBookHandler();
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),
