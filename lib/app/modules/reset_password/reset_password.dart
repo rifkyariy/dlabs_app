@@ -1,10 +1,10 @@
 // // ignore_for_file: file_names
-// import 'package:dlabs_apps/app/modules/auth/local_widgets/button.dart';
-// import 'package:dlabs_apps/app/modules/auth/local_widgets/navbar.dart';
-// import 'package:dlabs_apps/theme.dart';
-// import 'package:dlabs_apps/Components/input_field.dart';
-// import 'package:dlabs_apps/Components/navbar.dart';
-// import 'package:dlabs_apps/Components/button.dart';
+// import 'package:kayabe_lims/app/modules/auth/local_widgets/button.dart';
+// import 'package:kayabe_lims/app/modules/auth/local_widgets/navbar.dart';
+// import 'package:kayabe_lims/theme.dart';
+// import 'package:kayabe_lims/Components/input_field.dart';
+// import 'package:kayabe_lims/Components/navbar.dart';
+// import 'package:kayabe_lims/Components/button.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
 

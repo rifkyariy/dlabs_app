@@ -1,5 +1,5 @@
-import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
-import 'package:dlabs_apps/app/data/models/patient_model.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/models/patient_model.dart';
 
 class Transaction {
   final String id;

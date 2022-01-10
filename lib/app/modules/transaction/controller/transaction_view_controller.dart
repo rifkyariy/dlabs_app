@@ -1,32 +1,33 @@
 import 'dart:io';
 
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/data/models/payment_proof_model.dart';
-import 'package:dlabs_apps/app/data/models/transaction.dart';
-import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_patient_list.dart';
-import 'package:dlabs_apps/app/data/services/app_converter.dart';
-import 'package:dlabs_apps/app/data/enums/transaction_enum.dart';
-import 'package:dlabs_apps/app/data/repository/history_repository.dart';
-import 'package:dlabs_apps/app/data/models/invoice_model/invoice_data.dart';
-import 'package:dlabs_apps/app/data/models/medical_history_model/medical_history_data.dart';
-import 'package:dlabs_apps/app/data/models/questionnaire_model/questionnaire_data_model.dart';
-import 'package:dlabs_apps/app/data/models/trx_detail_history_model/trx_detail_data.dart';
-import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
-import 'package:dlabs_apps/app/data/repository/transaction_repository.dart';
-import 'package:dlabs_apps/app/data/services/file_downloader.dart';
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
-import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/invoice_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/medical_history_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/medical_questionnarie_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/patient_list_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/payment/organization_payment_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/payment/personal_payment_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/payment/payment_offline.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/models/payment_proof_model.dart';
+import 'package:kayabe_lims/app/data/models/transaction.dart';
+import 'package:kayabe_lims/app/data/models/trx_detail_history_model/trx_detail_patient_list.dart';
+import 'package:kayabe_lims/app/data/models/trx_detail_history_model/trx_detail_tracking_list.dart';
+import 'package:kayabe_lims/app/data/services/app_converter.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/repository/history_repository.dart';
+import 'package:kayabe_lims/app/data/models/invoice_model/invoice_data.dart';
+import 'package:kayabe_lims/app/data/models/medical_history_model/medical_history_data.dart';
+import 'package:kayabe_lims/app/data/models/questionnaire_model/questionnaire_data_model.dart';
+import 'package:kayabe_lims/app/data/models/trx_detail_history_model/trx_detail_data.dart';
+import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
+import 'package:kayabe_lims/app/data/repository/transaction_repository.dart';
+import 'package:kayabe_lims/app/data/services/file_downloader.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/invoice_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/medical_history_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/medical_questionnarie_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/patient_list_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/payment/organization_payment_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/payment/personal_payment_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/payment/payment_offline.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/tracking/tracking_process_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -206,6 +207,12 @@ class TransactionViewController extends GetxController {
       e.printError();
       throw Exception(e);
     }
+  }
+
+  /// Update History List
+  refreshHistoryList() {
+    transactionHistory.refresh();
+    updateHistoryRowList(enableLoadingEffect: false);
   }
 
   Future<String> getPaymentProof(String transactionId) async {
@@ -605,6 +612,53 @@ class TransactionViewController extends GetxController {
               colorText: whiteColor,
               snackPosition: SnackPosition.TOP,
             );
+    }
+  }
+
+  toTrackingProcessView() {
+    Get.to(
+      () => TrackingProcessView(
+        processIndex: _getProgressIndex(),
+      ),
+      binding: TransactionHistoryViewBinding(),
+    );
+  }
+
+  int _getProgressIndex() {
+    final TrxDetailTrackingList _data =
+        (transactionDetail.trackingList ?? []).first;
+
+    final TRANSACTIONSTATUS _status = AppConverter.transactionStatusToEnum(
+      (_data.status ?? '').toUpperCase(),
+    );
+
+    switch (_status) {
+      case TRANSACTIONSTATUS.paymentRejected:
+        return 0;
+
+      case TRANSACTIONSTATUS.newTransaction:
+        return -1;
+
+      case TRANSACTIONSTATUS.payment:
+        return 0;
+
+      case TRANSACTIONSTATUS.confirmed:
+        return 0;
+
+      case TRANSACTIONSTATUS.readyToSample:
+        return 0;
+
+      case TRANSACTIONSTATUS.readyToLab:
+        return 1;
+
+      case TRANSACTIONSTATUS.resultVerification:
+        return 2;
+
+      case TRANSACTIONSTATUS.done:
+        return 3;
+
+      default:
+        return -1;
     }
   }
 

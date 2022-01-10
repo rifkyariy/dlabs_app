@@ -1,10 +1,9 @@
-// ignore_for_file: file_names
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
-import 'package:dlabs_apps/app/global_widgets/app_select_input_searchable.dart';
-import 'package:dlabs_apps/app/global_widgets/button.dart';
-import 'package:dlabs_apps/app/global_widgets/text_input.dart';
-import 'package:dlabs_apps/app/modules/update_personal_info/controller/update_personal_info_controller.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
+import 'package:kayabe_lims/app/global_widgets/app_select_input_searchable.dart';
+import 'package:kayabe_lims/app/global_widgets/button.dart';
+import 'package:kayabe_lims/app/global_widgets/text_input.dart';
+import 'package:kayabe_lims/app/modules/update_personal_info/controller/update_personal_info_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 

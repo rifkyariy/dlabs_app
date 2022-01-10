@@ -1,9 +1,9 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/core/utils/app_icons.dart';
-import 'package:dlabs_apps/app/modules/transaction/bindings/transaction_history_binding.dart';
-import 'package:dlabs_apps/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 
-import 'package:dlabs_apps/app/routes/app_pages.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -45,7 +45,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       // Get.toNamed(AppPages.signin);
 
                       Get.to(
-                        () => TransactionHistoryView(),
+                        () => const TransactionHistoryView(),
                         binding: TransactionHistoryViewBinding(),
                       );
                       break;

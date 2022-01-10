@@ -1,19 +1,29 @@
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
 
 class DashboardController extends GetxController {
-  final AppStorageService storage = Get.find();
-  late RxString fullname = "".obs;
-  late RxString gender = "".obs;
-  late RxString photoUrl = "".obs;
+  final AppStorageService _storage = Get.find();
+  final AuthRepository _auth = Get.find();
+
+  late RxString fullname = ''.obs;
+  late RxString gender = ''.obs;
+  late RxString photoUrl = ''.obs;
   late RxBool isLoggedIn = false.obs;
-  late RxString apiToken = "".obs;
+  late RxString apiToken = ''.obs;
 
   @override
   void onInit() async {
-    // TODO: implement onInit
-    isLoggedIn.value = await storage.readBool('isLoggedIn') ?? false;
-    apiToken.value = await storage.readString('apiToken') ?? '';
+    final _apiToken = await _storage.readString('apiToken');
+
+    final user = await _auth.getUserData(token: _apiToken ?? '');
+
+    fullname.value = user.full_name ?? '';
+    gender.value = user.gender ?? '0';
+    photoUrl.value = user.image ?? '';
+
+    isLoggedIn.value = await _storage.readBool('isLoggedIn') ?? false;
+    apiToken.value = _apiToken ?? '';
 
     print("auth status : $isLoggedIn , $apiToken");
     super.onInit();

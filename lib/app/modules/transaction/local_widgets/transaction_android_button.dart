@@ -1,14 +1,19 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TransactionTextButton extends StatelessWidget {
-  const TransactionTextButton(
-      {Key? key, this.onPressed, this.isWhiteBackground, required this.title})
-      : super(key: key);
+  const TransactionTextButton({
+    Key? key,
+    this.onPressed,
+    this.isWhiteBackground,
+    required this.title,
+    this.isRedBackground = false,
+  }) : super(key: key);
 
   final VoidCallback? onPressed;
   final bool? isWhiteBackground;
   final String title;
+  final bool isRedBackground;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +23,17 @@ class TransactionTextButton extends StatelessWidget {
       child: Text(
         title,
         style: regularTextStyle(
-            isWhiteBackground ?? false ? primaryColor : whiteColor),
+          isRedBackground
+              ? dangerColor
+              : (isWhiteBackground ?? false ? primaryColor : whiteColor),
+        ),
       ),
       style: TextButton.styleFrom(
-        backgroundColor: isWhiteBackground ?? false ? whiteColor : primaryColor,
+        backgroundColor: isRedBackground
+            ? whiteColor
+            : (isWhiteBackground ?? false ? whiteColor : primaryColor),
         minimumSize: const Size(double.infinity, 45),
-        side: BorderSide(color: primaryColor),
+        side: BorderSide(color: isRedBackground ? dangerColor : primaryColor),
       ),
     );
   }

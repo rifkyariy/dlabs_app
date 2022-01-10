@@ -1,30 +1,30 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/global_widgets/button.dart';
-import 'package:dlabs_apps/app/modules/personal_booking/controller/personal_booking_controller.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/global_widgets/button.dart';
+import 'package:kayabe_lims/app/modules/personal_booking/controller/personal_booking_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Questionnaire extends GetView<PersonalBookingController> {
-  Questionnaire({Key? key}) : super(key: key);
+  const Questionnaire({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios_sharp,
-              ),
-              color: blackColor,
-              onPressed: () => Navigator.pop(context)),
-          title: Text('Questionnaire', style: BoldTextStyle(blackColor)),
-          centerTitle: true,
-          actions: [],
-          elevation: 2.0,
-          backgroundColor: whiteColor,
-          shadowColor: lightGreyColor),
-      body: Container(
+        leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_sharp,
+            ),
+            color: blackColor,
+            onPressed: () => Navigator.pop(context)),
+        title: Text('Questionnaire', style: BoldTextStyle(blackColor)),
+        centerTitle: true,
+        elevation: 2.0,
+        backgroundColor: whiteColor,
+        shadowColor: lightGreyColor,
+      ),
+      body: SizedBox(
         child: Obx(
           () => ListView.builder(
             padding: const EdgeInsets.only(top: 25.0, left: 24.0, right: 24.0),

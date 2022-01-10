@@ -1,13 +1,13 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/core/utils/size_scalling.dart';
-import 'package:dlabs_apps/app/global_widgets/app_bottom_sheet_component.dart';
-import 'package:dlabs_apps/app/global_widgets/app_scaffold_with_navbar.dart';
-import 'package:dlabs_apps/app/modules/dashboard/controller/dashboard_controller.dart';
-import 'package:dlabs_apps/app/global_widgets/app_article_card_component.dart';
-import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_banner_component.dart';
-import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_header_component.dart';
-import 'package:dlabs_apps/app/modules/dashboard/local_widgets/dashboard_service_component.dart';
-import 'package:dlabs_apps/app/routes/app_pages.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
+import 'package:kayabe_lims/app/global_widgets/app_bottom_sheet_component.dart';
+import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
+import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
+import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
+import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_component.dart';
+import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_header_component.dart';
+import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_service_component.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -59,13 +59,17 @@ class DashboardScreen extends GetView<DashboardController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Avatar Component
-                DashboardHeaderComponent(
-                  name:
-                      fullName != null ? fullName!.split(" ").elementAt(0) : '',
-                  notificationExist: fullName != null ? true : false,
-                  notificationCount: 0,
-                  gender: gender ?? '0',
-                  photoUrl: photoUrl ?? '',
+                Obx(
+                  () => DashboardHeaderComponent(
+                    name: controller.fullname.value != ''
+                        ? fullName!.split(" ").elementAt(0)
+                        : '',
+                    notificationExist:
+                        controller.fullname.value != '' ? true : false,
+                    notificationCount: 0,
+                    gender: controller.gender.value,
+                    photoUrl: controller.photoUrl.value,
+                  ),
                 ),
 
                 // Banner

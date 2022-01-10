@@ -1,6 +1,6 @@
-import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
-import 'package:dlabs_apps/app/modules/organization_booking/controller/organization_controller.dart';
+import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/organization_booking/controller/organization_controller.dart';
 import 'package:get/get.dart';
 
 class OrganizationBookingBinding implements Bindings {

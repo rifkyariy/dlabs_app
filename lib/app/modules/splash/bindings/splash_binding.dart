@@ -1,8 +1,8 @@
-import 'package:dlabs_apps/app/data/repository/auth_repository.dart';
-import 'package:dlabs_apps/app/data/repository/master_data_repository.dart';
-import 'package:dlabs_apps/app/data/services/local_storage_service.dart';
-import 'package:dlabs_apps/app/modules/signin/controller/signin_controller.dart';
-import 'package:dlabs_apps/app/modules/splash/controller/splash_controller.dart';
+import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
+import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/signin/controller/signin_controller.dart';
+import 'package:kayabe_lims/app/modules/splash/controller/splash_controller.dart';
 import 'package:get/get.dart';
 
 class SplashBinding implements Bindings {

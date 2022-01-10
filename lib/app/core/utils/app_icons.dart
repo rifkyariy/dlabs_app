@@ -42,4 +42,12 @@ class AppIcons {
       IconData(0xe910, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData group =
       IconData(0xe911, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData filesDone =
+      IconData(0xe915, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData creditCard =
+      IconData(0xe914, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData labBottle =
+      IconData(0xe913, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData files =
+      IconData(0xe912, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

@@ -1,7 +1,7 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
-import 'package:dlabs_apps/app/global_widgets/app_empty_state.dart';
-import 'package:dlabs_apps/app/global_widgets/app_single_button_slideable.dart';
-import 'package:dlabs_apps/app/modules/transaction/controller/transaction_view_controller.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/global_widgets/app_empty_state.dart';
+import 'package:kayabe_lims/app/global_widgets/app_single_button_slideable.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,13 +23,13 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Medical History',
+          'Test Result',
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
       body: (controller.medicalHistoryList ?? []).isEmpty
           ? const AppEmptyStatePlaceholder(
-              messages: 'There is no medical history data',
+              messages: 'There is no test result data',
             )
           : ListView.builder(
               itemCount: (controller.medicalHistoryList ?? []).length,
