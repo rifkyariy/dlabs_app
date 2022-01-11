@@ -32,7 +32,7 @@ class UpdatePersonalInfoController extends GetxController {
   RxString genderValue = '1'.obs;
 
   RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
-  final RxString selectedNationalityString = ''.obs;
+  RxString selectedNationalityString = 'Indonesian'.obs;
 
   // Reusable Function
   List<Map<String, dynamic>> convertIntoList(
@@ -77,7 +77,7 @@ class UpdatePersonalInfoController extends GetxController {
               dateOfBirth: dateOfBirthController.text,
               gender: genderValue.value,
               address: addressController.text,
-              nationality: "Indonesian",
+              nationality: selectedNationalityString.value,
             );
             if (status == "") {
               isLoading.value = false;
@@ -130,8 +130,6 @@ class UpdatePersonalInfoController extends GetxController {
     await _appStorageService.readString('companyLogo').then((companyImage) {
       companyLogo.value = companyImage!;
     });
-
-    selectedNationalityString.value = 'Indonesian';
 
     await getListofNationality()
         .then((result) => nationalityList!.value = result.toList());

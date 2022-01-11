@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PersonalBooking extends GetView<PersonalBookingController> {
-  PersonalBooking({Key? key}) : super(key: key);
+  const PersonalBooking({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class PersonalBooking extends GetView<PersonalBookingController> {
       backgroundColor: whiteColor,
       appBar: AppBar(
           leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios_sharp,
               ),
-              color: Color(0xff000000),
+              color: const Color(0xff000000),
               onPressed: () => Navigator.pop(context)),
           title: Text('Personal Book Test', style: BoldTextStyle(blackColor)),
           centerTitle: true,

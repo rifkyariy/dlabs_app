@@ -15,6 +15,7 @@ class SignUpScreen extends GetView<SignUpController> {
     SizeScalling.init(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: whiteColor,
       appBar: AppBar(
           leading: IconButton(
