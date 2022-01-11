@@ -1,4 +1,4 @@
-import 'package:dlabs_apps/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +69,7 @@ class _SearchableSelectInputState extends State<SearchableSelectInput> {
               selectedItem: widget.selectedItem,
               onChanged: !widget.isDisabled
                   ? (String? selected) {
+                      print(selected);
                       // final selectedId = widget.items!
                       //     .where((item) => item['value'] == selected)
                       //     .toList();
@@ -78,30 +79,11 @@ class _SearchableSelectInputState extends State<SearchableSelectInput> {
                       // });
                       setState(() {
                         widget.selectedItem = selected!;
+                        print(widget.selectedItem);
                       });
                     }
                   : null,
             ),
-
-            // DropdownButton<String>(
-            //   underline: const SizedBox(),
-            //   isExpanded: true,
-            //   value: widget.selectedItem.text,
-            //   items: widget.items!.map((Map item) {
-            //     return DropdownMenuItem<String>(
-            //       value: item['id'],
-            //       child: Text(item['value']),
-            //     );
-            //   }).toList(),
-            //   onChanged: !widget.isDisabled
-            //       ? (String? selected) {
-            //           print(widget.selectedItem);
-            //           setState(() {
-            //             widget.selectedItem.text = selected!;
-            //           });
-            //         }
-            //       : null,
-            // ),
           ),
         ),
         const Padding(

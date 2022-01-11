@@ -19,8 +19,6 @@ class UpdatePersonalInfoController extends GetxController {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
-  TextEditingController selectedNationality =
-      TextEditingController(text: 'Indonesian');
 
   // State
   RxBool isLoading = false.obs;
@@ -31,9 +29,10 @@ class UpdatePersonalInfoController extends GetxController {
   RxString dateOfBirthErrorMessage = ''.obs;
   RxString addressErrorMessage = ''.obs;
   RxString companyLogo = ''.obs;
-  RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
-
   RxString genderValue = '1'.obs;
+
+  RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
+  final RxString selectedNationalityString = ''.obs;
 
   // Reusable Function
   List<Map<String, dynamic>> convertIntoList(
@@ -53,21 +52,21 @@ class UpdatePersonalInfoController extends GetxController {
   }
 
   // Get List of Nationality
-  Future<List<Map<String, dynamic>>> getListofNationality(token) async {
-    var result = await _masterData.getNationalityList(token: token);
+  Future<List<Map<String, dynamic>>> getListofNationality() async {
+    var result = await _masterData.getNationalityList();
     var apiServiceKey = ["id", "nationality"];
 
     return convertIntoList(apiServiceKey, result);
   }
 
   void signUpHandler() async {
-    if (!GetUtils.isNull(idNumberController.text)) {
+    if (idNumberController.text != '') {
       identityNumberErrorMessage.value = '';
-      if (!GetUtils.isNull(phoneNumberController.text)) {
+      if (phoneNumberController.text != '') {
         phoneNumberErrorMessage.value = '';
-        if (!GetUtils.isNull(dateOfBirthController.text)) {
+        if (dateOfBirthController.text != '') {
           dateOfBirthErrorMessage.value = '';
-          if (!GetUtils.isNull(addressController.text)) {
+          if (addressController.text != '') {
             isLoading.value = true;
             final String status = await signInController.register(
               email: Get.parameters['email']!,
@@ -78,7 +77,7 @@ class UpdatePersonalInfoController extends GetxController {
               dateOfBirth: dateOfBirthController.text,
               gender: genderValue.value,
               address: addressController.text,
-              nationality: selectedNationality.text,
+              nationality: "Indonesian",
             );
             if (status == "") {
               isLoading.value = false;
@@ -128,14 +127,13 @@ class UpdatePersonalInfoController extends GetxController {
 
   @override
   void onInit() async {
-    String? apiToken =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJc3N1ZWRBdCI6MTYzOTU0NzExMSwiSXNzdWVyIjoiZnJvbnRlbmQiLCJlbWFpbCI6ImFuZGlrYUBnbWFpbC5jb20iLCJleHAiOiIxNjM5NTYxNTExIiwiaXNzIjoiaHR0cHM6Ly9hcGktbGltcy5rYXlhYmUuaWQiLCJyb2xlIjoiMiIsInVpZCI6IjIzIn0.svoUg3Az5b_3mTI_45OQu68dCIGgRFeMF9Zdi8jg2T0";
-
     await _appStorageService.readString('companyLogo').then((companyImage) {
       companyLogo.value = companyImage!;
     });
 
-    await getListofNationality(apiToken)
+    selectedNationalityString.value = 'Indonesian';
+
+    await getListofNationality()
         .then((result) => nationalityList!.value = result.toList());
 
     super.onInit();

@@ -1,7 +1,9 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:kayabe_lims/app/global_widgets/app_bottom_sheet_component.dart';
 import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_component.dart';
@@ -22,6 +24,7 @@ class DashboardScreen extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController _authController = Get.find();
     SizeScalling.init(context);
     return AppScaffoldWithBottomNavBar(
       visibleBottomNavBar: true,
@@ -29,7 +32,7 @@ class DashboardScreen extends GetView<DashboardController> {
       currentIndex: 0,
       middleButtonPressed: () {
         // Check if user authenticated based on name
-        if (fullName != null) {
+        if (_authController.isLoggedIn.value) {
           showModalBottomSheet(
             backgroundColor: Colors.transparent,
             context: context,
@@ -61,14 +64,14 @@ class DashboardScreen extends GetView<DashboardController> {
                 // Avatar Component
                 Obx(
                   () => DashboardHeaderComponent(
-                    name: controller.fullname.value != ''
-                        ? fullName!.split(" ").elementAt(0)
+                    name: _authController.fullname.value != ''
+                        ? _authController.fullname.value.split(" ").elementAt(0)
                         : '',
                     notificationExist:
-                        controller.fullname.value != '' ? true : false,
+                        _authController.fullname.value != '' ? true : false,
                     notificationCount: 0,
-                    gender: controller.gender.value,
-                    photoUrl: controller.photoUrl.value,
+                    gender: _authController.gender.value,
+                    photoUrl: _authController.photoUrl.value,
                   ),
                 ),
 
@@ -149,6 +152,24 @@ class DashboardScreen extends GetView<DashboardController> {
                   title: controller.dummyArticleData[1].title,
                   photoUrl: controller.dummyArticleData[1].photoUrl,
                   timestamp: controller.dummyArticleData[1].timestamp,
+                ),
+
+                SizedBox(
+                  height: 20,
+                ),
+
+                TextButton(
+                  onPressed: () async {
+                    _authController.handleLogout();
+                  },
+                  child: Text(
+                    'Logout',
+                    style: mediumTextStyle(dangerColor),
+                  ),
+                ),
+
+                SizedBox(
+                  height: 20,
                 ),
               ],
             ),

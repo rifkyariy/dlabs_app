@@ -1,31 +1,40 @@
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardController extends GetxController {
   final AppStorageService _storage = Get.find();
   final AuthRepository _auth = Get.find();
-
-  late RxString fullname = ''.obs;
-  late RxString gender = ''.obs;
-  late RxString photoUrl = ''.obs;
-  late RxBool isLoggedIn = false.obs;
-  late RxString apiToken = ''.obs;
+  final AuthController _authController = Get.find();
 
   @override
   void onInit() async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+
     final _apiToken = await _storage.readString('apiToken');
 
     final user = await _auth.getUserData(token: _apiToken ?? '');
+    _authController.gender.value = user.gender ?? '0';
 
-    fullname.value = user.full_name ?? '';
-    gender.value = user.gender ?? '0';
-    photoUrl.value = user.image ?? '';
+    var googleKey = await _storage.readString('googleKey');
+    if (await _storage.readString('googleKey') != "") {
+      _authController.photoUrl.value =
+          await _storage.readString('googlePhotoUrl') ?? '';
+      _authController.fullname.value =
+          await _storage.readString('googleFullName') ?? '';
+    } else {
+      _authController.fullname.value = user.full_name ?? '';
+      _authController.photoUrl.value = user.image ?? '';
+    }
 
-    isLoggedIn.value = await _storage.readBool('isLoggedIn') ?? false;
-    apiToken.value = _apiToken ?? '';
+    _authController.isLoggedIn.value =
+        await _storage.readBool('isLoggedIn') ?? false;
+    _authController.apiToken.value = _apiToken ?? '';
 
-    print("auth status : $isLoggedIn , $apiToken");
+    print(
+        "auth status : ${_authController.isLoggedIn} , ${_authController.apiToken}");
     super.onInit();
   }
 

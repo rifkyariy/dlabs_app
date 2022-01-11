@@ -51,12 +51,15 @@ class _InputFieldState extends State<InputField> {
         enableSuggestions: false,
         readOnly: widget.type == 'date'
             ? true
-            : widget.isDisabled == true
+            : widget.type == 'datetime'
                 ? true
-                : false,
+                : widget.isDisabled == true
+                    ? true
+                    : false,
         minLines: widget.type == 'textarea' ? 4 : 1,
         maxLines: widget.type == 'textarea' ? null : 1,
-        onTap: widget.type == 'date' && widget.isDisabled == false
+        onTap: widget.type == 'date' && widget.isDisabled == false ||
+                widget.type == 'datetime' && widget.isDisabled == false
             ? () async {
                 DateTime? pickedDate = await showDatePicker(
                     context: context,
@@ -66,15 +69,22 @@ class _InputFieldState extends State<InputField> {
                     lastDate: widget.lastDate);
 
                 if (pickedDate != null) {
-                  TimeOfDay? pickedTime = await showTimePicker(
-                      context: context, initialTime: TimeOfDay.now());
-
                   String formattedDate =
                       DateFormat('yyyy-MM-dd').format(pickedDate);
-                  setState(() {
-                    widget.controller.text =
-                        '${formattedDate} ${pickedTime!.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}:00 '; //set output date to TextField value.
-                  });
+                  if (widget.type == 'datetime') {
+                    TimeOfDay? pickedTime = await showTimePicker(
+                        context: context, initialTime: TimeOfDay.now());
+
+                    setState(() {
+                      widget.controller.text =
+                          '${formattedDate} ${pickedTime!.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}:00 '; //set output date to TextField value.
+                    });
+                  } else {
+                    setState(() {
+                      widget.controller.text =
+                          formattedDate; //set output date to TextField value.
+                    });
+                  }
                 } else {
                   print("Date is not selected");
                 }
@@ -105,7 +115,7 @@ class _InputFieldState extends State<InputField> {
                   onPressed: () {
                     _toggle();
                   })
-              : (widget.type == 'date'
+              : widget.type == 'date'
                   ? IconButton(
                       icon: Icon(Icons.calendar_today),
                       color: Color(0xff000000),
@@ -133,7 +143,35 @@ class _InputFieldState extends State<InputField> {
                         }
                       },
                     )
-                  : null),
+                  : (widget.type == 'datetime'
+                      ? IconButton(
+                          icon: Icon(Icons.calendar_today),
+                          color: Color(0xff000000),
+                          onPressed: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(
+                                    1900), //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2101));
+
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
+                              print(
+                                  formattedDate); //formatted date output using intl package =>  2021-03-16
+                              //you can implement different kind of Date Format here according to your requirement
+
+                              setState(() {
+                                widget.controller.text =
+                                    formattedDate; //set output date to TextField value.
+                              });
+                            } else {
+                              print("Date is not selected");
+                            }
+                          },
+                        )
+                      : null),
         ),
       ),
     );

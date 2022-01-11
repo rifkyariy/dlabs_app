@@ -131,7 +131,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               TextInput(
                 controller: controller.testDateController,
                 label: 'Test Date',
-                type: 'date',
+                type: 'datetime',
                 errorMsg: "",
                 firstDate: DateTime.now(),
                 name: 'test date',

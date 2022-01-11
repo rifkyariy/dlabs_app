@@ -24,13 +24,6 @@ class Apps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         getPages: AppPages.routes,
