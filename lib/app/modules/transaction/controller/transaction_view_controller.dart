@@ -34,6 +34,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 class TransactionViewController extends GetxController {
   final AppStorageService _storage = Get.find();
@@ -612,7 +614,7 @@ class TransactionViewController extends GetxController {
     String url,
     String fileName,
   ) async {
-    final Directory _path = Directory('/storage/emulated/0/Download');
+    Directory _path = await getApplicationDocumentsDirectory();
 
     try {
       await FileDownloader.downloadFile(
@@ -621,20 +623,28 @@ class TransactionViewController extends GetxController {
       );
 
       Get.snackbar(
-        'Download Completed!',
-        'File saved to download directory',
-        backgroundColor: primaryColor,
+        'Download Completed - Click to view!',
+        'File saved to application directory',
+        backgroundColor: greenSuccessColor,
         colorText: whiteColor,
-        snackPosition: SnackPosition.TOP,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+        onTap: (value) {
+          OpenFile.open('${_path.path}/$fileName');
+        },
       );
     } catch (e) {
       e.toString() == 'file-already-exist'
           ? Get.snackbar(
-              'File Already Exist!',
-              'File already saved to download directory',
-              backgroundColor: primaryColor,
+              'File Already Exist - Click to view!',
+              'File saved to application directory',
+              backgroundColor: greenSuccessColor,
               colorText: whiteColor,
-              snackPosition: SnackPosition.TOP,
+              snackPosition: SnackPosition.BOTTOM,
+              margin: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+              onTap: (value) {
+                OpenFile.open('${_path.path}/$fileName');
+              },
             )
           : Get.snackbar(
               'Error!',

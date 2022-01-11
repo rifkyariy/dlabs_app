@@ -275,7 +275,7 @@ class PersonalTransactionPatientInformationView
                               if (controller.medicalHistoryList != null) {
                                 return _singleButtonSlideable(
                                   title:
-                                      'Sample ${index + 1} • ${controller.medicalHistoryList![index].sampleType}',
+                                      '${controller.medicalHistoryList![index].sampleId}  •  ${controller.medicalHistoryList![index].sampleType}',
                                   subtitle:
                                       '${controller.medicalHistoryList![index].noteResult}',
                                   trailing: controller
@@ -290,7 +290,6 @@ class PersonalTransactionPatientInformationView
                                   },
                                 );
                               }
-
                               return const SizedBox();
                             },
                           ),
