@@ -4,7 +4,9 @@ import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/views/dashboard.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class SignInController extends GetxController {
   final AuthRepository _auth = Get.put(AuthRepository());
   final AppStorageService _storage = Get.find();
+  final AuthController _authController = Get.find();
 
   late UserModel? _user;
   UserModel? get user => _user;
@@ -132,13 +135,16 @@ class SignInController extends GetxController {
 
             await _storage.write('credentials', stringValue: encoded);
 
+            // Set Dashboard OBX
+            _authController.fullname.value = _user.full_name!;
+            _authController.photoUrl.value = _user.image!;
+            _authController.gender.value = _user.gender!;
+            _authController.apiToken.value = _user.token!;
+            _authController.isLoggedIn.value = true;
+
             // Go to dashboard
             Get.off(
-              () => DashboardScreen(
-                fullName: _user.full_name,
-                photoUrl: _user.image,
-                gender: _user.gender,
-              ),
+              () => DashboardScreen(),
               binding: DashboardBinding(),
             );
           } else {
@@ -221,13 +227,16 @@ class SignInController extends GetxController {
 
         isGoogleLoading.value = false;
 
+        // Set Dashboard OBX
+        _authController.fullname.value = _googleUser.displayName!;
+        _authController.photoUrl.value = _googleUser.photoUrl!;
+        _authController.gender.value = _appUser.gender!;
+        _authController.apiToken.value = _user.token!;
+        _authController.isLoggedIn.value = true;
+
         // Go to dashboard
         Get.off(
-          () => DashboardScreen(
-            fullName: _googleUser.displayName,
-            photoUrl: _googleUser.photoUrl,
-            gender: _appUser.gender,
-          ),
+          () => DashboardScreen(),
           binding: DashboardBinding(),
         );
       }

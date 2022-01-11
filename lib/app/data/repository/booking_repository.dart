@@ -8,7 +8,7 @@ class BookingRepository {
     return 'Basic ' + base64Encode(utf8.encode('$username:$password'));
   }
 
-  Future<bool> createPersonalBooking(
+  Future<dynamic> createPersonalBooking(
       {required Map<String, dynamic> payload, required String token}) async {
     var url = Uri.parse("$baseUrl/transaction/private");
     final headers = {
@@ -21,10 +21,9 @@ class BookingRepository {
     final body = jsonEncode(payload);
     final response = await http.post(url, headers: headers, body: body);
 
-    bool result = false;
+    var result;
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body)['data'];
-      result = true;
+      result = jsonDecode(response.body)['data'];
     } else {
       final data = jsonDecode(response.body);
       if (data.containsKey('status')) {

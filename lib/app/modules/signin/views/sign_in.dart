@@ -43,15 +43,16 @@ class SignInScreen extends GetView<SignInController> {
               // Logo and Header
               Obx(
                 () => Center(
-                  child: Image.network(
-                    controller.companyLogo.value,
-                    width: SizeScalling().setWidth(100),
-                    height: SizeScalling().setHeight(60),
-                  ),
-                ),
+                    child: controller.companyLogo.value.isNotEmpty
+                        ? Image.network(
+                            controller.companyLogo.value,
+                            width: SizeScalling().setWidth(100),
+                            height: SizeScalling().setHeight(60),
+                          )
+                        : null),
               ),
 
-              SizedBox(height: SizeScalling().setHeight(40)),
+              SizedBox(height: SizeScalling().setHeight(25)),
 
               // Header Text
               Text(

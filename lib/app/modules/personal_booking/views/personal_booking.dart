@@ -1,4 +1,3 @@
-
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:kayabe_lims/app/global_widgets/app_select_input.dart';
@@ -11,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class PersonalBooking extends GetView<PersonalBookingController> {
-  PersonalBooking({Key? key}) : super(key: key);
+  const PersonalBooking({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +18,10 @@ class PersonalBooking extends GetView<PersonalBookingController> {
       backgroundColor: whiteColor,
       appBar: AppBar(
           leading: IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back_ios_sharp,
               ),
-              color: Color(0xff000000),
+              color: const Color(0xff000000),
               onPressed: () => Navigator.pop(context)),
           title: Text('Personal Book Test', style: BoldTextStyle(blackColor)),
           centerTitle: true,
@@ -104,24 +103,25 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               const SizedBox(height: 16),
 
               // Nationality
-              Obx(() => SearchableSelectInput(
-                    selectedItem: controller.selectedNationalityString.value,
-                    items: controller.nationalityList!.value,
-                    label: 'Nationality',
-                    errorMsg: "",
-                    name: '',
-                    isDisabled: controller.patientSubject.value == 'myself',
-                  )),
+              Obx(
+                () => SearchableSelectInput(
+                  selectedItem: controller.selectedNationalityString.value,
+                  items: controller.nationalityList!.value,
+                  label: 'Nationality',
+                  errorMsg: "",
+                  name: '',
+                  isDisabled: controller.patientSubject.value == 'myself',
+                ),
+              ),
 
               // Identity Number
               Obx(
                 () => TextInput(
                   controller: controller.idNumberController,
                   label: 'Identity Number',
-                  type: 'number',
+                  type: 'text',
                   errorMsg: controller.identityNumberErrorMessage.value,
                   name: 'identity number',
-                  placeholder: '3372050909098998',
                   isDisabled: controller.patientSubject.value == 'myself',
                 ),
               ),
@@ -155,7 +155,6 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                   controller: controller.phoneNumberController,
                   label: 'Phone Number',
                   type: 'phone',
-                  placeholder: '+628625378973',
                   errorMsg: controller.phoneNumberErrorMessage.value,
                   name: 'phone number',
                 ),
@@ -260,7 +259,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               TextInput(
                 controller: controller.testDateController,
                 label: 'Test Date',
-                type: 'date',
+                type: 'datetime',
                 errorMsg: "",
                 firstDate: DateTime.now(),
                 name: 'test date',

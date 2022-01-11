@@ -12,8 +12,6 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
 
   @override
   Widget build(BuildContext context) {
-    SizeScalling.init(context);
-
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -41,14 +39,17 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               // Logo and Header
               Obx(
                 () => Center(
-                  child: Image.network(
-                    controller.companyLogo.value,
-                    width: SizeScalling().setWidth(100),
-                    height: SizeScalling().setHeight(60),
-                  ),
+                  child: controller.companyLogo.value.isNotEmpty
+                      ? Image.network(
+                          controller.companyLogo.value,
+                          width: SizeScalling().setWidth(100),
+                          height: SizeScalling().setHeight(60),
+                        )
+                      : null,
                 ),
               ),
-              const SizedBox(height: 40),
+
+              SizedBox(height: SizeScalling().setHeight(25)),
 
               // Google Login
               Center(
@@ -118,30 +119,38 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               const SizedBox(height: 16),
 
               // Nationality
-              Obx(() => SearchableSelectInput(
-                    selectedItem: controller.selectedNationality.text,
-                    items: controller.nationalityList!.value,
-                    label: 'Nationality',
-                    errorMsg: "",
-                    name: '',
-                  )),
+              Obx(
+                () => SearchableSelectInput(
+                  selectedItem: controller.selectedNationalityString.value,
+                  items: controller.nationalityList!.value,
+                  label: 'Nationality',
+                  errorMsg: "",
+                  name: '',
+                  isDisabled: false,
+                ),
+              ),
 
               // Identity Number
-              TextInput(
-                controller: controller.idNumberController,
-                label: 'Identity Number / Passport',
-                type: 'number',
-                errorMsg: controller.identityNumberErrorMessage.value,
-                name: 'identity number',
+              Obx(
+                () => TextInput(
+                  controller: controller.idNumberController,
+                  label: 'Identity Number',
+                  type: 'text',
+                  errorMsg: controller.identityNumberErrorMessage.value,
+                  name: 'identity number',
+                  isDisabled: false,
+                ),
               ),
 
               // Phone Number
-              TextInput(
-                controller: controller.phoneNumberController,
-                label: 'Phone Number',
-                type: 'phone',
-                errorMsg: controller.phoneNumberErrorMessage.value,
-                name: 'phone number',
+              Obx(
+                () => TextInput(
+                    controller: controller.phoneNumberController,
+                    label: 'Phone Number',
+                    type: 'phone',
+                    errorMsg: controller.phoneNumberErrorMessage.value,
+                    name: 'phone number',
+                    isDisabled: false),
               ),
 
               // Date of Birth
@@ -185,13 +194,15 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               ),
 
               // Address
-              TextInput(
-                controller: controller.addressController,
-                label: 'Address',
-                errorMsg: controller.addressErrorMessage.value,
-                placeholder: 'e.g. Jl. Merdeka No 911 Sulawesi Barat',
-                type: 'textarea',
-                name: 'address',
+              Obx(
+                () => TextInput(
+                  controller: controller.addressController,
+                  label: 'Address',
+                  errorMsg: controller.addressErrorMessage.value,
+                  type: 'textarea',
+                  name: 'address',
+                  isDisabled: false,
+                ),
               ),
             ],
           ),

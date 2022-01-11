@@ -27,6 +27,7 @@ import 'package:kayabe_lims/app/modules/transaction/views/payment/personal_payme
 import 'package:kayabe_lims/app/modules/transaction/views/payment/payment_offline.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/tracking/tracking_process_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -272,6 +273,7 @@ class TransactionViewController extends GetxController {
   Future<void> onTransactionCardPressed({
     required String transactionId,
     required TRANSACTIONSTATUS status,
+    bool isDestroyState = false,
   }) async {
     try {
       // Set current Transaction Type to the one that user clicked
@@ -306,26 +308,26 @@ class TransactionViewController extends GetxController {
       //
       if (status == TRANSACTIONSTATUS.newTransaction &&
           (transactionDetail.isPrivate ?? '1') == '1') {
-        toPaymentScreen(TRANSACTIONTYPE.personal);
+        toPaymentScreen(TRANSACTIONTYPE.personal, isDestroyState);
       }
 
       if (status == TRANSACTIONSTATUS.newTransaction &&
           (transactionDetail.isPrivate ?? '1') != '1') {
-        toPaymentScreen(TRANSACTIONTYPE.organization);
+        toPaymentScreen(TRANSACTIONTYPE.organization, isDestroyState);
       }
 
       // If [transactionDetail.isPrivate] is 1 then go to Personal Page
       //  TRANSACTIONTYPE.personal
       if (status != TRANSACTIONSTATUS.newTransaction &&
           (transactionDetail.isPrivate ?? '1') == '1') {
-        toDetailTransactionScreen(TRANSACTIONTYPE.personal);
+        toDetailTransactionScreen(TRANSACTIONTYPE.personal, isDestroyState);
       }
 
       // If [transactionDetail.isPrivate] is not 1 then go to Organization Page
       // TRANSACTIONTYPE.organization
       if (status != TRANSACTIONSTATUS.newTransaction &&
           (transactionDetail.isPrivate ?? '1') != '1') {
-        toDetailTransactionScreen(TRANSACTIONTYPE.organization);
+        toDetailTransactionScreen(TRANSACTIONTYPE.organization, isDestroyState);
       }
     } catch (e) {
       e.printError();
@@ -333,32 +335,61 @@ class TransactionViewController extends GetxController {
   }
 
   /// Go to payment screen
-  toPaymentScreen(TRANSACTIONTYPE transactiontype) {
-    if (transactiontype == TRANSACTIONTYPE.personal) {
-      Get.to(
-        () => const PersonalPaymentView(),
-        binding: TransactionHistoryViewBinding(),
-      );
+  toPaymentScreen(TRANSACTIONTYPE transactiontype, bool isDestroyState) {
+    if (isDestroyState) {
+      if (transactiontype == TRANSACTIONTYPE.personal) {
+        Get.off(
+          () => const PersonalPaymentView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      } else {
+        Get.off(
+          () => const OrganizationPaymentView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      }
     } else {
-      Get.to(
-        () => const OrganizationPaymentView(),
-        binding: TransactionHistoryViewBinding(),
-      );
+      if (transactiontype == TRANSACTIONTYPE.personal) {
+        Get.to(
+          () => const PersonalPaymentView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      } else {
+        Get.to(
+          () => const OrganizationPaymentView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      }
     }
   }
 
   /// Go to the different screen based on [transactiontype]
-  toDetailTransactionScreen(TRANSACTIONTYPE transactiontype) {
-    if (TRANSACTIONTYPE.personal == transactiontype) {
-      Get.to(
-        () => const PersonalTransactionDetailView(),
-        binding: TransactionHistoryViewBinding(),
-      );
+  toDetailTransactionScreen(
+      TRANSACTIONTYPE transactiontype, bool isDestroyState) {
+    if (isDestroyState) {
+      if (TRANSACTIONTYPE.personal == transactiontype) {
+        Get.off(
+          () => const PersonalTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      } else {
+        Get.off(
+          () => const OrganizationTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      }
     } else {
-      Get.to(
-        () => const OrganizationTransactionDetailView(),
-        binding: TransactionHistoryViewBinding(),
-      );
+      if (TRANSACTIONTYPE.personal == transactiontype) {
+        Get.to(
+          () => const PersonalTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      } else {
+        Get.to(
+          () => const OrganizationTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      }
     }
   }
 

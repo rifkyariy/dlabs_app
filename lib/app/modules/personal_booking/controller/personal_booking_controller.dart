@@ -1,12 +1,12 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
 import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
 import 'package:kayabe_lims/app/data/repository/booking_repository.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
-import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
-import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +15,7 @@ import 'package:intl/intl.dart';
 
 class PersonalBookingController extends GetxController {
   final AppStorageService storage = Get.find();
+  final TransactionViewController transactionViewController = Get.find();
   final AuthRepository _auth = Get.put(AuthRepository());
   final MasterDataRepository _masterData = Get.put(MasterDataRepository());
   final BookingRepository _booking = Get.put(BookingRepository());
@@ -56,8 +57,6 @@ class PersonalBookingController extends GetxController {
   TextEditingController selectedTestPurpose = TextEditingController(text: '1');
   TextEditingController selectedTestType = TextEditingController(text: '1');
   TextEditingController selectedLocation = TextEditingController(text: '1');
-  TextEditingController selectedNationality =
-      TextEditingController(text: 'Indonesian');
 
   RxString selectedNationalityString = ''.obs;
   RxString selectedServiceString = ''.obs;
@@ -103,8 +102,8 @@ class PersonalBookingController extends GetxController {
   }
 
   // Get List of Nationality
-  Future<List<Map<String, dynamic>>> getListofNationality(token) async {
-    var result = await _masterData.getNationalityList(token: token);
+  Future<List<Map<String, dynamic>>> getListofNationality() async {
+    var result = await _masterData.getNationalityList();
     var apiServiceKey = ["id", "nationality"];
 
     return convertIntoList(apiServiceKey, result);
@@ -166,7 +165,7 @@ class PersonalBookingController extends GetxController {
     await getListofServices(apiToken)
         .then((result) => serviceList!.value = result.toList());
 
-    await getListofNationality(apiToken)
+    await getListofNationality()
         .then((result) => nationalityList!.value = result.toList());
 
     await getListofTestPurposes(apiToken)
@@ -213,7 +212,6 @@ class PersonalBookingController extends GetxController {
       dateOfBirthController.text = myDateOfBirth ?? '';
       addressController.text = myAddress ?? '';
       genderValue.value = myGender ?? '0';
-      selectedNationality.value = TextEditingValue(text: myNationality);
       selectedNationalityString.value = myNationality;
 
       // remove all error message
@@ -233,20 +231,26 @@ class PersonalBookingController extends GetxController {
       addressController.text = '';
       testLocationController.text = '';
       genderValue.value = '0';
-      selectedNationality.text = 'Indonesian';
       selectedNationalityString.value = 'Indonesian';
     }
   }
 
   // Set location
-  void _triggerLocationAddress() {
+  void _triggerLocationAddress() async {
     selectedServiceString.value = selectedService.text;
+    setLocationByService(selectedServiceString.value);
+  }
 
-    if (selectedServiceString.value == '1') {
+  void setLocationByService(serviceId) async {
+    if (serviceId == '1') {
       selectedLocation.value = const TextEditingValue(text: '2');
+
+      await getListofLocation(apiToken).then((result) => locationList!.value =
+          result.where((element) => element['id'] != '1').toList());
     } else {
+      await getListofLocation(apiToken)
+          .then((result) => locationList!.value = result.toList());
       selectedLocation.value = const TextEditingValue(text: '1');
-      testLocationController.value = addressController.value;
     }
   }
 
@@ -424,25 +428,33 @@ class PersonalBookingController extends GetxController {
     };
 
     isLoading.value = true;
-    if (await _booking.createPersonalBooking(
-        payload: payload, token: apiToken!)) {
+    try {
+      var result = await _booking.createPersonalBooking(
+          payload: payload, token: apiToken!);
+
+      String transactionId = result['transaction_detail']['transaction_id'];
+
       isLoading.value = false;
 
-      // Back to dashboard before open transaction history
-      Get.back();
-      Get.back();
-
-      // TODO redirect to detailed transaksi
-      Get.to(
-        () => const TransactionHistoryView(),
-        binding: TransactionHistoryViewBinding(),
-      );
+      transactionViewController.onTransactionCardPressed(
+          transactionId: transactionId,
+          status: TRANSACTIONSTATUS.newTransaction,
+          isDestroyState: true);
 
       // Display success snackbar
       Get.snackbar(
         'Success',
         'Your Transaction is ready.',
         backgroundColor: Colors.lightGreen,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    } catch (e) {
+      // Display success snackbar
+      Get.snackbar(
+        'Error',
+        '${e}',
+        backgroundColor: dangerColor,
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );

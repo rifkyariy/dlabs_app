@@ -1,13 +1,11 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
-
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppScaffoldWithBottomNavBar extends StatelessWidget {
   const AppScaffoldWithBottomNavBar({
@@ -28,6 +26,8 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
   final void Function()? middleButtonPressed;
   @override
   Widget build(BuildContext context) {
+    final AuthController _authController = Get.find();
+
     return Scaffold(
       appBar: appBar,
       bottomNavigationBar: visibleBottomNavBar ?? false
@@ -42,48 +42,78 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       Get.offAndToNamed(AppPages.dashboard);
                       break;
                     case 1:
-                      // Get.toNamed(AppPages.signin);
-
-                      Get.to(
-                        () => const TransactionHistoryView(),
-                        binding: TransactionHistoryViewBinding(),
-                      );
+                      if (_authController.isLoggedIn.value) {
+                        Get.to(
+                          () => const TransactionHistoryView(),
+                          binding: TransactionHistoryViewBinding(),
+                        );
+                      } else {
+                        // Redirect into sign in pages
+                        Get.toNamed(AppPages.signin);
+                        Get.snackbar(
+                          "Please login to continue",
+                          "",
+                          backgroundColor: primaryColor,
+                          snackPosition: SnackPosition.TOP,
+                          animationDuration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
+                          colorText: whiteColor,
+                        );
+                      }
                       break;
                     case 2:
                       middleButtonPressed!();
 
                       break;
                     case 3:
-                      Get.toNamed(AppPages.signin);
-
-                      // Get.to(
-                      //   () => TransactionHistoryView(),
-                      //   binding: TransactionHistoryViewBinding(),
-                      // );
+                      if (_authController.isLoggedIn.value) {
+                        Get.snackbar(
+                          "Uh oh.",
+                          "No Route to Host",
+                          backgroundColor: primaryColor,
+                          snackPosition: SnackPosition.TOP,
+                          animationDuration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
+                          colorText: whiteColor,
+                        );
+                      } else {
+                        // Redirect into sign in pages
+                        Get.toNamed(AppPages.signin);
+                        Get.snackbar(
+                          "Please login to continue",
+                          "",
+                          backgroundColor: primaryColor,
+                          snackPosition: SnackPosition.TOP,
+                          animationDuration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
+                          colorText: whiteColor,
+                        );
+                      }
                       break;
                     case 4:
-                      final googlesigin = GoogleSignIn();
-                      googlesigin.signOut();
-
-                      SharedPreferences sp =
-                          await SharedPreferences.getInstance();
-
-                      sp.remove('googleKey');
-                      sp.remove('apiToken');
-                      sp.remove('googlePhotoUrl');
-                      sp.remove('credentials');
-
-                      Get.toNamed(AppPages.signin);
-
-                      Get.snackbar(
-                        "Please login to continue",
-                        "",
-                        backgroundColor: primaryColor,
-                        snackPosition: SnackPosition.TOP,
-                        animationDuration: const Duration(seconds: 1),
-                        duration: const Duration(seconds: 1),
-                        colorText: whiteColor,
-                      );
+                      if (_authController.isLoggedIn.value) {
+                        Get.snackbar(
+                          "Uh oh.",
+                          "No Route to Host",
+                          backgroundColor: primaryColor,
+                          snackPosition: SnackPosition.TOP,
+                          animationDuration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
+                          colorText: whiteColor,
+                        );
+                      } else {
+                        // Redirect into sign in pages
+                        Get.toNamed(AppPages.signin);
+                        Get.snackbar(
+                          "Please login to continue",
+                          "",
+                          backgroundColor: primaryColor,
+                          snackPosition: SnackPosition.TOP,
+                          animationDuration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
+                          colorText: whiteColor,
+                        );
+                      }
                       break;
                   }
                 }

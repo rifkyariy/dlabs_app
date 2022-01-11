@@ -15,6 +15,7 @@ class SignUpScreen extends GetView<SignUpController> {
     SizeScalling.init(context);
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: whiteColor,
       appBar: AppBar(
           leading: IconButton(
@@ -41,15 +42,16 @@ class SignUpScreen extends GetView<SignUpController> {
               // Logo and Header
               Obx(
                 () => Center(
-                  child: Image.network(
-                    controller.companyLogo.value,
-                    width: SizeScalling().setWidth(100),
-                    height: SizeScalling().setHeight(60),
-                  ),
-                ),
+                    child: controller.companyLogo.value.isNotEmpty
+                        ? Image.network(
+                            controller.companyLogo.value,
+                            width: SizeScalling().setWidth(100),
+                            height: SizeScalling().setHeight(60),
+                          )
+                        : null),
               ),
 
-              SizedBox(height: SizeScalling().setWidth(40)),
+              SizedBox(height: SizeScalling().setHeight(25)),
 
               // Google Login
               Center(

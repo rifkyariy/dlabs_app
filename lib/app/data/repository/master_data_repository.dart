@@ -97,7 +97,7 @@ class MasterDataRepository {
     return result;
   }
 
-  Future getNationalityList({required String token}) async {
+  Future getNationalityList() async {
     var url = Uri.parse("$baseUrl/nationality");
 
     final body = jsonEncode({"q": ""});
@@ -105,7 +105,6 @@ class MasterDataRepository {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
         },
         body: body);
 
