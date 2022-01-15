@@ -121,7 +121,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               // Nationality
               Obx(
                 () => SearchableSelectInput(
-                  selectedItem: controller.selectedNationalityString.value,
+                  selectedItem: controller.selectedNationality,
                   items: controller.nationalityList!.value,
                   label: 'Nationality',
                   errorMsg: "",

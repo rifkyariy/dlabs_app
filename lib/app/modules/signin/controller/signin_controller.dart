@@ -6,7 +6,6 @@ import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
-import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/views/dashboard.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class SignInController extends GetxController {
   final AuthRepository _auth = Get.put(AuthRepository());
   final AppStorageService _storage = Get.find();
-  final AuthController _authController = Get.find();
+  final AuthController _authController = Get.put(AuthController());
 
   late UserModel? _user;
   UserModel? get user => _user;
@@ -96,6 +95,52 @@ class SignInController extends GetxController {
     }
   }
 
+  void handleLogin({required String email, required String password}) async {
+    UserModel? _user = await login(
+      email: email,
+      password: password,
+    );
+
+    if (_user != null && _user.status == '200') {
+      isLoading.value = false;
+
+      // Save backend token to local storage.
+      await _storage.write('apiToken', stringValue: _user.token);
+
+      // Set is Logged in
+      await _storage.write('isLoggedIn', boolValue: true);
+
+      // Write credential to local storage
+      // encode to base64
+      String credential = '${emailController.text}:${passwordController.text}';
+      Codec<String, String> stringToBase64 = utf8.fuse(base64);
+      String encoded = stringToBase64.encode(credential);
+
+      await _storage.write('credentials', stringValue: encoded);
+
+      // Set Dashboard OBX
+      _authController.isLoggedIn.value = true;
+      _authController.fullname.value = _user.full_name!;
+      _authController.photoUrl.value = _user.image!;
+      _authController.gender.value = _user.gender!;
+      _authController.apiToken.value = _user.token!;
+
+      // Go to dashboard
+      Get.offAndToNamed(AppPages.dashboard);
+    } else {
+      isLoading.value = false;
+      Get.snackbar(
+        "Something Went Wrong",
+        _user!.errors == "find user error"
+            ? "You don't have an account yet, Please sign up."
+            : "Invalid email or password",
+        backgroundColor: primaryColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
+
   void loginHandler() async {
     isLoading.value = true;
     bool isEmailValid = RegExp(
@@ -111,54 +156,9 @@ class SignInController extends GetxController {
         passwordErrorMessage.value = '';
 
         if (isPasswordLength) {
-          // Login Handleer
-          UserModel? _user = await login(
-            email: emailController.text,
-            password: passwordController.text,
-          );
-
-          if (_user != null && _user.status == '200') {
-            isLoading.value = false;
-
-            // Save backend token to local storage.
-            await _storage.write('apiToken', stringValue: _user.token);
-
-            // Set is Logged in
-            await _storage.write('isLoggedIn', boolValue: true);
-
-            // Write credential to local storage
-            // encode to base64
-            String credential =
-                '${emailController.text}:${passwordController.text}';
-            Codec<String, String> stringToBase64 = utf8.fuse(base64);
-            String encoded = stringToBase64.encode(credential);
-
-            await _storage.write('credentials', stringValue: encoded);
-
-            // Set Dashboard OBX
-            _authController.fullname.value = _user.full_name!;
-            _authController.photoUrl.value = _user.image!;
-            _authController.gender.value = _user.gender!;
-            _authController.apiToken.value = _user.token!;
-            _authController.isLoggedIn.value = true;
-
-            // Go to dashboard
-            Get.off(
-              () => DashboardScreen(),
-              binding: DashboardBinding(),
-            );
-          } else {
-            isLoading.value = false;
-            Get.snackbar(
-              "Something Went Wrong",
-              _user!.errors == "find user error"
-                  ? "You don't have an account yet, Please sign up."
-                  : "Invalid email or password",
-              backgroundColor: primaryColor,
-              colorText: whiteColor,
-              snackPosition: SnackPosition.TOP,
-            );
-          }
+          // Login Handler
+          handleLogin(
+              email: emailController.text, password: passwordController.text);
         } else {
           isLoading.value = false;
           passwordErrorMessage.value =
@@ -235,10 +235,7 @@ class SignInController extends GetxController {
         _authController.isLoggedIn.value = true;
 
         // Go to dashboard
-        Get.off(
-          () => DashboardScreen(),
-          binding: DashboardBinding(),
-        );
+        Get.offAndToNamed(AppPages.dashboard);
       }
     } catch (e) {
       isGoogleLoading.value = false;

@@ -105,7 +105,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               // Nationality
               Obx(
                 () => SearchableSelectInput(
-                  selectedItem: controller.selectedNationalityString.value,
+                  selectedItem: controller.selectedNationality,
                   items: controller.nationalityList!.value,
                   label: 'Nationality',
                   errorMsg: "",
@@ -132,7 +132,6 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                   controller: controller.fullNameController,
                   label: "Full Name",
                   name: "fullname",
-                  placeholder: 'Romy Roma',
                   errorMsg: controller.fullNameErrorMessage.value,
                   isDisabled: controller.patientSubject.value == 'myself',
                 ),

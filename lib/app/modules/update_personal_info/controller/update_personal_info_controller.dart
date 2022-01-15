@@ -19,6 +19,8 @@ class UpdatePersonalInfoController extends GetxController {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  TextEditingController selectedNationality =
+      TextEditingController(text: 'Indonesian');
 
   // State
   RxBool isLoading = false.obs;
@@ -30,9 +32,11 @@ class UpdatePersonalInfoController extends GetxController {
   RxString addressErrorMessage = ''.obs;
   RxString companyLogo = ''.obs;
   RxString genderValue = '1'.obs;
+  String defaultNationality = 'Indonesian';
 
   RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
-  RxString selectedNationalityString = 'Indonesian'.obs;
+  RxString selectedNationalityString = ''.obs;
+  RxString valueofNation = ''.obs;
 
   // Reusable Function
   List<Map<String, dynamic>> convertIntoList(
@@ -77,7 +81,7 @@ class UpdatePersonalInfoController extends GetxController {
               dateOfBirth: dateOfBirthController.text,
               gender: genderValue.value,
               address: addressController.text,
-              nationality: selectedNationalityString.value,
+              nationality: selectedNationality.text,
             );
             if (status == "") {
               isLoading.value = false;
@@ -93,14 +97,18 @@ class UpdatePersonalInfoController extends GetxController {
                 stringValue: encoded,
               );
 
-              Get.off(
-                () => DashboardScreen(
-                  fullName: Get.parameters['fullName'],
-                  gender: genderValue.value,
-                  photoUrl: Get.parameters['googlePhotoUrl'],
-                ),
-                binding: DashboardBinding(),
-              );
+              signInController.handleLogin(
+                  email: Get.parameters['email']!,
+                  password: Get.parameters['password']!);
+
+              // Get.off(
+              //   () => DashboardScreen(
+              //     fullName: Get.parameters['fullName'],
+              //     gender: genderValue.value,
+              //     photoUrl: Get.parameters['googlePhotoUrl'],
+              //   ),
+              //   binding: DashboardBinding(),
+              // );
             } else {
               isLoading.value = false;
               Get.snackbar(
@@ -125,15 +133,18 @@ class UpdatePersonalInfoController extends GetxController {
     }
   }
 
-  @override
-  void onInit() async {
+  void getData() async {
     await _appStorageService.readString('companyLogo').then((companyImage) {
       companyLogo.value = companyImage!;
     });
 
     await getListofNationality()
         .then((result) => nationalityList!.value = result.toList());
+  }
 
+  @override
+  void onInit() {
+    getData();
     super.onInit();
   }
 }

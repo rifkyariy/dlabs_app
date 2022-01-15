@@ -7,34 +7,34 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DashboardController extends GetxController {
   final AppStorageService _storage = Get.find();
   final AuthRepository _auth = Get.find();
-  final AuthController _authController = Get.find();
+  final AuthController _authController = Get.put(AuthController());
 
   @override
   void onInit() async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
+    // SharedPreferences sp = await SharedPreferences.getInstance();
 
-    final _apiToken = await _storage.readString('apiToken');
+    // final _apiToken = await _storage.readString('apiToken');
 
-    final user = await _auth.getUserData(token: _apiToken ?? '');
-    _authController.gender.value = user.gender ?? '0';
+    // final user = await _auth.getUserData(token: _apiToken ?? '');
+    // _authController.gender.value = user.gender ?? '0';
 
-    var googleKey = await _storage.readString('googleKey');
-    if (await _storage.readString('googleKey') != "") {
-      _authController.photoUrl.value =
-          await _storage.readString('googlePhotoUrl') ?? '';
-      _authController.fullname.value =
-          await _storage.readString('googleFullName') ?? '';
-    } else {
-      _authController.fullname.value = user.full_name ?? '';
-      _authController.photoUrl.value = user.image ?? '';
-    }
+    // var googleKey = await _storage.readString('googleKey');
+    // if (await _storage.readString('googleKey') != "") {
+    //   _authController.photoUrl.value =
+    //       await _storage.readString('googlePhotoUrl') ?? '';
+    //   _authController.fullname.value =
+    //       await _storage.readString('googleFullName') ?? '';
+    // } else {
+    //   _authController.fullname.value = user.full_name ?? '';
+    //   _authController.photoUrl.value = user.image ?? '';
+    // }
 
-    _authController.isLoggedIn.value =
-        await _storage.readBool('isLoggedIn') ?? false;
-    _authController.apiToken.value = _apiToken ?? '';
+    // _authController.isLoggedIn.value =
+    //     await _storage.readBool('isLoggedIn') ?? false;
+    // _authController.apiToken.value = _apiToken ?? '';
 
-    print(
-        "auth status : ${_authController.isLoggedIn} , ${_authController.apiToken}");
+    // print(
+    //     "auth status : ${_authController.isLoggedIn} , ${_authController.apiToken}");
     super.onInit();
   }
 

@@ -1,10 +1,12 @@
+import 'dart:async';
+
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 class SearchableSelectInput extends StatefulWidget {
   String label, name, errorMsg;
-  String selectedItem;
+  TextEditingController selectedItem;
   List<Map<String, dynamic>>? items;
   void Function(String?)? onChanged;
   bool isDisabled;
@@ -25,6 +27,17 @@ class SearchableSelectInput extends StatefulWidget {
 }
 
 class _SearchableSelectInputState extends State<SearchableSelectInput> {
+  @override
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        widget.selectedItem.text = widget.selectedItem.text;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -66,10 +79,9 @@ class _SearchableSelectInputState extends State<SearchableSelectInput> {
                 return '${item['value']}';
               }).toList(),
               enabled: !widget.isDisabled,
-              selectedItem: widget.selectedItem,
+              selectedItem: widget.selectedItem.text,
               onChanged: !widget.isDisabled
                   ? (String? selected) {
-                      print(selected);
                       // final selectedId = widget.items!
                       //     .where((item) => item['value'] == selected)
                       //     .toList();
@@ -78,8 +90,8 @@ class _SearchableSelectInputState extends State<SearchableSelectInput> {
                       //   widget.selectedItem.text = selectedId.first['id'];
                       // });
                       setState(() {
-                        widget.selectedItem = selected!;
-                        print(widget.selectedItem);
+                        widget.selectedItem.text = selected!;
+                        print(widget.selectedItem.text);
                       });
                     }
                   : null,

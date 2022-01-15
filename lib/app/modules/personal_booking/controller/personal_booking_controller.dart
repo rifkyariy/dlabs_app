@@ -57,6 +57,7 @@ class PersonalBookingController extends GetxController {
   TextEditingController selectedTestPurpose = TextEditingController(text: '1');
   TextEditingController selectedTestType = TextEditingController(text: '1');
   TextEditingController selectedLocation = TextEditingController(text: '1');
+  TextEditingController selectedNationality = TextEditingController();
 
   RxString selectedNationalityString = ''.obs;
   RxString selectedServiceString = ''.obs;
@@ -162,6 +163,7 @@ class PersonalBookingController extends GetxController {
   @override
   void onInit() async {
     apiToken = await storage.readString('apiToken');
+
     await getListofServices(apiToken)
         .then((result) => serviceList!.value = result.toList());
 
@@ -184,8 +186,11 @@ class PersonalBookingController extends GetxController {
       myGender = result.gender;
       myAddress = result.address;
       myNationality = result.nationality!;
+      selectedNationality.text = myNationality;
     });
-    toggleFillPatient(); // fill the input based on current user data
+
+    // fill the input based on current user data
+    await toggleFillPatient();
 
     // format test date into today date
     testDateController.text = formatter.format(DateTime.now());
@@ -203,7 +208,7 @@ class PersonalBookingController extends GetxController {
 
   // Set form based on personal information of user
   // Current user is Myself
-  void toggleFillPatient() {
+  Future<void> toggleFillPatient() async {
     if (patientSubject.value == 'myself') {
       fullNameController.text = myFullname ?? '';
       emailController.text = myEmail ?? '';
@@ -212,7 +217,7 @@ class PersonalBookingController extends GetxController {
       dateOfBirthController.text = myDateOfBirth ?? '';
       addressController.text = myAddress ?? '';
       genderValue.value = myGender ?? '0';
-      selectedNationalityString.value = myNationality;
+      selectedNationality.text = myNationality;
 
       // remove all error message
       identityNumberErrorMessage.value = "";
@@ -231,7 +236,7 @@ class PersonalBookingController extends GetxController {
       addressController.text = '';
       testLocationController.text = '';
       genderValue.value = '0';
-      selectedNationalityString.value = 'Indonesian';
+      selectedNationality.text = 'Indonesian';
     }
   }
 
@@ -415,7 +420,7 @@ class PersonalBookingController extends GetxController {
       "patient_list": {
         "services": selectedServiceName.first['services_name'],
         "identity_number": idNumberController.text,
-        "nationality": selectedNationalityString.value,
+        "nationality": selectedNationality.text,
         "full_name": fullNameController.text,
         "email": emailController.text,
         "phone": phoneNumberController.text,
