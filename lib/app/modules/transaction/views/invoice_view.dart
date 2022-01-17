@@ -1,5 +1,4 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
-import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/global_widgets/app_detail_information_box.dart';
 import 'package:kayabe_lims/app/global_widgets/app_detail_information_item.dart';
 import 'package:kayabe_lims/app/global_widgets/app_title_with_button.dart';
@@ -52,8 +51,10 @@ class InvoiceView extends GetView<TransactionViewController> {
               header: ListTile(
                 dense: true,
                 contentPadding: const EdgeInsets.only(left: 24, right: 30),
-                leading: Text(controller.invoiceData.isPrivate ?? '',
-                    style: BoldTextStyle(whiteColor, fontSize: 13)),
+                leading: Text(
+                  controller.invoiceData.isPrivate ?? '',
+                  style: BoldTextStyle(whiteColor, fontSize: 13),
+                ),
                 trailing: Text(
                     DateFormat.yMMMMd('en_US').format(
                       DateTime.parse(
@@ -108,38 +109,6 @@ class InvoiceView extends GetView<TransactionViewController> {
                 ),
               ],
               bottom: const [SizedBox(height: 10)],
-            ),
-            ListTile(
-              title: Text(
-                "Hi, ${controller.invoiceData.name ?? ''}",
-                style: BoldTextStyle(blackColor, fontSize: 16),
-              ),
-              subtitle: Text(
-                "The result of test is already released.",
-                style: mediumTextStyle(blackColor, fontSize: 12),
-              ),
-              trailing: TextButton(
-                /// If online then close if offline then fuck
-                onPressed: controller.toMedicalHistoryListView,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Result',
-                      style: regularTextStyle(whiteColor),
-                    ),
-                    const SizedBox(width: 15),
-                    Icon(AppIcons.download, color: whiteColor, size: 15)
-                  ],
-                ),
-                style: TextButton.styleFrom(
-                  backgroundColor: primaryColor,
-                  minimumSize: const Size(30, 40),
-                  maximumSize: const Size(100, 40),
-                  side: BorderSide(color: primaryColor),
-                ),
-              ),
             ),
             AppDetailInformationBox(
               header: AppTitleWithButton(

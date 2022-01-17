@@ -1,4 +1,5 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/global_widgets/app_empty_state.dart';
 import 'package:kayabe_lims/app/global_widgets/app_single_button_slideable.dart';
 import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
@@ -35,15 +36,17 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
               itemCount: (controller.medicalHistoryList ?? []).length,
               itemBuilder: (context, index) {
                 if (controller.medicalHistoryList != null) {
-                  return _singleButtonSlideable(
-                    title:
-                        '${controller.medicalHistoryList![index].sampleId}   •   ${controller.medicalHistoryList![index].sampleType}',
-                    subtitle:
-                        '${controller.medicalHistoryList![index].noteResult}',
-                    trailing: controller.medicalHistoryList![index].result!
+                  return _testResultCard(
+                    sampleID:
+                        '${controller.medicalHistoryList![index].sampleId}',
+                    sampleType:
+                        '${controller.medicalHistoryList![index].sampleType}',
+                    status: controller.medicalHistoryList![index].result!
                         .split('/')
                         .first,
-                    buttonPressed: (context) {
+                    messages:
+                        '${controller.medicalHistoryList![index].noteResult}',
+                    onPressed: () {
                       controller.onDownloadButtonPressed(
                           controller.medicalHistoryList![index].sampleFile ??
                               '');
@@ -57,28 +60,86 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
     );
   }
 
-  Widget _singleButtonSlideable({
-    required String title,
-    required String subtitle,
-    required String trailing,
-    Function(BuildContext)? buttonPressed,
+  Widget _testResultCard({
+    required String sampleID,
+    required String sampleType,
+    required String status,
+    required String messages,
+    Function()? onPressed,
   }) {
-    return AppSingleButtonSlideable(
-      title: Text(
-        title,
-        style: BoldTextStyle(blackColor, fontSize: 12),
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 13, bottom: 13, left: 15, right: 15),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    sampleID,
+                    style: regularTextStyle(blackColor, fontSize: 10),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    sampleType,
+                    style: BoldTextStyle(blackColor, fontSize: 13),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    status,
+                    style: BoldTextStyle(primaryColor, fontSize: 12),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    messages,
+                    style: regularTextStyle(blackColor, fontSize: 10),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              child: Row(
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 80,
+                      minHeight: 30,
+                      maxWidth: 2,
+                      minWidth: 1,
+                    ),
+                    child: const VerticalDivider(),
+                  ),
+                  const SizedBox(width: 10),
+                  InkWell(
+                    onTap: onPressed,
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Icon(
+                            AppIcons.download,
+                            color: primaryColor,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Result',
+                            style: regularTextStyle(primaryColor, fontSize: 10),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-      subtitle: Text(
-        subtitle,
-        style: mediumTextStyle(greyColor, fontSize: 12),
-      ),
-      trailing: Text(
-        trailing,
-        style: mediumTextStyle(primaryColor, fontSize: 12),
-      ),
-      buttonLabel: 'Download',
-      isThreeLine: true,
-      buttonPressed: buttonPressed,
     );
   }
 }

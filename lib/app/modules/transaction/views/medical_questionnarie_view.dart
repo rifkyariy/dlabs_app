@@ -30,7 +30,7 @@ class MedicalQuestionnarieView extends GetView<TransactionViewController> {
           ? const AppEmptyStatePlaceholder(
               messages: 'There is no medical questionnaire data')
           : ListView.builder(
-              padding: EdgeInsets.only(left: 10, right: 10),
+              padding: const EdgeInsets.only(left: 10, right: 10),
               // physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: false,
               semanticChildCount:

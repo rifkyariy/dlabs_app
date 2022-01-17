@@ -1,4 +1,5 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/global_widgets/app_detail_information_box.dart';
 import 'package:kayabe_lims/app/global_widgets/app_detail_information_item.dart';
 import 'package:kayabe_lims/app/global_widgets/app_empty_state.dart';
@@ -195,8 +196,8 @@ class PersonalTransactionPatientInformationView
                         ? const AppEmptyStatePlaceholder(
                             messages: 'There is no medical questionnaire data')
                         : ListView.builder(
-                            // physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             shrinkWrap: true,
                             semanticChildCount:
                                 (controller.medicalQuestionnaireList ?? [])
@@ -258,9 +259,9 @@ class PersonalTransactionPatientInformationView
                             maximumSize: Size(200, 150),
                           )
                         : ListView.builder(
-                            // physics: const NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                             shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
                             semanticChildCount:
                                 (controller.medicalHistoryList ?? []).length < 3
                                     ? (controller.medicalHistoryList ?? [])
@@ -273,16 +274,18 @@ class PersonalTransactionPatientInformationView
                                     : 3,
                             itemBuilder: (context, index) {
                               if (controller.medicalHistoryList != null) {
-                                return _singleButtonSlideable(
-                                  title:
-                                      '${controller.medicalHistoryList![index].sampleId}  •  ${controller.medicalHistoryList![index].sampleType}',
-                                  subtitle:
-                                      '${controller.medicalHistoryList![index].noteResult}',
-                                  trailing: controller
+                                return _testResultCard(
+                                  sampleID:
+                                      '${controller.medicalHistoryList![index].sampleId}',
+                                  sampleType:
+                                      '${controller.medicalHistoryList![index].sampleType}',
+                                  status: controller
                                       .medicalHistoryList![index].result!
                                       .split('/')
                                       .first,
-                                  onPressed: (context) {
+                                  messages:
+                                      '${controller.medicalHistoryList![index].noteResult}',
+                                  onPressed: () {
                                     controller.onDownloadButtonPressed(
                                         controller.medicalHistoryList![index]
                                                 .sampleFile ??
@@ -318,28 +321,86 @@ class PersonalTransactionPatientInformationView
     );
   }
 
-  Widget _singleButtonSlideable({
-    required String title,
-    required String subtitle,
-    required String trailing,
-    Function(BuildContext)? onPressed,
+  Widget _testResultCard({
+    required String sampleID,
+    required String sampleType,
+    required String status,
+    required String messages,
+    Function()? onPressed,
   }) {
-    return AppSingleButtonSlideable(
-      title: Text(
-        title,
-        style: BoldTextStyle(blackColor, fontSize: 12),
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding:
+            const EdgeInsets.only(top: 13, bottom: 13, left: 15, right: 15),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    sampleID,
+                    style: regularTextStyle(blackColor, fontSize: 10),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    sampleType,
+                    style: BoldTextStyle(blackColor, fontSize: 13),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    status,
+                    style: BoldTextStyle(primaryColor, fontSize: 12),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    messages,
+                    style: regularTextStyle(blackColor, fontSize: 10),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              child: Row(
+                children: [
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(
+                      maxHeight: 80,
+                      minHeight: 30,
+                      maxWidth: 2,
+                      minWidth: 1,
+                    ),
+                    child: const VerticalDivider(),
+                  ),
+                  const SizedBox(width: 10),
+                  InkWell(
+                    onTap: onPressed,
+                    child: Container(
+                      margin: const EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Icon(
+                            AppIcons.download,
+                            color: primaryColor,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            'Result',
+                            style: regularTextStyle(primaryColor, fontSize: 10),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-      subtitle: Text(
-        subtitle,
-        style: mediumTextStyle(greyColor, fontSize: 12),
-      ),
-      trailing: Text(
-        trailing,
-        style: mediumTextStyle(primaryColor, fontSize: 12),
-      ),
-      buttonLabel: 'Download',
-      isThreeLine: true,
-      buttonPressed: onPressed,
     );
   }
 
