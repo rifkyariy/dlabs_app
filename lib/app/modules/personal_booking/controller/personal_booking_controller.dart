@@ -32,6 +32,7 @@ class PersonalBookingController extends GetxController {
 
   final DateFormat formatter = DateFormat('yyyy-MM-dd HH:MM:ss');
 
+  // My Data
   late String? myIdentityNumber;
   late String? myFullname;
   late String? myEmail;
@@ -40,6 +41,15 @@ class PersonalBookingController extends GetxController {
   late String? myGender;
   late String? myAddress;
   late String myNationality;
+
+  // Other Search Data
+  late String? searchFullname;
+  late String? searchEmail;
+  late String? searchPhoneNumber;
+  late String? searchDateOfBirth;
+  late String? searchGender;
+  late String? searchAddress;
+  late String searchNationality;
   late String? apiToken;
 
   RxList<Map<String, dynamic>>? serviceList = <Map<String, dynamic>>[].obs;
@@ -57,8 +67,9 @@ class PersonalBookingController extends GetxController {
   TextEditingController selectedTestPurpose = TextEditingController(text: '1');
   TextEditingController selectedTestType = TextEditingController(text: '1');
   TextEditingController selectedLocation = TextEditingController(text: '1');
-  TextEditingController selectedNationality = TextEditingController();
+  late TextEditingController selectedNationality;
 
+  RxBool isLoaded = false.obs;
   RxString selectedNationalityString = ''.obs;
   RxString selectedServiceString = ''.obs;
   RxString locationAddress = ''.obs;
@@ -186,7 +197,8 @@ class PersonalBookingController extends GetxController {
       myGender = result.gender;
       myAddress = result.address;
       myNationality = result.nationality!;
-      selectedNationality.text = myNationality;
+      selectedNationality = TextEditingController(text: myNationality);
+      isLoaded.value = true;
     });
 
     // fill the input based on current user data
@@ -202,6 +214,7 @@ class PersonalBookingController extends GetxController {
     selectedService.addListener(_triggerLocationAddress);
     selectedLocation.addListener(_triggerTestTypeandDescription);
     selectedTestType.addListener(_setPrice);
+    idNumberController.addListener(_searchPatientData);
 
     super.onInit();
   }
@@ -218,6 +231,7 @@ class PersonalBookingController extends GetxController {
       addressController.text = myAddress ?? '';
       genderValue.value = myGender ?? '0';
       selectedNationality.text = myNationality;
+      selectedNationality = TextEditingController(text: myNationality);
 
       // remove all error message
       identityNumberErrorMessage.value = "";
@@ -287,6 +301,34 @@ class PersonalBookingController extends GetxController {
     serviceName.value = filteredList.first['nama'];
   }
 
+  void _searchPatientData() async {
+    String q = idNumberController.text;
+    try {
+      await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
+        (result) {
+          fullNameController.text = result['full_name'];
+          emailController.text = result['email'];
+          phoneNumberController.text = result['phone'];
+          dateOfBirthController.text = result['birth_date'];
+          addressController.text = result['address'];
+          genderValue.value = result['gender'];
+          selectedNationality.text = result['nationality'];
+
+          reloadDropdown();
+        },
+      );
+    } catch (e) {
+      fullNameController.text = '';
+      emailController.text = '';
+      phoneNumberController.text = '';
+      dateOfBirthController.text = '';
+      addressController.text = '';
+      testLocationController.text = '';
+      genderValue.value = '0';
+      reloadDropdown();
+    }
+  }
+
   // Refresh Questionnire list
   void refreshList() {
     radioGroupValue.refresh();
@@ -294,8 +336,26 @@ class PersonalBookingController extends GetxController {
     radioData.refresh();
   }
 
+  void reloadDropdown() {
+    // Reload Dropdown
+    isLoaded.value = false;
+    isLoaded.value = true;
+  }
+
   void disposeAll() {
-    //TODO Add dispose all
+    idNumberController.dispose();
+    fullNameController.dispose();
+    emailController.dispose();
+    phoneNumberController.dispose();
+    dateOfBirthController.dispose();
+    addressController.dispose();
+    testLocationController.dispose();
+    testDateController.dispose();
+    selectedService.dispose();
+    selectedTestPurpose.dispose();
+    selectedTestType.dispose();
+    selectedLocation.dispose();
+    selectedNationality.dispose();
   }
 
   void personalBookHandler() async {
@@ -402,19 +462,19 @@ class PersonalBookingController extends GetxController {
         "services": selectedServiceName.first['services_name'],
         "type_test_id": int.parse(selectedTestType.text),
         "myself": patientSubject.value,
-        "identity_number": idNumberController.text,
-        "name": fullNameController.text,
-        "email": emailController.text,
-        "phone": phoneNumberController.text,
+        "identity_number": myIdentityNumber,
+        "name": myFullname,
+        "email": myEmail,
+        "phone": myPhoneNumber,
         "test_date": testDateController.text,
         "location_name": locationName.value,
         "location_address": selectedService.text == '1'
             ? locationAddress.value
             : testLocationController.text,
         "price": int.parse(servicePrice.value),
-        "gender": genderValue.value,
-        "birth_date": dateOfBirthController.text,
-        "address": addressController.text,
+        "gender": myGender,
+        "birth_date": myDateOfBirth,
+        "address": myAddress,
         "test_purpose": selectedTestPurposeName.first['test_purpose']
       },
       "patient_list": {
@@ -437,14 +497,10 @@ class PersonalBookingController extends GetxController {
       var result = await _booking.createPersonalBooking(
           payload: payload, token: apiToken!);
 
-      String transactionId = result['transaction_detail']['transaction_id'];
-
       isLoading.value = false;
 
-      transactionViewController.onTransactionCardPressed(
-          transactionId: transactionId,
-          status: TRANSACTIONSTATUS.newTransaction,
-          isDestroyState: true);
+      // Dispose all text editing controller
+      disposeAll();
 
       // Display success snackbar
       Get.snackbar(
@@ -454,6 +510,12 @@ class PersonalBookingController extends GetxController {
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
+
+      String transactionId = result['transaction_detail']['transaction_id'];
+      transactionViewController.onTransactionCardPressed(
+          transactionId: transactionId,
+          status: TRANSACTIONSTATUS.newTransaction,
+          isDestroyState: true);
     } catch (e) {
       // Display success snackbar
       Get.snackbar(

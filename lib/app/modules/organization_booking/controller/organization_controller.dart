@@ -30,6 +30,15 @@ class OrganizationBookingController extends GetxController {
   late String? myEmail;
   late String? myPhoneNumber;
   late String? apiToken;
+
+  // Other Search Data
+  late String? searchFullname;
+  late String? searchEmail;
+  late String? searchPhoneNumber;
+  late String? searchDateOfBirth;
+  late String? searchGender;
+  late String? searchAddress;
+  late String searchNationality;
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
 
   // Org Text Controller
@@ -58,12 +67,17 @@ class OrganizationBookingController extends GetxController {
       TextEditingController();
   final TextEditingController patientFullNameController =
       TextEditingController();
+  TextEditingController patientSelectedNationality =
+      TextEditingController(text: 'Indonesian');
+
+  RxBool isLoaded = false.obs;
 
   // List from  API
   RxList<Map<String, dynamic>>? serviceList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? locationList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? testTypeList = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>>? testPurposeList = <Map<String, dynamic>>[].obs;
+  RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
 
   // Dropdown Data
   TextEditingController selectedService = TextEditingController(text: '1');
@@ -172,6 +186,14 @@ class OrganizationBookingController extends GetxController {
 
   // Dynamic Data
   //
+  // Get List of Nationality
+  Future<List<Map<String, dynamic>>> getListofNationality() async {
+    var result = await _masterData.getNationalityList();
+    var apiServiceKey = ["id", "nationality"];
+
+    return convertIntoList(apiServiceKey, result);
+  }
+
   // Get List of Services
   Future<List<Map<String, dynamic>>> getListofServices(token) async {
     var result = await _masterData.getServicesList(token: token);
@@ -251,6 +273,11 @@ class OrganizationBookingController extends GetxController {
     await getListofLocation(apiToken)
         .then((result) => locationList!.value = result.toList());
 
+    await getListofNationality()
+        .then((result) => nationalityList!.value = result.toList());
+
+    isLoaded.value = true;
+
     getPatient(isAll: true);
 
     // Set address description
@@ -259,6 +286,7 @@ class OrganizationBookingController extends GetxController {
 
     selectedService.addListener(_triggerLocationAddress);
     selectedLocation.addListener(_triggerTestTypeandDescription);
+    patientIDNumberController.addListener(_searchPatientData);
   }
 
   // Add Price Listener
@@ -284,66 +312,94 @@ class OrganizationBookingController extends GetxController {
     testLocationErrorMessage.value = "";
   }
 
+  // Search Patient Data by ID Number / Passport
+  void _searchPatientData() async {
+    String q = patientIDNumberController.text;
+    try {
+      await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
+        (result) {
+          patientFullNameController.text = result['full_name'];
+          patientEmailController.text = result['email'];
+          patientPhoneController.text = result['phone'];
+          patientDateController.text = result['birth_date'];
+          patientAddressController.text = result['address'];
+          genderValue.value = result['gender'];
+          patientSelectedNationality.text = result['nationality'];
+
+          reloadDropdown();
+        },
+      );
+    } catch (e) {
+      patientFullNameController.text = '';
+      patientEmailController.text = '';
+      patientPhoneController.text = '';
+      patientDateController.text = '';
+      patientAddressController.text = '';
+      testLocationController.text = '';
+      genderValue.value = '0';
+      reloadDropdown();
+    }
+  }
+
+  // Reload Dropdown value
+  void reloadDropdown() {
+    isLoaded.value = false;
+    isLoaded.value = true;
+  }
+
   // Validating
   bool validateInput() {
     bool isFullNameLengthValid = picNameController.text.length >= 6;
     bool isFullNameValid =
         RegExp(r'[a-zA-Z][a-zA-Z ]+[a-zA-Z]$').hasMatch(picNameController.text);
-    bool isIdNumberValid = picIdNumberController.text.length == 16;
     bool isEmailValid = GetUtils.isEmail(picEmailController.text);
 
     if (picIdNumberController.text != "") {
-      if (isIdNumberValid) {
-        picIdNumberErrorMessage.value = "";
+      picIdNumberErrorMessage.value = "";
+      if (isEmailValid) {
+        picEmailErrorMessage.value = "";
 
-        if (isEmailValid) {
-          picEmailErrorMessage.value = "";
+        if (picPhoneController.text != "") {
+          picPhoneErrorMessage.value = "";
 
-          if (picPhoneController.text != "") {
-            picPhoneErrorMessage.value = "";
+          if (picNameController.text != "") {
+            if (isFullNameLengthValid) {
+              if (isFullNameValid) {
+                picNameErrorMessage.value = "";
 
-            if (picNameController.text != "") {
-              if (isFullNameLengthValid) {
-                if (isFullNameValid) {
-                  picNameErrorMessage.value = "";
-
-                  if (patientList.length > 0) {
-                    patientListErrorMessage.value = "";
-                    // Additional Validation on test location if Myself option is checked
-                    // ignore: dead_code
-                    if (selectedService.text != '1') {
-                      if (testLocationController.text != "") {
-                        testLocationErrorMessage.value = "";
-                        return true;
-                      } else {
-                        testLocationErrorMessage.value =
-                            "Your location address can\'t be blank";
-                      }
-                    } else {
+                if (patientList.length > 0) {
+                  patientListErrorMessage.value = "";
+                  // Additional Validation on test location if Myself option is checked
+                  // ignore: dead_code
+                  if (selectedService.text != '1') {
+                    if (testLocationController.text != "") {
+                      testLocationErrorMessage.value = "";
                       return true;
+                    } else {
+                      testLocationErrorMessage.value =
+                          "Your location address can\'t be blank";
                     }
                   } else {
-                    patientListErrorMessage.value =
-                        "Please enter patient list.";
+                    return true;
                   }
                 } else {
-                  picNameErrorMessage.value = "Please enter valid name.";
+                  patientListErrorMessage.value = "Please enter patient list.";
                 }
               } else {
-                picNameErrorMessage.value =
-                    "Your full name must be at least 6 characters.";
+                picNameErrorMessage.value = "Please enter valid name.";
               }
             } else {
-              picNameErrorMessage.value = "Your name can\'t be blank.";
+              picNameErrorMessage.value =
+                  "Your full name must be at least 6 characters.";
             }
           } else {
-            picPhoneErrorMessage.value = "Please enter a valid phone number";
+            picNameErrorMessage.value = "Your name can\'t be blank.";
           }
         } else {
-          picEmailErrorMessage.value = "Please enter a valid email address.";
+          picPhoneErrorMessage.value = "Please enter a valid phone number";
         }
       } else {
-        picIdNumberErrorMessage.value = "Please enter a valid identity number";
+        picEmailErrorMessage.value = "Please enter a valid email address.";
       }
     } else {
       picIdNumberErrorMessage.value = "Please enter a valid identity number";
@@ -356,55 +412,49 @@ class OrganizationBookingController extends GetxController {
     bool isFullNameLengthValid = patientFullNameController.text.length >= 6;
     bool isFullNameValid = RegExp(r'[a-zA-Z][a-zA-Z ]+[a-zA-Z]$')
         .hasMatch(patientFullNameController.text);
-    bool isIdNumberValid = patientIDNumberController.text.length == 16;
     bool isEmailValid = GetUtils.isEmail(patientEmailController.text);
 
     if (patientIDNumberController.text != "") {
-      if (isIdNumberValid) {
-        identityNumberErrorMessage.value = "";
-        if (patientFullNameController.text != "") {
-          if (isFullNameLengthValid) {
-            if (isFullNameValid) {
-              fullNameErrorMessage.value = "";
-              if (isEmailValid) {
-                emailErrorMessage.value = "";
-                if (patientPhoneController.text != "") {
-                  phoneNumberErrorMessage.value = "";
+      identityNumberErrorMessage.value = "";
+      if (patientFullNameController.text != "") {
+        if (isFullNameLengthValid) {
+          if (isFullNameValid) {
+            fullNameErrorMessage.value = "";
+            if (isEmailValid) {
+              emailErrorMessage.value = "";
+              if (patientPhoneController.text != "") {
+                phoneNumberErrorMessage.value = "";
 
-                  if (patientDateController.text != "") {
-                    dateOfBirthErrorMessage.value = "";
+                if (patientDateController.text != "") {
+                  dateOfBirthErrorMessage.value = "";
 
-                    if (patientAddressController.text != "") {
-                      addressErrorMessage.value = "";
+                  if (patientAddressController.text != "") {
+                    addressErrorMessage.value = "";
 
-                      return true;
-                    } else {
-                      addressErrorMessage.value = 'Address can\'t be blank';
-                    }
+                    return true;
                   } else {
-                    dateOfBirthErrorMessage.value =
-                        'Date of birth can\'t be blank';
+                    addressErrorMessage.value = 'Address can\'t be blank';
                   }
                 } else {
-                  phoneNumberErrorMessage.value =
-                      "Please enter a valid phone number";
+                  dateOfBirthErrorMessage.value =
+                      'Date of birth can\'t be blank';
                 }
               } else {
-                emailErrorMessage.value = "Please enter a valid email address.";
+                phoneNumberErrorMessage.value =
+                    "Please enter a valid phone number";
               }
             } else {
-              fullNameErrorMessage.value = "Please enter valid name.";
+              emailErrorMessage.value = "Please enter a valid email address.";
             }
           } else {
-            fullNameErrorMessage.value =
-                "Your full name must be at least 6 characters.";
+            fullNameErrorMessage.value = "Please enter valid name.";
           }
         } else {
-          fullNameErrorMessage.value = "Your full name can\'t be blank.";
+          fullNameErrorMessage.value =
+              "Your full name must be at least 6 characters.";
         }
       } else {
-        identityNumberErrorMessage.value =
-            "Please enter a valid identity number";
+        fullNameErrorMessage.value = "Your full name can\'t be blank.";
       }
     } else {
       identityNumberErrorMessage.value = "Please enter a valid identity number";

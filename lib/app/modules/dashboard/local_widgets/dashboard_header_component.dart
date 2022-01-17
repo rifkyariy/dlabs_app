@@ -43,9 +43,9 @@ class DashboardHeaderComponent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Hello, $name', style: appAvatarNameTextStyle),
+                Text('Hello $name !', style: appAvatarNameTextStyle),
                 SizedBox(height: SizeScalling().setHeight(5)),
-                Text('How are you today', style: appAvatarSubtitleTextStyle),
+                Text('How are you today ?', style: appAvatarSubtitleTextStyle),
               ],
             ),
           ),

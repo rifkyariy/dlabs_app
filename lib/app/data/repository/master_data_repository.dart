@@ -142,4 +142,26 @@ class MasterDataRepository {
 
     return result;
   }
+
+  Future getPatientData(
+      {required String token, required String idNumber}) async {
+    var url = Uri.parse("$baseUrl/patient");
+
+    final body = jsonEncode({"identity_number": idNumber});
+
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'fendpoint': '/patient',
+        'Authorization': 'Bearer $token',
+      },
+      body: body,
+    );
+
+    var result = (jsonDecode(response.body)["data"]);
+
+    return result;
+  }
 }

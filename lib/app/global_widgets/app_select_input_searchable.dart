@@ -28,17 +28,6 @@ class SearchableSelectInput extends StatefulWidget {
 
 class _SearchableSelectInputState extends State<SearchableSelectInput> {
   @override
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      setState(() {
-        widget.selectedItem.text = widget.selectedItem.text;
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(

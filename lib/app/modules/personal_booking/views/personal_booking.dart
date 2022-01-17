@@ -102,130 +102,155 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               Divider(color: greyColor),
               const SizedBox(height: 16),
 
-              // Nationality
+              // My Data
               Obx(
-                () => SearchableSelectInput(
-                  selectedItem: controller.selectedNationality,
-                  items: controller.nationalityList!.value,
-                  label: 'Nationality',
-                  errorMsg: "",
-                  name: '',
-                  isDisabled: controller.patientSubject.value == 'myself',
-                ),
-              ),
+                () => Container(
+                  child: controller.isLoaded.value
+                      ? Column(
+                          children: [
+                            // Nationality
+                            SearchableSelectInput(
+                              selectedItem: controller.selectedNationality,
+                              items: controller.nationalityList!.value,
+                              label: 'Nationality',
+                              errorMsg: "",
+                              name: '',
+                              isDisabled:
+                                  controller.patientSubject.value == 'myself',
+                            ),
 
-              // Identity Number
-              Obx(
-                () => TextInput(
-                  controller: controller.idNumberController,
-                  label: 'Identity Number',
-                  type: 'text',
-                  errorMsg: controller.identityNumberErrorMessage.value,
-                  name: 'identity number',
-                  isDisabled: controller.patientSubject.value == 'myself',
-                ),
-              ),
+                            // Identity Number
+                            TextInput(
+                              controller: controller.idNumberController,
+                              label: 'Identity Number',
+                              type: 'text',
+                              errorMsg:
+                                  controller.identityNumberErrorMessage.value,
+                              name: 'identity number',
+                              isDisabled:
+                                  controller.patientSubject.value == 'myself',
+                            ),
 
-              // Full Name
-              Obx(
-                () => TextInput(
-                  controller: controller.fullNameController,
-                  label: "Full Name",
-                  name: "fullname",
-                  errorMsg: controller.fullNameErrorMessage.value,
-                  isDisabled: controller.patientSubject.value == 'myself',
-                ),
-              ),
+                            // Full Name
+                            TextInput(
+                              controller: controller.fullNameController,
+                              label: "Full Name",
+                              name: "fullname",
+                              errorMsg: controller.fullNameErrorMessage.value,
+                              isDisabled:
+                                  controller.patientSubject.value == 'myself',
+                            ),
 
-              // Email Address
-              Obx(
-                () => TextInput(
-                  controller: controller.emailController,
-                  label: "Email Address",
-                  name: "email",
-                  placeholder: 'e.g. mail@address.com',
-                  errorMsg: controller.emailErrorMessage.value,
-                ),
-              ),
+                            // Email Address
+                            TextInput(
+                              controller: controller.emailController,
+                              label: "Email Address",
+                              name: "email",
+                              placeholder: 'type email',
+                              errorMsg: controller.emailErrorMessage.value,
+                            ),
 
-              // Phone Number
-              Obx(
-                () => TextInput(
-                  controller: controller.phoneNumberController,
-                  label: 'Phone Number',
-                  type: 'phone',
-                  errorMsg: controller.phoneNumberErrorMessage.value,
-                  name: 'phone number',
-                ),
-              ),
+                            // Phone Number
+                            TextInput(
+                              controller: controller.phoneNumberController,
+                              label: 'Phone Number',
+                              type: 'phone',
+                              errorMsg:
+                                  controller.phoneNumberErrorMessage.value,
+                              name: 'phone number',
+                            ),
 
-              // Date of Birth
-              Obx(
-                () => TextInput(
-                  controller: controller.dateOfBirthController,
-                  label: 'Date of Birth',
-                  type: 'date',
-                  lastDate: DateTime.now(),
-                  errorMsg: controller.dateOfBirthErrorMessage.value,
-                  name: 'date of birth',
-                  isDisabled: controller.patientSubject.value == 'myself'
-                      ? true
-                      : false,
-                ),
-              ),
+                            // Date of Birth
+                            TextInput(
+                              controller: controller.dateOfBirthController,
+                              label: 'Date of Birth',
+                              type: 'date',
+                              lastDate: DateTime.now(),
+                              errorMsg:
+                                  controller.dateOfBirthErrorMessage.value,
+                              name: 'date of birth',
+                              isDisabled:
+                                  controller.patientSubject.value == 'myself'
+                                      ? true
+                                      : false,
+                            ),
 
-              // Gender
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Gender',
-                  style: mediumTextStyle(blackColor, fontSize: 14),
-                ),
-              ),
-              Row(
-                children: [
-                  Obx(
-                    () => Radio(
-                      value: '1',
-                      groupValue: controller.genderValue.value,
-                      onChanged: controller.patientSubject.value == 'myself'
-                          ? null
-                          : (String? value) {
-                              controller.genderValue.value = value ?? '1';
-                            },
-                    ),
-                  ),
-                  Text(
-                    'Male',
-                    style: mediumTextStyle(blackColor, fontSize: 14),
-                  ),
-                  Obx(
-                    () => Radio(
-                      value: '0',
-                      groupValue: controller.genderValue.value,
-                      onChanged: controller.patientSubject.value == 'myself'
-                          ? null
-                          : (String? value) {
-                              controller.genderValue.value = value ?? '0';
-                            },
-                    ),
-                  ),
-                  Text(
-                    'Female',
-                    style: mediumTextStyle(blackColor, fontSize: 14),
-                  ),
-                ],
-              ),
+                            // Gender
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Gender',
+                                style:
+                                    mediumTextStyle(blackColor, fontSize: 14),
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Obx(
+                                  () => Radio(
+                                    value: '1',
+                                    groupValue: controller.genderValue.value,
+                                    onChanged:
+                                        controller.patientSubject.value ==
+                                                'myself'
+                                            ? null
+                                            : (String? value) {
+                                                controller.genderValue.value =
+                                                    value ?? '1';
+                                              },
+                                  ),
+                                ),
+                                Text(
+                                  'Male',
+                                  style:
+                                      mediumTextStyle(blackColor, fontSize: 14),
+                                ),
+                                Obx(
+                                  () => Radio(
+                                    value: '0',
+                                    groupValue: controller.genderValue.value,
+                                    onChanged:
+                                        controller.patientSubject.value ==
+                                                'myself'
+                                            ? null
+                                            : (String? value) {
+                                                controller.genderValue.value =
+                                                    value ?? '0';
+                                              },
+                                  ),
+                                ),
+                                Text(
+                                  'Female',
+                                  style:
+                                      mediumTextStyle(blackColor, fontSize: 14),
+                                ),
+                              ],
+                            ),
 
-              // Address
-              Obx(
-                () => TextInput(
-                  controller: controller.addressController,
-                  label: 'Address',
-                  errorMsg: controller.addressErrorMessage.value,
-                  type: 'textarea',
-                  name: 'address',
-                  isDisabled: controller.patientSubject.value == 'myself',
+                            // Address
+                            Obx(
+                              () => TextInput(
+                                controller: controller.addressController,
+                                label: 'Address',
+                                errorMsg: controller.addressErrorMessage.value,
+                                type: 'textarea',
+                                name: 'address',
+                                isDisabled:
+                                    controller.patientSubject.value == 'myself',
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            const CircularProgressIndicator(),
+                            const SizedBox(height: 10),
+                            Text(
+                              'Loading Patient Information',
+                              style: smallTextStyle(primaryColor),
+                            )
+                          ],
+                        ),
                 ),
               ),
 

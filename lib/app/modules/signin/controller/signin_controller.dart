@@ -241,7 +241,7 @@ class SignInController extends GetxController {
       isGoogleLoading.value = false;
       Get.snackbar(
         "Something Went Wrong",
-        "Please try again later",
+        "${e}",
         backgroundColor: primaryColor,
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,

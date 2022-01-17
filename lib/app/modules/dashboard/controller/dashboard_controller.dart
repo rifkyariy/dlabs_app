@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DashboardController extends GetxController {
   final AppStorageService _storage = Get.find();
   final AuthRepository _auth = Get.find();
-  final AuthController _authController = Get.put(AuthController());
+  final AuthController _authController = Get.find();
 
   @override
   void onInit() async {

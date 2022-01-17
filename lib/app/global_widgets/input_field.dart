@@ -111,21 +111,21 @@ class _InputFieldState extends State<InputField> {
                   icon: Icon(
                     visibility ? Icons.visibility : Icons.visibility_off,
                   ),
-                  color: Color(0xff000000),
+                  color: const Color(0xff000000),
                   onPressed: () {
                     _toggle();
                   })
               : widget.type == 'date'
                   ? IconButton(
-                      icon: Icon(Icons.calendar_today),
-                      color: Color(0xff000000),
+                      icon: const Icon(Icons.calendar_today),
+                      color: const Color(0xff000000),
                       onPressed: () async {
                         DateTime? pickedDate = await showDatePicker(
                             context: context,
                             initialDate: DateTime.now(),
-                            firstDate: DateTime(
-                                1900), //DateTime.now() - not to allow to choose before today.
-                            lastDate: DateTime(2101));
+                            firstDate: widget
+                                .firstDate, //DateTime.now() - not to allow to choose before today.
+                            lastDate: widget.lastDate);
 
                         if (pickedDate != null) {
                           String formattedDate =
@@ -145,8 +145,8 @@ class _InputFieldState extends State<InputField> {
                     )
                   : (widget.type == 'datetime'
                       ? IconButton(
-                          icon: Icon(Icons.calendar_today),
-                          color: Color(0xff000000),
+                          icon: const Icon(Icons.calendar_today),
+                          color: const Color(0xff000000),
                           onPressed: () async {
                             DateTime? pickedDate = await showDatePicker(
                                 context: context,
@@ -158,14 +158,21 @@ class _InputFieldState extends State<InputField> {
                             if (pickedDate != null) {
                               String formattedDate =
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
-                              print(
-                                  formattedDate); //formatted date output using intl package =>  2021-03-16
-                              //you can implement different kind of Date Format here according to your requirement
+                              if (widget.type == 'datetime') {
+                                TimeOfDay? pickedTime = await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay.now());
 
-                              setState(() {
-                                widget.controller.text =
-                                    formattedDate; //set output date to TextField value.
-                              });
+                                setState(() {
+                                  widget.controller.text =
+                                      '${formattedDate} ${pickedTime!.hour.toString().padLeft(2, '0')}:${pickedTime.minute.toString().padLeft(2, '0')}:00 '; //set output date to TextField value.
+                                });
+                              } else {
+                                setState(() {
+                                  widget.controller.text =
+                                      formattedDate; //set output date to TextField value.
+                                });
+                              }
                             } else {
                               print("Date is not selected");
                             }

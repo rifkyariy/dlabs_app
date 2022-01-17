@@ -15,7 +15,8 @@ class SplashController extends GetxController {
   final AppStorageService _storage = Get.put(AppStorageService());
   final AuthRepository _auth = Get.put(AuthRepository());
   final MasterDataRepository _masterData = Get.put(MasterDataRepository());
-  final AuthController _authController = Get.put(AuthController());
+  final AuthController _authController =
+      Get.put(AuthController(), permanent: true);
 
   RxString companyLogo = "".obs;
   RxBool isVisible = false.obs;
