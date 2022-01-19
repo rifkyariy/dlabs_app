@@ -4,6 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
+import 'app/modules/profile/view/profile_view.dart';
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -26,8 +28,9 @@ class Apps extends StatelessWidget {
     return GestureDetector(
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        getPages: AppPages.routes,
-        initialRoute: AppPages.splash,
+        // getPages: AppPages.routes,
+        // initialRoute: AppPages.splash,
+        home: ProfileView(),
       ),
     );
   }
