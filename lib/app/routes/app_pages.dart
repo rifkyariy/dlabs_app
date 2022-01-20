@@ -6,6 +6,8 @@ import 'package:kayabe_lims/app/modules/organization_booking/views/organization_
 import 'package:kayabe_lims/app/modules/personal_booking/bindings/personal_booking_binding.dart';
 import 'package:kayabe_lims/app/modules/personal_booking/views/personal_booking.dart';
 import 'package:kayabe_lims/app/modules/personal_booking/views/questionnaire.dart';
+import 'package:kayabe_lims/app/modules/profile/bindings/profile_view_binding.dart';
+import 'package:kayabe_lims/app/modules/profile/view/profile_view.dart';
 
 import 'package:kayabe_lims/app/modules/signin/bindings/signin_binding.dart';
 import 'package:kayabe_lims/app/modules/signin/views/sign_in.dart';
@@ -13,8 +15,6 @@ import 'package:kayabe_lims/app/modules/signup/bindings/sign_up_binding.dart';
 import 'package:kayabe_lims/app/modules/signup/views/sign_up_screen.dart';
 import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
-import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
-import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/personal_transaction_patient_information_view.dart';
 import 'package:kayabe_lims/app/modules/update_personal_info/bindings/update_personal_info_binding.dart';
 import 'package:kayabe_lims/app/modules/update_personal_info/views/update_personal_info_screen.dart';
 import 'package:kayabe_lims/app/modules/dashboard/views/dashboard.dart';
@@ -36,6 +36,7 @@ class AppPages {
   static const questionnaire = Routes.questionnaire;
   static const organizationBooking = Routes.organizationBooking;
   static const transactionHistory = Routes.transactionHistory;
+  static const profile = Routes.profile;
 
   static final routes = [
     GetPage(
@@ -96,6 +97,12 @@ class AppPages {
       name: _Paths.transactionHistory,
       page: () => OrganizationTransactionDetailView(),
       binding: TransactionHistoryViewBinding(),
+    ),
+
+    GetPage(
+      name: _Paths.profile,
+      page: () => ProfileView(),
+      binding: ProfileViewBinding(),
     ),
   ];
 }

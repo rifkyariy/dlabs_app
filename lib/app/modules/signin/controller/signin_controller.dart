@@ -5,8 +5,6 @@ import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
-import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
-import 'package:kayabe_lims/app/modules/dashboard/views/dashboard.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -126,7 +124,7 @@ class SignInController extends GetxController {
       _authController.apiToken.value = _user.token!;
 
       // Go to dashboard
-      Get.offAndToNamed(AppPages.dashboard);
+      Get.offAllNamed(AppPages.dashboard);
     } else {
       isLoading.value = false;
       Get.snackbar(
@@ -235,7 +233,7 @@ class SignInController extends GetxController {
         _authController.isLoggedIn.value = true;
 
         // Go to dashboard
-        Get.offAndToNamed(AppPages.dashboard);
+        Get.offAllNamed(AppPages.dashboard);
       }
     } catch (e) {
       isGoogleLoading.value = false;

@@ -153,23 +153,21 @@ class DashboardScreen extends GetView<DashboardController> {
                   timestamp: controller.dummyArticleData[1].timestamp,
                 ),
 
-                SizedBox(
-                  height: 20,
-                ),
+                const SizedBox(height: 20),
 
-                TextButton(
-                  onPressed: () async {
-                    _authController.handleLogout();
-                  },
-                  child: Text(
-                    'Logout',
-                    style: mediumTextStyle(dangerColor),
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () async {
+                //     _authController.handleLogout();
+                //   },
+                //   child: Text(
+                //     'Logout',
+                //     style: mediumTextStyle(dangerColor),
+                //   ),
+                // ),
 
-                SizedBox(
-                  height: 20,
-                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
               ],
             ),
           ),
