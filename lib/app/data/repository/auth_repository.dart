@@ -165,9 +165,9 @@ class AuthRepository {
       }
     } catch (e) {
       Get.snackbar(
-        "Something Went Wrong",
+        "", // TODO something went wrong
         "$e",
-        backgroundColor: primaryColor,
+        backgroundColor: warningColor, //TODO change to warning color
         snackPosition: SnackPosition.TOP,
         animationDuration: const Duration(seconds: 1),
         duration: const Duration(seconds: 2),
@@ -197,17 +197,19 @@ class AuthRepository {
         });
       } else {
         await _googleSignin.signIn().then((result) async {
-          await result!.authentication.then((googleKey) async {
-            _googleUser = _googleSignin.currentUser;
-            _googleUserModel = GoogleUserModel(
-              id: _googleUser!.id,
-              accessToken: googleKey.accessToken,
-              displayName: _googleUser!.displayName,
-              email: _googleUser!.email,
-              photoUrl: _googleUser!.photoUrl,
-              serverAuthCode: _googleUser!.serverAuthCode,
-            );
-          });
+          if (result != null) {
+            await result.authentication.then((googleKey) async {
+              _googleUser = _googleSignin.currentUser;
+              _googleUserModel = GoogleUserModel(
+                id: _googleUser!.id,
+                accessToken: googleKey.accessToken,
+                displayName: _googleUser!.displayName,
+                email: _googleUser!.email,
+                photoUrl: _googleUser!.photoUrl,
+                serverAuthCode: _googleUser!.serverAuthCode,
+              );
+            });
+          }
         });
       }
       return _googleUserModel;

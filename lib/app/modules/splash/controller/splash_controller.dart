@@ -57,73 +57,75 @@ class SplashController extends GetxController {
       Get.offAndToNamed(AppPages.dashboard);
 
       // if google auth key exist.
-    } else if (googleAuthKey != null) {
-      // Check if google auth key still available.
-      try {
-        final _googleUser = await _auth.verifyGoogleAccount(
-          accessToken: googleAuthKey ?? '',
-          displayName: googleFullName ?? '',
-        );
+    } else {
+      if (googleAuthKey != null) {
+        // Check if google auth key still available.
+        try {
+          final _googleUser = await _auth.verifyGoogleAccount(
+            accessToken: googleAuthKey ?? '',
+            displayName: googleFullName ?? '',
+          );
 
-        // print(_googleUser.status);
-        // If google user exist and status code from backend OK then go to dashboard with named
-        if (_googleUser!.status == '200') {
-          await _storage.write('isLoggedIn', boolValue: true);
-          _authController.isLoggedIn.value = true;
-          _authController.fullname.value = googleFullName!;
-          _authController.photoUrl.value = googlePhotoUrl!;
-          _authController.googleToken.value = googleAuthKey!;
-          // _authController.gender.value = _appUser.gender!;
-          // _authController.apiToken.value = _user.token!;
+          // print(_googleUser.status);
+          // If google user exist and status code from backend OK then go to dashboard with named
+          if (_googleUser!.status == '200') {
+            await _storage.write('isLoggedIn', boolValue: true);
+            _authController.isLoggedIn.value = true;
+            _authController.fullname.value = googleFullName!;
+            _authController.photoUrl.value = googlePhotoUrl!;
+            _authController.googleToken.value = googleAuthKey!;
+            // _authController.gender.value = _appUser.gender!;
+            // _authController.apiToken.value = _user.token!;
 
-          Get.offAndToNamed(AppPages.dashboard);
-        } else {
-          /// Silent Login
-          /// @_onGoogleTokenExpired()
-          /// Login using google silent login.
-          /// Must no token in locla storage
+            Get.offAndToNamed(AppPages.dashboard);
+          } else {
+            /// Silent Login
+            /// @_onGoogleTokenExpired()
+            /// Login using google silent login.
+            /// Must no token in locla storage
 
-          _authController.onGoogleTokenExpired();
+            _authController.onGoogleTokenExpired();
+          }
+        } catch (e) {
+          Get.snackbar(
+            "Something Went Wrong",
+            "Please try again later",
+            backgroundColor: primaryColor,
+            colorText: whiteColor,
+            snackPosition: SnackPosition.TOP,
+          );
         }
-      } catch (e) {
-        Get.snackbar(
-          "Something Went Wrong",
-          "Please try again later",
-          backgroundColor: primaryColor,
-          colorText: whiteColor,
-          snackPosition: SnackPosition.TOP,
-        );
-      }
-    } else if (apiToken != null) {
-      try {
-        UserModel? _userData = await _auth.getUserData(
-          token: apiToken ?? '',
-        );
+      } else if (apiToken != null) {
+        try {
+          UserModel? _userData = await _auth.getUserData(
+            token: apiToken ?? '',
+          );
 
-        if (_userData.status == '200') {
-          await _storage.write('isLoggedIn', boolValue: true);
-          _authController.isLoggedIn.value = true;
-          _authController.fullname.value = _userData.full_name!;
-          _authController.photoUrl.value = _userData.image!;
-          _authController.gender.value = _userData.gender!;
-          _authController.googleToken.value = "";
-          _authController.apiToken.value = apiToken!;
+          if (_userData.status == '200') {
+            await _storage.write('isLoggedIn', boolValue: true);
+            _authController.isLoggedIn.value = true;
+            _authController.fullname.value = _userData.full_name!;
+            _authController.photoUrl.value = _userData.image!;
+            _authController.gender.value = _userData.gender!;
+            _authController.googleToken.value = "";
+            _authController.apiToken.value = apiToken!;
 
-          Get.offAndToNamed(AppPages.dashboard);
-        } else {
-          /// Silent Login
-          /// @_onApiTokenExpired()
-          /// Get email and password from local storage
-          _authController.onApiTokenExpired();
+            Get.offAndToNamed(AppPages.dashboard);
+          } else {
+            /// Silent Login
+            /// @_onApiTokenExpired()
+            /// Get email and password from local storage
+            _authController.onApiTokenExpired();
+          }
+        } catch (e) {
+          Get.snackbar(
+            "Error",
+            "Unknown Error, Please try again later",
+            backgroundColor: primaryColor,
+            colorText: whiteColor,
+            snackPosition: SnackPosition.TOP,
+          );
         }
-      } catch (e) {
-        Get.snackbar(
-          "Error",
-          "Unknown Error, Please try again later",
-          backgroundColor: primaryColor,
-          colorText: whiteColor,
-          snackPosition: SnackPosition.TOP,
-        );
       }
     }
   }

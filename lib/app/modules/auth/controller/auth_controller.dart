@@ -63,6 +63,7 @@ class AuthController extends GetxController {
     sp.remove('googleFullName');
     sp.remove('googlePhotoUrl');
     sp.remove('credentials');
+    await sp.clear();
 
     // Redirect into sign in pages
     Get.toNamed(AppPages.signin);

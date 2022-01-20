@@ -238,14 +238,16 @@ class SignInController extends GetxController {
         Get.offAndToNamed(AppPages.dashboard);
       }
     } catch (e) {
-      isGoogleLoading.value = false;
-      Get.snackbar(
-        "Something Went Wrong",
-        "${e}",
-        backgroundColor: primaryColor,
-        colorText: whiteColor,
-        snackPosition: SnackPosition.TOP,
-      );
+      if (e != "Null check operator used on a null value") {
+        isGoogleLoading.value = false;
+        Get.snackbar(
+          "Something Went Wrong",
+          "${e}",
+          backgroundColor: primaryColor,
+          colorText: whiteColor,
+          snackPosition: SnackPosition.TOP,
+        );
+      }
     }
   }
 
