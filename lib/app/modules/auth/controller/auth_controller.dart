@@ -66,7 +66,7 @@ class AuthController extends GetxController {
     await sp.clear();
 
     // Redirect into sign in pages
-    Get.toNamed(AppPages.signin);
+    Get.offAllNamed(AppPages.dashboard);
   }
 
   Future<UserModel?> _apiSilentLogin() async {

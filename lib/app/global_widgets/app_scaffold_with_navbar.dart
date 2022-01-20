@@ -91,29 +91,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       }
                       break;
                     case 4:
-                      if (_authController.isLoggedIn.value) {
-                        Get.snackbar(
-                          "Uh oh.",
-                          "No Route to Host",
-                          backgroundColor: primaryColor,
-                          snackPosition: SnackPosition.TOP,
-                          animationDuration: const Duration(seconds: 1),
-                          duration: const Duration(seconds: 1),
-                          colorText: whiteColor,
-                        );
-                      } else {
-                        // Redirect into sign in pages
-                        Get.toNamed(AppPages.signin);
-                        Get.snackbar(
-                          "Please login to continue",
-                          "",
-                          backgroundColor: primaryColor,
-                          snackPosition: SnackPosition.TOP,
-                          animationDuration: const Duration(seconds: 1),
-                          duration: const Duration(seconds: 1),
-                          colorText: whiteColor,
-                        );
-                      }
+                      Get.toNamed(AppPages.profile);
                       break;
                   }
                 }
