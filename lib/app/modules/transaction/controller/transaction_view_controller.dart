@@ -631,7 +631,8 @@ class TransactionViewController extends GetxController {
     String url,
     String fileName,
   ) async {
-    Directory _path = await getApplicationDocumentsDirectory();
+    Directory _path = await getExternalStorageDirectory() ??
+        await getApplicationDocumentsDirectory();
 
     try {
       await FileDownloader.downloadFile(
