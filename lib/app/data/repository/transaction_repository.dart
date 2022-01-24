@@ -28,6 +28,8 @@ class TransactionRepository {
         body: jsonEncode({"transaction_id": transactionId}),
       );
 
+      print(_response.body);
+
       switch (_response.statusCode) {
         case 200:
           return (QuestionnaireModel.fromJson(_response.body)).data;

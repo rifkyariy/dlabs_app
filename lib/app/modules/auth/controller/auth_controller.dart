@@ -58,12 +58,13 @@ class AuthController extends GetxController {
 
     // Remove Shared Preference
     SharedPreferences sp = await SharedPreferences.getInstance();
+
     sp.remove('googleKey');
+    sp.remove('isLoggedIn');
     sp.remove('apiToken');
     sp.remove('googleFullName');
     sp.remove('googlePhotoUrl');
-    sp.remove('credentials');
-    await sp.clear();
+    // await sp.clear();
 
     // Redirect into sign in pages
     Get.offAllNamed(AppPages.dashboard);

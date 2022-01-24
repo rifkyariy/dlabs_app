@@ -425,17 +425,22 @@ class PersonalBookingController extends GetxController {
   void buildQuestionnaireView() async {
     // Get List of Questionnaire
     var questionnaire = await getQuestionnaire(apiToken, selectedTestType.text);
-    radioData.value = questionnaire;
+    if (questionnaire.length > 0) {
+      radioData.value = questionnaire;
 
-    // Set default value of questionnaire
-    // Default value = 0 or No
-    for (var i = 0; i < questionnaire.length; i++) {
-      radioGroupValue.add('0');
-      radioValue.add(['1', '0']);
+      // Set default value of questionnaire
+      // Default value = 0 or No
+      for (var i = 0; i < questionnaire.length; i++) {
+        radioGroupValue.add('0');
+        radioValue.add(['1', '0']);
+      }
+
+      // Redirect into Questionnaire View
+      Get.toNamed(AppPages.questionnaire);
+    } else {
+      radioData.value = <Map<String, dynamic>>[];
+      createPersonalBooking();
     }
-
-    // Redirect into Questionnaire View
-    Get.toNamed(AppPages.questionnaire);
   }
 
   void createPersonalBooking() async {
@@ -445,10 +450,13 @@ class PersonalBookingController extends GetxController {
     }
 
     // Insert radio value into Questionnaire Object
+    print(radioData.length);
     for (var i = 0; i < radioData.length; i++) {
       radioData[i]['jawaban'] = convertIntoQuestionAnswer(radioGroupValue[i]);
     }
-    var questionnaire = radioData;
+
+    List questionnaire = [];
+    questionnaire = radioData;
 
     var selectedServiceName = serviceList!
         .where((listItem) => listItem['id'] == selectedService.text);
@@ -492,6 +500,8 @@ class PersonalBookingController extends GetxController {
       }
     };
 
+    print(questionnaire);
+
     isLoading.value = true;
     try {
       var result = await _booking.createPersonalBooking(
@@ -500,7 +510,7 @@ class PersonalBookingController extends GetxController {
       isLoading.value = false;
 
       // Dispose all text editing controller
-      disposeAll();
+      // disposeAll();
 
       // Display success snackbar
       Get.snackbar(
@@ -515,7 +525,7 @@ class PersonalBookingController extends GetxController {
       transactionViewController.onTransactionCardPressed(
           transactionId: transactionId,
           status: TRANSACTIONSTATUS.newTransaction,
-          isDestroyState: true);
+          isDestroyState: false);
     } catch (e) {
       // Display success snackbar
       Get.snackbar(
@@ -527,4 +537,6 @@ class PersonalBookingController extends GetxController {
       );
     }
   }
+
+  void nextScreen(transactionId) {}
 }

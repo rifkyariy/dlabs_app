@@ -60,10 +60,10 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               title: 'Invoice for',
               leading: [
-                _thinDetailInformationItem('PIC ID Number'),
-                _thinDetailInformationItem('PIC Name'),
-                _thinDetailInformationItem('PIC Email'),
-                _thinDetailInformationItem('PIC Phone'),
+                _thinDetailInformationItem('Identity Number'),
+                _thinDetailInformationItem('Fullname'),
+                _thinDetailInformationItem('Email'),
+                _thinDetailInformationItem('Phone'),
               ],
 
               /// Trailing Button
@@ -84,7 +84,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
             AppDetailInformationBox(
               header: AppTitleWithButton(
                 title: 'Test Information',
-                buttonLabel: 'View Detail',
+                buttonLabel: '',
                 onTap: () {},
               ),
 
@@ -220,7 +220,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               leading: const [
                 AppDetailInformationItem('Total Price'),
-                AppDetailInformationItem('Payment Method'),
+                // AppDetailInformationItem('Payment Method'),
                 AppDetailInformationItem('Payment Time'),
               ],
               trailing: [
@@ -231,13 +231,13 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                   ),
                   color: blackColor,
                 ),
-                AppDetailInformationItem(
-                  'BCA',
-                  color: blackColor,
-                ),
+                // AppDetailInformationItem(
+                //   'BCA',
+                //   color: blackColor,
+                // ),
                 AppDetailInformationItem(
                   /// TODO change to payment date
-                  (controller.transactionDetail.transactionDate ?? ''),
+                  '',
                   color: blackColor,
                 ),
               ],

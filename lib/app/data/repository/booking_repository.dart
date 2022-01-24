@@ -95,6 +95,7 @@ class BookingRepository {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
+      print(data);
       return data;
     } else {
       final data = jsonDecode(response.body);

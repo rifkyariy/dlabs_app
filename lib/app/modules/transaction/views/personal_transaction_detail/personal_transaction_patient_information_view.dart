@@ -280,9 +280,7 @@ class PersonalTransactionPatientInformationView
                                   sampleType:
                                       '${controller.medicalHistoryList![index].sampleType}',
                                   status: controller
-                                      .medicalHistoryList![index].result!
-                                      .split('/')
-                                      .first,
+                                      .medicalHistoryList![index].result!,
                                   messages:
                                       '${controller.medicalHistoryList![index].noteResult}',
                                   onPressed: () {

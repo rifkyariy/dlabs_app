@@ -41,16 +41,44 @@ class BookingListTile extends StatelessWidget {
 
         // The child of the Slidable is what the user sees when the
         // component is not dragged.
-        child: Column(
-          children: [
-            const Divider(height: 0),
-            ListTile(
-              leading: CircleAvatar(child: Text(title[0])),
-              title: Text(title),
-              subtitle: Text(subtitle),
-            ),
-            const Divider(height: 0),
-          ],
-        ));
+        // child: Column(
+        //   children: [
+        //     const Divider(height: 0),
+        //     ListTile(
+        //       leading: CircleAvatar(child: Text(title[0])),
+        //       title: Text(title),
+        //       subtitle: Text(subtitle),
+        //       onTap: () {
+        //         print("ehe");
+        //         Slidable.of(context)?.enableEndActionPane;
+        //       },
+        //     ),
+        //     const Divider(height: 0),
+        //   ],
+        // )
+        child: Builder(builder: (context) {
+          return Container(
+            child: _listTile(context),
+          );
+        }));
+  }
+
+  Widget _listTile(context) {
+    return Column(
+      children: [
+        const Divider(height: 0),
+        ListTile(
+          leading: CircleAvatar(child: Text(title[0])),
+          title: Text(title),
+          subtitle: Text(subtitle),
+          onTap: () {
+            Slidable.of(context)?.animation.isCompleted == true
+                ? Slidable.of(context)?.close()
+                : Slidable.of(context)?.openEndActionPane();
+          },
+        ),
+        const Divider(height: 0),
+      ],
+    );
   }
 }

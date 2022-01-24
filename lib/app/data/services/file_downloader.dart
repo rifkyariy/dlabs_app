@@ -12,7 +12,7 @@ class FileDownloader {
     final File _file = File(path);
 
     if (await _file.exists()) throw 'file-already-exist';
-    final _resopnse = await _dio.get(
+    final _response = await _dio.get(
       url,
       options: Options(
         responseType: ResponseType.bytes,
@@ -23,12 +23,12 @@ class FileDownloader {
     if (!(await Permission.storage.isGranted)) {
       if (await Permission.storage.request().isGranted) {
         final _raf = _file.openSync(mode: FileMode.writeOnly);
-        _raf.writeFromSync(_resopnse.data);
+        _raf.writeFromSync(_response.data);
         await _raf.close();
       }
     } else {
       final _raf = _file.openSync(mode: FileMode.writeOnly);
-      _raf.writeFromSync(_resopnse.data);
+      _raf.writeFromSync(_response.data);
       await _raf.close();
     }
   }

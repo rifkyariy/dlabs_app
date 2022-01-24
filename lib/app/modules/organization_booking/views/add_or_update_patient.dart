@@ -42,7 +42,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            'Add Patient',
+            widget.isUpdateMode ? 'Update Patient' : 'Add Patient',
             style: BoldTextStyle(
               const Color(0xFF323F4B),
             ),
@@ -87,7 +87,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                         label: "Identity Number",
                         name: "Identity Number",
                         errorMsg: controller.identityNumberErrorMessage.value,
-                        type: "number",
+                        type: "text",
                       ),
 
                       // Fullname
@@ -104,7 +104,6 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                         controller: controller.patientEmailController,
                         label: "Email",
                         name: "Email",
-                        placeholder: 'Type email',
                         errorMsg: controller.emailErrorMessage.value,
                       ),
 

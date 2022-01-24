@@ -214,7 +214,14 @@ class AuthRepository {
       }
       return _googleUserModel;
     } catch (e) {
-      return GoogleUserModel();
+      return GoogleUserModel(
+        id: null,
+        accessToken: null,
+        displayName: null,
+        email: null,
+        photoUrl: null,
+        serverAuthCode: null,
+      );
     }
   }
 }

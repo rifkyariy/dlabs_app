@@ -92,6 +92,7 @@ class OrganizationBookingController extends GetxController {
   RxString serviceName = ''.obs;
   RxString servicePrice = '0'.obs;
   RxString servicePriceString = '0'.obs;
+  RxBool isUpdateMode = false.obs;
 
   // Focus Node for search
   final FocusNode searchFocusNode = FocusNode();
@@ -132,10 +133,18 @@ class OrganizationBookingController extends GetxController {
 
   void _triggerLocationAddress() {
     selectedServiceString.value = selectedService.text;
+    setLocationByService(selectedServiceString.value);
+  }
 
-    if (selectedServiceString.value == '1') {
+  void setLocationByService(serviceId) async {
+    if (serviceId == '1') {
       selectedLocation.value = const TextEditingValue(text: '2');
+
+      await getListofLocation(apiToken).then((result) => locationList!.value =
+          result.where((element) => element['id'] != '1').toList());
     } else {
+      await getListofLocation(apiToken)
+          .then((result) => locationList!.value = result.toList());
       selectedLocation.value = const TextEditingValue(text: '1');
     }
   }
@@ -236,6 +245,9 @@ class OrganizationBookingController extends GetxController {
         list.add(PatientModel.fromJson(item));
       }
 
+      print(list[0].gender);
+      print(list[1].gender);
+
       patientList.value = list;
 
       updateTotalPrice();
@@ -314,30 +326,33 @@ class OrganizationBookingController extends GetxController {
 
   // Search Patient Data by ID Number / Passport
   void _searchPatientData() async {
-    String q = patientIDNumberController.text;
-    try {
-      await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
-        (result) {
-          patientFullNameController.text = result['full_name'];
-          patientEmailController.text = result['email'];
-          patientPhoneController.text = result['phone'];
-          patientDateController.text = result['birth_date'];
-          patientAddressController.text = result['address'];
-          genderValue.value = result['gender'];
-          patientSelectedNationality.text = result['nationality'];
+    print(isUpdateMode.value);
+    if (!isUpdateMode.value) {
+      String q = patientIDNumberController.text;
+      try {
+        await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
+          (result) {
+            patientFullNameController.text = result['full_name'];
+            patientEmailController.text = result['email'];
+            patientPhoneController.text = result['phone'];
+            patientDateController.text = result['birth_date'];
+            patientAddressController.text = result['address'];
+            genderValue.value = result['gender'];
+            patientSelectedNationality.text = result['nationality'];
 
-          reloadDropdown();
-        },
-      );
-    } catch (e) {
-      patientFullNameController.text = '';
-      patientEmailController.text = '';
-      patientPhoneController.text = '';
-      patientDateController.text = '';
-      patientAddressController.text = '';
-      testLocationController.text = '';
-      genderValue.value = '0';
-      reloadDropdown();
+            reloadDropdown();
+          },
+        );
+      } catch (e) {
+        patientFullNameController.text = '';
+        patientEmailController.text = '';
+        patientPhoneController.text = '';
+        patientDateController.text = '';
+        patientAddressController.text = '';
+        testLocationController.text = '';
+        genderValue.value = '0';
+        reloadDropdown();
+      }
     }
   }
 
@@ -575,7 +590,7 @@ class OrganizationBookingController extends GetxController {
     _patient.email = patientEmailController.text;
     _patient.phoneNumber = patientPhoneController.text;
     _patient.dateOfBirth = patientDateController.text;
-    _patient.gender = patientGenderController.text;
+    _patient.gender = genderValue.value;
     _patient.address = patientAddressController.text;
     _patient.testPrice = double.parse("${selectedTestTypeMap['price']}");
     _patient.testType = selectedTestTypeMap['value'].toString();
@@ -606,8 +621,6 @@ class OrganizationBookingController extends GetxController {
     isLoading.value = true;
     if (await _booking.updatePatient(payload: payload, token: apiToken!)) {
       isLoading.value = false;
-      // Redirect into sign in page
-      Get.toNamed(AppPages.organizationBooking);
 
       // Display success snackbar
       Get.snackbar(
@@ -617,6 +630,10 @@ class OrganizationBookingController extends GetxController {
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
+
+      // Redirect into sign in page
+      Get.toNamed(AppPages.organizationBooking);
+      patientSelectedNationality.text = "Indonesian";
     }
   }
 
@@ -649,6 +666,7 @@ class OrganizationBookingController extends GetxController {
   /// This is responsible for update page data.
   void updateTextControllerBasedOnIndex(int index) {
     var _patient = patientList.elementAt(index);
+    print(_patient.gender);
 
     patientIDNumberController.text = _patient.identityNumber;
     patientFullNameController.text = _patient.fullName;
@@ -656,6 +674,7 @@ class OrganizationBookingController extends GetxController {
     patientPhoneController.text = _patient.phoneNumber;
     patientDateController.text = _patient.dateOfBirth;
     patientGenderController.text = _patient.gender;
+    genderValue.value = _patient.gender;
     patientAddressController.text = _patient.address;
     selectedTestType.text = _patient.testTypeId;
 
@@ -687,7 +706,8 @@ class OrganizationBookingController extends GetxController {
         "phone": patientPhoneController.text,
         "date_of_birth": patientDateController.text,
         "gender": genderValue.value,
-        "address": patientAddressController.text
+        "address": patientAddressController.text,
+        "nationality": patientSelectedNationality.text,
       };
 
       addPatientOnDB(payload, selectedTestTypeMap);
@@ -722,8 +742,6 @@ class OrganizationBookingController extends GetxController {
       getPatient(isAll: true);
       patientList.refresh();
 
-      Get.toNamed(AppPages.organizationBooking);
-
       // Display success snackbar
       Get.snackbar(
         'Success',
@@ -732,6 +750,11 @@ class OrganizationBookingController extends GetxController {
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
+
+      Get.toNamed(AppPages.organizationBooking);
+
+      // TODO reset selected patient default
+      patientSelectedNationality.text = "Indonesian";
     } catch (e) {
       if (e.toString().contains('User Identity number already used')) {
         // Display Error snackbar

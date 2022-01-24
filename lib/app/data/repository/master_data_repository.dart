@@ -74,9 +74,12 @@ class MasterDataRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var result = (jsonDecode(response.body)["data"]["list"] as List)
-        .map((e) => e as Map<String, dynamic>)
-        .toList();
+    var result = [];
+    if (jsonDecode(response.body)["data"]["list"] != null) {
+      result = (jsonDecode(response.body)["data"]["list"] as List)
+          .map((e) => e as Map<String, dynamic>)
+          .toList();
+    }
 
     return result;
   }

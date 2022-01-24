@@ -146,7 +146,6 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                               controller: controller.emailController,
                               label: "Email Address",
                               name: "email",
-                              placeholder: 'type email',
                               errorMsg: controller.emailErrorMessage.value,
                             ),
 

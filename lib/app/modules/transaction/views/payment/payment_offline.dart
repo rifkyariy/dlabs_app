@@ -58,7 +58,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                           height: 5,
                         ),
                         Text(
-                          'Monday, 02 Nov 2021  12:20',
+                          controller.transactionDetail.cancelDate!,
                           style: BoldTextStyle(blackColor, fontSize: 12),
                         )
                       ],
@@ -143,23 +143,29 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                   const SizedBox(
                     height: 8,
                   ),
-                  Text(
-                    'Bank Name: ${controller.selectedPaymentMethodName}',
-                    style: mediumTextStyle(blackColor, fontSize: 12),
+                  Obx(
+                    () => Text(
+                      'Bank Name: ${controller.selectedPaymentMethodName}',
+                      style: mediumTextStyle(blackColor, fontSize: 12),
+                    ),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  Text(
-                    'Account Holder Name: ${controller.selectedAccountHolder}',
-                    style: mediumTextStyle(blackColor, fontSize: 12),
+                  Obx(
+                    () => Text(
+                      'Account Holder Name: ${controller.selectedAccountHolder}',
+                      style: mediumTextStyle(blackColor, fontSize: 12),
+                    ),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
-                  Text(
-                    'Account Number: ${controller.selectedAccountNumber}',
-                    style: mediumTextStyle(blackColor, fontSize: 12),
+                  Obx(
+                    () => Text(
+                      'Account Number: ${controller.selectedAccountNumber}',
+                      style: mediumTextStyle(blackColor, fontSize: 12),
+                    ),
                   ),
                   const SizedBox(
                     height: 20,

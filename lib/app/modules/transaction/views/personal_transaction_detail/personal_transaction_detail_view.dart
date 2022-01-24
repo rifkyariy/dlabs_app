@@ -58,7 +58,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               ),
               leading: const [
                 AppDetailInformationItem('Identity Number'),
-                AppDetailInformationItem('Full Name'),
+                AppDetailInformationItem('Fullname'),
                 AppDetailInformationItem('Email'),
                 AppDetailInformationItem('Phone'),
               ],
@@ -208,7 +208,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               title: 'Payment Detail',
               leading: const [
                 AppDetailInformationItem('Total Price'),
-                AppDetailInformationItem('Payment Method'),
+                // AppDetailInformationItem('Payment Method'),
                 AppDetailInformationItem('Payment Time'),
               ],
               trailing: [
@@ -219,13 +219,13 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   ),
                   color: blackColor,
                 ),
-                AppDetailInformationItem(
-                  'BCA',
-                  color: blackColor,
-                ),
+                // AppDetailInformationItem(
+                //   'BCA',
+                //   color: blackColor,
+                // ),
                 AppDetailInformationItem(
                   /// TODO change to payment date
-                  (controller.transactionDetail.transactionDate ?? ''),
+                  '',
                   color: blackColor,
                 ),
               ],

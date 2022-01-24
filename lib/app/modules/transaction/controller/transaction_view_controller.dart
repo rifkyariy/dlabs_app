@@ -68,14 +68,12 @@ class TransactionViewController extends GetxController {
   ///
   late TrxDetailData transactionDetail;
 
-  late TextEditingController selectedPaymentMethod =
+  TextEditingController selectedPaymentMethod =
       TextEditingController(text: '1');
 
-  late RxString selectedPaymentMethodName = "".obs;
-
-  late RxString selectedAccountHolder = "".obs;
-
-  late RxString selectedAccountNumber = "".obs;
+  RxString selectedPaymentMethodName = "".obs;
+  RxString selectedAccountHolder = "".obs;
+  RxString selectedAccountNumber = "".obs;
 
   /// This is the Invoice Detail Information
   /// It holds for the transaction invoice on specific transaction ID
@@ -92,11 +90,22 @@ class TransactionViewController extends GetxController {
   void onInit() async {
     updateHistoryRowList(enableLoadingEffect: true);
 
+    _getOfflinePayment();
+    selectedPaymentMethod.addListener(_getOfflinePayment);
+
+    super.onInit();
+  }
+
+  void _getOfflinePayment() async {
+    print(selectedPaymentMethod.text);
+    print('wew');
     await getOfflinePaymentMethod().then((result) {
       paymentMethodList!.value = result.toList();
 
       var filteredList = paymentMethodList!.where((listItem) =>
           listItem['id'] == selectedPaymentMethod.text.toString());
+
+      print(filteredList.toList().elementAt(0)['payment_name'].toString());
 
       selectedPaymentMethodName.value =
           filteredList.toList().elementAt(0)['payment_name'];
@@ -105,8 +114,6 @@ class TransactionViewController extends GetxController {
       selectedAccountNumber.value =
           filteredList.toList().elementAt(0)['acc_number'];
     });
-
-    super.onInit();
   }
 
   /// This will update the [transactionHistory] list
@@ -308,19 +315,24 @@ class TransactionViewController extends GetxController {
 
       // Go to payment screen if [status] is NEW Transaction
       //
-      if (status == TRANSACTIONSTATUS.newTransaction &&
-          (transactionDetail.isPrivate ?? '1') == '1') {
-        toPaymentScreen(TRANSACTIONTYPE.personal, isDestroyState);
+      if (status == TRANSACTIONSTATUS.newTransaction ||
+          status == TRANSACTIONSTATUS.paymentRejected) {
+        if ((transactionDetail.isPrivate ?? '1') == '1') {
+          toPaymentScreen(TRANSACTIONTYPE.personal, isDestroyState);
+        }
       }
 
-      if (status == TRANSACTIONSTATUS.newTransaction &&
-          (transactionDetail.isPrivate ?? '1') != '1') {
-        toPaymentScreen(TRANSACTIONTYPE.organization, isDestroyState);
+      if (status == TRANSACTIONSTATUS.newTransaction ||
+          status == TRANSACTIONSTATUS.paymentRejected) {
+        if ((transactionDetail.isPrivate ?? '1') != '1') {
+          toPaymentScreen(TRANSACTIONTYPE.organization, isDestroyState);
+        }
       }
 
       // If [transactionDetail.isPrivate] is 1 then go to Personal Page
       //  TRANSACTIONTYPE.personal
       if (status != TRANSACTIONSTATUS.newTransaction &&
+          status != TRANSACTIONSTATUS.paymentRejected &&
           (transactionDetail.isPrivate ?? '1') == '1') {
         toDetailTransactionScreen(TRANSACTIONTYPE.personal, isDestroyState);
       }
@@ -328,6 +340,7 @@ class TransactionViewController extends GetxController {
       // If [transactionDetail.isPrivate] is not 1 then go to Organization Page
       // TRANSACTIONTYPE.organization
       if (status != TRANSACTIONSTATUS.newTransaction &&
+          status != TRANSACTIONSTATUS.paymentRejected &&
           (transactionDetail.isPrivate ?? '1') != '1') {
         toDetailTransactionScreen(TRANSACTIONTYPE.organization, isDestroyState);
       }
@@ -557,8 +570,12 @@ class TransactionViewController extends GetxController {
         ),
       );
 
+      // Refresh History List
       Get.back();
       Get.back();
+
+      refreshHistoryList();
+      updateHistoryRowList(enableLoadingEffect: false);
 
       Get.snackbar(
         'Upload Successfull',

@@ -5,6 +5,8 @@ import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
+import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
+import 'package:kayabe_lims/app/modules/dashboard/views/dashboard.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -119,12 +121,14 @@ class SignInController extends GetxController {
       // Set Dashboard OBX
       _authController.isLoggedIn.value = true;
       _authController.fullname.value = _user.full_name!;
-      _authController.photoUrl.value = _user.image!;
       _authController.gender.value = _user.gender!;
       _authController.apiToken.value = _user.token!;
+      if (_authController.photoUrl.value == "") {
+        _authController.photoUrl.value = _user.image!;
+      }
 
       // Go to dashboard
-      Get.offAllNamed(AppPages.dashboard);
+      Get.offAndToNamed(AppPages.dashboard);
     } else {
       isLoading.value = false;
       Get.snackbar(
@@ -192,6 +196,12 @@ class SignInController extends GetxController {
           "googlePhotoUrl": _googleUser.photoUrl ?? ''
         };
 
+        // Set Dashboard OBX
+        _authController.fullname.value = _googleUser.displayName!;
+        _authController.photoUrl.value =
+            _googleUser.photoUrl == null ? '' : _googleUser.photoUrl!;
+        _authController.isLoggedIn.value = true;
+
         Get.toNamed(AppPages.updatePersonalInfo, parameters: _parameters);
       } else {
         // If user already registered, save api token to local storage.
@@ -233,10 +243,11 @@ class SignInController extends GetxController {
         _authController.isLoggedIn.value = true;
 
         // Go to dashboard
-        Get.offAllNamed(AppPages.dashboard);
+        Get.offAndToNamed(AppPages.dashboard);
       }
     } catch (e) {
-      if (e != "Null check operator used on a null value") {
+      print(e);
+      if (e.toString() != "Null check operator used on a null value") {
         isGoogleLoading.value = false;
         Get.snackbar(
           "Something Went Wrong",

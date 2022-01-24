@@ -1,6 +1,7 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
+import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
 import 'package:kayabe_lims/app/global_widgets/app_select_input.dart';
 import 'package:kayabe_lims/app/global_widgets/button.dart';
 import 'package:kayabe_lims/app/global_widgets/text_input.dart';
@@ -225,6 +226,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
 
               OutlinedButton(
                 onPressed: () {
+                  controller.isUpdateMode.value = false;
                   controller.clearTextController();
                   Get.to(() => AddOrUpdatePatient(
                         isUpdateMode: false,
@@ -351,6 +353,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                                 );
                               },
                               updateButtonPressed: (context) {
+                                controller.isUpdateMode.value = true;
                                 controller
                                     .updateTextControllerBasedOnIndex(index);
                                 Get.to(
@@ -415,7 +418,8 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                   ),
                   Obx(
                     () => Text(
-                      'Rp ${controller.totalBookingPrice.value},-',
+                      CurrencyFormat.convertToIdr(
+                          controller.totalBookingPrice.value, 2),
                       style: BoldTextStyle(primaryColor),
                     ),
                   ),

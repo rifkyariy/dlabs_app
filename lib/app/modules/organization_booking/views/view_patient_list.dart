@@ -240,6 +240,7 @@ class ViewPatientList extends StatelessWidget {
                       );
                     },
                     updateButtonPressed: (context) {
+                      controller.isUpdateMode.value = true;
                       controller.updateTextControllerBasedOnIndex(index);
                       Get.to(
                         () => AddOrUpdatePatient(
@@ -339,6 +340,7 @@ class ViewPatientList extends StatelessWidget {
                           );
                         },
                         updateButtonPressed: (context) {
+                          controller.isUpdateMode.value = true;
                           int idx = controller.patientDataIndex(
                               controller.searchResult[index].identityNumber);
                           controller.updateTextControllerBasedOnIndex(idx);
