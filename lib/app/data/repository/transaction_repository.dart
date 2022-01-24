@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:kayabe_lims/app/data/models/invoice_model/invoice_data.dart';
 import 'package:kayabe_lims/app/data/models/invoice_model/invoice_model.dart';
 import 'package:kayabe_lims/app/data/models/payment_proof_model.dart';
@@ -28,8 +29,6 @@ class TransactionRepository {
         body: jsonEncode({"transaction_id": transactionId}),
       );
 
-      print(_response.body);
-
       switch (_response.statusCode) {
         case 200:
           return (QuestionnaireModel.fromJson(_response.body)).data;
@@ -38,7 +37,13 @@ class TransactionRepository {
           throw Exception('Authentication Failed');
 
         case 500:
-          throw Exception('Internal Server Error');
+          String errors = jsonDecode(_response.body)['errors'];
+
+          if (errors.toLowerCase().contains('questionare')) {
+            return (QuestionnaireModel.fromJson(_response.body)).data;
+          } else {
+            throw Exception('Internal Server Error');
+          }
 
         default:
           throw Exception('${_response.statusCode} ${_response.reasonPhrase}');
