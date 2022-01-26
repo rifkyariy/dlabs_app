@@ -1,14 +1,11 @@
-import 'dart:convert';
-
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
-import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
-import 'package:kayabe_lims/app/modules/dashboard/views/dashboard.dart';
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class SplashController extends GetxController {
@@ -17,6 +14,9 @@ class SplashController extends GetxController {
   final MasterDataRepository _masterData = Get.put(MasterDataRepository());
   final AuthController _authController =
       Get.put(AuthController(), permanent: true);
+
+  final _transactionController =
+      Get.put(TransactionViewController(), permanent: true);
 
   RxString companyLogo = "".obs;
   RxBool isVisible = false.obs;

@@ -15,6 +15,22 @@ abstract class Routes {
   static const organizationBooking = _Paths.organizationBooking;
   static const transactionHistory = _Paths.transactionHistory;
   static const profile = _Paths.profile;
+
+  static const personalTransactionDetail = _Paths.personalTransactionDetail;
+  static const organizationTransactionDetail =
+      _Paths.organizationTransactionDetail;
+  static const transactionPatientList = _Paths.transactionPatientList;
+  static const personalTransactionPatientInformation =
+      _Paths.personalTransactionPatientInformation;
+  static const medicalQuestionnaireList = _Paths.medicalQuestionnaireList;
+  static const invoice = _Paths.invoice;
+  static const trackingProcess = _Paths.trackingProcess;
+  static const medicalHistory = _Paths.medicalHistory;
+
+  static const personalPayment = _Paths.personalPayment;
+  static const organizationPayment = _Paths.organizationPayment;
+  static const paymentOffline = _Paths.paymentOffline;
+  static const paymentCash = _Paths.paymentCash;
 }
 
 abstract class _Paths {
@@ -27,8 +43,25 @@ abstract class _Paths {
   static const updatePersonalInfo = '/update-personal-info';
   static const profile = '/profile';
 
-  static const personalBooking = '/booking/personal';
-  static const questionnaire = '/booking/personal/questionnaire';
-  static const organizationBooking = '/booking/organization';
-  static const transactionHistory = '/transaction/history';
+  static const personalBooking = '/booking-personal';
+  static const questionnaire = '/booking-personal-questionnaire';
+  static const organizationBooking = '/booking-organization';
+  static const transactionHistory = '/transaction-history';
+
+  static const personalTransactionDetail = '/transaction-personal-detail';
+  static const organizationTransactionDetail =
+      '/transaction-organization-detail';
+  static const transactionPatientList = '/transaction-patient-list';
+  static const personalTransactionPatientInformation =
+      '/transaction-personal-patient-information';
+  static const medicalQuestionnaireList = '/transaction-medical-questionnaire';
+  static const invoice = '/transaction-invoice';
+  static const trackingProcess = '/transaction-tracking-process';
+  static const medicalHistory = '/transaction-medical-history';
+
+  static const personalPayment = '/payment-personal';
+  static const organizationPayment = '/payment-organization';
+
+  static const paymentOffline = '/payment-offline';
+  static const paymentCash = '/payment-cash';
 }

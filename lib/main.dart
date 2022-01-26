@@ -15,6 +15,7 @@ class MyHttpOverrides extends HttpOverrides {
 
 void main() async {
   await dotenv.load(fileName: ".env");
+
   runApp(const Apps());
 }
 

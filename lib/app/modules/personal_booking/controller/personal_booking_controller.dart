@@ -523,7 +523,7 @@ class PersonalBookingController extends GetxController {
       transactionViewController.onTransactionCardPressed(
           transactionId: transactionId,
           status: TRANSACTIONSTATUS.newTransaction,
-          isDestroyState: false);
+          isDestroyState: true);
     } catch (e) {
       // Display success snackbar
       Get.snackbar(
