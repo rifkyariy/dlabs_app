@@ -35,14 +35,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 
 class TransactionViewController extends GetxController {
-  final AppStorageService _storage = Get.find();
-  final MasterDataRepository _master = Get.find();
-  final HistoryRepository _historyRepository = Get.find();
-  final TransactionRepository _transactionRepository = Get.find();
+  final AppStorageService _storage = Get.put(AppStorageService());
+  final MasterDataRepository _master = Get.put(MasterDataRepository());
+  final HistoryRepository _historyRepository = Get.put(HistoryRepository());
+  final TransactionRepository _transactionRepository =
+      Get.put(TransactionRepository());
 
   /// Current Transaction status.
   /// It will changes when user tap the History Card
@@ -354,7 +356,10 @@ class TransactionViewController extends GetxController {
   toPaymentScreen(TRANSACTIONTYPE transactiontype, bool isDestroyState) {
     if (isDestroyState) {
       if (transactiontype == TRANSACTIONTYPE.personal) {
-        Get.off(
+        /// Pop Until
+        Get.until((route) => Get.currentRoute == AppPages.dashboard);
+
+        Get.to(
           () => const PersonalPaymentView(),
           binding: TransactionHistoryViewBinding(),
         );
@@ -384,33 +389,34 @@ class TransactionViewController extends GetxController {
       TRANSACTIONTYPE transactiontype, bool isDestroyState) {
     if (isDestroyState) {
       if (TRANSACTIONTYPE.personal == transactiontype) {
-        Get.off(
+        /// Pop Until
+        Get.until((route) => Get.currentRoute == AppPages.dashboard);
+        Get.to(
           () => const PersonalTransactionDetailView(),
-          binding: TransactionHistoryViewBinding(),
         );
       } else {
-        Get.off(
+        /// Pop Until
+        Get.until((route) => Get.currentRoute == AppPages.dashboard);
+        Get.to(
           () => const OrganizationTransactionDetailView(),
-          binding: TransactionHistoryViewBinding(),
         );
       }
     } else {
       if (TRANSACTIONTYPE.personal == transactiontype) {
         Get.to(
           () => const PersonalTransactionDetailView(),
-          binding: TransactionHistoryViewBinding(),
         );
       } else {
         Get.to(
           () => const OrganizationTransactionDetailView(),
-          binding: TransactionHistoryViewBinding(),
         );
       }
     }
   }
 
   toPatientListScreen() {
-    Get.to(() => const TransactionPatientListView());
+    Get.to(() => const TransactionPatientListView(),
+        binding: TransactionHistoryViewBinding());
   }
 
   toPatientDetailScrenn() {
@@ -542,7 +548,6 @@ class TransactionViewController extends GetxController {
     required String transactionId,
   }) async {
     // Check if user already select file
-    print(uploadedFilename);
     if (uploadedFilename!.value != "") {
       Get.showOverlay(
         asyncFunction: () async {
@@ -581,13 +586,19 @@ class TransactionViewController extends GetxController {
 
       refreshHistoryList();
 
-      // Refresh History List
-      Get.back();
-      Get.back();
+      Get.until((route) => Get.currentRoute == AppPages.dashboard);
 
-      Future.delayed(const Duration(milliseconds: 500), () {
-        refreshHistoryList();
-      });
+      if ((transactionDetail.isPrivate ?? '1') == '1') {
+        Get.to(
+          () => const PersonalTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      } else {
+        Get.to(
+          () => const OrganizationTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
+        );
+      }
     } else {
       Get.snackbar(
         'Invalid File',
