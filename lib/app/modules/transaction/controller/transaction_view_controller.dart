@@ -107,8 +107,6 @@ class TransactionViewController extends GetxController {
       var filteredList = paymentMethodList!.where((listItem) =>
           listItem['id'] == selectedPaymentMethod.text.toString());
 
-      print(filteredList.toList().elementAt(0)['payment_name'].toString());
-
       selectedPaymentMethodName.value =
           filteredList.toList().elementAt(0)['payment_name'];
       selectedAccountHolder.value =
