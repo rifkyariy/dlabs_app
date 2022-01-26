@@ -1,6 +1,7 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/models/trx_detail_history_model/trx_detail_tracking_list.dart';
 import 'package:kayabe_lims/app/data/services/app_converter.dart';
 import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
 
@@ -20,6 +21,16 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
 
   @override
   Widget build(BuildContext context) {
+    List trackingList = controller.transactionDetail.trackingList!
+        .where((element) => element.status == 'Payment')
+        .toList();
+
+    TrxDetailTrackingList paymentList = trackingList.isNotEmpty
+        ? trackingList.first
+        : const TrxDetailTrackingList();
+
+    print(paymentList);
+
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
@@ -202,7 +213,10 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                               .fullName ??
                           '',
                       subtitle:
-                          'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''}',
+                          'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \nTest Type : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''} ',
+                      onPressed: (context) async {
+                        await controller.onViewDetailButtonPressed(index);
+                      },
                     );
                   },
                 ),
@@ -242,11 +256,8 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                 //   'BCA',
                 //   color: blackColor,
                 // ),
-                AppDetailInformationItem(
-                  /// TODO change to payment date
-                  '',
-                  color: blackColor,
-                ),
+
+                AppDetailInformationItem(paymentList.updatedDate ?? 'Unpaid'),
               ],
               bottom: const [
                 Padding(
@@ -413,6 +424,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
   Widget _singleButtonSlideable({
     required String title,
     required String subtitle,
+    Function(BuildContext)? onPressed,
   }) {
     return AppSingleButtonSlideable(
       leading: CircleAvatar(
@@ -431,8 +443,9 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
         style: mediumTextStyle(greyColor, fontSize: 12),
       ),
       buttonLabel: 'View Detail',
-      isThreeLine: false,
+      isThreeLine: true,
       icon: AppIcons.article,
+      buttonPressed: onPressed,
     );
   }
 

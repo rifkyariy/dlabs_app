@@ -1,4 +1,5 @@
 import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/models/trx_detail_history_model/trx_detail_tracking_list.dart';
 import 'package:kayabe_lims/app/data/services/app_converter.dart';
 import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,14 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
 
   @override
   Widget build(BuildContext context) {
+    List trackingList = controller.transactionDetail.trackingList!
+        .where((element) => element.status == 'Payment')
+        .toList();
+
+    TrxDetailTrackingList paymentList = trackingList.isNotEmpty
+        ? trackingList.first
+        : const TrxDetailTrackingList();
+
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
@@ -232,11 +241,8 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                 //   'BCA',
                 //   color: blackColor,
                 // ),
-                AppDetailInformationItem(
-                  /// TODO change to payment date
-                  '',
-                  color: blackColor,
-                ),
+
+                AppDetailInformationItem(paymentList.updatedDate ?? 'Unpaid'),
               ],
             ),
             const SizedBox(height: 30),

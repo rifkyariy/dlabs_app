@@ -8,6 +8,7 @@ import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
 import 'package:kayabe_lims/app/data/services/currency_formatting.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ import 'package:intl/intl.dart';
 
 class OrganizationBookingController extends GetxController {
   final AppStorageService storage = Get.find();
+  final TransactionViewController transactionViewController = Get.find();
   final AuthRepository _auth = Get.put(AuthRepository());
   final MasterDataRepository _masterData = Get.put(MasterDataRepository());
   final BookingRepository _booking = Get.put(BookingRepository());
@@ -323,7 +325,6 @@ class OrganizationBookingController extends GetxController {
 
   // Search Patient Data by ID Number / Passport
   void _searchPatientData() async {
-    print(isUpdateMode.value);
     if (!isUpdateMode.value) {
       String q = patientIDNumberController.text;
       if (q.length >= 3) {
@@ -596,6 +597,7 @@ class OrganizationBookingController extends GetxController {
     _patient.testPrice = double.parse("${selectedTestTypeMap['price']}");
     _patient.testType = selectedTestTypeMap['value'].toString();
     _patient.testTypeId = selectedTestType.text;
+    _patient.nationality = patientSelectedNationality.text;
 
     // Payload for update via API
     var payload = {
@@ -608,7 +610,7 @@ class OrganizationBookingController extends GetxController {
       "gender": _patient.gender,
       "address": _patient.address,
       "test_type": _patient.testTypeId,
-      // "nationality": _patient.nationality TODO ini juga gaada nationality
+      "nationality": _patient.nationality
     };
 
     // update on API
@@ -678,6 +680,7 @@ class OrganizationBookingController extends GetxController {
     genderValue.value = _patient.gender;
     patientAddressController.text = _patient.address;
     selectedTestType.text = _patient.testTypeId;
+    patientSelectedNationality.text = _patient.nationality;
 
     // TODO add test type and test price to here
   }

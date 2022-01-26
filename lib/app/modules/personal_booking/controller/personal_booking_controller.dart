@@ -500,8 +500,6 @@ class PersonalBookingController extends GetxController {
       }
     };
 
-    print(questionnaire);
-
     isLoading.value = true;
     try {
       var result = await _booking.createPersonalBooking(
@@ -537,6 +535,4 @@ class PersonalBookingController extends GetxController {
       );
     }
   }
-
-  void nextScreen(transactionId) {}
 }

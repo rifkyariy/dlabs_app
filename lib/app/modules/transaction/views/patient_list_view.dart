@@ -46,7 +46,7 @@ class TransactionPatientListView extends GetView<TransactionViewController> {
                           .fullName ??
                       '',
                   subtitle:
-                      'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''}',
+                      'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \nTest Type : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''} ',
                   onPressed: (context) async {
                     controller.onViewDetailButtonPressed(index);
                   },
@@ -78,7 +78,7 @@ class TransactionPatientListView extends GetView<TransactionViewController> {
         style: mediumTextStyle(greyColor, fontSize: 12),
       ),
       buttonLabel: 'View Detail',
-      isThreeLine: false,
+      isThreeLine: true,
       icon: AppIcons.article,
       buttonPressed: onPressed,
     );

@@ -21,6 +21,7 @@ import 'package:kayabe_lims/app/modules/transaction/views/invoice_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/medical_history_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/medical_questionnarie_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/organization_transaction_detail/organization_transaction_patient_information_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/patient_list_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/payment/organization_payment_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/payment/payment_cash.dart';
@@ -98,8 +99,6 @@ class TransactionViewController extends GetxController {
   }
 
   void _getOfflinePayment() async {
-    print(selectedPaymentMethod.text);
-    print('wew');
     await getOfflinePaymentMethod().then((result) {
       paymentMethodList!.value = result.toList();
 
@@ -417,6 +416,10 @@ class TransactionViewController extends GetxController {
     Get.to(() => const PersonalTransactionPatientInformationView());
   }
 
+  toOrgPatientDetailScrenn() {
+    Get.to(() => const OrganizationTransactionPatientInformationView());
+  }
+
   toMedicalQuestionnaireListView() {
     Get.to(() => const MedicalQuestionnarieView());
   }
@@ -451,7 +454,8 @@ class TransactionViewController extends GetxController {
           ),
         ),
       );
-      toMedicalHistoryListView();
+      // toMedicalHistoryListView();
+      toOrgPatientDetailScrenn();
     } catch (e) {
       Get.snackbar(
         'Error!',

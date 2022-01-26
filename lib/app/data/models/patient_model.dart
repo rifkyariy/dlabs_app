@@ -43,5 +43,6 @@ class PatientModel {
     testTypeId = json['test_type'];
     testPrice = json['price'].toDouble();
     testType = json['test_type_text'];
+    nationality = json['nationality'];
   }
 }
