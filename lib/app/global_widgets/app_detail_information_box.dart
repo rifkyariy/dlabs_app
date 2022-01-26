@@ -130,7 +130,7 @@ class AppDetailInformationBox extends StatelessWidget {
           // Detailed Information
           Container(
             padding:
-                contentPadding ?? const EdgeInsets.fromLTRB(25, 15, 25, 15),
+                contentPadding ?? const EdgeInsets.fromLTRB(25, 15, 25, 25),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

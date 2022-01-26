@@ -39,7 +39,7 @@ class OrganizationBookingController extends GetxController {
   late String? searchGender;
   late String? searchAddress;
   late String searchNationality;
-  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final DateFormat formatter = DateFormat('yyyy-MM-dd HH:MM:ss');
 
   // Org Text Controller
   final TextEditingController picIdNumberController = TextEditingController();
@@ -245,9 +245,6 @@ class OrganizationBookingController extends GetxController {
         list.add(PatientModel.fromJson(item));
       }
 
-      print(list[0].gender);
-      print(list[1].gender);
-
       patientList.value = list;
 
       updateTotalPrice();
@@ -329,29 +326,33 @@ class OrganizationBookingController extends GetxController {
     print(isUpdateMode.value);
     if (!isUpdateMode.value) {
       String q = patientIDNumberController.text;
-      try {
-        await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
-          (result) {
-            patientFullNameController.text = result['full_name'];
-            patientEmailController.text = result['email'];
-            patientPhoneController.text = result['phone'];
-            patientDateController.text = result['birth_date'];
-            patientAddressController.text = result['address'];
-            genderValue.value = result['gender'];
-            patientSelectedNationality.text = result['nationality'];
+      if (q.length >= 3) {
+        try {
+          await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
+            (result) {
+              if (result != null) {
+                patientFullNameController.text = result['full_name'];
+                patientEmailController.text = result['email'];
+                patientPhoneController.text = result['phone'];
+                patientDateController.text = result['birth_date'];
+                patientAddressController.text = result['address'];
+                genderValue.value = result['gender'];
+                patientSelectedNationality.text = result['nationality'];
 
-            reloadDropdown();
-          },
-        );
-      } catch (e) {
-        patientFullNameController.text = '';
-        patientEmailController.text = '';
-        patientPhoneController.text = '';
-        patientDateController.text = '';
-        patientAddressController.text = '';
-        testLocationController.text = '';
-        genderValue.value = '0';
-        reloadDropdown();
+                reloadDropdown();
+              }
+            },
+          );
+        } catch (e) {
+          patientFullNameController.text = '';
+          patientEmailController.text = '';
+          patientPhoneController.text = '';
+          patientDateController.text = '';
+          patientAddressController.text = '';
+          testLocationController.text = '';
+          genderValue.value = '0';
+          reloadDropdown();
+        }
       }
     }
   }
@@ -735,26 +736,31 @@ class OrganizationBookingController extends GetxController {
   }
 
   void addPatientOnDB(payload, selectedTestTypeMap) async {
+    isLoading.value = true;
     try {
-      await _booking.addPatient(payload: payload, token: apiToken);
+      var status = await _booking.addPatient(payload: payload, token: apiToken);
 
-      // Refresh patient list
-      getPatient(isAll: true);
-      patientList.refresh();
+      if (status) {
+        isLoading.value = false;
 
-      // Display success snackbar
-      Get.snackbar(
-        'Success',
-        'Patient Has Been Added',
-        backgroundColor: Colors.lightGreen,
-        colorText: whiteColor,
-        snackPosition: SnackPosition.TOP,
-      );
+        // Refresh patient list
+        getPatient(isAll: true);
+        patientList.refresh();
 
-      Get.toNamed(AppPages.organizationBooking);
+        // Display success snackbar
+        Get.snackbar(
+          'Success',
+          'Patient Has Been Added',
+          backgroundColor: Colors.lightGreen,
+          colorText: whiteColor,
+          snackPosition: SnackPosition.TOP,
+        );
 
-      // TODO reset selected patient default
-      patientSelectedNationality.text = "Indonesian";
+        Get.toNamed(AppPages.organizationBooking);
+
+        // TODO reset selected patient default
+        patientSelectedNationality.text = "Indonesian";
+      }
     } catch (e) {
       if (e.toString().contains('User Identity number already used')) {
         // Display Error snackbar
@@ -767,6 +773,7 @@ class OrganizationBookingController extends GetxController {
         );
       } else {
         // Display Error snackbar
+        print(e);
         Get.snackbar(
           'Oops',
           'Something went wrong',

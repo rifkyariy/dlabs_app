@@ -134,7 +134,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             // Full Name
                             TextInput(
                               controller: controller.fullNameController,
-                              label: "Full Name",
+                              label: "Fullname",
                               name: "fullname",
                               errorMsg: controller.fullNameErrorMessage.value,
                               isDisabled:

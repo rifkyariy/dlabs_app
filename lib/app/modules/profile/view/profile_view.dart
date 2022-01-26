@@ -131,15 +131,19 @@ class ProfileView extends GetView<ProfileViewController> {
   ImageProvider<Object>? getImageProvider() {
     if (controller.imageLoadError.value ||
         controller.auth.photoUrl.value == '') {
-      switch (controller.auth.gender.value) {
-        case '0':
-          return const AssetImage(
-              'assets/image/app-profile-picture-female.png');
-        case '1':
-          return const AssetImage('assets/image/app-profile-picture-male.png');
-        default:
-          return const AssetImage(
-              'assets/image/app-profile-picture-female.png');
+      if (controller.auth.isLoggedIn.value) {
+        switch (controller.auth.gender.value) {
+          case '0':
+            return const AssetImage(
+                'assets/image/app-profile-picture-female.png');
+          case '1':
+            return const AssetImage(
+                'assets/image/app-profile-picture-male.png');
+          default:
+            return const AssetImage('assets/image/app-logo.png');
+        }
+      } else {
+        return const AssetImage('assets/image/app-logo.png');
       }
     } else {
       return NetworkImage(controller.auth.photoUrl.value);

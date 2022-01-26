@@ -41,9 +41,7 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
                         '${controller.medicalHistoryList![index].sampleId}',
                     sampleType:
                         '${controller.medicalHistoryList![index].sampleType}',
-                    status: controller.medicalHistoryList![index].result!
-                        .split('/')
-                        .first,
+                    status: controller.medicalHistoryList![index].result!,
                     messages:
                         '${controller.medicalHistoryList![index].noteResult}',
                     onPressed: () {

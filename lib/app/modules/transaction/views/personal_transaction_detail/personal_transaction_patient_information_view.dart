@@ -49,7 +49,7 @@ class PersonalTransactionPatientInformationView
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .nationality ??
                               ''),
-                      _boldDetailInformationItem('Full Name'),
+                      _boldDetailInformationItem('Fullname'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .fullName ??
@@ -80,7 +80,7 @@ class PersonalTransactionPatientInformationView
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .identityNumber ??
                               ''),
-                      _boldDetailInformationItem('Full Name'),
+                      _boldDetailInformationItem('Fullname'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .fullName ??
@@ -144,7 +144,7 @@ class PersonalTransactionPatientInformationView
                               ''),
                       _boldDetailInformationItem('Location'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.locationAddress ?? '')),
+                          (controller.transactionDetail.locationName ?? '')),
                     ],
             ),
 
@@ -191,6 +191,14 @@ class PersonalTransactionPatientInformationView
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Card(
+                    elevation:
+                        controller.medicalQuestionnaireList == null ? 0 : 2,
+                    shadowColor: controller.medicalQuestionnaireList == null
+                        ? whiteColor
+                        : lightGreyColor,
+                    color: controller.medicalQuestionnaireList == null
+                        ? Colors.transparent
+                        : whiteColor,
                     margin: EdgeInsets.zero,
                     child: (controller.medicalQuestionnaireList ?? []).isEmpty
                         ? const AppEmptyStatePlaceholder(
@@ -251,6 +259,13 @@ class PersonalTransactionPatientInformationView
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Card(
+                    elevation: controller.medicalHistoryList!.isEmpty ? 0 : 2,
+                    shadowColor: controller.medicalHistoryList!.isEmpty
+                        ? Colors.transparent
+                        : lightGreyColor,
+                    color: controller.medicalHistoryList!.isEmpty
+                        ? Colors.transparent
+                        : whiteColor,
                     margin: EdgeInsets.zero,
                     child: (controller.medicalHistoryList ?? []).isEmpty
                         ? const AppEmptyStatePlaceholder(

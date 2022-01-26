@@ -93,8 +93,8 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                       // Fullname
                       TextInput(
                         controller: controller.patientFullNameController,
-                        label: "Full Name",
-                        name: "Full Name",
+                        label: "Fullname",
+                        name: "Fullname",
                         errorMsg: controller.fullNameErrorMessage.value,
                         type: "text",
                       ),
@@ -217,7 +217,6 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                           );
                           controller.updateTotalPrice();
                           controller.clearTextController();
-                          Get.back();
                         }
                       : () {
                           /// TODO it works like charm but still not good enough.
@@ -226,7 +225,6 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                           if (controller.onAddPatient()) {
                             controller.updateTotalPrice();
                             controller.clearTextController();
-                            Get.back();
                           }
                         },
                   child: Text(

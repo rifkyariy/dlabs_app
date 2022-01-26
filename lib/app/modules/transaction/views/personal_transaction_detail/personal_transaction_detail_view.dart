@@ -57,6 +57,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                     : blackColor,
               ),
               leading: const [
+                AppDetailInformationItem('Transaction Date'),
                 AppDetailInformationItem('Identity Number'),
                 AppDetailInformationItem('Fullname'),
                 AppDetailInformationItem('Email'),
@@ -65,6 +66,10 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
 
               /// Trailing Button
               trailing: [
+                AppDetailInformationItem(
+                  controller.transactionDetail.transactionDate ?? '',
+                  color: blackColor,
+                ),
                 AppDetailInformationItem(
                   controller.transactionDetail.identityNumber ?? '',
                   color: blackColor,
@@ -90,6 +95,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               title: 'Test Information',
               leading: const [
                 AppDetailInformationItem('Test Purpose'),
+                AppDetailInformationItem('Test Type'),
                 AppDetailInformationItem('Test Date'),
                 AppDetailInformationItem('Service'),
                 AppDetailInformationItem('Location'),
@@ -100,9 +106,11 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  DateFormat.yMMMMd('en_US').format(
-                    DateTime.parse(controller.transactionDetail.testDate ?? ''),
-                  ),
+                  controller.transactionDetail.masterMedicalKitNama ?? '',
+                  color: blackColor,
+                ),
+                AppDetailInformationItem(
+                  controller.transactionDetail.testDate ?? '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
@@ -137,12 +145,13 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               /// Leading
               leading: [
                 AppDetailInformationItem(
-                  (controller.transactionDetail.patientList ?? [])[0].phone ??
+                  (controller.transactionDetail.patientList ?? [])[0]
+                          .identityNumber ??
                       '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  (controller.transactionDetail.patientList ?? [])[0].address ??
+                  (controller.transactionDetail.patientList ?? [])[0].phone ??
                       '',
                   color: blackColor,
                 ),

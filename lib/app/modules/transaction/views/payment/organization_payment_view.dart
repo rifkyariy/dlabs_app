@@ -60,6 +60,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               title: 'Invoice for',
               leading: [
+                _thinDetailInformationItem('Transaction Date'),
                 _thinDetailInformationItem('Identity Number'),
                 _thinDetailInformationItem('Fullname'),
                 _thinDetailInformationItem('Email'),
@@ -68,6 +69,8 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
 
               /// Trailing Button
               trailing: [
+                _blackDetailInformationItem(
+                    controller.transactionDetail.transactionDate ?? ''),
                 _blackDetailInformationItem(
                     controller.transactionDetail.identityNumber ?? ''),
                 _blackDetailInformationItem(
@@ -81,92 +84,92 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
 
             const SizedBox(height: 15),
 
-            AppDetailInformationBox(
-              header: AppTitleWithButton(
-                title: 'Test Information',
-                buttonLabel: '',
-                onTap: () {},
-              ),
+            // AppDetailInformationBox(
+            //   header: AppTitleWithButton(
+            //     title: 'Test Information',
+            //     buttonLabel: '',
+            //     onTap: () {},
+            //   ),
 
-              /// Leading
-              leading: [
-                _thinDetailInformationItem('Test Purposes'),
-                _thinDetailInformationItem('Test Date'),
-                _thinDetailInformationItem('Service'),
-                _thinDetailInformationItem('Location'),
-              ],
+            //   /// Leading
+            //   leading: [
+            //     _thinDetailInformationItem('Test Purposes'),
+            //     _thinDetailInformationItem('Test Date'),
+            //     _thinDetailInformationItem('Service'),
+            //     _thinDetailInformationItem('Location'),
+            //   ],
 
-              trailing: [
-                _blackDetailInformationItem(
-                    controller.transactionDetail.testPurpose ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.testDate ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.services ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.locationName ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.locationAddress ?? ''),
-              ],
+            //   trailing: [
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.testPurpose ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.testDate ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.services ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.locationName ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.locationAddress ?? ''),
+            //   ],
 
-              /// Bottom Component
-              bottom: [
-                Divider(
-                  color: greyColor,
-                  thickness: 0.3,
-                  height: 10,
-                ),
+            //   /// Bottom Component
+            //   bottom: [
+            //     Divider(
+            //       color: greyColor,
+            //       thickness: 0.3,
+            //       height: 10,
+            //     ),
 
-                /// Disabled Button For Title Only
-                AppTitleWithButton(
-                  title:
-                      controller.transactionDetail.masterMedicalKitNama ?? '',
-                  buttonLabel: CurrencyFormat.convertToIdr(
-                      controller.transactionDetail.price ?? 0, 2),
-                  titleColor: primaryColor,
-                  padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
-                ),
+            //     /// Disabled Button For Title Only
+            //     AppTitleWithButton(
+            //       title:
+            //           controller.transactionDetail.masterMedicalKitNama ?? '',
+            //       buttonLabel: CurrencyFormat.convertToIdr(
+            //           controller.transactionDetail.price ?? 0, 2),
+            //       titleColor: primaryColor,
+            //       padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
+            //     ),
 
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 25,
-                    right: 25,
-                    bottom: 5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _thinDetailInformationItem(
-                        DateFormat.yMMMMd('en_US').format(
-                          DateTime.parse(
-                            controller.transactionDetail.transactionDate ?? '',
-                          ),
-                        ),
-                      ),
-                      _thinDetailInformationItem(
-                          '${(controller.transactionDetail.patientList ?? []).length} X')
-                    ],
-                  ),
-                ),
+            //     Padding(
+            //       padding: const EdgeInsets.only(
+            //         left: 25,
+            //         right: 25,
+            //         bottom: 5,
+            //       ),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           _thinDetailInformationItem(
+            //             DateFormat.yMMMMd('en_US').format(
+            //               DateTime.parse(
+            //                 controller.transactionDetail.transactionDate ?? '',
+            //               ),
+            //             ),
+            //           ),
+            //           _thinDetailInformationItem(
+            //               '${(controller.transactionDetail.patientList ?? []).length} X')
+            //         ],
+            //       ),
+            //     ),
 
-                Divider(
-                  color: greyColor,
-                  thickness: 0.3,
-                  height: 10,
-                ),
+            //     Divider(
+            //       color: greyColor,
+            //       thickness: 0.3,
+            //       height: 10,
+            //     ),
 
-                /// Disabled Button For Title Only
-                AppTitleWithButton(
-                  title: 'Total Price',
-                  buttonLabel: CurrencyFormat.convertToIdr(
-                      controller.transactionDetail.price ?? 0, 2),
-                  titleColor: blackColor,
-                  buttonLabelColor: blackColor,
-                  padding: const EdgeInsets.fromLTRB(25, 10, 25, 15),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
+            //     /// Disabled Button For Title Only
+            //     AppTitleWithButton(
+            //       title: 'Total Price',
+            //       buttonLabel: CurrencyFormat.convertToIdr(
+            //           controller.transactionDetail.price ?? 0, 2),
+            //       titleColor: blackColor,
+            //       buttonLabelColor: blackColor,
+            //       padding: const EdgeInsets.fromLTRB(25, 10, 25, 15),
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(height: 15),
 
             AppDetailInformationBox(
               contentPadding: EdgeInsets.zero,
@@ -211,7 +214,11 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               header: AppTitleWithButton(
                 title: 'Payment Detail',
                 buttonLabel: 'Choose',
-                onTap: () {},
+                onTap: () {
+                  Get.dialog(
+                    GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
+                  );
+                },
                 trailing: Icon(
                   Icons.arrow_forward_ios,
                   color: primaryColor,
@@ -247,7 +254,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                   child: AppDetailInformationItem(
                       'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
                 ),
-                SizedBox(height: 10)
+                SizedBox(height: 20)
               ],
             ),
             const SizedBox(height: 30),
@@ -457,36 +464,61 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
         horizontal: 24,
         vertical: 24,
       ),
-      children: [
-        TransactionTextButton(
-          title: cancelDialog ? 'Yes' : 'Online',
-          isWhiteBackground: false,
-          onPressed: cancelDialog
-              ? () async {
+      children: cancelDialog
+          ? [
+              TransactionTextButton(
+                title: 'Yes',
+                isWhiteBackground: false,
+                onPressed: () async {
                   Get.back();
                   await controller.onCancelTransactionButtonPressed(
                     controller.transactionDetail.transactionId ?? '',
                   );
-                }
-              : () {},
-        ),
-        const SizedBox(height: 15),
-        TransactionTextButton(
-          title: cancelDialog ? 'No' : 'Offline',
-          isWhiteBackground: true,
-          onPressed: cancelDialog
-              ? () {
+                },
+              ),
+              const SizedBox(height: 15),
+              TransactionTextButton(
+                title: 'No',
+                isWhiteBackground: true,
+                onPressed: () {
                   Get.back();
-                }
-              : () {
+                },
+              )
+            ]
+          : [
+              TransactionTextButton(
+                title: 'Transfer',
+                isWhiteBackground: true,
+                onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
 
                   // Redirect into offline payment method
                   controller.toOfflinePayment();
                 },
-        )
-      ],
+              ),
+              const SizedBox(height: 15),
+              TransactionTextButton(
+                title: 'Cash',
+                isWhiteBackground: true,
+                onPressed: () {
+                  // Destroy Dialog Modal
+                  Get.back();
+
+                  // Redirect into offline payment method
+                  controller.toCashPayment();
+                },
+              ),
+              const SizedBox(height: 15),
+              TransactionTextButton(
+                title: 'Online',
+                isWhiteBackground: true,
+                onPressed: () {
+                  // Destroy Dialog Modal
+                  Get.back();
+                },
+              )
+            ],
     );
   }
 
@@ -517,30 +549,51 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
           ],
         ),
       ),
-      children: [
-        const Divider(height: 0, thickness: 1),
-        TransactionIosButton(
-          title: cancelDialog ? 'Yes' : 'Online',
-          onPressed: cancelDialog ? () {} : () {},
-        ),
-        const Divider(height: 0, thickness: 1),
-        TransactionIosButton(
-          title: cancelDialog ? 'No' : 'Offline',
-          onPressed: cancelDialog
-              ? () async {
+      children: cancelDialog
+          ? [
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'Yes',
+                onPressed: cancelDialog ? () {} : () {},
+              ),
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'No',
+                onPressed: () async {
                   await controller.onCancelTransactionButtonPressed(
                     controller.transactionDetail.transactionId ?? '',
                   );
-                }
-              : () {
+                },
+              )
+            ]
+          : [
+              TransactionIosButton(
+                title: 'Transfer',
+                onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
 
                   // Redirect into offline payment method
                   controller.toOfflinePayment();
                 },
-        )
-      ],
+              ),
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'Cash',
+                onPressed: () {
+                  // Destroy Dialog Modal
+                  Get.back();
+
+                  // Redirect into offline payment method
+                  controller.toCashPayment();
+                },
+              ),
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'Online',
+                onPressed: () {},
+              ),
+            ],
     );
   }
 }

@@ -59,6 +59,7 @@ class OrganizationTransactionDetailView
               ),
               title: 'Invoice for',
               leading: [
+                _thinDetailInformationItem('Transaction Date'),
                 _thinDetailInformationItem('Identity Number'),
                 _thinDetailInformationItem('Fullname'),
                 _thinDetailInformationItem('Email'),
@@ -67,6 +68,8 @@ class OrganizationTransactionDetailView
 
               /// Trailing Button
               trailing: [
+                _blackDetailInformationItem(
+                    controller.transactionDetail.transactionDate ?? ''),
                 _blackDetailInformationItem(
                     controller.transactionDetail.identityNumber ?? ''),
                 _blackDetailInformationItem(
@@ -80,92 +83,92 @@ class OrganizationTransactionDetailView
 
             const SizedBox(height: 15),
 
-            AppDetailInformationBox(
-              header: AppTitleWithButton(
-                title: 'Test Information',
-                buttonLabel: '',
-                onTap: () {},
-              ),
+            // AppDetailInformationBox(
+            //   header: AppTitleWithButton(
+            //     title: 'Test Information',
+            //     buttonLabel: '',
+            //     onTap: () {},
+            //   ),
 
-              /// Leading
-              leading: [
-                _thinDetailInformationItem('Test Purposes'),
-                _thinDetailInformationItem('Test Date'),
-                _thinDetailInformationItem('Service'),
-                _thinDetailInformationItem('Location'),
-              ],
+            //   /// Leading
+            //   leading: [
+            //     _thinDetailInformationItem('Test Purposes'),
+            //     _thinDetailInformationItem('Test Date'),
+            //     _thinDetailInformationItem('Service'),
+            //     _thinDetailInformationItem('Location'),
+            //   ],
 
-              trailing: [
-                _blackDetailInformationItem(
-                    controller.transactionDetail.testPurpose ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.testDate ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.services ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.locationName ?? ''),
-                _blackDetailInformationItem(
-                    controller.transactionDetail.locationAddress ?? ''),
-              ],
+            //   trailing: [
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.testPurpose ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.testDate ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.services ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.locationName ?? ''),
+            //     _blackDetailInformationItem(
+            //         controller.transactionDetail.locationAddress ?? ''),
+            //   ],
 
-              /// Bottom Component
-              bottom: [
-                Divider(
-                  color: greyColor,
-                  thickness: 0.3,
-                  height: 10,
-                ),
+            //   /// Bottom Component
+            //   bottom: [
+            //     Divider(
+            //       color: greyColor,
+            //       thickness: 0.3,
+            //       height: 10,
+            //     ),
 
-                /// Disabled Button For Title Only
-                AppTitleWithButton(
-                  title:
-                      controller.transactionDetail.masterMedicalKitNama ?? '',
-                  buttonLabel: CurrencyFormat.convertToIdr(
-                      controller.transactionDetail.price ?? 0, 2),
-                  titleColor: primaryColor,
-                  padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
-                ),
+            //     /// Disabled Button For Title Only
+            //     AppTitleWithButton(
+            //       title:
+            //           controller.transactionDetail.masterMedicalKitNama ?? '',
+            //       buttonLabel: CurrencyFormat.convertToIdr(
+            //           controller.transactionDetail.price ?? 0, 2),
+            //       titleColor: primaryColor,
+            //       padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
+            //     ),
 
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 25,
-                    right: 25,
-                    bottom: 5,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _thinDetailInformationItem(
-                        DateFormat.yMMMMd('en_US').format(
-                          DateTime.parse(
-                            controller.transactionDetail.transactionDate ?? '',
-                          ),
-                        ),
-                      ),
-                      _thinDetailInformationItem(
-                          '${(controller.transactionDetail.patientList ?? []).length} X')
-                    ],
-                  ),
-                ),
+            //     Padding(
+            //       padding: const EdgeInsets.only(
+            //         left: 25,
+            //         right: 25,
+            //         bottom: 5,
+            //       ),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: [
+            //           _thinDetailInformationItem(
+            //             DateFormat.yMMMMd('en_US').format(
+            //               DateTime.parse(
+            //                 controller.transactionDetail.transactionDate ?? '',
+            //               ),
+            //             ),
+            //           ),
+            //           _thinDetailInformationItem(
+            //               '${(controller.transactionDetail.patientList ?? []).length} X')
+            //         ],
+            //       ),
+            //     ),
 
-                Divider(
-                  color: greyColor,
-                  thickness: 0.3,
-                  height: 10,
-                ),
+            //     Divider(
+            //       color: greyColor,
+            //       thickness: 0.3,
+            //       height: 10,
+            //     ),
 
-                /// Disabled Button For Title Only
-                AppTitleWithButton(
-                  title: 'Total Price',
-                  buttonLabel: CurrencyFormat.convertToIdr(
-                      controller.transactionDetail.price ?? 0, 2),
-                  titleColor: blackColor,
-                  buttonLabelColor: blackColor,
-                  padding: const EdgeInsets.fromLTRB(25, 10, 25, 15),
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
+            //     /// Disabled Button For Title Only
+            //     AppTitleWithButton(
+            //       title: 'Total Price',
+            //       buttonLabel: CurrencyFormat.convertToIdr(
+            //           controller.transactionDetail.price ?? 0, 2),
+            //       titleColor: blackColor,
+            //       buttonLabelColor: blackColor,
+            //       padding: const EdgeInsets.fromLTRB(25, 10, 25, 15),
+            //     ),
+            //   ],
+            // ),
+            // const SizedBox(height: 15),
 
             AppDetailInformationBox(
               contentPadding: EdgeInsets.zero,

@@ -172,7 +172,7 @@ class ViewPatientList extends StatelessWidget {
                     key: Key(controller.patientList[index].identityNumber),
                     title: controller.patientList[index].fullName,
                     subtitle:
-                        'ID No : ${controller.patientList[index].identityNumber}',
+                        'ID No : ${controller.patientList[index].identityNumber} \nTest Type : ${controller.patientList[index].testType}  ',
                     deleteButtonPressed: (context) {
                       showDialog(
                         context: context,
@@ -264,7 +264,7 @@ class ViewPatientList extends StatelessWidget {
                         key: Key(controller.searchResult[index].identityNumber),
                         title: controller.searchResult[index].fullName,
                         subtitle:
-                            'ID No : ${controller.searchResult[index].identityNumber}',
+                            'ID No : ${controller.patientList[index].identityNumber} \nTest Type : ${controller.patientList[index].testType}  ',
                         deleteButtonPressed: (context) {
                           showDialog(
                             context: context,

@@ -23,6 +23,7 @@ import 'package:kayabe_lims/app/modules/transaction/views/medical_questionnarie_
 import 'package:kayabe_lims/app/modules/transaction/views/organization_transaction_detail/organization_transaction_detail_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/patient_list_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/payment/organization_payment_view.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/payment/payment_cash.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/payment/personal_payment_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/payment/payment_offline.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/personal_transaction_detail_view.dart';
@@ -570,13 +571,6 @@ class TransactionViewController extends GetxController {
         ),
       );
 
-      // Refresh History List
-      Get.back();
-      Get.back();
-
-      refreshHistoryList();
-      updateHistoryRowList(enableLoadingEffect: false);
-
       Get.snackbar(
         'Upload Successfull',
         'Proof of Payment  uploaded !',
@@ -584,6 +578,16 @@ class TransactionViewController extends GetxController {
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
+
+      refreshHistoryList();
+
+      // Refresh History List
+      Get.back();
+      Get.back();
+
+      Future.delayed(const Duration(milliseconds: 500), () {
+        refreshHistoryList();
+      });
     } else {
       Get.snackbar(
         'Invalid File',
@@ -726,6 +730,13 @@ class TransactionViewController extends GetxController {
   void toOfflinePayment() {
     Get.to(
       () => const PaymentOfflineView(),
+      binding: TransactionHistoryViewBinding(),
+    );
+  }
+
+  void toCashPayment() {
+    Get.to(
+      () => const PaymentCashView(),
       binding: TransactionHistoryViewBinding(),
     );
   }

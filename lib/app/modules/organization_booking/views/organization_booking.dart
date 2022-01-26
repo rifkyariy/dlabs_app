@@ -280,7 +280,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                               key: Key(index.toString()),
                               title: controller.patientList[index].fullName,
                               subtitle:
-                                  'ID No : ${controller.patientList[index].identityNumber}',
+                                  'ID No : ${controller.patientList[index].identityNumber} \nTest Type : ${controller.patientList[index].testType}  ',
                               deleteButtonPressed: (context) {
                                 showDialog(
                                   context: context,
@@ -441,7 +441,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                         child: ListBody(
                           children: const <Widget>[
                             Text(
-                                'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
+                                'Are you sure and agree that the information you have filled on the form is original and correct data ?'),
                           ],
                         ),
                       ),

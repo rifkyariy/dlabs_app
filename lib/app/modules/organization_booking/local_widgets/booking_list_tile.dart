@@ -68,9 +68,13 @@ class BookingListTile extends StatelessWidget {
       children: [
         const Divider(height: 0),
         ListTile(
+          contentPadding: EdgeInsets.all(10),
           leading: CircleAvatar(child: Text(title[0])),
           title: Text(title),
-          subtitle: Text(subtitle),
+          subtitle: Padding(
+            padding: EdgeInsets.only(top: 5),
+            child: Text(subtitle),
+          ),
           onTap: () {
             Slidable.of(context)?.animation.isCompleted == true
                 ? Slidable.of(context)?.close()

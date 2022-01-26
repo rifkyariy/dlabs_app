@@ -61,6 +61,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                     : blackColor,
               ),
               leading: const [
+                AppDetailInformationItem('Transaction Date'),
                 AppDetailInformationItem('Identity Number'),
                 AppDetailInformationItem('Fullname'),
                 AppDetailInformationItem('Email'),
@@ -69,6 +70,10 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
 
               /// Trailing Button
               trailing: [
+                AppDetailInformationItem(
+                  controller.transactionDetail.transactionDate ?? '',
+                  color: blackColor,
+                ),
                 AppDetailInformationItem(
                   controller.transactionDetail.identityNumber ?? '',
                   color: blackColor,
@@ -94,6 +99,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               title: 'Test Information',
               leading: const [
                 AppDetailInformationItem('Test Purpose'),
+                AppDetailInformationItem('Test Type'),
                 AppDetailInformationItem('Test Date'),
                 AppDetailInformationItem('Service'),
                 AppDetailInformationItem('Location'),
@@ -104,9 +110,11 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  DateFormat.yMMMMd('en_US').format(
-                    DateTime.parse(controller.transactionDetail.testDate ?? ''),
-                  ),
+                  controller.transactionDetail.masterMedicalKitNama ?? '',
+                  color: blackColor,
+                ),
+                AppDetailInformationItem(
+                  controller.transactionDetail.testDate ?? '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
@@ -252,7 +260,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                   child: AppDetailInformationItem(
                       'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
                 ),
-                SizedBox(height: 10)
+                SizedBox(height: 20)
               ],
             ),
             const SizedBox(height: 30),
@@ -363,36 +371,61 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
         horizontal: 24,
         vertical: 24,
       ),
-      children: [
-        TransactionTextButton(
-          title: cancelDialog ? 'Yes' : 'Online',
-          isWhiteBackground: false,
-          onPressed: cancelDialog
-              ? () async {
+      children: cancelDialog
+          ? [
+              TransactionTextButton(
+                title: 'Yes',
+                isWhiteBackground: false,
+                onPressed: () async {
                   Get.back();
                   await controller.onCancelTransactionButtonPressed(
                     controller.transactionDetail.transactionId ?? '',
                   );
-                }
-              : () {},
-        ),
-        const SizedBox(height: 15),
-        TransactionTextButton(
-          title: cancelDialog ? 'No' : 'Offline',
-          isWhiteBackground: true,
-          onPressed: cancelDialog
-              ? () {
+                },
+              ),
+              const SizedBox(height: 15),
+              TransactionTextButton(
+                title: 'No',
+                isWhiteBackground: true,
+                onPressed: () {
                   Get.back();
-                }
-              : () {
+                },
+              )
+            ]
+          : [
+              TransactionTextButton(
+                title: 'Transfer',
+                isWhiteBackground: true,
+                onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
 
                   // Redirect into offline payment method
                   controller.toOfflinePayment();
                 },
-        )
-      ],
+              ),
+              const SizedBox(height: 15),
+              TransactionTextButton(
+                title: 'Cash',
+                isWhiteBackground: true,
+                onPressed: () {
+                  // Destroy Dialog Modal
+                  Get.back();
+
+                  // Redirect into offline payment method
+                  controller.toCashPayment();
+                },
+              ),
+              const SizedBox(height: 15),
+              TransactionTextButton(
+                title: 'Online',
+                isWhiteBackground: true,
+                onPressed: () {
+                  // Destroy Dialog Modal
+                  Get.back();
+                },
+              )
+            ],
     );
   }
 
@@ -423,35 +456,51 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
           ],
         ),
       ),
-      children: [
-        const Divider(height: 0, thickness: 1),
-        TransactionIosButton(
-          title: cancelDialog ? 'Yes' : 'Online',
-          onPressed: cancelDialog
-              ? () async {
-                  Get.back();
+      children: cancelDialog
+          ? [
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'Yes',
+                onPressed: cancelDialog ? () {} : () {},
+              ),
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'No',
+                onPressed: () async {
                   await controller.onCancelTransactionButtonPressed(
                     controller.transactionDetail.transactionId ?? '',
                   );
-                }
-              : () {},
-        ),
-        const Divider(height: 0, thickness: 1),
-        TransactionIosButton(
-          title: cancelDialog ? 'No' : 'Offline',
-          onPressed: cancelDialog
-              ? () {
-                  Get.back();
-                }
-              : () {
+                },
+              )
+            ]
+          : [
+              TransactionIosButton(
+                title: 'Transfer',
+                onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
 
                   // Redirect into offline payment method
                   controller.toOfflinePayment();
                 },
-        )
-      ],
+              ),
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'Cash',
+                onPressed: () {
+                  // Destroy Dialog Modal
+                  Get.back();
+
+                  // Redirect into offline payment method
+                  controller.toCashPayment();
+                },
+              ),
+              const Divider(height: 0, thickness: 1),
+              TransactionIosButton(
+                title: 'Online',
+                onPressed: () {},
+              ),
+            ],
     );
   }
 
