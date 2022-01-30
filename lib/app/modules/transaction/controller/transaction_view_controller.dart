@@ -356,6 +356,8 @@ class TransactionViewController extends GetxController {
         /// Pop Until
         Get.until((route) => Get.currentRoute == AppPages.dashboard);
 
+        Get.put(this);
+
         Get.to(
           () => const PersonalPaymentView(),
           binding: TransactionHistoryViewBinding(),
@@ -388,6 +390,8 @@ class TransactionViewController extends GetxController {
       if (TRANSACTIONTYPE.personal == transactiontype) {
         /// Pop Until
         Get.until((route) => Get.currentRoute == AppPages.dashboard);
+
+        Get.put(this);
         Get.to(
           () => const PersonalTransactionDetailView(),
         );

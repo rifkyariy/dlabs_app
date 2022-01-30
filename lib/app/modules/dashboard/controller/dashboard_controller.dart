@@ -2,7 +2,7 @@ import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 
 class DashboardController extends GetxController {
   final AppStorageService _storage = Get.find();
@@ -11,30 +11,6 @@ class DashboardController extends GetxController {
 
   @override
   void onInit() async {
-    // SharedPreferences sp = await SharedPreferences.getInstance();
-
-    // final _apiToken = await _storage.readString('apiToken');
-
-    // final user = await _auth.getUserData(token: _apiToken ?? '');
-    // _authController.gender.value = user.gender ?? '0';
-
-    // var googleKey = await _storage.readString('googleKey');
-    // if (await _storage.readString('googleKey') != "") {
-    //   _authController.photoUrl.value =
-    //       await _storage.readString('googlePhotoUrl') ?? '';
-    //   _authController.fullname.value =
-    //       await _storage.readString('googleFullName') ?? '';
-    // } else {
-    //   _authController.fullname.value = user.full_name ?? '';
-    //   _authController.photoUrl.value = user.image ?? '';
-    // }
-
-    // _authController.isLoggedIn.value =
-    //     await _storage.readBool('isLoggedIn') ?? false;
-    // _authController.apiToken.value = _apiToken ?? '';
-
-    // print(
-    //     "auth status : ${_authController.isLoggedIn} , ${_authController.apiToken}");
     super.onInit();
   }
 
