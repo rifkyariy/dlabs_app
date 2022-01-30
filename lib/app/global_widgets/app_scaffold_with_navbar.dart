@@ -45,7 +45,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                       if (_authController.isLoggedIn.value) {
                         Get.to(
                           () => const TransactionHistoryView(),
-                          binding: TransactionHistoryViewBinding(),
+                          // binding: TransactionHistoryViewBinding(),
                         );
                       } else {
                         // Redirect into sign in pages

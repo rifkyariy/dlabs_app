@@ -128,6 +128,8 @@ class SignInController extends GetxController {
       }
 
       // Go to dashboard
+      _authController.putHistoryController();
+
       Get.offAndToNamed(AppPages.dashboard);
     } else {
       isLoading.value = false;
@@ -243,6 +245,8 @@ class SignInController extends GetxController {
         _authController.isLoggedIn.value = true;
 
         // Go to dashboard
+
+        _authController.putHistoryController();
         Get.offAndToNamed(AppPages.dashboard);
       }
     } catch (e) {
