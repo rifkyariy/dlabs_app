@@ -6,6 +6,7 @@ import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,6 +39,8 @@ class AuthController extends GetxController {
 
     isLoggedIn.value = await _storage.readBool('isLoggedIn') ?? false;
     apiToken.value = _apiToken ?? '';
+
+    putHistoryController();
 
     print("auth status : $isLoggedIn , $apiToken");
     super.onInit();
@@ -195,6 +198,12 @@ class AuthController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
       Get.offAndToNamed(AppPages.dashboard);
+    }
+  }
+
+  void putHistoryController() {
+    if (isLoggedIn.value) {
+      Get.put(TransactionViewController(), permanent: true);
     }
   }
 }

@@ -15,9 +15,6 @@ class SplashController extends GetxController {
   final AuthController _authController =
       Get.put(AuthController(), permanent: true);
 
-  final _transactionController =
-      Get.put(TransactionViewController(), permanent: true);
-
   RxString companyLogo = "".obs;
   RxBool isVisible = false.obs;
 
