@@ -1,5 +1,7 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/services/app_converter.dart';
 import 'package:kayabe_lims/app/global_widgets/app_detail_information_box.dart';
 import 'package:kayabe_lims/app/global_widgets/app_detail_information_item.dart';
 import 'package:kayabe_lims/app/global_widgets/app_empty_state.dart';
@@ -15,6 +17,9 @@ class PersonalTransactionPatientInformationView
 
   @override
   Widget build(BuildContext context) {
+    TRANSACTIONSTATUS _status = AppConverter.transactionStatusToEnum(
+        controller.transactionDetail.trackingList![0].status ?? "");
+
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
@@ -259,15 +264,21 @@ class PersonalTransactionPatientInformationView
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Card(
-                    elevation: controller.medicalHistoryList!.isEmpty ? 0 : 2,
-                    shadowColor: controller.medicalHistoryList!.isEmpty
+                    elevation: controller.medicalHistoryList!.isEmpty ||
+                            _status == TRANSACTIONSTATUS.readyToRelease
+                        ? 0
+                        : 2,
+                    shadowColor: controller.medicalHistoryList!.isEmpty ||
+                            _status == TRANSACTIONSTATUS.readyToRelease
                         ? Colors.transparent
                         : lightGreyColor,
-                    color: controller.medicalHistoryList!.isEmpty
+                    color: controller.medicalHistoryList!.isEmpty ||
+                            _status == TRANSACTIONSTATUS.readyToRelease
                         ? Colors.transparent
                         : whiteColor,
                     margin: EdgeInsets.zero,
-                    child: (controller.medicalHistoryList ?? []).isEmpty
+                    child: (controller.medicalHistoryList ?? []).isEmpty ||
+                            _status == TRANSACTIONSTATUS.readyToRelease
                         ? const AppEmptyStatePlaceholder(
                             messages: 'There is no test result data',
                             medical: true,

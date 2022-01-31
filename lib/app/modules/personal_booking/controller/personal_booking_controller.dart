@@ -303,29 +303,31 @@ class PersonalBookingController extends GetxController {
 
   void _searchPatientData() async {
     String q = idNumberController.text;
-    try {
-      await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
-        (result) {
-          fullNameController.text = result['full_name'];
-          emailController.text = result['email'];
-          phoneNumberController.text = result['phone'];
-          dateOfBirthController.text = result['birth_date'];
-          addressController.text = result['address'];
-          genderValue.value = result['gender'];
-          selectedNationality.text = result['nationality'];
+    if (q.length >= 3) {
+      try {
+        await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
+          (result) {
+            fullNameController.text = result['full_name'];
+            emailController.text = result['email'];
+            phoneNumberController.text = result['phone'];
+            dateOfBirthController.text = result['birth_date'];
+            addressController.text = result['address'];
+            genderValue.value = result['gender'];
+            selectedNationality.text = result['nationality'];
 
-          reloadDropdown();
-        },
-      );
-    } catch (e) {
-      fullNameController.text = '';
-      emailController.text = '';
-      phoneNumberController.text = '';
-      dateOfBirthController.text = '';
-      addressController.text = '';
-      testLocationController.text = '';
-      genderValue.value = '0';
-      reloadDropdown();
+            reloadDropdown();
+          },
+        );
+      } catch (e) {
+        fullNameController.text = '';
+        emailController.text = '';
+        phoneNumberController.text = '';
+        dateOfBirthController.text = '';
+        addressController.text = '';
+        testLocationController.text = '';
+        genderValue.value = '0';
+        reloadDropdown();
+      }
     }
   }
 
@@ -518,6 +520,9 @@ class PersonalBookingController extends GetxController {
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
+
+      // refresh transaction history
+      transactionViewController.refreshHistoryList();
 
       String transactionId = result['transaction_detail']['transaction_id'];
       transactionViewController.onTransactionCardPressed(

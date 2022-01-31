@@ -89,8 +89,7 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
                 controller.transactionHistory[index].status;
 
             bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
-                (_status != TRANSACTIONSTATUS.done) &&
-                (_status != TRANSACTIONSTATUS.paymentRejected);
+                (_status != TRANSACTIONSTATUS.done);
 
             if (controller.transactionHistory.isEmpty) {
               return const AppEmptyStatePlaceholder(
@@ -151,8 +150,7 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
                 controller.transactionHistory[index].status;
 
             bool _isInProgress = (_status != TRANSACTIONSTATUS.canceled) &&
-                (_status != TRANSACTIONSTATUS.done) &&
-                (_status != TRANSACTIONSTATUS.paymentRejected);
+                (_status != TRANSACTIONSTATUS.done);
 
             if (!_isInProgress) {
               return TransactionCardComponent(

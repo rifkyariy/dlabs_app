@@ -70,108 +70,132 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                 Divider(color: greyColor),
                 const SizedBox(height: 20),
                 Obx(
-                  () => Column(
-                    children: [
-                      SearchableSelectInput(
-                        selectedItem: controller.patientSelectedNationality,
-                        items: controller.nationalityList!.value,
-                        label: 'Nationality',
-                        errorMsg: "",
-                        name: '',
-                        isDisabled: false,
-                      ),
+                  () => Container(
+                    child: controller.isLoaded.value
+                        ? Column(
+                            children: [
+                              SearchableSelectInput(
+                                selectedItem:
+                                    controller.patientSelectedNationality,
+                                items: controller.nationalityList!.value,
+                                label: 'Nationality',
+                                errorMsg: "",
+                                name: '',
+                                isDisabled: false,
+                              ),
 
-                      // id Number
-                      TextInput(
-                        controller: controller.patientIDNumberController,
-                        label: "Identity Number",
-                        name: "Identity Number",
-                        errorMsg: controller.identityNumberErrorMessage.value,
-                        type: "text",
-                      ),
+                              // id Number
+                              TextInput(
+                                controller:
+                                    controller.patientIDNumberController,
+                                label: "Identity Number",
+                                name: "Identity Number",
+                                errorMsg:
+                                    controller.identityNumberErrorMessage.value,
+                                type: "text",
+                              ),
 
-                      // Fullname
-                      TextInput(
-                        controller: controller.patientFullNameController,
-                        label: "Fullname",
-                        name: "Fullname",
-                        errorMsg: controller.fullNameErrorMessage.value,
-                        type: "text",
-                      ),
+                              // Fullname
+                              TextInput(
+                                controller:
+                                    controller.patientFullNameController,
+                                label: "Fullname",
+                                name: "Fullname",
+                                errorMsg: controller.fullNameErrorMessage.value,
+                                type: "text",
+                              ),
 
-                      // email addresss
-                      TextInput(
-                        controller: controller.patientEmailController,
-                        label: "Email",
-                        name: "Email",
-                        errorMsg: controller.emailErrorMessage.value,
-                      ),
+                              // email addresss
+                              TextInput(
+                                controller: controller.patientEmailController,
+                                label: "Email",
+                                name: "Email",
+                                errorMsg: controller.emailErrorMessage.value,
+                              ),
 
-                      // Phone
-                      TextInput(
-                        controller: controller.patientPhoneController,
-                        label: "Phone",
-                        name: "Phone",
-                        type: 'phone',
-                        errorMsg: controller.phoneNumberErrorMessage.value,
-                      ),
+                              // Phone
+                              TextInput(
+                                controller: controller.patientPhoneController,
+                                label: "Phone",
+                                name: "Phone",
+                                type: 'phone',
+                                errorMsg:
+                                    controller.phoneNumberErrorMessage.value,
+                              ),
 
-                      // Date of birth
-                      TextInput(
-                        controller: controller.patientDateController,
-                        label: 'Date of Birth',
-                        type: 'date',
-                        errorMsg: controller.dateOfBirthErrorMessage.value,
-                        name: 'date of birth',
-                        lastDate: DateTime.now(),
-                      ),
+                              // Date of birth
+                              TextInput(
+                                controller: controller.patientDateController,
+                                label: 'Date of Birth',
+                                type: 'date',
+                                errorMsg:
+                                    controller.dateOfBirthErrorMessage.value,
+                                name: 'date of birth',
+                                lastDate: DateTime.now(),
+                              ),
 
-                      // Gender
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Gender',
-                          style: mediumTextStyle(blackColor, fontSize: 14),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Obx(
-                            () => Radio(
-                              value: '1',
-                              groupValue: controller.genderValue.value,
-                              onChanged: (String? value) {
-                                controller.genderValue.value = value ?? '1';
-                              },
-                            ),
+                              // Gender
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Gender',
+                                  style:
+                                      mediumTextStyle(blackColor, fontSize: 14),
+                                ),
+                              ),
+                              Row(
+                                children: [
+                                  Obx(
+                                    () => Radio(
+                                      value: '1',
+                                      groupValue: controller.genderValue.value,
+                                      onChanged: (String? value) {
+                                        controller.genderValue.value =
+                                            value ?? '1';
+                                      },
+                                    ),
+                                  ),
+                                  Text(
+                                    'Male',
+                                    style: mediumTextStyle(blackColor,
+                                        fontSize: 14),
+                                  ),
+                                  Obx(
+                                    () => Radio(
+                                      value: '0',
+                                      groupValue: controller.genderValue.value,
+                                      onChanged: (String? value) {
+                                        controller.genderValue.value =
+                                            value ?? '0';
+                                      },
+                                    ),
+                                  ),
+                                  Text(
+                                    'Female',
+                                    style: mediumTextStyle(blackColor,
+                                        fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                              TextInput(
+                                controller: controller.patientAddressController,
+                                label: 'Address',
+                                errorMsg: controller.addressErrorMessage.value,
+                                type: 'textarea',
+                                name: 'address',
+                              ),
+                            ],
+                          )
+                        : Column(
+                            children: [
+                              const CircularProgressIndicator(),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Loading Patient Information',
+                                style: smallTextStyle(primaryColor),
+                              )
+                            ],
                           ),
-                          Text(
-                            'Male',
-                            style: mediumTextStyle(blackColor, fontSize: 14),
-                          ),
-                          Obx(
-                            () => Radio(
-                              value: '0',
-                              groupValue: controller.genderValue.value,
-                              onChanged: (String? value) {
-                                controller.genderValue.value = value ?? '0';
-                              },
-                            ),
-                          ),
-                          Text(
-                            'Female',
-                            style: mediumTextStyle(blackColor, fontSize: 14),
-                          ),
-                        ],
-                      ),
-                      TextInput(
-                        controller: controller.patientAddressController,
-                        label: 'Address',
-                        errorMsg: controller.addressErrorMessage.value,
-                        type: 'textarea',
-                        name: 'address',
-                      ),
-                    ],
                   ),
                 ),
                 // Nationality

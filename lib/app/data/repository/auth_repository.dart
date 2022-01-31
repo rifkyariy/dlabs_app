@@ -178,7 +178,14 @@ class AuthRepository {
 
   Future<GoogleUserModel> googleAuth({required bool silent}) async {
     GoogleSignInAccount? _googleUser;
-    late GoogleUserModel _googleUserModel;
+    GoogleUserModel _googleUserModel = GoogleUserModel(
+      id: null,
+      accessToken: null,
+      displayName: null,
+      email: null,
+      photoUrl: null,
+      serverAuthCode: null,
+    );
 
     try {
       if (silent) {

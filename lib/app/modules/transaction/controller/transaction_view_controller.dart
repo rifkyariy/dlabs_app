@@ -220,9 +220,10 @@ class TransactionViewController extends GetxController {
   }
 
   /// Update History List
-  refreshHistoryList() {
+  refreshHistoryList() async {
+    print('refresh');
+    updateHistoryRowList(enableLoadingEffect: true);
     transactionHistory.refresh();
-    updateHistoryRowList(enableLoadingEffect: false);
   }
 
   Future<String> getPaymentProof(String transactionId) async {
@@ -257,8 +258,6 @@ class TransactionViewController extends GetxController {
       throw Exception(e);
     }
   }
-
-  /// TODO kasih komen
 
   Future<void> onInvoiceButtonPressed(String transactionId) async {
     await Get.showOverlay(
@@ -356,14 +355,14 @@ class TransactionViewController extends GetxController {
         /// Pop Until
         Get.until((route) => Get.currentRoute == AppPages.dashboard);
 
-        Get.put(this);
-
         Get.to(
           () => const PersonalPaymentView(),
           binding: TransactionHistoryViewBinding(),
         );
       } else {
-        Get.off(
+        Get.until((route) => Get.currentRoute == AppPages.dashboard);
+
+        Get.to(
           () => const OrganizationPaymentView(),
           binding: TransactionHistoryViewBinding(),
         );
@@ -391,13 +390,13 @@ class TransactionViewController extends GetxController {
         /// Pop Until
         Get.until((route) => Get.currentRoute == AppPages.dashboard);
 
-        Get.put(this);
         Get.to(
           () => const PersonalTransactionDetailView(),
         );
       } else {
         /// Pop Until
         Get.until((route) => Get.currentRoute == AppPages.dashboard);
+
         Get.to(
           () => const OrganizationTransactionDetailView(),
         );
@@ -584,25 +583,25 @@ class TransactionViewController extends GetxController {
 
       Get.snackbar(
         'Upload Successfull',
-        'Proof of Payment  uploaded !',
+        'Proof of Payment uploaded !',
         backgroundColor: greenSuccessColor,
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
 
-      refreshHistoryList();
+      // Remove default filename
+      uploadedFilename!.value = ""; // Refresh List
 
       Get.until((route) => Get.currentRoute == AppPages.dashboard);
 
+      refreshHistoryList();
       if ((transactionDetail.isPrivate ?? '1') == '1') {
         Get.to(
           () => const PersonalTransactionDetailView(),
-          binding: TransactionHistoryViewBinding(),
         );
       } else {
         Get.to(
           () => const OrganizationTransactionDetailView(),
-          binding: TransactionHistoryViewBinding(),
         );
       }
     } else {

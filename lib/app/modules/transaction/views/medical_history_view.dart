@@ -1,5 +1,7 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
+import 'package:kayabe_lims/app/data/services/app_converter.dart';
 import 'package:kayabe_lims/app/global_widgets/app_empty_state.dart';
 import 'package:kayabe_lims/app/global_widgets/app_single_button_slideable.dart';
 import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
@@ -11,6 +13,9 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
 
   @override
   Widget build(BuildContext context) {
+    TRANSACTIONSTATUS _status = AppConverter.transactionStatusToEnum(
+        controller.transactionDetail.trackingList![0].status ?? "");
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,7 +33,8 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
-      body: (controller.medicalHistoryList ?? []).isEmpty
+      body: (controller.medicalHistoryList ?? []).isEmpty ||
+              _status == TRANSACTIONSTATUS.readyToRelease
           ? const AppEmptyStatePlaceholder(
               messages: 'There is no test result data',
             )

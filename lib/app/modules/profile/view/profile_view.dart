@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/modules/profile/controller/profile_view_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/local_widgets/transaction_android_button.dart';
+import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class ProfileView extends GetView<ProfileViewController> {
   const ProfileView({Key? key}) : super(key: key);
@@ -78,7 +80,26 @@ class ProfileView extends GetView<ProfileViewController> {
             Text('SETTING', style: mediumTextStyle(greyColor, fontSize: 12)),
             tileComponent('Personal Information'),
             tileComponent('Password'),
-            tileComponent('History Transaction'),
+            tileComponent('History Transaction', onTap: () {
+              if (controller.auth.isLoggedIn.value) {
+                Get.to(
+                  () => const TransactionHistoryView(),
+                  // binding: TransactionHistoryViewBinding(),
+                );
+              } else {
+                // Redirect into sign in pages
+                Get.toNamed(AppPages.signin);
+                Get.snackbar(
+                  "Please login to continue",
+                  "",
+                  backgroundColor: primaryColor,
+                  snackPosition: SnackPosition.TOP,
+                  animationDuration: const Duration(seconds: 1),
+                  duration: const Duration(seconds: 1),
+                  colorText: whiteColor,
+                );
+              }
+            }),
           ],
         ),
       ),
@@ -176,22 +197,26 @@ class ProfileView extends GetView<ProfileViewController> {
               ),
             ),
           ),
-          Positioned(
-            bottom: 10,
-            right: 0,
-            child: CircleAvatar(
-              radius: 20,
-              child: IconButton(
-                onPressed: () {
-                  print("object");
-                },
-                icon: Icon(
-                  Icons.photo_camera,
-                  color: whiteColor,
+          Visibility(
+            visible: controller.auth.isLoggedIn.value,
+            child: Positioned(
+              bottom: 10,
+              right: 0,
+              child: CircleAvatar(
+                radius: 20,
+                child: IconButton(
+                  onPressed: () {
+                    // TODO update profile picture
+                    print("object");
+                  },
+                  icon: Icon(
+                    Icons.photo_camera,
+                    color: whiteColor,
+                  ),
                 ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );

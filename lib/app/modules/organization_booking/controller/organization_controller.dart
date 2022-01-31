@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/enums/transaction_enum.dart';
 import 'package:kayabe_lims/app/data/models/patient_model.dart';
 import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
@@ -15,9 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-// TODO add RX Error for input fields.
-// TODO implements service etc api in here.
 
 class OrganizationBookingController extends GetxController {
   final AppStorageService storage = Get.find();
@@ -338,6 +336,7 @@ class OrganizationBookingController extends GetxController {
                 patientDateController.text = result['birth_date'];
                 patientAddressController.text = result['address'];
                 genderValue.value = result['gender'];
+                print(result['nationality']);
                 patientSelectedNationality.text = result['nationality'];
 
                 reloadDropdown();
@@ -522,14 +521,21 @@ class OrganizationBookingController extends GetxController {
       };
 
       isLoading.value = true;
-      if (await _booking.createOrganizationBooking(
-          payload: payload, token: apiToken!)) {
+
+      try {
+        var result = await _booking.createOrganizationBooking(
+            payload: payload, token: apiToken!);
+
         isLoading.value = false;
-        // Redirect into sign in page
-        Get.off(
-          () => const TransactionHistoryView(),
-          binding: TransactionHistoryViewBinding(),
-        );
+
+        // refresh transaction history
+        transactionViewController.refreshHistoryList();
+
+        String transactionId = result['transaction_detail']['transaction_id'];
+        transactionViewController.onTransactionCardPressed(
+            transactionId: transactionId,
+            status: TRANSACTIONSTATUS.newTransaction,
+            isDestroyState: true);
 
         // Display success snackbar
         Get.snackbar(
@@ -539,7 +545,7 @@ class OrganizationBookingController extends GetxController {
           colorText: whiteColor,
           snackPosition: SnackPosition.TOP,
         );
-      }
+      } catch (e) {}
     }
   }
 

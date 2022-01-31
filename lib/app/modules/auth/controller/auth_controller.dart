@@ -119,7 +119,7 @@ class AuthController extends GetxController {
         // Set Auth RxString
         isLoggedIn.value = true;
         fullname.value = _user.full_name!;
-        photoUrl.value = _user.image!;
+        photoUrl.value = _user.image ?? "";
         gender.value = _user.gender!;
         googleToken.value = "";
         apiToken.value = _user.token!;
@@ -181,7 +181,7 @@ class AuthController extends GetxController {
         // Set Auth RxString
         isLoggedIn.value = true;
         fullname.value = _googleUser.displayName!;
-        photoUrl.value = _googleUser.photoUrl!;
+        photoUrl.value = _googleUser.photoUrl ?? "";
         gender.value = _appUser.gender!;
         googleToken.value = _googleUser.accessToken!;
         apiToken.value = _user.token!;
@@ -203,7 +203,9 @@ class AuthController extends GetxController {
 
   void putHistoryController() {
     if (isLoggedIn.value) {
-      Get.put(TransactionViewController(), permanent: true);
+      TransactionViewController _transaction =
+          Get.put(TransactionViewController(), permanent: true);
+      _transaction.refreshHistoryList();
     }
   }
 }

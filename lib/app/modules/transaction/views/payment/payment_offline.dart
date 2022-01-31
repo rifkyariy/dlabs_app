@@ -17,6 +17,8 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.uploadedFilename!.value = "";
+
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
@@ -320,151 +322,13 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                         transactionId:
                             controller.transactionDetail.transactionId ?? '',
                       );
-                    }, // TODO
+                    },
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 5),
-        ],
-      ),
-    );
-  }
-
-  Widget _androidDialog() {
-    return SimpleDialog(
-      title: Align(
-        alignment: Alignment.topLeft,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Payment Option",
-              style: BoldTextStyle(blackColor, fontSize: 19),
-            ),
-            const SizedBox(height: 18),
-            Text(
-              "Please select a payment method",
-              style: regularTextStyle(
-                blackColor,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-      ),
-      contentPadding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 24,
-      ),
-      children: [
-        TransactionTextButton(
-          title: 'Online',
-          isWhiteBackground: false,
-          onPressed: () {},
-        ),
-        const SizedBox(height: 15),
-        TransactionTextButton(
-          title: 'Offline',
-          isWhiteBackground: true,
-          onPressed: () {},
-        )
-      ],
-    );
-  }
-
-  Widget _iosDialog() {
-    return SimpleDialog(
-      contentPadding: const EdgeInsets.only(top: 24),
-      backgroundColor: const Color(0xC7FBFBFB),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      title: Align(
-        alignment: Alignment.center,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              "Payment Option",
-              style: BoldTextStyle(blackColor, fontSize: 19),
-            ),
-            const SizedBox(height: 18),
-            Text(
-              "Please select a payment method",
-              style: regularTextStyle(
-                blackColor,
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-      ),
-      children: [
-        const Divider(height: 0, thickness: 1),
-        TransactionIosButton(
-          title: 'Online',
-          onPressed: () {},
-        ),
-        const Divider(height: 0, thickness: 1),
-        TransactionIosButton(
-          title: 'Offline',
-          onPressed: () {},
-        )
-      ],
-    );
-  }
-
-  /// Header Component
-  Widget _headerComponent({bool? enabled}) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Transaction ID Part
-              SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      controller.transactionDetail.transactionId ?? '',
-                      style: BoldTextStyle(primaryColor, fontSize: 20),
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      'Personal Service',
-                      style: mediumTextStyle(blackColor, fontSize: 12),
-                    )
-                  ],
-                ),
-              ),
-
-              // Invoice Button Part
-              Column(
-                children: [
-                  IconButton(
-                    enableFeedback: false,
-                    onPressed: enabled ?? false ? () {} : null,
-                    icon: Icon(
-                      AppIcons.invoice,
-                      color: enabled ?? false ? primaryColor : greyColor,
-                    ),
-                  ),
-                  Text(
-                    'Invoice',
-                    style: BoldTextStyle(
-                      enabled ?? false ? primaryColor : greyColor,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
         ],
       ),
     );

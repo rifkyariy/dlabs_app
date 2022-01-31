@@ -201,53 +201,56 @@ class SignInController extends GetxController {
         // Set Dashboard OBX
         _authController.fullname.value = _googleUser.displayName!;
         _authController.photoUrl.value =
-            _googleUser.photoUrl == null ? '' : _googleUser.photoUrl!;
+            _googleUser.photoUrl == null ? '' : _googleUser.photoUrl ?? "";
         _authController.isLoggedIn.value = true;
 
         Get.toNamed(AppPages.updatePersonalInfo, parameters: _parameters);
       } else {
-        // If user already registered, save api token to local storage.
-        // If user google account valid, save google token to local storage.
+        if (_googleUser.accessToken != null) {
+// If user already registered, save api token to local storage.
+          // If user google account valid, save google token to local storage.
 
-        // Save google access token to local storage.
-        await _storage.write(
-          'googleKey',
-          stringValue: _googleUser.accessToken,
-        );
+          // Save google access token to local storage.
+          await _storage.write(
+            'googleKey',
+            stringValue: _googleUser.accessToken,
+          );
 
-        // Save backend token to local storage.
-        await _storage.write('apiToken', stringValue: _user.token);
+          // Save backend token to local storage.
+          await _storage.write('apiToken', stringValue: _user.token);
 
-        // Save google username to local storage
-        await _storage.write(
-          'googleFullName',
-          stringValue: _googleUser.displayName,
-        );
+          // Save google username to local storage
+          await _storage.write(
+            'googleFullName',
+            stringValue: _googleUser.displayName,
+          );
 
-        // Save photo url to local storage
-        await _storage.write(
-          'googlePhotoUrl',
-          stringValue: _googleUser.photoUrl ?? "",
-        );
+          // Save photo url to local storage
+          await _storage.write(
+            'googlePhotoUrl',
+            stringValue: _googleUser.photoUrl ?? "",
+          );
 
-        final UserModel _appUser = await _auth.getUserData(token: _user.token!);
+          final UserModel _appUser =
+              await _auth.getUserData(token: _user.token!);
 
-        // Set is Logged in
-        await _storage.write('isLoggedIn', boolValue: true);
+          // Set is Logged in
+          await _storage.write('isLoggedIn', boolValue: true);
 
-        isGoogleLoading.value = false;
+          isGoogleLoading.value = false;
 
-        // Set Dashboard OBX
-        _authController.fullname.value = _googleUser.displayName!;
-        _authController.photoUrl.value = _googleUser.photoUrl!;
-        _authController.gender.value = _appUser.gender!;
-        _authController.apiToken.value = _user.token!;
-        _authController.isLoggedIn.value = true;
+          // Set Dashboard OBX
+          _authController.fullname.value = _googleUser.displayName!;
+          _authController.photoUrl.value = _googleUser.photoUrl ?? "";
+          _authController.gender.value = _appUser.gender!;
+          _authController.apiToken.value = _user.token!;
+          _authController.isLoggedIn.value = true;
 
-        // Go to dashboard
+          // Go to dashboard
 
-        _authController.putHistoryController();
-        Get.offAndToNamed(AppPages.dashboard);
+          _authController.putHistoryController();
+          Get.offAndToNamed(AppPages.dashboard);
+        }
       }
     } catch (e) {
       print(e);

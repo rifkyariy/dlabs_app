@@ -76,17 +76,7 @@ class DashboardScreen extends GetView<DashboardController> {
 
                 // Banner
                 DashboardBannerComponent(onPressed: () {
-                  Get.offAndToNamed(AppPages.signin);
-
-                  Get.snackbar(
-                    "Please login to continue",
-                    "",
-                    backgroundColor: primaryColor,
-                    snackPosition: SnackPosition.TOP,
-                    animationDuration: const Duration(seconds: 1),
-                    duration: const Duration(seconds: 1),
-                    colorText: whiteColor,
-                  );
+                  //  TODO add dashboard banner route
                 }),
 
                 // Our Service
@@ -120,17 +110,7 @@ class DashboardScreen extends GetView<DashboardController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.offAndToNamed(AppPages.signin);
-
-                          Get.snackbar(
-                            "Please login to continue",
-                            "",
-                            backgroundColor: primaryColor,
-                            snackPosition: SnackPosition.TOP,
-                            animationDuration: const Duration(seconds: 1),
-                            duration: const Duration(seconds: 1),
-                            colorText: whiteColor,
-                          );
+                          // TODO add article route
                         },
                         child: Text(
                           "View All",
