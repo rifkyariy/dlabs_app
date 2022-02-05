@@ -31,6 +31,8 @@ abstract class Routes {
   static const organizationPayment = _Paths.organizationPayment;
   static const paymentOffline = _Paths.paymentOffline;
   static const paymentCash = _Paths.paymentCash;
+  static const aboutUs = _Paths.aboutUs;
+  static const services = _Paths.services;
 }
 
 abstract class _Paths {
@@ -64,4 +66,7 @@ abstract class _Paths {
 
   static const paymentOffline = '/payment-offline';
   static const paymentCash = '/payment-cash';
+
+  static const aboutUs = '/profile/about';
+  static const services = '/profile/services';
 }

@@ -24,47 +24,51 @@ class ProfileView extends GetView<ProfileViewController> {
         ),
         title: Text('Profile', style: BoldTextStyle(whiteColor)),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Header Component
-          SizedBox(
-            height: 200,
-            width: double.infinity,
-            child: Stack(
-              clipBehavior: Clip.none,
-              fit: StackFit.loose,
-              children: [
-                Image.asset(
-                  'assets/image/app-profile-background.png',
-                  width: double.infinity,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Header Component
+            SizedBox(
+              height: 200,
+              width: double.infinity,
+              child: Stack(
+                clipBehavior: Clip.none,
+                fit: StackFit.loose,
+                children: [
+                  Image.asset(
+                    'assets/image/app-profile-background.png',
+                    width: double.infinity,
+                    height: 150,
+                    fit: BoxFit.cover,
+                  ),
 
-                // Profile Picture Component
-                Positioned(
-                  // 86 is the radius of circular avatar
-                  right: (MediaQuery.of(context).size.width / 2) - 86,
-                  bottom: 0,
-                  child: imageContainer(),
-                ),
-              ],
+                  // Profile Picture Component
+                  Positioned(
+                    // 86 is the radius of circular avatar
+                    right: (MediaQuery.of(context).size.width / 2) - 86,
+                    bottom: 0,
+                    child: imageContainer(),
+                  ),
+                ],
+              ),
             ),
-          ),
 
-          Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 20),
-            child: Text(
-              controller.auth.fullname.value,
-              style: mediumTextStyle(blackColor, fontSize: 26),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 20),
+              child: Text(
+                controller.auth.fullname.value,
+                style: mediumTextStyle(blackColor, fontSize: 26),
+              ),
             ),
-          ),
-          controller.auth.isLoggedIn.value
-              ? settingsComponent()
-              : const SizedBox(),
-          aboutComponent(signedIn: controller.auth.isLoggedIn.value),
-        ],
+            controller.auth.isLoggedIn.value
+                ? settingsComponent()
+                : const SizedBox(),
+            aboutComponent(signedIn: controller.auth.isLoggedIn.value),
+
+            const SizedBox(height: 20)
+          ],
+        ),
       ),
     );
   }
@@ -115,7 +119,12 @@ class ProfileView extends GetView<ProfileViewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('ABOUT', style: mediumTextStyle(greyColor, fontSize: 12)),
-            tileComponent('About Us'),
+            tileComponent('About Us', onTap: () {
+              Get.toNamed(AppPages.aboutUs);
+            }),
+            tileComponent('Services', onTap: () {
+              Get.toNamed(AppPages.services);
+            }),
             tileComponent('Help Center'),
             Padding(
               padding: const EdgeInsets.only(top: 15),
