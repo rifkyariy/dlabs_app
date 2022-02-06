@@ -7,7 +7,9 @@ import 'package:kayabe_lims/app/modules/personal_booking/bindings/personal_booki
 import 'package:kayabe_lims/app/modules/personal_booking/views/personal_booking.dart';
 import 'package:kayabe_lims/app/modules/personal_booking/views/questionnaire.dart';
 import 'package:kayabe_lims/app/modules/profile/bindings/profile_view_binding.dart';
+import 'package:kayabe_lims/app/modules/profile/view/about_view.dart';
 import 'package:kayabe_lims/app/modules/profile/view/profile_view.dart';
+import 'package:kayabe_lims/app/modules/profile/view/service_view.dart';
 
 import 'package:kayabe_lims/app/modules/signin/bindings/signin_binding.dart';
 import 'package:kayabe_lims/app/modules/signin/views/sign_in.dart';
@@ -62,6 +64,8 @@ class AppPages {
   static const organizationPayment = Routes.organizationPayment;
   static const paymentOffline = Routes.paymentOffline;
   static const paymentCash = Routes.paymentCash;
+  static const aboutUs = Routes.aboutUs;
+  static const services = Routes.services;
 
   static final routes = [
     GetPage(
@@ -174,5 +178,7 @@ class AppPages {
       page: () => const PaymentCashView(),
       binding: TransactionHistoryViewBinding(),
     ),
+    GetPage(name: _Paths.aboutUs, page: () => const AboutView()),
+    GetPage(name: _Paths.services, page: () => const ServiceView()),
   ];
 }
