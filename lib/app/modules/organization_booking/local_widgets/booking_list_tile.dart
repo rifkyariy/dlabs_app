@@ -18,49 +18,52 @@ class BookingListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slidable(
-        key: key,
-        endActionPane: ActionPane(
-          motion: const ScrollMotion(),
-          children: [
-            SlidableAction(
-              onPressed: updateButtonPressed,
-              backgroundColor: const Color(0xFF1176BC),
-              foregroundColor: Colors.white,
-              icon: AppIcons.sync, // TODO update Icons
-              label: 'Update',
-            ),
-            SlidableAction(
-              onPressed: deleteButtonPressed,
-              backgroundColor: const Color(0xFFDC3545),
-              foregroundColor: Colors.white,
-              icon: AppIcons.trash,
-              label: 'Delete',
-            ),
-          ],
-        ),
+      key: key,
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: updateButtonPressed,
+            backgroundColor: const Color(0xFF1176BC),
+            foregroundColor: Colors.white,
+            icon: AppIcons.sync, // TODO update Icons
+            label: 'Update',
+          ),
+          SlidableAction(
+            onPressed: deleteButtonPressed,
+            backgroundColor: const Color(0xFFDC3545),
+            foregroundColor: Colors.white,
+            icon: AppIcons.trash,
+            label: 'Delete',
+          ),
+        ],
+      ),
 
-        // The child of the Slidable is what the user sees when the
-        // component is not dragged.
-        // child: Column(
-        //   children: [
-        //     const Divider(height: 0),
-        //     ListTile(
-        //       leading: CircleAvatar(child: Text(title[0])),
-        //       title: Text(title),
-        //       subtitle: Text(subtitle),
-        //       onTap: () {
-        //         print("ehe");
-        //         Slidable.of(context)?.enableEndActionPane;
-        //       },
-        //     ),
-        //     const Divider(height: 0),
-        //   ],
-        // )
-        child: Builder(builder: (context) {
+      // The child of the Slidable is what the user sees when the
+      // component is not dragged.
+      // child: Column(
+      //   children: [
+      //     const Divider(height: 0),
+      //     ListTile(
+      //       leading: CircleAvatar(child: Text(title[0])),
+      //       title: Text(title),
+      //       subtitle: Text(subtitle),
+      //       onTap: () {
+      //         print("ehe");
+      //         Slidable.of(context)?.enableEndActionPane;
+      //       },
+      //     ),
+      //     const Divider(height: 0),
+      //   ],
+      // )
+      child: Builder(
+        builder: (context) {
           return Container(
             child: _listTile(context),
           );
-        }));
+        },
+      ),
+    );
   }
 
   Widget _listTile(context) {

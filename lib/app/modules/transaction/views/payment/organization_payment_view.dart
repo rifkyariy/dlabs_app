@@ -95,92 +95,35 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
 
             const SizedBox(height: 15),
 
-            // AppDetailInformationBox(
-            //   header: AppTitleWithButton(
-            //     title: 'Test Information',
-            //     buttonLabel: '',
-            //     onTap: () {},
-            //   ),
+            AppDetailInformationBox(
+              header: AppTitleWithButton(
+                title: 'Test Information',
+                buttonLabel: '',
+                onTap: () {},
+              ),
 
-            //   /// Leading
-            //   leading: [
-            //     _thinDetailInformationItem('Test Purposes'),
-            //     _thinDetailInformationItem('Test Date'),
-            //     _thinDetailInformationItem('Service'),
-            //     _thinDetailInformationItem('Location'),
-            //   ],
+              /// Leading
+              leading: [
+                _thinDetailInformationItem('Test Purposes'),
+                _thinDetailInformationItem('Test Date'),
+                _thinDetailInformationItem('Service'),
+                _thinDetailInformationItem('Location'),
+              ],
 
-            //   trailing: [
-            //     _blackDetailInformationItem(
-            //         controller.transactionDetail.testPurpose ?? ''),
-            //     _blackDetailInformationItem(
-            //         controller.transactionDetail.testDate ?? ''),
-            //     _blackDetailInformationItem(
-            //         controller.transactionDetail.services ?? ''),
-            //     _blackDetailInformationItem(
-            //         controller.transactionDetail.locationName ?? ''),
-            //     _blackDetailInformationItem(
-            //         controller.transactionDetail.locationAddress ?? ''),
-            //   ],
-
-            //   /// Bottom Component
-            //   bottom: [
-            //     Divider(
-            //       color: greyColor,
-            //       thickness: 0.3,
-            //       height: 10,
-            //     ),
-
-            //     /// Disabled Button For Title Only
-            //     AppTitleWithButton(
-            //       title:
-            //           controller.transactionDetail.masterMedicalKitNama ?? '',
-            //       buttonLabel: CurrencyFormat.convertToIdr(
-            //           controller.transactionDetail.price ?? 0, 2),
-            //       titleColor: primaryColor,
-            //       padding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
-            //     ),
-
-            //     Padding(
-            //       padding: const EdgeInsets.only(
-            //         left: 25,
-            //         right: 25,
-            //         bottom: 5,
-            //       ),
-            //       child: Row(
-            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //         children: [
-            //           _thinDetailInformationItem(
-            //             DateFormat.yMMMMd('en_US').format(
-            //               DateTime.parse(
-            //                 controller.transactionDetail.transactionDate ?? '',
-            //               ),
-            //             ),
-            //           ),
-            //           _thinDetailInformationItem(
-            //               '${(controller.transactionDetail.patientList ?? []).length} X')
-            //         ],
-            //       ),
-            //     ),
-
-            //     Divider(
-            //       color: greyColor,
-            //       thickness: 0.3,
-            //       height: 10,
-            //     ),
-
-            //     /// Disabled Button For Title Only
-            //     AppTitleWithButton(
-            //       title: 'Total Price',
-            //       buttonLabel: CurrencyFormat.convertToIdr(
-            //           controller.transactionDetail.price ?? 0, 2),
-            //       titleColor: blackColor,
-            //       buttonLabelColor: blackColor,
-            //       padding: const EdgeInsets.fromLTRB(25, 10, 25, 15),
-            //     ),
-            //   ],
-            // ),
-            // const SizedBox(height: 15),
+              trailing: [
+                _blackDetailInformationItem(
+                    controller.transactionDetail.testPurpose ?? ''),
+                _blackDetailInformationItem(
+                    controller.transactionDetail.testDate ?? ''),
+                _blackDetailInformationItem(
+                    controller.transactionDetail.services ?? ''),
+                _blackDetailInformationItem(
+                    controller.transactionDetail.locationName ?? ''),
+                _blackDetailInformationItem(
+                    controller.transactionDetail.locationAddress ?? ''),
+              ],
+            ),
+            const SizedBox(height: 15),
 
             AppDetailInformationBox(
               contentPadding: EdgeInsets.zero,
@@ -224,49 +167,51 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
             ),
 
             const SizedBox(height: 15),
-            AppDetailInformationBox(
-              header: AppTitleWithButton(
-                title: 'Payment Detail',
-                buttonLabel: 'Choose',
-                onTap: () {
-                  Get.dialog(
-                    GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
-                  );
-                },
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: primaryColor,
-                  size: 14,
-                ),
-              ),
-              leading: const [
-                AppDetailInformationItem('Total Price'),
-                // AppDetailInformationItem('Payment Method'),
-                AppDetailInformationItem('Payment Time'),
-              ],
-              trailing: [
-                AppDetailInformationItem(
-                  CurrencyFormat.convertToIdr(
-                    (controller.transactionDetail.price ?? 0),
-                    2,
+            Obx(
+              () => AppDetailInformationBox(
+                header: AppTitleWithButton(
+                  title: 'Payment Detail',
+                  buttonLabel: 'Choose',
+                  onTap: () {
+                    Get.dialog(
+                      GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
+                    );
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: primaryColor,
+                    size: 14,
                   ),
-                  color: blackColor,
                 ),
-                // AppDetailInformationItem(
-                //   'BCA',
-                //   color: blackColor,
-                // ),
+                leading: const [
+                  AppDetailInformationItem('Total Price'),
+                  // AppDetailInformationItem('Payment Method'),
+                  AppDetailInformationItem('Payment Time'),
+                ],
+                trailing: [
+                  AppDetailInformationItem(
+                    CurrencyFormat.convertToIdr(
+                      (controller.transactionDetail.price ?? 0),
+                      2,
+                    ),
+                    color: blackColor,
+                  ),
+                  // AppDetailInformationItem(
+                  //   'BCA',
+                  //   color: blackColor,
+                  // ),
 
-                AppDetailInformationItem(paymentList.updatedDate ?? 'Unpaid'),
-              ],
-              bottom: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: AppDetailInformationItem(
-                      'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
-                ),
-                SizedBox(height: 20)
-              ],
+                  AppDetailInformationItem(controller.paidDate.value),
+                ],
+                bottom: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: AppDetailInformationItem(
+                        'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
+                  ),
+                  SizedBox(height: 20)
+                ],
+              ),
             ),
             const SizedBox(height: 30),
           ],

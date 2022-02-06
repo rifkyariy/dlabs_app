@@ -177,72 +177,21 @@ class PaymentCashView extends GetView<TransactionViewController> {
                   flex: 4,
                   child: TransactionTextButton(
                     title: "Close",
-                    isWhiteBackground: true,
-                    onPressed: () {
-                      Get.back();
-                    }, // TODO
+                    isWhiteBackground: false,
+                    onPressed: () async {
+                      await controller.onUploadPaymentProofPressed(
+                        isCash: true,
+                        path: "",
+                        transactionId:
+                            controller.transactionDetail.transactionId ?? '',
+                      );
+                    },
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(height: 5),
-        ],
-      ),
-    );
-  }
-
-  /// Header Component
-  Widget _headerComponent({bool? enabled}) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Transaction ID Part
-              SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      controller.transactionDetail.transactionId ?? '',
-                      style: BoldTextStyle(primaryColor, fontSize: 20),
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      'Personal Service',
-                      style: mediumTextStyle(blackColor, fontSize: 12),
-                    )
-                  ],
-                ),
-              ),
-
-              // Invoice Button Part
-              Column(
-                children: [
-                  IconButton(
-                    enableFeedback: false,
-                    onPressed: enabled ?? false ? () {} : null,
-                    icon: Icon(
-                      AppIcons.invoice,
-                      color: enabled ?? false ? primaryColor : greyColor,
-                    ),
-                  ),
-                  Text(
-                    'Invoice',
-                    style: BoldTextStyle(
-                      enabled ?? false ? primaryColor : greyColor,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
         ],
       ),
     );

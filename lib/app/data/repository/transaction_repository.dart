@@ -2,12 +2,14 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/data/models/invoice_model/invoice_data.dart';
 import 'package:kayabe_lims/app/data/models/invoice_model/invoice_model.dart';
 import 'package:kayabe_lims/app/data/models/payment_proof_model.dart';
 import 'package:kayabe_lims/app/data/models/questionnaire_model/questionnaire_data_model.dart';
 import 'package:kayabe_lims/app/data/models/questionnaire_model/questionnaire_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:get/get.dart' as getx;
 
 class TransactionRepository {
   final String _kbaseUrl = "https://api-lims.kayabe.id/v1/web";
@@ -112,7 +114,23 @@ class TransactionRepository {
           throw Exception('Authentication Failed');
 
         case 500:
-          throw Exception('Internal Server Error');
+          final bool cashMethod =
+              jsonDecode(_response.body)['errors'].toString() ==
+                  "File Payment not Uploaded yet";
+
+          if (cashMethod) {
+            getx.Get.snackbar(
+              'Info',
+              'Please come to the cashier and pay with cash or debit.',
+              backgroundColor: primaryColor,
+              colorText: whiteColor,
+              snackPosition: getx.SnackPosition.TOP,
+            );
+
+            throw Exception('Internal Server Error');
+          } else {
+            throw Exception('Internal Server Error');
+          }
 
         default:
           throw Exception('${_response.statusCode} ${_response.reasonPhrase}');
@@ -169,16 +187,22 @@ class TransactionRepository {
 
     try {
       final String _fileName = path.split('/').last;
-      FormData formData = FormData.fromMap(
-        {
+      Map<String, dynamic> _fileMap;
+      if (_fileName != "") {
+        _fileMap = {
           "file": await MultipartFile.fromFile(
             path,
             filename: _fileName,
           ),
           "transaction_no": transactionId,
-        },
-      );
+        };
+      } else {
+        _fileMap = {
+          "transaction_no": transactionId,
+        };
+      }
 
+      FormData formData = FormData.fromMap(_fileMap);
       await _dio.post(
         '$_kbaseUrl/payment/upload',
         data: formData,

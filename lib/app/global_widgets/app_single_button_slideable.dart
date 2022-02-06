@@ -43,19 +43,35 @@ class AppSingleButtonSlideable extends StatelessWidget {
 
       // The child of the Slidable is what the user sees when the
       // component is not dragged.
-      child: Column(
-        children: [
-          const Divider(height: 0),
-          ListTile(
-            isThreeLine: isThreeLine ?? false,
-            leading: leading,
-            title: title,
-            subtitle: subtitle,
-            trailing: trailing,
-          ),
-          const Divider(height: 0),
-        ],
+      child: Builder(
+        builder: (context) {
+          return Container(
+            child: _listTile(context),
+          );
+        },
       ),
+    );
+  }
+
+  Widget _listTile(context) {
+    return Column(
+      children: [
+        const Divider(height: 0),
+        ListTile(
+          contentPadding: EdgeInsets.all(10),
+          isThreeLine: isThreeLine ?? false,
+          leading: leading,
+          title: title,
+          subtitle: subtitle,
+          trailing: trailing,
+          onTap: () {
+            Slidable.of(context)?.animation.isCompleted == true
+                ? Slidable.of(context)?.close()
+                : Slidable.of(context)?.openEndActionPane();
+          },
+        ),
+        const Divider(height: 0),
+      ],
     );
   }
 }

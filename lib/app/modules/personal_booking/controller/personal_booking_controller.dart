@@ -441,7 +441,60 @@ class PersonalBookingController extends GetxController {
       Get.toNamed(AppPages.questionnaire);
     } else {
       radioData.value = <Map<String, dynamic>>[];
-      createPersonalBooking();
+
+      Get.dialog(
+        AlertDialog(
+          title: const Text('Confirmation'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text(
+                    'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              children: [
+                const SizedBox(
+                  width: 20,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: whiteColor,
+                        elevation: 0,
+                        side: BorderSide(width: 1, color: greyColor)),
+                    child: Text('Cancel', style: mediumTextStyle(greyColor)),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: primaryColor,
+                      elevation: 0,
+                    ),
+                    child: Text('Confirm', style: mediumTextStyle(whiteColor)),
+                    onPressed: () {
+                      createPersonalBooking();
+                      Get.back();
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+              ],
+            )
+          ],
+        ),
+      );
     }
   }
 

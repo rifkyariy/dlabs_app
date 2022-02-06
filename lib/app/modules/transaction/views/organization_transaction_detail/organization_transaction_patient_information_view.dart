@@ -152,21 +152,32 @@ class OrganizationTransactionPatientInformationView
 
             /// Patient information
             AppDetailInformationBox(
+              contentPadding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
               backgroundColor: Colors.transparent,
               elevation: 0,
               shadowColor: Colors.transparent,
               flex: FlexGroup(3, 2),
               leading: controller.isHomeService()
                   ? [
+                      _boldDetailInformationItem('Nationality'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .nationality ??
+                              ''),
                       _boldDetailInformationItem('Fullname'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .fullName ??
                               ''),
-                      _boldDetailInformationItem('Phone'),
+                      _boldDetailInformationItem('Email'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
-                                  .phone ??
+                                  .email ??
+                              ''),
+                      _boldDetailInformationItem('Location'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .address ??
                               ''),
                     ]
                   : [
@@ -174,24 +185,52 @@ class OrganizationTransactionPatientInformationView
                       /// Left Part of the table
                       /// Consist of title and Information
                       ///
-                      ///
+                      _boldDetailInformationItem('Nationality'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .nationality ??
+                              ''),
+                      _boldDetailInformationItem('Identity Number'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .identityNumber ??
+                              ''),
                       _boldDetailInformationItem('Fullname'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .fullName ??
                               ''),
-                      _boldDetailInformationItem('Phone'),
+                      _boldDetailInformationItem('Email'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
-                                  .phone ??
+                                  .email ??
                               ''),
                     ],
               trailing: controller.isHomeService()
                   ? [
+                      _boldDetailInformationItem('Date of birth'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .birthDate ??
+                              ''),
                       _boldDetailInformationItem('Identity Number'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .identityNumber ??
+                              ''),
+                      _boldDetailInformationItem('Gender'),
+                      _mediumDetailInformationItem(
+                        ((controller.transactionDetail.patientList ?? [])[0]
+                                        .gender ??
+                                    '') ==
+                                '1'
+                            ? "Male"
+                            : "Female",
+                      ),
+                      _boldDetailInformationItem('Phone'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .phone ??
                               ''),
                     ]
                   : [
@@ -199,16 +238,58 @@ class OrganizationTransactionPatientInformationView
                       /// Right Side of the table
                       /// Consist of title and information
                       ///
-                      _boldDetailInformationItem('Identity Number'),
+                      _boldDetailInformationItem('Date of birth'),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
-                                  .identityNumber ??
+                                  .birthDate ??
                               ''),
+                      _boldDetailInformationItem('Gender'),
+                      _mediumDetailInformationItem(
+                        ((controller.transactionDetail.patientList ?? [])[0]
+                                        .gender ??
+                                    '') ==
+                                '1'
+                            ? "Male"
+                            : "Female",
+                      ),
+                      _boldDetailInformationItem('Phone'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.patientList ?? [])[0]
+                                  .phone ??
+                              ''),
+                      _boldDetailInformationItem('Location'),
+                      _mediumDetailInformationItem(
+                          (controller.transactionDetail.locationName ?? '')),
                     ],
             ),
 
+            /// Adress
+            /// Separated because of flex
+            controller.isHomeService()
+                ? const SizedBox()
+                : AppDetailInformationBox(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
+                    leading: [
+                      AppDetailInformationItem(
+                        'Address',
+                        style: BoldTextStyle(blackColor, fontSize: 13),
+                      ),
+                      AppDetailInformationItem(
+                        (controller.transactionDetail.patientList ?? [])[0]
+                                .address ??
+                            '',
+                        padding: const EdgeInsets.only(top: 5),
+                        style: mediumTextStyle(blackColor, fontSize: 13),
+                      ),
+                    ],
+                  ),
+
             // Test Information
             AppDetailInformationBox(
+                contentPadding: const EdgeInsets.fromLTRB(25, 10, 25, 0),
                 backgroundColor: Colors.transparent,
                 elevation: 0,
                 shadowColor: Colors.transparent,
@@ -227,6 +308,13 @@ class OrganizationTransactionPatientInformationView
                   _boldDetailInformationItem('Test Date'),
                   _mediumDetailInformationItem(
                       controller.transactionDetail.testDate ?? ''),
+                  _boldDetailInformationItem('Arrived Date'),
+                  _mediumDetailInformationItem((controller
+                              .transactionDetail.patientList![0].arrivedDate !=
+                          '')
+                      ? controller
+                          .transactionDetail.patientList![0].arrivedDate!
+                      : '-'),
                 ],
                 trailing: [
                   _boldDetailInformationItem('Test Type'),

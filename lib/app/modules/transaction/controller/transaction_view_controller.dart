@@ -16,6 +16,7 @@ import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
 import 'package:kayabe_lims/app/data/repository/transaction_repository.dart';
 import 'package:kayabe_lims/app/data/services/file_downloader.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/invoice_view.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/medical_history_view.dart';
@@ -46,6 +47,7 @@ class TransactionViewController extends GetxController {
   final HistoryRepository _historyRepository = Get.put(HistoryRepository());
   final TransactionRepository _transactionRepository =
       Get.put(TransactionRepository());
+  final AuthController _auth = Get.find();
 
   /// Current Transaction status.
   /// It will changes when user tap the History Card
@@ -78,6 +80,7 @@ class TransactionViewController extends GetxController {
   RxString selectedPaymentMethodName = "".obs;
   RxString selectedAccountHolder = "".obs;
   RxString selectedAccountNumber = "".obs;
+  RxString paidDate = "Unpaid".obs;
 
   /// This is the Invoice Detail Information
   /// It holds for the transaction invoice on specific transaction ID
@@ -120,14 +123,13 @@ class TransactionViewController extends GetxController {
   /// If [enableLoadingEffect] is set to enable, then when this method being called
   /// [isLoading] will have true value on first method call.
   Future<void> updateHistoryRowList({bool? enableLoadingEffect}) async {
-    final _apiToken = await _storage.readString('apiToken');
+    final _apiToken = _auth.apiToken.value;
 
     try {
       isLoading.value = enableLoadingEffect ?? false;
 
       transactionHistory.value =
-          ((await _historyRepository.getHistoryList(token: _apiToken ?? '')) ??
-                  [])
+          ((await _historyRepository.getHistoryList(token: _apiToken)) ?? [])
               // Map TRXHistoryRow Model to Transaction
               .map(
         (t) {
@@ -221,9 +223,21 @@ class TransactionViewController extends GetxController {
 
   /// Update History List
   refreshHistoryList() async {
-    print('refresh');
-    updateHistoryRowList(enableLoadingEffect: true);
+    updateHistoryRowList(enableLoadingEffect: false);
     transactionHistory.refresh();
+  }
+
+  updateDetailTransaction(String transactionId) async {
+    transactionDetail = await getDetailTransaction(transactionId);
+    List trackingList = transactionDetail.trackingList!
+        .where((element) => element.status == 'Payment')
+        .toList();
+
+    TrxDetailTrackingList paymentList = trackingList.isNotEmpty
+        ? trackingList.first
+        : const TrxDetailTrackingList();
+
+    paidDate.value = paymentList.updatedDate!;
   }
 
   Future<String> getPaymentProof(String transactionId) async {
@@ -549,14 +563,82 @@ class TransactionViewController extends GetxController {
   void check(args) {}
 
   onUploadPaymentProofPressed({
+    bool isCash = false,
     required String path,
     required String transactionId,
   }) async {
     // Check if user already select file
-    if (uploadedFilename!.value != "") {
+    if (!isCash) {
+      if (uploadedFilename!.value != "") {
+        Get.showOverlay(
+          asyncFunction: () async {
+            await uploadPaymentProof(path: path, transactionId: transactionId);
+            await refreshHistoryList();
+            await updateDetailTransaction(transactionId);
+          },
+          loadingWidget: Center(
+            child: Card(
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(),
+                    ),
+                    SizedBox(height: 20),
+                    Text("Uploading")
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+
+        Get.snackbar(
+          'Upload Successfull',
+          'Proof of Payment uploaded !',
+          backgroundColor: greenSuccessColor,
+          colorText: whiteColor,
+          snackPosition: SnackPosition.TOP,
+        );
+
+        // Refresh List
+        await refreshHistoryList();
+        transactionHistory.refresh();
+
+        Get.until((route) => Get.currentRoute == AppPages.dashboard);
+
+        if ((transactionDetail.isPrivate ?? '1') == '1') {
+          Get.to(
+            () => const PersonalTransactionDetailView(),
+            binding: TransactionHistoryViewBinding(),
+          );
+        } else {
+          Get.to(
+            () => const OrganizationTransactionDetailView(),
+            binding: TransactionHistoryViewBinding(),
+          );
+        }
+      } else {
+        Get.snackbar(
+          'Invalid File',
+          'Please choose valid proof of payment',
+          backgroundColor: primaryColor,
+          colorText: whiteColor,
+          snackPosition: SnackPosition.TOP,
+        );
+      }
+    } else {
       Get.showOverlay(
         asyncFunction: () async {
           await uploadPaymentProof(path: path, transactionId: transactionId);
+          await refreshHistoryList();
+          await updateDetailTransaction(transactionId);
         },
         loadingWidget: Center(
           child: Card(
@@ -573,7 +655,7 @@ class TransactionViewController extends GetxController {
                     child: CircularProgressIndicator(),
                   ),
                   SizedBox(height: 20),
-                  Text("Uploading")
+                  Text("Proceed Payment")
                 ],
               ),
             ),
@@ -589,29 +671,23 @@ class TransactionViewController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
 
-      // Remove default filename
-      uploadedFilename!.value = ""; // Refresh List
+      // Refresh List
+      await refreshHistoryList();
+      transactionHistory.refresh();
 
       Get.until((route) => Get.currentRoute == AppPages.dashboard);
 
-      refreshHistoryList();
       if ((transactionDetail.isPrivate ?? '1') == '1') {
         Get.to(
           () => const PersonalTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
         );
       } else {
         Get.to(
           () => const OrganizationTransactionDetailView(),
+          binding: TransactionHistoryViewBinding(),
         );
       }
-    } else {
-      Get.snackbar(
-        'Invalid File',
-        'Please choose valid proof of payment',
-        backgroundColor: primaryColor,
-        colorText: whiteColor,
-        snackPosition: SnackPosition.TOP,
-      );
     }
   }
 
