@@ -29,7 +29,6 @@ class SplashController extends GetxController {
       companyLogo.value = company['image'].toString();
       isVisible.value = true;
       _storage.write('companyLogo', stringValue: company['image'].toString());
-      print(companyLogo);
     });
   }
 
@@ -63,13 +62,17 @@ class SplashController extends GetxController {
             displayName: googleFullName ?? '',
           );
 
+          UserModel? _userData = await _auth.getUserData(
+            token: apiToken ?? '',
+          );
+
           // print(_googleUser.status);
           // If google user exist and status code from backend OK then go to dashboard with named
           if (_googleUser!.status == '200') {
             await _storage.write('isLoggedIn', boolValue: true);
             _authController.isLoggedIn.value = true;
-            _authController.fullname.value = googleFullName!;
-            _authController.photoUrl.value = googlePhotoUrl!;
+            _authController.fullname.value = _userData.full_name!;
+            _authController.photoUrl.value = _userData.image!;
             _authController.googleToken.value = googleAuthKey!;
             // _authController.gender.value = _appUser.gender!;
             // _authController.apiToken.value = _user.token!;

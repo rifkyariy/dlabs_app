@@ -22,7 +22,7 @@ As a certified Clinical Laboratory, We strive to play an active role in efforts 
       appBar: AppBar(
         centerTitle: true,
         actions: const [],
-        elevation: 0,
+        elevation: 1,
         backgroundColor: whiteColor,
         leading: IconButton(
           icon: Icon(
@@ -40,8 +40,11 @@ As a certified Clinical Laboratory, We strive to play an active role in efforts 
           child: Column(
             children: [
               paragraphView(about),
-              const AppDividerWithTitle.visi(),
+              const SizedBox(
+                height: 20,
+              ),
               brandingImage(),
+              const AppDividerWithTitle.visi(),
               paragraphView(visi),
               const AppDividerWithTitle.misi(),
               paragraphView(misi),
@@ -55,13 +58,16 @@ As a certified Clinical Laboratory, We strive to play an active role in efforts 
   Widget paragraphView(String text) => Text(
         text,
         style: regularTextStyle(blackColor),
-        textAlign: TextAlign.justify,
+        textAlign: TextAlign.left,
       );
 
   Widget brandingImage() => Padding(
         padding: const EdgeInsets.only(bottom: 15),
-        child: Image.network(
-          'https://cdn.discordapp.com/attachments/900022715321311256/939547510408622090/24.png',
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(4.0),
+          child: Image.network(
+            'https://cdn.discordapp.com/attachments/900022715321311256/939547510408622090/24.png',
+          ),
         ),
       );
 }

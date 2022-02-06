@@ -207,7 +207,7 @@ class SignInController extends GetxController {
         Get.toNamed(AppPages.updatePersonalInfo, parameters: _parameters);
       } else {
         if (_googleUser.accessToken != null) {
-// If user already registered, save api token to local storage.
+          // If user already registered, save api token to local storage.
           // If user google account valid, save google token to local storage.
 
           // Save google access token to local storage.
@@ -240,8 +240,8 @@ class SignInController extends GetxController {
           isGoogleLoading.value = false;
 
           // Set Dashboard OBX
-          _authController.fullname.value = _googleUser.displayName!;
-          _authController.photoUrl.value = _googleUser.photoUrl ?? "";
+          _authController.fullname.value = _appUser.full_name!;
+          _authController.photoUrl.value = _appUser.image ?? "";
           _authController.gender.value = _appUser.gender!;
           _authController.apiToken.value = _user.token!;
           _authController.isLoggedIn.value = true;

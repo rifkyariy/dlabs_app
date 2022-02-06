@@ -231,6 +231,34 @@ class AuthRepository {
       );
     }
   }
+
+  Future<bool> changePassword({
+    required String accessToken,
+    required String userId,
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    final url = Uri.parse("$baseUrl/change-password/${userId}");
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'fendpoint': '/profile',
+      'Authorization': 'Bearer $accessToken',
+    };
+
+    final body = jsonEncode(
+      {"oldpassword": oldPassword, "newpassword": newPassword},
+    );
+
+    final response = await http.patch(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print(response.body);
+      return false;
+    }
+  }
 }
 
 class _GoogleUserStatus {

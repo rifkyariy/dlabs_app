@@ -15,7 +15,7 @@ class ProfileView extends GetView<ProfileViewController> {
       appBar: AppBar(
         centerTitle: true,
         actions: const [],
-        elevation: 0,
+        elevation: 1,
         backgroundColor: const Color(0xFF1579BE),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_sharp),
@@ -82,8 +82,12 @@ class ProfileView extends GetView<ProfileViewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('SETTING', style: mediumTextStyle(greyColor, fontSize: 12)),
-            tileComponent('Personal Information'),
-            tileComponent('Password'),
+            tileComponent('Personal Information', onTap: () {
+              Get.toNamed(AppPages.personalInformation);
+            }),
+            tileComponent('Password', onTap: () {
+              Get.toNamed(AppPages.changePassword);
+            }),
             tileComponent('History Transaction', onTap: () {
               if (controller.auth.isLoggedIn.value) {
                 Get.to(

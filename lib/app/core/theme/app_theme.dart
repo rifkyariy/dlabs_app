@@ -60,6 +60,7 @@ TextStyle regularTextStyle(Color textColor, {double? fontSize}) =>
       color: textColor,
       fontWeight: FontWeight.w400,
       fontSize: fontSize ?? 14,
+      height: 1.6,
     );
 
 TextStyle smallTextStyle(Color textColor, {double? fontSize}) =>
@@ -67,6 +68,7 @@ TextStyle smallTextStyle(Color textColor, {double? fontSize}) =>
       color: textColor,
       fontWeight: FontWeight.w500,
       fontSize: fontSize ?? 11,
+      height: 1.4,
     );
 
 TextStyle BoldTextStyle(Color textColor, {double? fontSize}) =>

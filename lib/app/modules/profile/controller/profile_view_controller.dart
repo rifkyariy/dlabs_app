@@ -1,11 +1,77 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/data/models/user_model.dart';
+import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
+import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class ProfileViewController extends GetxController {
   AuthController auth = Get.find();
+  final AuthRepository _authRepo = Get.put(AuthRepository());
+  final MasterDataRepository _masterData = Get.put(MasterDataRepository());
+
+  late UserModel _userData;
+
+  // Change Password Params
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  RxString oldPasswordErrorMessage = ''.obs;
+  RxString newPasswordErrorMessage = ''.obs;
+  RxString confirmPasswordErrorMessage = ''.obs;
 
   RxBool imageLoadError = false.obs;
+  RxBool isLoading = false.obs;
+  RxBool isLoaded = false.obs;
+
+  // Personal Information
+  TextEditingController idNumberController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController testLocationController = TextEditingController();
+  TextEditingController testDateController = TextEditingController();
+  RxString genderValue = '0'.obs;
+  late TextEditingController selectedNationality;
+  RxString selectedNationalityString = ''.obs;
+
+  RxString identityNumberErrorMessage = ''.obs;
+  RxString fullNameErrorMessage = ''.obs;
+  RxString emailErrorMessage = ''.obs;
+  RxString phoneNumberErrorMessage = ''.obs;
+  RxString dateOfBirthErrorMessage = ''.obs;
+  RxString addressErrorMessage = ''.obs;
+  RxString testLocationErrorMessage = ''.obs;
+
+  RxList<Map<String, dynamic>>? nationalityList = <Map<String, dynamic>>[].obs;
+
+  List<Map<String, dynamic>> convertIntoList(
+      List keyName, List<Map<String, dynamic>> data) {
+    var defaultKey = ["id", "value"];
+
+    for (var item in data) {
+      for (var i = 0; i < keyName.length; i++) {
+        if (item.containsKey(keyName[i])) {
+          var value = item[keyName[i]];
+          item[defaultKey[i]] = "$value";
+        }
+      }
+    }
+
+    return data;
+  }
+
+  // Get List of Nationality
+  Future<List<Map<String, dynamic>>> getListofNationality() async {
+    var result = await _masterData.getNationalityList();
+    var apiServiceKey = ["id", "nationality"];
+
+    return convertIntoList(apiServiceKey, result);
+  }
 
   onSignOutButtonPressed() {
     auth.handleLogout();
@@ -13,5 +79,80 @@ class ProfileViewController extends GetxController {
 
   onSignInButtonPressed() {
     Get.toNamed(AppPages.signin);
+  }
+
+  handleUpdateProfile() {}
+
+  handleChangePassword() async {
+    bool isPasswordValid = newPasswordController.text != '';
+    bool isPasswordLengthValid = newPasswordController.text.length >= 8;
+    bool isConfirmPasswordValid = confirmPasswordController.text != '' &&
+        newPasswordController.text == confirmPasswordController.text;
+
+    if (isPasswordValid) {
+      newPasswordErrorMessage.value = '';
+      if (isPasswordLengthValid) {
+        newPasswordErrorMessage.value = '';
+        if (isConfirmPasswordValid) {
+          newPasswordErrorMessage.value = '';
+          isLoading.value = true;
+          if (await _authRepo.changePassword(
+              accessToken: _userData.token!,
+              userId: _userData.id!.toString(),
+              oldPassword: oldPasswordController.text,
+              newPassword: newPasswordController.text)) {
+            isLoading.value = false;
+
+            Get.snackbar(
+              'Success',
+              'Your password is changed.',
+              backgroundColor: Colors.lightGreen,
+              colorText: whiteColor,
+              snackPosition: SnackPosition.TOP,
+            );
+
+            Get.back();
+          } else {
+            isLoading.value = false;
+
+            Get.snackbar(
+              'Oops',
+              'Something went wrong !',
+              backgroundColor: warningColor,
+              colorText: whiteColor,
+              snackPosition: SnackPosition.TOP,
+            );
+          }
+        } else {
+          confirmPasswordErrorMessage.value =
+              'Confirmation password doesn\'t match.';
+        }
+      } else {
+        newPasswordErrorMessage.value =
+            'Your password must be at least 8 characters.';
+      }
+    } else {
+      newPasswordErrorMessage.value = 'Your password can\'t be blank.';
+    }
+  }
+
+  @override
+  void onInit() async {
+    _userData = await _authRepo.getUserData(token: auth.apiToken.value);
+
+    await getListofNationality()
+        .then((result) => nationalityList!.value = result.toList());
+
+    isLoaded.value = true;
+    fullNameController.text = _userData.full_name ?? '';
+    emailController.text = _userData.email ?? '';
+    idNumberController.text = _userData.identity_number ?? '';
+    phoneNumberController.text = _userData.phone ?? '';
+    dateOfBirthController.text = _userData.birth_date ?? '';
+    addressController.text = _userData.address ?? '';
+    genderValue.value = _userData.gender ?? '0';
+    selectedNationality = TextEditingController(text: _userData.nationality);
+
+    super.onInit();
   }
 }
