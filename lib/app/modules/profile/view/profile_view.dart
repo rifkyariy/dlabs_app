@@ -125,7 +125,9 @@ class ProfileView extends GetView<ProfileViewController> {
             tileComponent('Services', onTap: () {
               Get.toNamed(AppPages.services);
             }),
-            tileComponent('Help Center'),
+            tileComponent('Help Center', onTap: () {
+              Get.toNamed(AppPages.helpCenter);
+            }),
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: InkWell(

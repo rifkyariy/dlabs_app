@@ -8,6 +8,7 @@ import 'package:kayabe_lims/app/modules/personal_booking/views/personal_booking.
 import 'package:kayabe_lims/app/modules/personal_booking/views/questionnaire.dart';
 import 'package:kayabe_lims/app/modules/profile/bindings/profile_view_binding.dart';
 import 'package:kayabe_lims/app/modules/profile/view/about_view.dart';
+import 'package:kayabe_lims/app/modules/profile/view/help_center_view.dart';
 import 'package:kayabe_lims/app/modules/profile/view/profile_view.dart';
 import 'package:kayabe_lims/app/modules/profile/view/service_view.dart';
 
@@ -66,6 +67,7 @@ class AppPages {
   static const paymentCash = Routes.paymentCash;
   static const aboutUs = Routes.aboutUs;
   static const services = Routes.services;
+  static const helpCenter = Routes.helpCenter;
 
   static final routes = [
     GetPage(
@@ -180,5 +182,10 @@ class AppPages {
     ),
     GetPage(name: _Paths.aboutUs, page: () => const AboutView()),
     GetPage(name: _Paths.services, page: () => const ServiceView()),
+    GetPage(
+      name: _Paths.helpCenter,
+      page: () => const HelpCenterView(),
+      binding: ProfileViewBinding(),
+    ),
   ];
 }
