@@ -43,6 +43,7 @@ class PersonalTransactionPatientInformationView
           children: [
             /// Patient information
             AppDetailInformationBox(
+              contentPadding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
               backgroundColor: Colors.transparent,
               elevation: 0,
               shadowColor: Colors.transparent,

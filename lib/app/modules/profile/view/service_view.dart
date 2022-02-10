@@ -11,13 +11,14 @@ class ServiceView extends StatelessWidget {
 DirectLab is supported by professionals who routinely undergo medical tests, so you can feel safe and comfortable to undergo a Swab Test with Corporate Service services.
 
 Make an appointment for Swab Test Corporate Service now and get test results within 24 hours for PCR Swab Test and Swab Antigen ± 30 minutes by contacting us via WhatsApp to 0877 1889 1840.''';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         actions: const [],
-        elevation: 0,
+        elevation: 1,
         backgroundColor: whiteColor,
         leading: IconButton(
           icon: Icon(
@@ -31,19 +32,29 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 25),
+          padding: const EdgeInsets.symmetric(vertical: 25),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              paragraphView(
-                'Service that provided by Direct Lab.',
-                color: greyColor,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: paragraphView(
+                  'Service that provided by Direct Lab.',
+                  color: greyColor,
+                ),
               ),
-              brandingImage(),
-              title(),
-              paragraphView(about),
-              const AppDividerWithTitle.price(),
-              paragraphView('Rp 700.000/ orang (minimal 100 orang)'),
+              brandingImage(context),
+              Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      title(),
+                      paragraphView(about),
+                      const AppDividerWithTitle.price(),
+                      paragraphView('Rp 700.000/ orang (minimal 100 orang)'),
+                    ],
+                  )),
             ],
           ),
         ),
@@ -54,13 +65,15 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
   Widget paragraphView(String text, {Color? color}) => Text(
         text,
         style: regularTextStyle(color ?? blackColor),
-        textAlign: TextAlign.justify,
+        textAlign: TextAlign.left,
       );
 
-  Widget brandingImage() => Padding(
+  Widget brandingImage(context) => Padding(
         padding: const EdgeInsets.only(bottom: 15, top: 20),
         child: Image.network(
           'https://cdn.discordapp.com/attachments/900022715321311256/939551258300256296/1-600x600_2.png',
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.fill,
         ),
       );
 

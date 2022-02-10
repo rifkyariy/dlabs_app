@@ -126,8 +126,6 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                   controller.transactionDetail.services ?? '',
                   color: blackColor,
                 ),
-
-                /// TODO change this if error
                 AppDetailInformationItem(
                   controller.transactionDetail.locationName ?? '',
                   color: blackColor,
@@ -222,28 +220,25 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
             ),
             const SizedBox(height: 15),
 
-            AppDetailInformationBox(
-              title: 'Payment Detail',
-              leading: const [
-                AppDetailInformationItem('Total Price'),
-                // AppDetailInformationItem('Payment Method'),
-                AppDetailInformationItem('Payment Time'),
-              ],
-              trailing: [
-                AppDetailInformationItem(
-                  CurrencyFormat.convertToIdr(
-                    (controller.transactionDetail.price ?? 0),
-                    2,
+            Obx(
+              () => AppDetailInformationBox(
+                title: 'Payment Detail',
+                leading: const [
+                  AppDetailInformationItem('Total Price'),
+                  // AppDetailInformationItem('Payment Method'),
+                  AppDetailInformationItem('Payment Time'),
+                ],
+                trailing: [
+                  AppDetailInformationItem(
+                    CurrencyFormat.convertToIdr(
+                      (controller.transactionDetail.price ?? 0),
+                      2,
+                    ),
+                    color: blackColor,
                   ),
-                  color: blackColor,
-                ),
-                // AppDetailInformationItem(
-                //   'BCA',
-                //   color: blackColor,
-                // ),
-
-                AppDetailInformationItem(paymentList.updatedDate ?? 'Unpaid'),
-              ],
+                  AppDetailInformationItem(controller.paidDate.value),
+                ],
+              ),
             ),
             const SizedBox(height: 30),
           ],

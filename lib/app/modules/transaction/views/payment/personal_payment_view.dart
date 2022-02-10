@@ -158,12 +158,13 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               /// Leading
               leading: [
                 AppDetailInformationItem(
-                  (controller.transactionDetail.patientList ?? [])[0].phone ??
+                  (controller.transactionDetail.patientList ?? [])[0]
+                          .identityNumber ??
                       '',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  (controller.transactionDetail.patientList ?? [])[0].address ??
+                  (controller.transactionDetail.patientList ?? [])[0].phone ??
                       '',
                   color: blackColor,
                 ),
@@ -225,49 +226,51 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
             ),
             const SizedBox(height: 15),
 
-            AppDetailInformationBox(
-              header: AppTitleWithButton(
-                title: 'Payment Detail',
-                buttonLabel: 'Choose',
-                onTap: () {
-                  Get.dialog(
-                    GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
-                  );
-                },
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: primaryColor,
-                  size: 14,
-                ),
-              ),
-              leading: const [
-                AppDetailInformationItem('Total Price'),
-                // AppDetailInformationItem('Payment Method'),
-                AppDetailInformationItem('Payment Time'),
-              ],
-              trailing: [
-                AppDetailInformationItem(
-                  CurrencyFormat.convertToIdr(
-                    (controller.transactionDetail.price ?? 0),
-                    2,
+            Obx(
+              () => AppDetailInformationBox(
+                header: AppTitleWithButton(
+                  title: 'Payment Detail',
+                  buttonLabel: 'Choose',
+                  onTap: () {
+                    Get.dialog(
+                      GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
+                    );
+                  },
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: primaryColor,
+                    size: 14,
                   ),
-                  color: blackColor,
                 ),
-                // AppDetailInformationItem(
-                //   controller.selectedPaymentMethodName.value,
-                //   color: blackColor,
-                // ),
+                leading: const [
+                  AppDetailInformationItem('Total Price'),
+                  // AppDetailInformationItem('Payment Method'),
+                  AppDetailInformationItem('Payment Time'),
+                ],
+                trailing: [
+                  AppDetailInformationItem(
+                    CurrencyFormat.convertToIdr(
+                      (controller.transactionDetail.price ?? 0),
+                      2,
+                    ),
+                    color: blackColor,
+                  ),
+                  // AppDetailInformationItem(
+                  //   controller.selectedPaymentMethodName.value,
+                  //   color: blackColor,
+                  // ),
 
-                AppDetailInformationItem(paymentList.updatedDate ?? 'Unpaid'),
-              ],
-              bottom: const [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: AppDetailInformationItem(
-                      'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
-                ),
-                SizedBox(height: 20)
-              ],
+                  AppDetailInformationItem(controller.paidDate.value),
+                ],
+                bottom: const [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: AppDetailInformationItem(
+                        'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
+                  ),
+                  SizedBox(height: 20)
+                ],
+              ),
             ),
             const SizedBox(height: 30),
           ],

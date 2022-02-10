@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/image_utils.dart';
 import 'package:kayabe_lims/app/modules/profile/controller/profile_view_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/local_widgets/transaction_android_button.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
@@ -15,7 +16,7 @@ class ProfileView extends GetView<ProfileViewController> {
       appBar: AppBar(
         centerTitle: true,
         actions: const [],
-        elevation: 0,
+        elevation: 1,
         backgroundColor: const Color(0xFF1579BE),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_sharp),
@@ -44,11 +45,13 @@ class ProfileView extends GetView<ProfileViewController> {
                   ),
 
                   // Profile Picture Component
-                  Positioned(
-                    // 86 is the radius of circular avatar
-                    right: (MediaQuery.of(context).size.width / 2) - 86,
-                    bottom: 0,
-                    child: imageContainer(),
+                  Obx(
+                    () => Positioned(
+                      // 86 is the radius of circular avatar
+                      right: (MediaQuery.of(context).size.width / 2) - 86,
+                      bottom: 0,
+                      child: imageContainer(),
+                    ),
                   ),
                 ],
               ),
@@ -82,8 +85,12 @@ class ProfileView extends GetView<ProfileViewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('SETTING', style: mediumTextStyle(greyColor, fontSize: 12)),
-            tileComponent('Personal Information'),
-            tileComponent('Password'),
+            tileComponent('Personal Information', onTap: () {
+              Get.toNamed(AppPages.personalInformation);
+            }),
+            tileComponent('Password', onTap: () {
+              Get.toNamed(AppPages.changePassword);
+            }),
             tileComponent('History Transaction', onTap: () {
               if (controller.auth.isLoggedIn.value) {
                 Get.to(
@@ -190,15 +197,22 @@ class ProfileView extends GetView<ProfileViewController> {
         children: [
           Container(
             child: Obx(
-              () => CircleAvatar(
-                radius: 86,
+              () => controller.isLoading.value
+                  ? const CircleAvatar(
+                      radius: 86,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  : CircleAvatar(
+                      radius: 86,
 
-                // Change to dynamic
-                backgroundImage: getImageProvider(),
-                onBackgroundImageError: (_, __) {
-                  controller.imageLoadError.value = true;
-                },
-              ),
+                      // Change to dynamic
+                      backgroundImage: getImageProvider(),
+                      onBackgroundImageError: (_, __) {
+                        controller.imageLoadError.value = true;
+                      },
+                    ),
             ),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -216,9 +230,10 @@ class ProfileView extends GetView<ProfileViewController> {
               child: CircleAvatar(
                 radius: 20,
                 child: IconButton(
-                  onPressed: () {
-                    // TODO update profile picture
-                    print("object");
+                  onPressed: () async {
+                    /// TODO sini gan
+
+                    await controller.onUpdateProfilePicturePressed();
                   },
                   icon: Icon(
                     Icons.photo_camera,

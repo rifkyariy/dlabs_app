@@ -367,37 +367,38 @@ class PersonalBooking extends GetView<PersonalBookingController> {
         ),
       ),
       bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(
-              top: 12, bottom: 24.0, left: 24.0, right: 24.0),
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(color: lightGreyColor, width: 1),
-            ),
+        padding: const EdgeInsets.only(
+            top: 12, bottom: 24.0, left: 24.0, right: 24.0),
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(color: lightGreyColor, width: 1),
           ),
-          // Submit Button
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Obx(() => Text(
-                      'Total Price : ${controller.servicePriceString.value}',
-                      style: regularTextStyle(blackColor),
-                    )),
+        ),
+        // Submit Button
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Obx(() => Text(
+                    'Total Price : ${controller.servicePriceString.value}',
+                    style: regularTextStyle(blackColor),
+                  )),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Obx(
+              () => AppButton(
+                text: 'Next',
+                textColor: whiteColor,
+                onClicked: () => controller.personalBookHandler(),
+                isLoading: controller.isLoading.value,
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              Obx(
-                () => AppButton(
-                  text: 'Next',
-                  textColor: whiteColor,
-                  onClicked: () => controller.personalBookHandler(),
-                  isLoading: controller.isLoading.value,
-                ),
-              ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
