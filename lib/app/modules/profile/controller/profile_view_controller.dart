@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/image_utils.dart';
 import 'package:kayabe_lims/app/data/models/user_model.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/repository/master_data_repository.dart';
+import 'package:kayabe_lims/app/data/repository/profile_repository.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 
@@ -83,11 +85,58 @@ class ProfileViewController extends GetxController {
 
   handleUpdateProfile() {}
 
+  onUpdateProfilePicturePressed() async {
+    // Step #1: Pick Image From Galler.
+    await ImageUtils.pickImageFromGallery().then(
+      (pickedFile) async {
+        // Step #2: Check if we actually picked an image. Otherwise -> stop;
+        if (pickedFile == null) return;
+
+        // Step #3: Crop earlier selected image
+        await ImageUtils.cropSelectedImage(pickedFile.path).then(
+          (croppedFile) async {
+            // Step #4: Check if we actually cropped an image. Otherwise -> stop;
+            if (croppedFile == null) return;
+
+            // Step #5: Display image on screen
+
+            isLoading.value = true;
+
+            await ProfileRepository.uploadProfilePicture(
+              path: croppedFile.path,
+              token: auth.apiToken.value,
+              userId: '${_userData.id}',
+              fullName: _userData.full_name ?? '',
+              identityNumber: _userData.identity_number ?? '',
+              phone: _userData.phone ?? '',
+              birthDate: _userData.birth_date ?? '',
+              gender: _userData.gender ?? '',
+              address: _userData.address ?? '',
+              nationality: _userData.nationality ?? '',
+            );
+
+            // Update photoUrl
+            _updatePhotoUrl();
+            isLoading.value = false;
+          },
+        );
+      },
+    );
+  }
+
+  _updatePhotoUrl() async {
+    UserModel _model = await _authRepo.getUserData(token: auth.apiToken.value);
+
+    auth.photoUrl.value = _model.image ?? '';
+  }
+
   handleChangePassword() async {
-    bool isPasswordValid = newPasswordController.text != '';
+    bool isPasswordValid =
+        newPasswordController.text != '' && oldPasswordController.text != '';
     bool isPasswordLengthValid = newPasswordController.text.length >= 8;
-    bool isConfirmPasswordValid = confirmPasswordController.text != '' &&
-        newPasswordController.text == confirmPasswordController.text;
+    bool isConfirmPasswordValid = (confirmPasswordController.text != '' &&
+            oldPasswordController.text != '') &&
+        (newPasswordController.text == confirmPasswordController.text);
 
     if (isPasswordValid) {
       newPasswordErrorMessage.value = '';
@@ -132,6 +181,9 @@ class ProfileViewController extends GetxController {
             'Your password must be at least 8 characters.';
       }
     } else {
+      if (oldPasswordController.text == '') {
+        oldPasswordErrorMessage.value = 'Old password can\'t be blank.';
+      }
       newPasswordErrorMessage.value = 'Your password can\'t be blank.';
     }
   }
