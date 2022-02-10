@@ -33,6 +33,7 @@ abstract class Routes {
   static const paymentCash = _Paths.paymentCash;
   static const aboutUs = _Paths.aboutUs;
   static const services = _Paths.services;
+  static const helpCenter = _Paths.helpCenter;
   static const changePassword = _Paths.changePassword;
   static const personalInformation = _Paths.personalInformation;
 }
@@ -71,6 +72,7 @@ abstract class _Paths {
 
   static const aboutUs = '/profile/about';
   static const services = '/profile/services';
+  static const helpCenter = '/profile/help-center';
 
   static const changePassword = '/profile/change-password';
   static const personalInformation = '/profile/personal-info';

@@ -24,6 +24,12 @@ class ProfileViewController extends GetxController {
   RxString newPasswordErrorMessage = ''.obs;
   RxString confirmPasswordErrorMessage = ''.obs;
 
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController subjectController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
+
   RxBool imageLoadError = false.obs;
   RxBool isLoading = false.obs;
   RxBool isLoaded = false.obs;
@@ -83,6 +89,16 @@ class ProfileViewController extends GetxController {
     Get.toNamed(AppPages.signin);
   }
 
+  @override
+  void onClose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    subjectController.dispose();
+    phoneController.dispose();
+    messageController.dispose();
+    super.onClose()
+  }
+  
   handleUpdateProfile() {}
 
   onUpdateProfilePicturePressed() async {
