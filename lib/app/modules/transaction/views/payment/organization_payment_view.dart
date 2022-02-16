@@ -72,8 +72,8 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               title: 'Invoice for',
               leading: [
                 _thinDetailInformationItem('Transaction Date'),
-                _thinDetailInformationItem('Identity Number'),
-                _thinDetailInformationItem('Fullname'),
+                _thinDetailInformationItem('gen_identity_number'.tr),
+                _thinDetailInformationItem('gen_fullname'.tr),
                 _thinDetailInformationItem('Email'),
                 _thinDetailInformationItem('Phone'),
               ],
@@ -97,7 +97,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
 
             AppDetailInformationBox(
               header: AppTitleWithButton(
-                title: 'Test Information',
+                title: 'gen_test_information'.tr,
                 buttonLabel: '',
                 onTap: () {},
               ),

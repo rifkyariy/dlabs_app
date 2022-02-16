@@ -198,7 +198,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               Obx(
                 () => TextInput(
                   controller: controller.addressController,
-                  label: 'Address',
+                  label: 'gen_address'.tr,
                   errorMsg: controller.addressErrorMessage.value,
                   type: 'textarea',
                   name: 'address',

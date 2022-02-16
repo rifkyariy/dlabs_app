@@ -69,7 +69,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             // Email Address
                             TextInput(
                               controller: controller.emailController,
-                              label: "Email Address",
+                              label: 'gen_email'.tr,
                               name: "email",
                               errorMsg: controller.emailErrorMessage.value,
                               isDisabled: true,
@@ -78,7 +78,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             // Phone Number
                             TextInput(
                               controller: controller.phoneNumberController,
-                              label: 'Phone Number',
+                              label: 'gen_phone'.tr,
                               type: 'phone',
                               errorMsg:
                                   controller.phoneNumberErrorMessage.value,
@@ -100,7 +100,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Gender',
+                                'gen_gender'.tr,
                                 style:
                                     mediumTextStyle(blackColor, fontSize: 14),
                               ),
@@ -144,7 +144,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             Obx(
                               () => TextInput(
                                 controller: controller.addressController,
-                                label: 'Address',
+                                label: 'gen_address'.tr,
                                 errorMsg: controller.addressErrorMessage.value,
                                 type: 'textarea',
                                 name: 'address',

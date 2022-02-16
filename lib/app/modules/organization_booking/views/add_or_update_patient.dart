@@ -88,8 +88,8 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               TextInput(
                                 controller:
                                     controller.patientIDNumberController,
-                                label: "Identity Number",
-                                name: "Identity Number",
+                                label: 'gen_identity_number'.tr,
+                                name: 'gen_identity_number'.tr,
                                 errorMsg:
                                     controller.identityNumberErrorMessage.value,
                                 type: "text",
@@ -99,8 +99,8 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               TextInput(
                                 controller:
                                     controller.patientFullNameController,
-                                label: "Fullname",
-                                name: "Fullname",
+                                label: 'gen_fullname'.tr,
+                                name: 'gen_fullname'.tr,
                                 errorMsg: controller.fullNameErrorMessage.value,
                                 type: "text",
                               ),
@@ -138,7 +138,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  'Gender',
+                                  'gen_gender'.tr,
                                   style:
                                       mediumTextStyle(blackColor, fontSize: 14),
                                 ),
@@ -179,7 +179,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               ),
                               TextInput(
                                 controller: controller.patientAddressController,
-                                label: 'Address',
+                                label: 'gen_address'.tr,
                                 errorMsg: controller.addressErrorMessage.value,
                                 type: 'textarea',
                                 name: 'address',

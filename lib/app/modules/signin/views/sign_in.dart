@@ -75,7 +75,7 @@ class SignInScreen extends GetView<SignInController> {
               // Email Input
               Obx(
                 () => TextInput(
-                  label: 'Email Address',
+                  label: 'gen_email'.tr,
                   name: 'email',
                   placeholder: 'e.g. mail@address.com',
                   errorMsg: controller.emailErrorMessage.value,

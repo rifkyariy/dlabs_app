@@ -62,7 +62,7 @@ class OrganizationTransactionDetailView
               leading: [
                 _thinDetailInformationItem('Transaction Date'),
                 _thinDetailInformationItem('gen_identity_number'.tr),
-                _thinDetailInformationItem('Fullname'),
+                _thinDetailInformationItem('gen_fullname'.tr),
                 _thinDetailInformationItem('Email'),
                 _thinDetailInformationItem('Phone'),
               ],
@@ -86,7 +86,7 @@ class OrganizationTransactionDetailView
 
             AppDetailInformationBox(
               header: AppTitleWithButton(
-                title: 'Test Information',
+                title: 'gen_test_information'.tr,
                 buttonLabel: '',
                 onTap: () {},
               ),

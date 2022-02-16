@@ -112,7 +112,7 @@ class InvoiceView extends GetView<TransactionViewController> {
             ),
             AppDetailInformationBox(
               header: AppTitleWithButton(
-                title: "Test Information",
+                title: 'gen_test_information'.tr,
                 buttonLabel: '',
                 titleColor: primaryColor,
               ),

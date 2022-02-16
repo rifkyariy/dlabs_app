@@ -134,7 +134,7 @@ class SignUpScreen extends GetView<SignUpController> {
               Obx(
                 () => TextInput(
                   controller: controller.emailController,
-                  label: "Email Address",
+                  label: 'gen_email'.tr,
                   name: "email",
                   placeholder: 'e.g. mail@address.com',
                   errorMsg: controller.emailErrorMessage.value,

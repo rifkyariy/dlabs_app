@@ -31,7 +31,8 @@ class Apps extends StatelessWidget {
         getPages: AppPages.routes,
         initialRoute: AppPages.splash,
         translations: AppInternationalization(),
-        locale: const Locale('en', 'US'),
+        locale: Get.deviceLocale,
+        fallbackLocale: const Locale('en', 'US'),
       ),
     );
   }

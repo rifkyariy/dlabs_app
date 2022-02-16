@@ -72,7 +72,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               leading: [
                 AppDetailInformationItem('Transaction Date'),
                 AppDetailInformationItem('gen_identity_number'.tr),
-                AppDetailInformationItem('Fullname'),
+                AppDetailInformationItem('gen_fullname'.tr),
                 AppDetailInformationItem('Email'),
                 AppDetailInformationItem('Phone'),
               ],
@@ -105,9 +105,9 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
             const SizedBox(height: 15),
 
             AppDetailInformationBox(
-              title: 'Test Information',
-              leading: const [
-                AppDetailInformationItem('Test Purpose'),
+              title: 'gen_test_information'.tr,
+              leading:  [
+                AppDetailInformationItem('gen_test_purpose'.tr),
                 AppDetailInformationItem('Test Type'),
                 AppDetailInformationItem('Test Date'),
                 AppDetailInformationItem('Service'),
