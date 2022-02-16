@@ -69,9 +69,9 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                     ? dangerColor
                     : blackColor,
               ),
-              leading: const [
+              leading: [
                 AppDetailInformationItem('Transaction Date'),
-                AppDetailInformationItem('Identity Number'),
+                AppDetailInformationItem('gen_identity_number'.tr),
                 AppDetailInformationItem('Fullname'),
                 AppDetailInformationItem('Email'),
                 AppDetailInformationItem('Phone'),

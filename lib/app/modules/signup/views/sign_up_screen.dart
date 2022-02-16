@@ -124,8 +124,8 @@ class SignUpScreen extends GetView<SignUpController> {
               Obx(
                 () => TextInput(
                   controller: controller.fullNameController,
-                  label: "Fullname",
-                  name: "fullname",
+                  label: 'gen_fullname'.tr,
+                  name: 'gen_fullname'.tr,
                   errorMsg: controller.fullNameErrorMessage.value,
                 ),
               ),

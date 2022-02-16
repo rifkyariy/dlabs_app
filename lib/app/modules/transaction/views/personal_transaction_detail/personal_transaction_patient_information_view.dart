@@ -50,7 +50,7 @@ class PersonalTransactionPatientInformationView
               flex: FlexGroup(3, 2),
               leading: controller.isHomeService()
                   ? [
-                      _boldDetailInformationItem('Nationality'),
+                      _boldDetailInformationItem('gen_nationality'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .nationality ??
@@ -76,12 +76,12 @@ class PersonalTransactionPatientInformationView
                       /// Left Part of the table
                       /// Consist of title and Information
                       ///
-                      _boldDetailInformationItem('Nationality'),
+                      _boldDetailInformationItem('gen_nationality'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .nationality ??
                               ''),
-                      _boldDetailInformationItem('Identity Number'),
+                      _boldDetailInformationItem('gen_identity_number'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .identityNumber ??
@@ -104,7 +104,7 @@ class PersonalTransactionPatientInformationView
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .birthDate ??
                               ''),
-                      _boldDetailInformationItem('Identity Number'),
+                      _boldDetailInformationItem('gen_identity_number'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .identityNumber ??

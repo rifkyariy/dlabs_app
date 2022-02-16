@@ -36,8 +36,6 @@ class ProfileViewController extends GetxController {
 
   // Personal Information
   TextEditingController idNumberController = TextEditingController();
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -96,9 +94,9 @@ class ProfileViewController extends GetxController {
     subjectController.dispose();
     phoneController.dispose();
     messageController.dispose();
-    super.onClose()
+    super.onClose();
   }
-  
+
   handleUpdateProfile() {}
 
   onUpdateProfilePicturePressed() async {

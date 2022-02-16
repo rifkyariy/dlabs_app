@@ -1,3 +1,4 @@
+import 'package:kayabe_lims/app/core/internationalization/app_internationalization.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -29,6 +30,8 @@ class Apps extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         getPages: AppPages.routes,
         initialRoute: AppPages.splash,
+        translations: AppInternationalization(),
+        locale: const Locale('en', 'US'),
       ),
     );
   }

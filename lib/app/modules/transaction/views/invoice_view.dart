@@ -87,7 +87,7 @@ class InvoiceView extends GetView<TransactionViewController> {
               ],
               trailing: [
                 AppDetailInformationItem(
-                  "Identity Number",
+                  'gen_identity_number'.tr,
                   bold: true,
                   color: whiteColor,
                 ),
@@ -138,7 +138,7 @@ class InvoiceView extends GetView<TransactionViewController> {
               ],
               trailing: [
                 AppDetailInformationItem(
-                  "Identity Number",
+                  'gen_identity_number'.tr,
                   bold: true,
                   color: whiteColor,
                 ),

@@ -109,7 +109,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Test Information',
+                    'gen_test_information'.tr,
                     style: regularTextStyle(primaryColor),
                   ),
                 ],
@@ -122,7 +122,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                 () => SelectInput(
                   items: controller.testPurposeList!.value,
                   selectedItem: controller.selectedTestPurpose,
-                  label: 'Test Purpose',
+                  label: 'gen_test_purpose'.tr,
                   errorMsg: "",
                   name: '',
                 ),

@@ -78,7 +78,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                                 selectedItem:
                                     controller.patientSelectedNationality,
                                 items: controller.nationalityList!.value,
-                                label: 'Nationality',
+                                label: 'gen_nationality'.tr,
                                 errorMsg: "",
                                 name: '',
                                 isDisabled: false,

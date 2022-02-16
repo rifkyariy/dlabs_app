@@ -61,7 +61,7 @@ class OrganizationTransactionDetailView
               title: 'Invoice for',
               leading: [
                 _thinDetailInformationItem('Transaction Date'),
-                _thinDetailInformationItem('Identity Number'),
+                _thinDetailInformationItem('gen_identity_number'.tr),
                 _thinDetailInformationItem('Fullname'),
                 _thinDetailInformationItem('Email'),
                 _thinDetailInformationItem('Phone'),

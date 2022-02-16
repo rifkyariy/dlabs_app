@@ -51,18 +51,18 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             // Identity Number
                             TextInput(
                               controller: controller.idNumberController,
-                              label: 'Identity Number',
+                              label: 'gen_identity_number'.tr,
                               type: 'text',
                               errorMsg:
                                   controller.identityNumberErrorMessage.value,
-                              name: 'identity number',
+                              name: 'gen_identity_number'.tr,
                             ),
 
                             // Full Name
                             TextInput(
                               controller: controller.fullNameController,
-                              label: "Fullname",
-                              name: "fullname",
+                              label: 'gen_fullname'.tr,
+                              name: 'gen_fullname'.tr,
                               errorMsg: controller.fullNameErrorMessage.value,
                             ),
 
