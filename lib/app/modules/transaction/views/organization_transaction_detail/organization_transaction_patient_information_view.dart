@@ -11,8 +11,11 @@ import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_
 
 class OrganizationTransactionPatientInformationView
     extends GetView<TransactionViewController> {
-  const OrganizationTransactionPatientInformationView({Key? key})
+  const OrganizationTransactionPatientInformationView(
+      {Key? key, required this.index})
       : super(key: key);
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -161,22 +164,26 @@ class OrganizationTransactionPatientInformationView
                   ? [
                       _boldDetailInformationItem('Nationality'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .nationality ??
                               ''),
                       _boldDetailInformationItem('Fullname'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .fullName ??
                               ''),
                       _boldDetailInformationItem('Email'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .email ??
                               ''),
                       _boldDetailInformationItem('Location'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .address ??
                               ''),
                     ]
@@ -187,22 +194,26 @@ class OrganizationTransactionPatientInformationView
                       ///
                       _boldDetailInformationItem('Nationality'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .nationality ??
                               ''),
                       _boldDetailInformationItem('Identity Number'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .identityNumber ??
                               ''),
                       _boldDetailInformationItem('Fullname'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .fullName ??
                               ''),
                       _boldDetailInformationItem('Email'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .email ??
                               ''),
                     ],
@@ -210,17 +221,19 @@ class OrganizationTransactionPatientInformationView
                   ? [
                       _boldDetailInformationItem('Date of birth'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .birthDate ??
                               ''),
                       _boldDetailInformationItem('Identity Number'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .identityNumber ??
                               ''),
                       _boldDetailInformationItem('Gender'),
                       _mediumDetailInformationItem(
-                        ((controller.transactionDetail.patientList ?? [])[0]
+                        ((controller.transactionDetail.patientList ?? [])[index]
                                         .gender ??
                                     '') ==
                                 '1'
@@ -229,7 +242,8 @@ class OrganizationTransactionPatientInformationView
                       ),
                       _boldDetailInformationItem('Phone'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .phone ??
                               ''),
                     ]
@@ -240,12 +254,13 @@ class OrganizationTransactionPatientInformationView
                       ///
                       _boldDetailInformationItem('Date of birth'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .birthDate ??
                               ''),
                       _boldDetailInformationItem('Gender'),
                       _mediumDetailInformationItem(
-                        ((controller.transactionDetail.patientList ?? [])[0]
+                        ((controller.transactionDetail.patientList ?? [])[index]
                                         .gender ??
                                     '') ==
                                 '1'
@@ -254,7 +269,8 @@ class OrganizationTransactionPatientInformationView
                       ),
                       _boldDetailInformationItem('Phone'),
                       _mediumDetailInformationItem(
-                          (controller.transactionDetail.patientList ?? [])[0]
+                          (controller.transactionDetail.patientList ??
+                                      [])[index]
                                   .phone ??
                               ''),
                       _boldDetailInformationItem('Location'),
@@ -319,7 +335,7 @@ class OrganizationTransactionPatientInformationView
                 trailing: [
                   _boldDetailInformationItem('Test Type'),
                   _mediumDetailInformationItem(
-                      (controller.transactionDetail.patientList ?? [])[0]
+                      (controller.transactionDetail.patientList ?? [])[index]
                               .testTypeText ??
                           ''),
                   _boldDetailInformationItem('Service'),

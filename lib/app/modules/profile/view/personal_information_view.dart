@@ -180,12 +180,16 @@ class PersonalInformation extends GetView<ProfileViewController> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            AppButton(
-              text: 'Submit',
-              textColor: whiteColor,
-              onClicked: () {},
-              isLoading: controller.isLoading.value,
-            ),
+            Obx(
+              () => AppButton(
+                text: 'Submit',
+                textColor: whiteColor,
+                onClicked: () {
+                  controller.handleUpdateProfile();
+                },
+                isLoading: controller.isLoading.value,
+              ),
+            )
           ],
         ),
       ),

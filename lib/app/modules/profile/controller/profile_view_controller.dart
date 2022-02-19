@@ -36,8 +36,6 @@ class ProfileViewController extends GetxController {
 
   // Personal Information
   TextEditingController idNumberController = TextEditingController();
-  TextEditingController fullNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController dateOfBirthController = TextEditingController();
   TextEditingController addressController = TextEditingController();
@@ -96,10 +94,44 @@ class ProfileViewController extends GetxController {
     subjectController.dispose();
     phoneController.dispose();
     messageController.dispose();
-    super.onClose()
+    super.onClose();
   }
-  
-  handleUpdateProfile() {}
+
+  handleUpdateProfile() async {
+    try {
+      isLoading.value = true;
+
+      await ProfileRepository.updateProfileData(
+        token: auth.apiToken.value,
+        userId: '${_userData.id}',
+        fullName: fullNameController.text,
+        identityNumber: idNumberController.text,
+        phone: phoneNumberController.text,
+        birthDate: dateOfBirthController.text,
+        gender: genderValue.value,
+        address: addressController.text,
+        nationality: selectedNationality.text,
+      );
+
+      isLoading.value = false;
+
+      Get.snackbar(
+        'Success',
+        'Your profile is updated!',
+        backgroundColor: Colors.lightGreen,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Oops',
+        'Something went wrong !',
+        backgroundColor: warningColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
 
   onUpdateProfilePicturePressed() async {
     // Step #1: Pick Image From Galler.
@@ -118,7 +150,7 @@ class ProfileViewController extends GetxController {
 
             isLoading.value = true;
 
-            await ProfileRepository.uploadProfilePicture(
+            await ProfileRepository.updateProfileData(
               path: croppedFile.path,
               token: auth.apiToken.value,
               userId: '${_userData.id}',
