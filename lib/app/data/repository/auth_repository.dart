@@ -253,6 +253,7 @@ class AuthRepository {
     final response = await http.patch(url, headers: headers, body: body);
 
     if (response.statusCode == 200) {
+      print('success change password');
       return true;
     } else {
       print(response.body);

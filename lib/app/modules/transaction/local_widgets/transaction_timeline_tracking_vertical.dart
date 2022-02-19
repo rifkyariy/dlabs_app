@@ -67,7 +67,7 @@ class TransactionTimelineTrackingVertical
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    _processList[index].message ?? '',
+                    '${_processList[index].message} by ${_processList[index].picName}',
                     style: regularTextStyle(
                       index == 0 ? blackColor : todoColor,
                       fontSize: 13,

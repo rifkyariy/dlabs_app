@@ -294,7 +294,7 @@ class OrganizationTransactionPatientInformationView
                         style: BoldTextStyle(blackColor, fontSize: 13),
                       ),
                       AppDetailInformationItem(
-                        (controller.transactionDetail.patientList ?? [])[0]
+                        (controller.transactionDetail.patientList ?? [])[index]
                                 .address ??
                             '',
                         padding: const EdgeInsets.only(top: 5),
@@ -325,12 +325,14 @@ class OrganizationTransactionPatientInformationView
                   _mediumDetailInformationItem(
                       controller.transactionDetail.testDate ?? ''),
                   _boldDetailInformationItem('Arrived Date'),
-                  _mediumDetailInformationItem((controller
-                              .transactionDetail.patientList![0].arrivedDate !=
-                          '')
-                      ? controller
-                          .transactionDetail.patientList![0].arrivedDate!
-                      : '-'),
+                  _mediumDetailInformationItem(
+                      (controller.transactionDetail.patientList ?? [])[index]
+                                  .arrivedDate! !=
+                              ''
+                          ? (controller.transactionDetail.patientList ??
+                                  [])[index]
+                              .arrivedDate!
+                          : '-'),
                 ],
                 trailing: [
                   _boldDetailInformationItem('Test Type'),

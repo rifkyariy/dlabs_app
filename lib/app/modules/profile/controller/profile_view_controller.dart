@@ -84,7 +84,7 @@ class ProfileViewController extends GetxController {
   }
 
   onSignInButtonPressed() {
-    Get.toNamed(AppPages.signin);
+    Get.offNamed(AppPages.signin);
   }
 
   @override
@@ -166,6 +166,13 @@ class ProfileViewController extends GetxController {
             // Update photoUrl
             _updatePhotoUrl();
             isLoading.value = false;
+            Get.snackbar(
+              'Success',
+              'Your profile picture successfully changed.',
+              backgroundColor: Colors.lightGreen,
+              colorText: whiteColor,
+              snackPosition: SnackPosition.TOP,
+            );
           },
         );
       },
@@ -199,6 +206,7 @@ class ProfileViewController extends GetxController {
               oldPassword: oldPasswordController.text,
               newPassword: newPasswordController.text)) {
             isLoading.value = false;
+            oldPasswordErrorMessage.value = '';
 
             Get.snackbar(
               'Success',
@@ -208,7 +216,10 @@ class ProfileViewController extends GetxController {
               snackPosition: SnackPosition.TOP,
             );
 
-            Get.back();
+            // remove password value
+            oldPasswordController.text = '';
+            newPasswordController.text = '';
+            confirmPasswordController.text = '';
           } else {
             isLoading.value = false;
 
@@ -219,6 +230,8 @@ class ProfileViewController extends GetxController {
               colorText: whiteColor,
               snackPosition: SnackPosition.TOP,
             );
+
+            oldPasswordErrorMessage.value = 'Old password is incorrect.';
           }
         } else {
           confirmPasswordErrorMessage.value =
