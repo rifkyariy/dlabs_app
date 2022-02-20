@@ -207,6 +207,8 @@ class ProfileViewController extends GetxController {
               newPassword: newPasswordController.text)) {
             isLoading.value = false;
             oldPasswordErrorMessage.value = '';
+            newPasswordErrorMessage.value = '';
+            confirmPasswordErrorMessage.value = '';
 
             Get.snackbar(
               'Success',
