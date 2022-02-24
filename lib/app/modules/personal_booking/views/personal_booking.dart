@@ -112,7 +112,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             SearchableSelectInput(
                               selectedItem: controller.selectedNationality,
                               items: controller.nationalityList!.value,
-                              label: 'Nationality',
+                              label: 'gen_nationality'.tr,
                               errorMsg: "",
                               name: '',
                               isDisabled:
@@ -122,11 +122,11 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             // Identity Number
                             TextInput(
                               controller: controller.idNumberController,
-                              label: 'Identity Number',
+                              label: 'gen_identity_number'.tr,
                               type: 'text',
                               errorMsg:
                                   controller.identityNumberErrorMessage.value,
-                              name: 'identity number',
+                              name: 'gen_identity_number'.tr,
                               isDisabled:
                                   controller.patientSubject.value == 'myself',
                             ),
@@ -134,8 +134,8 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             // Full Name
                             TextInput(
                               controller: controller.fullNameController,
-                              label: "Fullname",
-                              name: "fullname",
+                              label: 'gen_fullname'.tr,
+                              name: 'gen_fullname'.tr,
                               errorMsg: controller.fullNameErrorMessage.value,
                               isDisabled:
                                   controller.patientSubject.value == 'myself',
@@ -144,7 +144,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             // Email Address
                             TextInput(
                               controller: controller.emailController,
-                              label: "Email Address",
+                              label: 'gen_email'.tr,
                               name: "email",
                               errorMsg: controller.emailErrorMessage.value,
                             ),
@@ -152,7 +152,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             // Phone Number
                             TextInput(
                               controller: controller.phoneNumberController,
-                              label: 'Phone Number',
+                              label: 'gen_phone'.tr,
                               type: 'phone',
                               errorMsg:
                                   controller.phoneNumberErrorMessage.value,
@@ -178,7 +178,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Gender',
+                                'gen_gender'.tr,
                                 style:
                                     mediumTextStyle(blackColor, fontSize: 14),
                               ),
@@ -230,7 +230,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             Obx(
                               () => TextInput(
                                 controller: controller.addressController,
-                                label: 'Address',
+                                label: 'gen_address'.tr,
                                 errorMsg: controller.addressErrorMessage.value,
                                 type: 'textarea',
                                 name: 'address',
@@ -259,7 +259,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Test Information',
+                    'gen_test_information'.tr,
                     style: regularTextStyle(primaryColor),
                   ),
                 ],
@@ -272,7 +272,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 () => SelectInput(
                   items: controller.testPurposeList!.value,
                   selectedItem: controller.selectedTestPurpose,
-                  label: 'Test Purpose',
+                  label: 'gen_test_purpose'.tr,
                   errorMsg: "",
                   name: '',
                 ),

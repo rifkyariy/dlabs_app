@@ -124,8 +124,8 @@ class SignUpScreen extends GetView<SignUpController> {
               Obx(
                 () => TextInput(
                   controller: controller.fullNameController,
-                  label: "Fullname",
-                  name: "fullname",
+                  label: 'gen_fullname'.tr,
+                  name: 'gen_fullname'.tr,
                   errorMsg: controller.fullNameErrorMessage.value,
                 ),
               ),
@@ -134,7 +134,7 @@ class SignUpScreen extends GetView<SignUpController> {
               Obx(
                 () => TextInput(
                   controller: controller.emailController,
-                  label: "Email Address",
+                  label: 'gen_email'.tr,
                   name: "email",
                   placeholder: 'e.g. mail@address.com',
                   errorMsg: controller.emailErrorMessage.value,

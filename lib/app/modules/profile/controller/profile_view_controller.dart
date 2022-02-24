@@ -130,7 +130,7 @@ class ProfileViewController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
     }
-  }
+  }=
 
   onUpdateProfilePicturePressed() async {
     // Step #1: Pick Image From Galler.

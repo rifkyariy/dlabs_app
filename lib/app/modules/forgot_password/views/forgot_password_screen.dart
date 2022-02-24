@@ -50,7 +50,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                   // Email Input
                   Obx(
                     () => TextInput(
-                      label: 'Email Address',
+                      label: 'gen_email'.tr,
                       name: 'email',
                       placeholder: 'e.g. mail@address.com',
                       errorMsg: controller.emailErrorMessages.value,

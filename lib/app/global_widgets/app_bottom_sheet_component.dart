@@ -1,3 +1,4 @@
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
@@ -26,22 +27,20 @@ class AppBottomSheetComponent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text("Book Now", style: titleTextStyle(primaryColor)),
+          Text('bottomsheet_book_now'.tr, style: titleTextStyle(primaryColor)),
           Text(
-            "Please, choose who this medical test is needed for",
+            'bottomsheet_subtitle'.tr,
             style: appServiceSubtitleTextStyle,
           ),
-          const AppBookingCartComponent(
-            title: 'Personal',
-            desc:
-                'This option is provided for personal needs. For private and seamless service ',
+          AppBookingCartComponent(
+            title: 'bottomsheet_personal'.tr,
+            desc: 'bottomsheet_personal_subtitle'.tr,
             icon: AppIcons.profile,
             url: AppPages.personalBooking,
           ),
-          const AppBookingCartComponent(
-            title: 'Organization',
-            desc:
-                'This option is provided for organization needs. For security and safety at work',
+          AppBookingCartComponent(
+            title: 'bottomsheet_organization'.tr,
+            desc: 'bottomsheet_organization_subtitle'.tr,
             icon: AppIcons.group,
             url: AppPages.organizationBooking,
           ),

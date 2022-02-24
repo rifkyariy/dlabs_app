@@ -51,25 +51,25 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             // Identity Number
                             TextInput(
                               controller: controller.idNumberController,
-                              label: 'Identity Number',
+                              label: 'gen_identity_number'.tr,
                               type: 'text',
                               errorMsg:
                                   controller.identityNumberErrorMessage.value,
-                              name: 'identity number',
+                              name: 'gen_identity_number'.tr,
                             ),
 
                             // Full Name
                             TextInput(
                               controller: controller.fullNameController,
-                              label: "Fullname",
-                              name: "fullname",
+                              label: 'gen_fullname'.tr,
+                              name: 'gen_fullname'.tr,
                               errorMsg: controller.fullNameErrorMessage.value,
                             ),
 
                             // Email Address
                             TextInput(
                               controller: controller.emailController,
-                              label: "Email Address",
+                              label: 'gen_email'.tr,
                               name: "email",
                               errorMsg: controller.emailErrorMessage.value,
                               isDisabled: true,
@@ -78,7 +78,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             // Phone Number
                             TextInput(
                               controller: controller.phoneNumberController,
-                              label: 'Phone Number',
+                              label: 'gen_phone'.tr,
                               type: 'phone',
                               errorMsg:
                                   controller.phoneNumberErrorMessage.value,
@@ -100,7 +100,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Gender',
+                                'gen_gender'.tr,
                                 style:
                                     mediumTextStyle(blackColor, fontSize: 14),
                               ),
@@ -144,7 +144,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             Obx(
                               () => TextInput(
                                 controller: controller.addressController,
-                                label: 'Address',
+                                label: 'gen_address'.tr,
                                 errorMsg: controller.addressErrorMessage.value,
                                 type: 'textarea',
                                 name: 'address',

@@ -162,13 +162,13 @@ class OrganizationTransactionPatientInformationView
               flex: FlexGroup(3, 2),
               leading: controller.isHomeService()
                   ? [
-                      _boldDetailInformationItem('Nationality'),
+                      _boldDetailInformationItem('gen_nationality'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
                                   .nationality ??
                               ''),
-                      _boldDetailInformationItem('Fullname'),
+                      _boldDetailInformationItem('gen_fullname'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -192,19 +192,19 @@ class OrganizationTransactionPatientInformationView
                       /// Left Part of the table
                       /// Consist of title and Information
                       ///
-                      _boldDetailInformationItem('Nationality'),
+                      _boldDetailInformationItem('gen_nationality'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
                                   .nationality ??
                               ''),
-                      _boldDetailInformationItem('Identity Number'),
+                      _boldDetailInformationItem('gen_identity_number'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
                                   .identityNumber ??
                               ''),
-                      _boldDetailInformationItem('Fullname'),
+                      _boldDetailInformationItem('gen_fullname'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -225,13 +225,13 @@ class OrganizationTransactionPatientInformationView
                                       [])[index]
                                   .birthDate ??
                               ''),
-                      _boldDetailInformationItem('Identity Number'),
+                      _boldDetailInformationItem('gen_identity_number'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
                                   .identityNumber ??
                               ''),
-                      _boldDetailInformationItem('Gender'),
+                      _boldDetailInformationItem('gen_gender'.tr),
                       _mediumDetailInformationItem(
                         ((controller.transactionDetail.patientList ?? [])[index]
                                         .gender ??
@@ -258,7 +258,7 @@ class OrganizationTransactionPatientInformationView
                                       [])[index]
                                   .birthDate ??
                               ''),
-                      _boldDetailInformationItem('Gender'),
+                      _boldDetailInformationItem('gen_gender'.tr),
                       _mediumDetailInformationItem(
                         ((controller.transactionDetail.patientList ?? [])[index]
                                         .gender ??
@@ -290,7 +290,7 @@ class OrganizationTransactionPatientInformationView
                     contentPadding: const EdgeInsets.fromLTRB(25, 0, 25, 10),
                     leading: [
                       AppDetailInformationItem(
-                        'Address',
+                        'gen_address'.tr,
                         style: BoldTextStyle(blackColor, fontSize: 13),
                       ),
                       AppDetailInformationItem(
@@ -311,14 +311,14 @@ class OrganizationTransactionPatientInformationView
                 shadowColor: Colors.transparent,
                 divider: const SizedBox(),
                 header: AppTitleWithButton(
-                  title: 'Test Information',
+                  title: 'gen_test_information'.tr,
                   buttonLabel: '',
                   titleColor: primaryColor,
                   onTap: controller.toMedicalHistoryListView,
                 ),
                 flex: FlexGroup(3, 2),
                 leading: [
-                  _boldDetailInformationItem('Test Purpose'),
+                  _boldDetailInformationItem('gen_test_purpose'.tr),
                   _mediumDetailInformationItem(
                       controller.transactionDetail.testPurpose ?? ''),
                   _boldDetailInformationItem('Test Date'),

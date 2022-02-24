@@ -123,7 +123,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                 () => SearchableSelectInput(
                   selectedItem: controller.selectedNationality,
                   items: controller.nationalityList!.value,
-                  label: 'Nationality',
+                  label: 'gen_nationality'.tr,
                   errorMsg: "",
                   name: '',
                   isDisabled: false,
@@ -134,10 +134,10 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               Obx(
                 () => TextInput(
                   controller: controller.idNumberController,
-                  label: 'Identity Number',
+                  label: 'gen_identity_number'.tr,
                   type: 'text',
                   errorMsg: controller.identityNumberErrorMessage.value,
-                  name: 'identity number',
+                  name: 'gen_identity_number'.tr,
                   isDisabled: false,
                 ),
               ),
@@ -145,12 +145,13 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               // Phone Number
               Obx(
                 () => TextInput(
-                    controller: controller.phoneNumberController,
-                    label: 'Phone Number',
-                    type: 'phone',
-                    errorMsg: controller.phoneNumberErrorMessage.value,
-                    name: 'phone number',
-                    isDisabled: false),
+                  controller: controller.phoneNumberController,
+                  label: 'gen_phone'.tr,
+                  type: 'phone',
+                  errorMsg: controller.phoneNumberErrorMessage.value,
+                  name: 'phone number',
+                  isDisabled: false,
+                ),
               ),
 
               // Date of Birth
@@ -164,9 +165,9 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               ),
 
               // Gender
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Gender'),
+                child: Text('gen_gender'.tr),
               ),
               Row(
                 children: [
@@ -197,7 +198,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               Obx(
                 () => TextInput(
                   controller: controller.addressController,
-                  label: 'Address',
+                  label: 'gen_address'.tr,
                   errorMsg: controller.addressErrorMessage.value,
                   type: 'textarea',
                   name: 'address',
