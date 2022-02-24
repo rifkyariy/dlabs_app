@@ -7,13 +7,13 @@ const Map<String, String> id_ID = {
   ///
   'bottomsheet_book_now': 'Pesan Sekarang',
   'bottomsheet_personal': 'Pribadi',
-  'bottomsheet_organization': 'Kelompok',
+  'bottomsheet_organization': 'Organisasi',
   'bottomsheet_subtitle':
       'Silahkan, pilih untuk siapa tes medis ini diperlukan',
   'bottomsheet_personal_subtitle':
       'Pilihan ini disediakan untuk layanan pribadi/perorangan',
   'bottomsheet_organization_subtitle':
-      'Pilihan ini disediakan untuk layanan kelompok',
+      'Pilihan ini disediakan untuk layanan organisasi',
 
   ///
   /// Personal Book Test

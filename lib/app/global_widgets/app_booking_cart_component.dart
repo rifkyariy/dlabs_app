@@ -57,9 +57,12 @@ class AppBookingCartComponent extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text(
-                  desc ?? "",
-                  style: smallTextStyle(Colors.white),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    desc ?? "",
+                    style: smallTextStyle(Colors.white),
+                  ),
                 )
               ],
             ),
