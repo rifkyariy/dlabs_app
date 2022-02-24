@@ -437,8 +437,8 @@ class TransactionViewController extends GetxController {
     Get.to(() => const PersonalTransactionPatientInformationView());
   }
 
-  toOrgPatientDetailScrenn() {
-    Get.to(() => const OrganizationTransactionPatientInformationView());
+  toOrgPatientDetailScrenn(int index) {
+    Get.to(() => OrganizationTransactionPatientInformationView(index: index));
   }
 
   toMedicalQuestionnaireListView() {
@@ -476,7 +476,7 @@ class TransactionViewController extends GetxController {
         ),
       );
       // toMedicalHistoryListView();
-      toOrgPatientDetailScrenn();
+      toOrgPatientDetailScrenn(index);
     } catch (e) {
       Get.snackbar(
         'Error!',
@@ -802,6 +802,9 @@ class TransactionViewController extends GetxController {
 
       case TRANSACTIONSTATUS.readyToSample:
         return 0;
+
+      case TRANSACTIONSTATUS.readyToRelease:
+        return 2;
 
       case TRANSACTIONSTATUS.readyToLab:
         return 1;

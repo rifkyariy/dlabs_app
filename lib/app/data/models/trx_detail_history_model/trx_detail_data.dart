@@ -18,6 +18,7 @@ class TrxDetailData extends Equatable {
   final String? email;
   final String? phone;
   final String? testDate;
+  final String? arrivedDate;
   final String? locationName;
   final String? locationAddress;
   final int? price;
@@ -43,6 +44,7 @@ class TrxDetailData extends Equatable {
     this.email,
     this.phone,
     this.testDate,
+    this.arrivedDate,
     this.locationName,
     this.locationAddress,
     this.price,
@@ -69,6 +71,7 @@ class TrxDetailData extends Equatable {
         email: data['email'] as String?,
         phone: data['phone'] as String?,
         testDate: data['test_date'] as String?,
+        arrivedDate: data['arrived_date'] as String?,
         locationName: data['location_name'] as String?,
         locationAddress: data['location_address'] as String?,
         price: data['price'] as int?,
@@ -101,6 +104,7 @@ class TrxDetailData extends Equatable {
         'email': email,
         'phone': phone,
         'test_date': testDate,
+        'arrived_date': arrivedDate,
         'location_name': locationName,
         'location_address': locationAddress,
         'price': price,
@@ -139,6 +143,7 @@ class TrxDetailData extends Equatable {
     String? email,
     String? phone,
     String? testDate,
+    String? arrivedDate,
     String? locationName,
     String? locationAddress,
     int? price,
@@ -164,6 +169,7 @@ class TrxDetailData extends Equatable {
       email: email ?? this.email,
       phone: phone ?? this.phone,
       testDate: testDate ?? this.testDate,
+      arrivedDate: arrivedDate ?? this.arrivedDate,
       locationName: locationName ?? this.locationName,
       locationAddress: locationAddress ?? this.locationAddress,
       price: price ?? this.price,
@@ -196,6 +202,7 @@ class TrxDetailData extends Equatable {
       email,
       phone,
       testDate,
+      arrivedDate,
       locationName,
       locationAddress,
       price,

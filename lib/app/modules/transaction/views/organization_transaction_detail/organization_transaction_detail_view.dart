@@ -96,6 +96,7 @@ class OrganizationTransactionDetailView
                 _thinDetailInformationItem('Test Purposes'),
                 _thinDetailInformationItem('Test Date'),
                 _thinDetailInformationItem('Service'),
+                _thinDetailInformationItem('Arrived Date'),
                 _thinDetailInformationItem('Location'),
               ],
 
@@ -106,6 +107,11 @@ class OrganizationTransactionDetailView
                     controller.transactionDetail.testDate ?? ''),
                 _blackDetailInformationItem(
                     controller.transactionDetail.services ?? ''),
+                _blackDetailInformationItem((controller
+                            .transactionDetail.patientList![0].arrivedDate !=
+                        '')
+                    ? controller.transactionDetail.patientList![0].arrivedDate!
+                    : '-'),
                 _blackDetailInformationItem(
                     controller.transactionDetail.locationName ?? ''),
                 _blackDetailInformationItem(
@@ -124,9 +130,8 @@ class OrganizationTransactionDetailView
               ),
               bottom: [
                 ListView.builder(
-                  // physics: const NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.only(left: 10, right: 10),
-
                   shrinkWrap: true,
                   semanticChildCount:
                       (controller.transactionDetail.patientList ?? []).length <
@@ -146,7 +151,7 @@ class OrganizationTransactionDetailView
                               .fullName ??
                           '',
                       subtitle:
-                          'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \nTest Type : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''} ',
+                          'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \nTest Type : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''}  \nPhone : ${(controller.transactionDetail.patientList ?? [])[index].phone ?? ''}',
                       onPressed: (context) async {
                         await controller.onViewDetailButtonPressed(index);
                       },

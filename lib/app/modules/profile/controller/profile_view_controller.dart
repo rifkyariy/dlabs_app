@@ -27,7 +27,6 @@ class ProfileViewController extends GetxController {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
   TextEditingController messageController = TextEditingController();
 
   RxBool imageLoadError = false.obs;
@@ -84,7 +83,7 @@ class ProfileViewController extends GetxController {
   }
 
   onSignInButtonPressed() {
-    Get.toNamed(AppPages.signin);
+    Get.offNamed(AppPages.signin);
   }
 
   @override
@@ -92,12 +91,46 @@ class ProfileViewController extends GetxController {
     fullNameController.dispose();
     emailController.dispose();
     subjectController.dispose();
-    phoneController.dispose();
+    phoneNumberController.dispose();
     messageController.dispose();
     super.onClose();
   }
 
-  handleUpdateProfile() {}
+  handleUpdateProfile() async {
+    try {
+      isLoading.value = true;
+
+      await ProfileRepository.updateProfileData(
+        token: auth.apiToken.value,
+        userId: '${_userData.id}',
+        fullName: fullNameController.text,
+        identityNumber: idNumberController.text,
+        phone: phoneNumberController.text,
+        birthDate: dateOfBirthController.text,
+        gender: genderValue.value,
+        address: addressController.text,
+        nationality: selectedNationality.text,
+      );
+
+      isLoading.value = false;
+
+      Get.snackbar(
+        'Success',
+        'Your profile is updated!',
+        backgroundColor: Colors.lightGreen,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Oops',
+        'Something went wrong !',
+        backgroundColor: warningColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }=
 
   onUpdateProfilePicturePressed() async {
     // Step #1: Pick Image From Galler.
@@ -116,7 +149,7 @@ class ProfileViewController extends GetxController {
 
             isLoading.value = true;
 
-            await ProfileRepository.uploadProfilePicture(
+            await ProfileRepository.updateProfileData(
               path: croppedFile.path,
               token: auth.apiToken.value,
               userId: '${_userData.id}',
@@ -132,6 +165,13 @@ class ProfileViewController extends GetxController {
             // Update photoUrl
             _updatePhotoUrl();
             isLoading.value = false;
+            Get.snackbar(
+              'Success',
+              'Your profile picture successfully changed.',
+              backgroundColor: Colors.lightGreen,
+              colorText: whiteColor,
+              snackPosition: SnackPosition.TOP,
+            );
           },
         );
       },
@@ -165,6 +205,9 @@ class ProfileViewController extends GetxController {
               oldPassword: oldPasswordController.text,
               newPassword: newPasswordController.text)) {
             isLoading.value = false;
+            oldPasswordErrorMessage.value = '';
+            newPasswordErrorMessage.value = '';
+            confirmPasswordErrorMessage.value = '';
 
             Get.snackbar(
               'Success',
@@ -174,8 +217,14 @@ class ProfileViewController extends GetxController {
               snackPosition: SnackPosition.TOP,
             );
 
-            Get.back();
+            // remove password value
+            oldPasswordController.text = '';
+            newPasswordController.text = '';
+            confirmPasswordController.text = '';
           } else {
+            newPasswordErrorMessage.value = '';
+            confirmPasswordErrorMessage.value = '';
+
             isLoading.value = false;
 
             Get.snackbar(
@@ -185,6 +234,8 @@ class ProfileViewController extends GetxController {
               colorText: whiteColor,
               snackPosition: SnackPosition.TOP,
             );
+
+            oldPasswordErrorMessage.value = 'Old password is incorrect.';
           }
         } else {
           confirmPasswordErrorMessage.value =

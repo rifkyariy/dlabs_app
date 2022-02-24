@@ -107,6 +107,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                 AppDetailInformationItem('Test Type'),
                 AppDetailInformationItem('Test Date'),
                 AppDetailInformationItem('Service'),
+                AppDetailInformationItem('Arrived Date'),
                 AppDetailInformationItem('Location'),
               ],
               trailing: [
@@ -124,6 +125,14 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                 ),
                 AppDetailInformationItem(
                   controller.transactionDetail.services ?? '',
+                  color: blackColor,
+                ),
+                AppDetailInformationItem(
+                  (controller.transactionDetail.patientList![0].arrivedDate !=
+                          '')
+                      ? controller
+                          .transactionDetail.patientList![0].arrivedDate!
+                      : '-',
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
