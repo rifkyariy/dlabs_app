@@ -27,7 +27,6 @@ class ProfileViewController extends GetxController {
   TextEditingController fullNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
   TextEditingController messageController = TextEditingController();
 
   RxBool imageLoadError = false.obs;
@@ -92,7 +91,7 @@ class ProfileViewController extends GetxController {
     fullNameController.dispose();
     emailController.dispose();
     subjectController.dispose();
-    phoneController.dispose();
+    phoneNumberController.dispose();
     messageController.dispose();
     super.onClose();
   }
@@ -223,6 +222,9 @@ class ProfileViewController extends GetxController {
             newPasswordController.text = '';
             confirmPasswordController.text = '';
           } else {
+            newPasswordErrorMessage.value = '';
+            confirmPasswordErrorMessage.value = '';
+
             isLoading.value = false;
 
             Get.snackbar(

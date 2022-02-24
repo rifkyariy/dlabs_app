@@ -13,7 +13,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       backgroundColor: whiteColor,
       appBar: AppBar(
         centerTitle: true,
