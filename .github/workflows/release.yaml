@@ -2,7 +2,7 @@ name: Flutter internal release
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   release_firebase_app_dist:
