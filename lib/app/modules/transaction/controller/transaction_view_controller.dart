@@ -34,7 +34,6 @@ import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_d
 import 'package:kayabe_lims/app/modules/transaction/views/tracking/tracking_process_view.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:get/get.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
@@ -493,7 +492,7 @@ class TransactionViewController extends GetxController {
     Get.showOverlay(
       asyncFunction: () async {
         await _downloadFile(
-          '${dotenv.env['BASE_URL']}$_url',
+          'https://api-lims.kayabe.id/_url',
           _url.split('/').last,
         );
       },
