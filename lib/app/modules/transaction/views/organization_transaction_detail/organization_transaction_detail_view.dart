@@ -34,7 +34,7 @@ class OrganizationTransactionDetailView
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Transaction Detail',
+          'tr_d_transaction_detail'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -49,7 +49,7 @@ class OrganizationTransactionDetailView
               header: AppTitleWithButton(
                 title: AppConverter.transactionEnumToString(
                     controller.currentTransactionStatus),
-                buttonLabel: 'View Status',
+                buttonLabel: 'tr_d_view_status'.tr,
                 onTap: () {
                   controller.toTrackingProcessView();
                 }, // Create onTap Handler
@@ -58,13 +58,13 @@ class OrganizationTransactionDetailView
                     ? dangerColor
                     : blackColor,
               ),
-              title: 'Invoice for',
+              title: 'tr_d_invoice_for'.tr,
               leading: [
-                _thinDetailInformationItem('Transaction Date'),
-                _thinDetailInformationItem('gen_identity_number'.tr),
+                _thinDetailInformationItem('tr_d_transaction_date'.tr),
+                _thinDetailInformationItem('gen_identity_number_short'.tr),
                 _thinDetailInformationItem('gen_fullname'.tr),
-                _thinDetailInformationItem('Email'),
-                _thinDetailInformationItem('Phone'),
+                _thinDetailInformationItem('gen_email'.tr),
+                _thinDetailInformationItem('gen_phone'.tr),
               ],
 
               /// Trailing Button
@@ -93,11 +93,11 @@ class OrganizationTransactionDetailView
 
               /// Leading
               leading: [
-                _thinDetailInformationItem('Test Purposes'),
-                _thinDetailInformationItem('Test Date'),
-                _thinDetailInformationItem('Service'),
-                _thinDetailInformationItem('Arrived Date'),
-                _thinDetailInformationItem('Location'),
+                _thinDetailInformationItem('gen_test_purpose'.tr),
+                _thinDetailInformationItem('gen_test_date'.tr),
+                _thinDetailInformationItem('p_bt_service'.tr),
+                _thinDetailInformationItem('gen_arrived_date'.tr),
+                _thinDetailInformationItem('gen_location'.tr),
               ],
 
               trailing: [
@@ -124,14 +124,14 @@ class OrganizationTransactionDetailView
               contentPadding: EdgeInsets.zero,
               divider: const SizedBox(),
               header: AppTitleWithButton(
-                title: 'Patient Information',
-                buttonLabel: 'View All',
+                title: 'gen_patient_information'.tr,
+                buttonLabel: 'gen_view_all'.tr,
                 onTap: controller.toPatientListScreen,
               ),
               bottom: [
                 ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(left: 10, right: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
                   shrinkWrap: true,
                   semanticChildCount:
                       (controller.transactionDetail.patientList ?? []).length <
@@ -151,7 +151,7 @@ class OrganizationTransactionDetailView
                               .fullName ??
                           '',
                       subtitle:
-                          'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \nTest Type : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''}  \nPhone : ${(controller.transactionDetail.patientList ?? [])[index].phone ?? ''}',
+                          '${"o_bt_id_number".tr} : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \n${"gen_test_type".tr} : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''}  \n${"gen_phone".tr} : ${(controller.transactionDetail.patientList ?? [])[index].phone ?? ''}',
                       onPressed: (context) async {
                         await controller.onViewDetailButtonPressed(index);
                       },
@@ -164,11 +164,11 @@ class OrganizationTransactionDetailView
             const SizedBox(height: 15),
             Obx(
               () => AppDetailInformationBox(
-                title: 'Payment Detail',
-                leading: const [
-                  AppDetailInformationItem('Total Price'),
+                title: 'tr_d_payment_detail'.tr,
+                leading: [
+                  AppDetailInformationItem('gen_total_price'.tr),
                   // AppDetailInformationItem('Payment Method'),
-                  AppDetailInformationItem('Payment Time'),
+                  AppDetailInformationItem('tr_d_payment_time'.tr),
                 ],
                 trailing: [
                   AppDetailInformationItem(
@@ -223,7 +223,9 @@ class OrganizationTransactionDetailView
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    offline ?? false ? 'Proof of Payment' : 'Close',
+                    offline ?? false
+                        ? 'tr_d_proof_of_payment'.tr
+                        : 'gen_close'.tr,
                     style: regularTextStyle(
                         offline ?? false ? whiteColor : primaryColor),
                   ),
@@ -271,7 +273,7 @@ class OrganizationTransactionDetailView
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      'Organizational Service',
+                      'tr_d_org_service'.tr,
                       style: mediumTextStyle(blackColor, fontSize: 12),
                     )
                   ],
@@ -296,7 +298,7 @@ class OrganizationTransactionDetailView
                     ),
                   ),
                   Text(
-                    'Invoice',
+                    'inv_invoice'.tr,
                     style: BoldTextStyle(
                       enabled ?? false ? primaryColor : greyColor,
                       fontSize: 12,
@@ -351,7 +353,7 @@ class OrganizationTransactionDetailView
         subtitle,
         style: mediumTextStyle(greyColor, fontSize: 12),
       ),
-      buttonLabel: 'View Detail',
+      buttonLabel: 'tr_d_view_detail'.tr,
       isThreeLine: true,
       icon: AppIcons.article,
       buttonPressed: onPressed,

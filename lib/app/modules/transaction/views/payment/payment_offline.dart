@@ -33,7 +33,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Payment',
+          'pay_payment'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -53,7 +53,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Payment deadline',
+                          'pay_payment_deadline'.tr,
                           style: mediumTextStyle(greyColor, fontSize: 12),
                         ),
                         const SizedBox(
@@ -90,7 +90,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Total Price',
+                    'gen_total_price'.tr,
                     style: BoldTextStyle(blackColor, fontSize: 12),
                   ),
                   Text(
@@ -125,7 +125,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Payment Method',
+                    'pay_payment_method'.tr,
                     style: BoldTextStyle(blackColor, fontSize: 12),
                   ),
                   SelectInput(
@@ -139,7 +139,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                     height: 8,
                   ),
                   Text(
-                    'Please transfer the total amount to the following bank account:',
+                    'pay_payment_transfer_to_bank'.tr,
                     style: mediumTextStyle(blackColor, fontSize: 12),
                   ),
                   const SizedBox(
@@ -147,7 +147,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                   ),
                   Obx(
                     () => Text(
-                      'Bank Name: ${controller.selectedPaymentMethodName}',
+                      '${"pay_bank_name".tr}: ${controller.selectedPaymentMethodName}',
                       style: mediumTextStyle(blackColor, fontSize: 12),
                     ),
                   ),
@@ -156,7 +156,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                   ),
                   Obx(
                     () => Text(
-                      'Account Holder Name: ${controller.selectedAccountHolder}',
+                      '${"pay_account_holder".tr}: ${controller.selectedAccountHolder}',
                       style: mediumTextStyle(blackColor, fontSize: 12),
                     ),
                   ),
@@ -165,7 +165,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                   ),
                   Obx(
                     () => Text(
-                      'Account Number: ${controller.selectedAccountNumber}',
+                      '${"pay_account_number".tr}: ${controller.selectedAccountNumber}',
                       style: mediumTextStyle(blackColor, fontSize: 12),
                     ),
                   ),
@@ -173,7 +173,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                     height: 20,
                   ),
                   Text(
-                    '*Make sure you have transferred the money before executing the button',
+                    'pay_transfer_note'.tr,
                     style: smallTextStyle(greyColor, fontSize: 12),
                   ),
                 ],
@@ -201,7 +201,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Please write:',
+                    'pay_please_write'.tr,
                     style: BoldTextStyle(blackColor, fontSize: 12),
                   ),
                   const SizedBox(
@@ -215,7 +215,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                     height: 8,
                   ),
                   Text(
-                    'in the transfer news column or if via ATM please transfer the amount of ${CurrencyFormat.convertToIdr(
+                    '${"pay_transfer_column".tr} ${CurrencyFormat.convertToIdr(
                       (controller.transactionDetail.price ?? 0),
                       2,
                     )}',
@@ -248,21 +248,21 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Proof of payment',
+                    'tr_d_proof_of_payment'.tr,
                     style: BoldTextStyle(blackColor, fontSize: 12),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'Please upload your proof of transfer below',
+                    'pay_upload_proof'.tr,
                     style: mediumTextStyle(blackColor, fontSize: 12),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   TransactionTextButton(
-                    title: "Choose File",
+                    title: "pay_choose_file".tr,
                     isWhiteBackground: true,
                     onPressed: () async {
                       await controller.getLocalFile();
@@ -314,7 +314,7 @@ class PaymentOfflineView extends GetView<TransactionViewController> {
                 Flexible(
                   flex: 4,
                   child: TransactionTextButton(
-                    title: "Upload",
+                    title: "gen_upload".tr,
                     isWhiteBackground: false,
                     onPressed: () async {
                       await controller.onUploadPaymentProofPressed(

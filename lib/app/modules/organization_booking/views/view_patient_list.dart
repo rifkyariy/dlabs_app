@@ -1,3 +1,4 @@
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/modules/organization_booking/controller/organization_controller.dart';
 import 'package:kayabe_lims/app/modules/organization_booking/local_widgets/booking_list_tile.dart';
@@ -101,7 +102,7 @@ class ViewPatientList extends StatelessWidget {
                 // if searchMode == false
                 // Return title in middle.
                 : Text(
-                    'Patient List',
+                    'o_bt_patient_list'.tr,
                     style: BoldTextStyle(
                       const Color(0xFF323F4B),
                     ),
@@ -118,7 +119,7 @@ class ViewPatientList extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: GestureDetector(
                           child: Text(
-                            'Done',
+                            'gen_done'.tr,
                             style: BoldTextStyle(primaryColor),
                           ),
                           onTap: () {
@@ -133,7 +134,7 @@ class ViewPatientList extends StatelessWidget {
                     )
                   : IconButton(
                       icon: Icon(Icons.search, color: primaryColor),
-                      tooltip: 'Search',
+                      tooltip: 'gen_search'.tr,
                       onPressed: () {
                         // Change searchMode value
                         controller.isSearchMode.value = true;
@@ -172,20 +173,20 @@ class ViewPatientList extends StatelessWidget {
                     key: Key(controller.patientList[index].identityNumber),
                     title: controller.patientList[index].fullName,
                     subtitle:
-                        'ID No : ${controller.patientList[index].identityNumber} \nTest Type : ${controller.patientList[index].testType}  ',
+                        '${"o_bt_id_number".tr} : ${controller.patientList[index].identityNumber} \n${"gen_test_type".tr} : ${controller.patientList[index].testType} \n${"gen_phone".tr} : ${controller.patientList[index].phoneNumber} ',
                     deleteButtonPressed: (context) {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Delete Patient'),
+                          title: Text('o_bt_delete_patient'.tr),
                           content: SingleChildScrollView(
                             child: ListBody(
                               children: <Widget>[
                                 Text(
-                                  'Are you sure want to delete this patient?',
+                                  'pop_delete_warning'.tr,
                                   style: smallTextStyle(blackColor),
                                 ),
-                                Text('This process cannot be undone',
+                                Text('pop_undone'.tr,
                                     style: smallTextStyle(blackColor))
                               ],
                             ),
@@ -203,7 +204,7 @@ class ViewPatientList extends StatelessWidget {
                                         elevation: 0,
                                         side: BorderSide(
                                             width: 1, color: greyColor)),
-                                    child: Text('Cancel',
+                                    child: Text('pop_cancel'.tr,
                                         style: mediumTextStyle(greyColor)),
                                     onPressed: () {
                                       Navigator.of(context).pop();
@@ -219,7 +220,7 @@ class ViewPatientList extends StatelessWidget {
                                       primary: primaryColor,
                                       elevation: 0,
                                     ),
-                                    child: Text('Confirm',
+                                    child: Text('pop_confirm'.tr,
                                         style: mediumTextStyle(whiteColor)),
                                     onPressed: () {
                                       // Delete Button Pressed
@@ -264,7 +265,7 @@ class ViewPatientList extends StatelessWidget {
                         key: Key(controller.searchResult[index].identityNumber),
                         title: controller.searchResult[index].fullName,
                         subtitle:
-                            'ID No : ${controller.patientList[index].identityNumber} \nTest Type : ${controller.patientList[index].testType}  ',
+                            '${"o_bt_id_number".tr} : ${controller.patientList[index].identityNumber} \n${"gen_test_type".tr} : ${controller.patientList[index].testType}  \n${"gen_phone".tr} : ${controller.patientList[index].phoneNumber}',
                         deleteButtonPressed: (context) {
                           showDialog(
                             context: context,
@@ -274,10 +275,10 @@ class ViewPatientList extends StatelessWidget {
                                 child: ListBody(
                                   children: <Widget>[
                                     Text(
-                                      'Are you sure want to delete this patient?',
+                                      'pop_delete_warning'.tr,
                                       style: regularTextStyle(blackColor),
                                     ),
-                                    Text('This process cannot be undone',
+                                    Text('pop_undone'.tr,
                                         style: regularTextStyle(blackColor))
                                   ],
                                 ),
@@ -295,7 +296,7 @@ class ViewPatientList extends StatelessWidget {
                                             elevation: 0,
                                             side: BorderSide(
                                                 width: 1, color: greyColor)),
-                                        child: Text('Cancel',
+                                        child: Text('pop_cancel'.tr,
                                             style: mediumTextStyle(greyColor)),
                                         onPressed: () {
                                           Navigator.of(context).pop();
@@ -311,7 +312,7 @@ class ViewPatientList extends StatelessWidget {
                                           primary: primaryColor,
                                           elevation: 0,
                                         ),
-                                        child: Text('Confirm',
+                                        child: Text('pop_confirm'.tr,
                                             style: mediumTextStyle(whiteColor)),
                                         onPressed: () {
                                           // Get index with spesicfic identity Number

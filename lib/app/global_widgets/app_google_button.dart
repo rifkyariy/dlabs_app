@@ -1,5 +1,6 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class AppGoogleButton extends StatelessWidget {
   const AppGoogleButton({
@@ -29,7 +30,7 @@ class AppGoogleButton extends StatelessWidget {
                 height: 20.5,
               ),
         label: Text(
-          'Sign In with Google',
+          'login_google'.tr,
           style: subtitleTextStyle(blackColor),
         ),
         onPressed: onPressed,

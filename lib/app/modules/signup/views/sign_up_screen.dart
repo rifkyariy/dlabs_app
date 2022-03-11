@@ -61,7 +61,7 @@ class SignUpScreen extends GetView<SignUpController> {
                     height: SizeScalling().setHeight(20),
                   ),
                   label: Text(
-                    'Sign Up with Google',
+                    'register_google'.tr,
                     style: subtitleTextStyle(blackColor),
                   ),
                   onPressed: () =>
@@ -91,7 +91,7 @@ class SignUpScreen extends GetView<SignUpController> {
                     'assets/image/line-divider.png',
                   ),
                   Text(
-                    'or',
+                    'gen_or'.tr,
                     style: smallTextStyle(blackColor),
                   ),
                   Image.asset(
@@ -107,11 +107,11 @@ class SignUpScreen extends GetView<SignUpController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Account Setup',
+                    'register_account_setup'.tr,
                     style: regularTextStyle(primaryColor),
                   ),
                   Text(
-                    'Step 1 of 2',
+                    'register_first_step'.tr,
                     style: smallTextStyle(greyColor),
                   )
                 ],
@@ -136,7 +136,7 @@ class SignUpScreen extends GetView<SignUpController> {
                   controller: controller.emailController,
                   label: 'gen_email'.tr,
                   name: "email",
-                  placeholder: 'e.g. mail@address.com',
+                  placeholder: 'email_placeholder'.tr,
                   errorMsg: controller.emailErrorMessage.value,
                 ),
               ),
@@ -145,7 +145,7 @@ class SignUpScreen extends GetView<SignUpController> {
               Obx(
                 () => TextInput(
                   controller: controller.passwordController,
-                  label: "Password",
+                  label: 'gen_password'.tr,
                   name: "password",
                   type: "password",
                   errorMsg: controller.passwordErrorMessage.value,
@@ -156,7 +156,7 @@ class SignUpScreen extends GetView<SignUpController> {
               Obx(
                 () => TextInput(
                   controller: controller.confirmPasswordController,
-                  label: "Confirm Password",
+                  label: "confirm_password".tr,
                   name: "password",
                   type: "password",
                   errorMsg: controller.passwordConfirmErrorMessage.value,
@@ -177,7 +177,7 @@ class SignUpScreen extends GetView<SignUpController> {
         // Submit Button
         child: Obx(
           () => AppButton(
-            text: 'Next',
+            text: 'gen_next'.tr,
             textColor: whiteColor,
             onClicked: () => controller.signUpHandler(),
             isLoading: controller.isLoading.value,

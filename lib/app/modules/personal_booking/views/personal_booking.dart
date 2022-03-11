@@ -23,7 +23,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               ),
               color: const Color(0xff000000),
               onPressed: () => Navigator.pop(context)),
-          title: Text('Personal Book Test', style: BoldTextStyle(blackColor)),
+          title: Text('p_bt_title'.tr, style: BoldTextStyle(blackColor)),
           centerTitle: true,
           actions: [],
           elevation: 2.0,
@@ -37,7 +37,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Fill this form to book a test',
+                  'p_bt_subtitle'.tr,
                   style: regularTextStyle(greyColor),
                 ),
               ),
@@ -49,15 +49,15 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               Obx(() => SelectInput(
                     items: controller.serviceList!.value,
                     selectedItem: controller.selectedService,
-                    label: 'Service',
+                    label: 'p_bt_service'.tr,
                     errorMsg: "",
                     name: '',
                   )),
 
               // Patient Subject
-              const Align(
+              Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Patient Subject'),
+                child: Text('p_bt_patient_subject'.tr),
               ),
               Row(
                 children: [
@@ -71,7 +71,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                       },
                     ),
                   ),
-                  const Text('My Self'),
+                  Text('p_bt_myself'.tr),
                   Obx(
                     () => Radio(
                       value: 'other',
@@ -82,7 +82,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                       },
                     ),
                   ),
-                  const Text('Other'),
+                  Text('p_bt_other'.tr),
                 ],
               ),
               const SizedBox(
@@ -94,7 +94,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Patient Information',
+                    'gen_patient_information'.tr,
                     style: regularTextStyle(primaryColor),
                   ),
                 ],
@@ -162,7 +162,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             // Date of Birth
                             TextInput(
                               controller: controller.dateOfBirthController,
-                              label: 'Date of Birth',
+                              label: 'gen_dob'.tr,
                               type: 'date',
                               lastDate: DateTime.now(),
                               errorMsg:
@@ -200,7 +200,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                                   ),
                                 ),
                                 Text(
-                                  'Male',
+                                  'gen_male'.tr,
                                   style:
                                       mediumTextStyle(blackColor, fontSize: 14),
                                 ),
@@ -219,7 +219,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                                   ),
                                 ),
                                 Text(
-                                  'Female',
+                                  'gen_female'.tr,
                                   style:
                                       mediumTextStyle(blackColor, fontSize: 14),
                                 ),
@@ -245,7 +245,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                             const CircularProgressIndicator(),
                             const SizedBox(height: 10),
                             Text(
-                              'Loading Patient Information',
+                              'loading_patient_info'.tr,
                               style: smallTextStyle(primaryColor),
                             )
                           ],
@@ -281,7 +281,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               // Test Date
               TextInput(
                 controller: controller.testDateController,
-                label: 'Test Date',
+                label: 'gen_test_date'.tr,
                 type: 'datetime',
                 errorMsg: "",
                 firstDate: DateTime.now(),
@@ -292,7 +292,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               Obx(() => SelectInput(
                     items: controller.locationList!.value,
                     selectedItem: controller.selectedLocation,
-                    label: 'Location',
+                    label: 'gen_location'.tr,
                     errorMsg: "",
                     name: '',
                     isDisabled: controller.selectedServiceString.value != '1'
@@ -336,7 +336,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
                       : false,
                   child: TextInput(
                     controller: controller.testLocationController,
-                    label: 'Location Address',
+                    label: 'gen_location_address'.tr,
                     errorMsg: controller.testLocationErrorMessage.value,
                     type: 'textarea',
                     name: 'address',
@@ -348,7 +348,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               Obx(() => SelectInput(
                     items: controller.testTypeList!.value,
                     selectedItem: controller.selectedTestType,
-                    label: 'Test Type',
+                    label: 'gen_test_type'.tr,
                     errorMsg: "",
                     name: '',
                   )),
@@ -356,7 +356,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Obx(() => Text(
-                      'Price : ${controller.servicePriceString.value}',
+                      '${'gen_price'.tr} : ${controller.servicePriceString.value}',
                       style: regularTextStyle(primaryColor),
                     )),
               ),
@@ -381,7 +381,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
             Align(
               alignment: Alignment.centerLeft,
               child: Obx(() => Text(
-                    'Total Price : ${controller.servicePriceString.value}',
+                    '${'gen_total_price'.tr} : ${controller.servicePriceString.value}',
                     style: regularTextStyle(blackColor),
                   )),
             ),
@@ -390,7 +390,7 @@ class PersonalBooking extends GetView<PersonalBookingController> {
             ),
             Obx(
               () => AppButton(
-                text: 'Next',
+                text: 'gen_next'.tr,
                 textColor: whiteColor,
                 onClicked: () => controller.personalBookHandler(),
                 isLoading: controller.isLoading.value,

@@ -27,7 +27,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Organization Book Test',
+          'o_bt_title'.tr,
           style: BoldTextStyle(
             const Color(0xFF323F4B),
           ),
@@ -47,7 +47,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Fill this form to book a test',
+                  'p_bt_subtitle'.tr,
                   style: regularTextStyle(greyColor),
                 ),
               ),
@@ -57,7 +57,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Obx(
                 () => TextInput(
                   controller: controller.picIdNumberController,
-                  label: "PIC ID Number",
+                  label: "o_bt_pic_id".tr,
                   name: "PIC ID Number",
                   placeholder: '3372050909098998',
                   type: 'number',
@@ -69,34 +69,32 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Obx(
                 () => TextInput(
                   controller: controller.picEmailController,
-                  label: "PIC Email",
+                  label: "o_bt_pic_email".tr,
                   name: "PIC Email",
                   placeholder: 'e.g. mail@address.com',
                   isDisabled: true,
-                  errorMsg: controller
-                      .picEmailErrorMessage.value, //TODO tambah error message
+                  errorMsg: controller.picEmailErrorMessage.value,
                 ),
               ),
 
               Obx(
                 () => TextInput(
                   controller: controller.picPhoneController,
-                  label: "PIC Phone",
+                  label: "o_bt_pic_phone".tr,
                   name: "PIC Phone",
                   placeholder: '+628123456789',
                   type: 'phone',
                   isDisabled: true,
-                  errorMsg: controller
-                      .picPhoneErrorMessage.value, //TODO tambah error message
+                  errorMsg: controller.picPhoneErrorMessage.value,
                 ),
               ),
 
               Obx(
                 () => TextInput(
                   controller: controller.picNameController,
-                  label: "PIC Name",
+                  label: "o_bt_pic_name".tr,
                   name: "PIC Name",
-                  placeholder: 'Romy Roma',
+                  placeholder: '',
                   isDisabled: true,
                   errorMsg: controller
                       .picNameErrorMessage.value, //TODO tambah error message
@@ -131,7 +129,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               // Test Date
               TextInput(
                 controller: controller.testDateController,
-                label: 'Test Date',
+                label: 'gen_test_date'.tr,
                 type: 'datetime',
                 errorMsg: "",
                 firstDate: DateTime.now(),
@@ -142,7 +140,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Obx(() => SelectInput(
                     items: controller.serviceList!.value,
                     selectedItem: controller.selectedService,
-                    label: 'Service',
+                    label: 'p_bt_service'.tr,
                     errorMsg: "",
                     name: '',
                   )),
@@ -151,7 +149,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               Obx(() => SelectInput(
                     items: controller.locationList!.value,
                     selectedItem: controller.selectedLocation,
-                    label: 'Location',
+                    label: 'gen_location'.tr,
                     errorMsg: "",
                     name: '',
                     isDisabled: controller.selectedServiceString.value != '1'
@@ -191,7 +189,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                       : false,
                   child: TextInput(
                     controller: controller.testLocationController,
-                    label: 'Location Address',
+                    label: 'gen_location_address'.tr,
                     errorMsg: controller.testLocationErrorMessage.value,
                     type: 'textarea',
                     name: 'address',
@@ -206,11 +204,12 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      'Patient Information',
+                      'gen_patient_information'.tr,
                       style: regularTextStyle(primaryColor),
                     ),
                     const Spacer(),
-                    Text('Total Data : ', style: regularTextStyle(blackColor)),
+                    Text('${'o_bt_total_data'.tr} : ',
+                        style: regularTextStyle(blackColor)),
                     Text(
                       controller.patientList.length.toString(),
                       style: BoldTextStyle(blackColor),
@@ -234,7 +233,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                       ));
                 },
                 child: Text(
-                  'Add Patient Data',
+                  'o_bt_add_patient'.tr,
                   style: BoldTextStyle(primaryColor),
                 ),
                 style: OutlinedButton.styleFrom(
@@ -280,21 +279,21 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                               key: Key(index.toString()),
                               title: controller.patientList[index].fullName,
                               subtitle:
-                                  'ID No : ${controller.patientList[index].identityNumber} \nTest Type : ${controller.patientList[index].testType}  ',
+                                  '${"o_bt_id_number".tr} : ${controller.patientList[index].identityNumber} \n${"gen_test_type".tr} : ${controller.patientList[index].testType} \n${"gen_phone".tr} : ${controller.patientList[index].phoneNumber} ',
                               deleteButtonPressed: (context) {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
-                                    title: const Text('Delete Patient'),
+                                    title: Text('o_bt_delete_patient'.tr),
                                     content: SingleChildScrollView(
                                       child: ListBody(
                                         children: <Widget>[
                                           Text(
-                                            'Are you sure want to delete this patient?',
+                                            'pop_delete_warning'.tr,
                                             style: regularTextStyle(blackColor),
                                           ),
-                                          Text('This process cannot be undone',
+                                          Text('pop_undone'.tr,
                                               style:
                                                   regularTextStyle(blackColor))
                                         ],
@@ -314,7 +313,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                                                   side: BorderSide(
                                                       width: 1,
                                                       color: greyColor)),
-                                              child: Text('Cancel',
+                                              child: Text('gen_cancel'.tr,
                                                   style: mediumTextStyle(
                                                       greyColor)),
                                               onPressed: () {
@@ -331,7 +330,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                                                 primary: primaryColor,
                                                 elevation: 0,
                                               ),
-                                              child: Text('Confirm',
+                                              child: Text('pop_confirm'.tr,
                                                   style: mediumTextStyle(
                                                       whiteColor)),
                                               onPressed: () {
@@ -388,7 +387,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                                   );
                                 },
                                 child: Text(
-                                  'View All',
+                                  'gen_view_all'.tr,
                                   style: BoldTextStyle(primaryColor),
                                 ),
                               ),
@@ -413,7 +412,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               child: Row(
                 children: [
                   Text(
-                    'Total Price : ',
+                    '${"gen_total_price".tr} : ',
                     style: mediumTextStyle(blackColor),
                   ),
                   Obx(
@@ -430,18 +429,17 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
               padding: const EdgeInsets.only(left: 24, right: 24),
               child: Obx(
                 () => AppButton(
-                  text: 'Submit',
+                  text: 'gen_submit'.tr,
                   isLoading: controller.isLoading.value,
                   textColor: whiteColor,
                   onClicked: () => showDialog(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Confirmation'),
+                      title: Text('pop_confirmation'.tr),
                       content: SingleChildScrollView(
                         child: ListBody(
-                          children: const <Widget>[
-                            Text(
-                                'Are you sure and agree that the information you have filled on the form is original and correct data ?'),
+                          children: <Widget>[
+                            Text('pop_form_confirm'.tr),
                           ],
                         ),
                       ),
@@ -458,7 +456,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                                     elevation: 0,
                                     side:
                                         BorderSide(width: 1, color: greyColor)),
-                                child: Text('Cancel',
+                                child: Text('pop_cancel'.tr,
                                     style: mediumTextStyle(greyColor)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -474,7 +472,7 @@ class OrganizationBooking extends GetView<OrganizationBookingController> {
                                   primary: primaryColor,
                                   elevation: 0,
                                 ),
-                                child: Text('Confirm',
+                                child: Text('pop_confirm'.tr,
                                     style: mediumTextStyle(whiteColor)),
                                 onPressed: () {
                                   controller.organizationBookHandler();

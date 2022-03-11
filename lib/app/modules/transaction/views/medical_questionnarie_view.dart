@@ -22,13 +22,12 @@ class MedicalQuestionnarieView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Medical Questionnaire',
+          'qst_medical_questionnaire'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
       body: (controller.medicalQuestionnaireList ?? []).isEmpty
-          ? const AppEmptyStatePlaceholder(
-              messages: 'There is no medical questionnaire data')
+          ? AppEmptyStatePlaceholder(messages: 'qst_no_questionnaire'.tr)
           : ListView.builder(
               padding: const EdgeInsets.only(left: 10, right: 10),
               // physics: const NeverScrollableScrollPhysics(),

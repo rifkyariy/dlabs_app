@@ -92,6 +92,8 @@ class BookingRepository {
     final body = jsonEncode(payload);
     final response = await http.post(url, headers: headers, body: body);
 
+    print(response);
+
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body)['data'];
       print(data);

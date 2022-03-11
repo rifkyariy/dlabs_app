@@ -5,10 +5,10 @@ class AppDividerWithTitle extends StatelessWidget {
   const AppDividerWithTitle({Key? key, required this.title, this.fontSize})
       : super(key: key);
 
-  const AppDividerWithTitle.visi({Key? key, this.title = 'Visi', this.fontSize})
+  const AppDividerWithTitle.visi({Key? key, required this.title, this.fontSize})
       : super(key: key);
 
-  const AppDividerWithTitle.misi({Key? key, this.title = 'Misi', this.fontSize})
+  const AppDividerWithTitle.misi({Key? key, required this.title, this.fontSize})
       : super(key: key);
 
   const AppDividerWithTitle.price(

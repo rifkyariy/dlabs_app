@@ -165,6 +165,8 @@ class MasterDataRepository {
 
     var result = (jsonDecode(response.body)["data"]);
 
+    print(result);
+
     return result;
   }
 }

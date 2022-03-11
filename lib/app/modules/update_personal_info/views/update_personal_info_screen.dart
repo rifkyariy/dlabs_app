@@ -60,7 +60,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                     height: 20.5,
                   ),
                   label: Text(
-                    'Sign Up with Google',
+                    'register_google'.tr,
                     style: subtitleTextStyle(blackColor),
                   ),
                   onPressed: () =>
@@ -89,7 +89,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                     'assets/image/line-divider.png',
                   ),
                   Text(
-                    'or',
+                    'gen_or'.tr,
                     style: smallTextStyle(blackColor),
                   ),
                   Image.asset(
@@ -105,11 +105,11 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Personal Detail',
+                    'register_personal_setup'.tr,
                     style: regularTextStyle(primaryColor),
                   ),
                   Text(
-                    'Step 2 of 2',
+                    'register_second_step'.tr,
                     style: smallTextStyle(greyColor),
                   )
                 ],
@@ -157,7 +157,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
               // Date of Birth
               TextInput(
                 controller: controller.dateOfBirthController,
-                label: 'Date of Birth',
+                label: 'gen_dob'.tr,
                 type: 'date',
                 errorMsg: controller.dateOfBirthErrorMessage.value,
                 name: 'date of birth',
@@ -180,7 +180,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                       },
                     ),
                   ),
-                  const Text('Male'),
+                  Text('gen_male'.tr),
                   Obx(
                     () => Radio(
                       value: '0',
@@ -190,7 +190,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
                       },
                     ),
                   ),
-                  const Text('Female'),
+                  Text('gen_female'.tr),
                 ],
               ),
 
@@ -220,7 +220,7 @@ class UpdatePersonalInfoScreen extends GetView<UpdatePersonalInfoController> {
         // Submit Button
         child: Obx(
           () => AppButton(
-            text: 'Sign Up',
+            text: 'signup'.tr,
             textColor: whiteColor,
             onClicked: () => controller.signUpHandler(),
             isLoading: controller.isLoading.value,

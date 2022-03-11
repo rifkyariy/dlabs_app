@@ -27,7 +27,7 @@ class TrackingProcessView extends GetView<TransactionViewController> {
         onPressed: () => Navigator.pop(context),
       ),
       title: Text(
-        'Tracking Process',
+        'tr_d_tracking_process'.tr,
         style: BoldTextStyle(const Color(0xFF323F4B)),
       ),
     );

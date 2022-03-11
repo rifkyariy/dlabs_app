@@ -29,8 +29,6 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
         ? trackingList.first
         : const TrxDetailTrackingList();
 
-    print(paymentList);
-
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor,
       appBar: AppBar(
@@ -45,7 +43,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Transaction Detail',
+          'tr_d_transaction_detail'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -60,7 +58,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               header: AppTitleWithButton(
                 title: AppConverter.transactionEnumToString(
                     controller.currentTransactionStatus),
-                buttonLabel: 'View Status',
+                buttonLabel: 'tr_d_view_status'.tr,
                 onTap: () {
                   controller.toTrackingProcessView();
                 }, // Create onTap Handler
@@ -69,13 +67,13 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                     ? dangerColor
                     : blackColor,
               ),
-              title: 'Invoice for',
+              title: 'tr_d_invoice_for'.tr,
               leading: [
-                _thinDetailInformationItem('Transaction Date'),
-                _thinDetailInformationItem('gen_identity_number'.tr),
+                _thinDetailInformationItem('tr_d_transaction_date'.tr),
+                _thinDetailInformationItem('gen_identity_number_short'.tr),
                 _thinDetailInformationItem('gen_fullname'.tr),
-                _thinDetailInformationItem('Email'),
-                _thinDetailInformationItem('Phone'),
+                _thinDetailInformationItem('gen_email'.tr),
+                _thinDetailInformationItem('gen_phone'.tr),
               ],
 
               /// Trailing Button
@@ -104,10 +102,10 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
 
               /// Leading
               leading: [
-                _thinDetailInformationItem('Test Purposes'),
-                _thinDetailInformationItem('Test Date'),
-                _thinDetailInformationItem('Service'),
-                _thinDetailInformationItem('Location'),
+                _thinDetailInformationItem('gen_test_purpose'.tr),
+                _thinDetailInformationItem('gen_test_date'.tr),
+                _thinDetailInformationItem('p_bt_service'.tr),
+                _thinDetailInformationItem('gen_location'.tr),
               ],
 
               trailing: [
@@ -129,8 +127,8 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               contentPadding: EdgeInsets.zero,
               divider: const SizedBox(),
               header: AppTitleWithButton(
-                title: 'Patient Information',
-                buttonLabel: 'View All',
+                title: 'gen_patient_information'.tr,
+                buttonLabel: 'gen_view_all'.tr,
                 onTap: controller.toPatientListScreen,
               ),
               bottom: [
@@ -156,7 +154,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                               .fullName ??
                           '',
                       subtitle:
-                          'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \nTest Type : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''} ',
+                          '${"o_bt_id_number".tr} : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \n${"gen_test_type".tr} : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''} \n${"gen_phone".tr} : ${(controller.transactionDetail.patientList ?? [])[index].phone ?? ''}',
                       onPressed: (context) async {
                         await controller.onViewDetailButtonPressed(index);
                       },
@@ -170,8 +168,8 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
             Obx(
               () => AppDetailInformationBox(
                 header: AppTitleWithButton(
-                  title: 'Payment Detail',
-                  buttonLabel: 'Choose',
+                  title: 'tr_d_payment_detail'.tr,
+                  buttonLabel: 'tr_d_choose'.tr,
                   onTap: () {
                     Get.dialog(
                       GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
@@ -183,10 +181,10 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                     size: 14,
                   ),
                 ),
-                leading: const [
-                  AppDetailInformationItem('Total Price'),
+                leading: [
+                  AppDetailInformationItem('gen_total_price'.tr),
                   // AppDetailInformationItem('Payment Method'),
-                  AppDetailInformationItem('Payment Time'),
+                  AppDetailInformationItem('tr_d_payment_time'.tr),
                 ],
                 trailing: [
                   AppDetailInformationItem(
@@ -203,11 +201,11 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
 
                   AppDetailInformationItem(controller.paidDate.value),
                 ],
-                bottom: const [
+                bottom: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: AppDetailInformationItem(
-                        'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
+                    child:
+                        AppDetailInformationItem('tr_d_payment_make_sure'.tr),
                   ),
                   SizedBox(height: 20)
                 ],
@@ -242,7 +240,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Total Price : ',
+                  '${"gen_total_price".tr} : ',
                   style: mediumTextStyle(blackColor, fontSize: 12),
                 ),
                 Text(
@@ -260,7 +258,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                 Flexible(
                   flex: 2,
                   child: TransactionTextButton(
-                    title: "Cancel",
+                    title: "pop_cancel".tr,
                     isRedBackground: true,
                     onPressed: () {
                       Get.dialog(
@@ -275,7 +273,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                 Flexible(
                   flex: 4,
                   child: TransactionTextButton(
-                    title: "Pay",
+                    title: "tr_d_pay".tr,
                     isWhiteBackground: false,
                     onPressed: () {
                       Get.dialog(
@@ -315,7 +313,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      'Organizational Service',
+                      'tr_d_org_service'.tr,
                       style: mediumTextStyle(blackColor, fontSize: 12),
                     )
                   ],
@@ -340,7 +338,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
                     ),
                   ),
                   Text(
-                    'Invoice',
+                    'inv_invoice'.tr,
                     style: BoldTextStyle(
                       enabled ?? false ? primaryColor : greyColor,
                       fontSize: 12,
@@ -387,7 +385,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
         subtitle,
         style: mediumTextStyle(greyColor, fontSize: 12),
       ),
-      buttonLabel: 'View Detail',
+      buttonLabel: 'tr_d_view_detail'.tr,
       isThreeLine: true,
       icon: AppIcons.article,
       buttonPressed: onPressed,
@@ -402,14 +400,14 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              cancelDialog ? "Warning!" : "Payment Option",
+              cancelDialog ? "pop_warning".tr : "pop_payment_option".tr,
               style: BoldTextStyle(blackColor, fontSize: 19),
             ),
             const SizedBox(height: 18),
             Text(
               cancelDialog
-                  ? "Are you sure want to cancel this transaction?"
-                  : "Please select a payment method",
+                  ? "pop_cancel_transcation".tr
+                  : "pop_select_payment".tr,
               style: regularTextStyle(
                 blackColor,
                 fontSize: 14,
@@ -425,7 +423,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
       children: cancelDialog
           ? [
               TransactionTextButton(
-                title: 'Yes',
+                title: 'gen_yes'.tr,
                 isWhiteBackground: false,
                 onPressed: () async {
                   Get.back();
@@ -436,7 +434,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               const SizedBox(height: 15),
               TransactionTextButton(
-                title: 'No',
+                title: 'gen_no'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   Get.back();
@@ -445,7 +443,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
             ]
           : [
               TransactionTextButton(
-                title: 'Transfer',
+                title: 'gen_transfer'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   // Destroy Dialog Modal
@@ -457,7 +455,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               const SizedBox(height: 15),
               TransactionTextButton(
-                title: 'Cash',
+                title: 'gen_cash'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   // Destroy Dialog Modal
@@ -469,7 +467,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               const SizedBox(height: 15),
               TransactionTextButton(
-                title: 'Online',
+                title: 'gen_online'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   // Destroy Dialog Modal
@@ -491,14 +489,14 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              cancelDialog ? "Warning!" : "Payment Option",
+              cancelDialog ? "pop_warning".tr : "pop_payment_option".tr,
               style: BoldTextStyle(blackColor, fontSize: 19),
             ),
             const SizedBox(height: 18),
             Text(
               cancelDialog
-                  ? "Are you sure want to cancel this transaction?"
-                  : "Please select a payment method",
+                  ? "pop_cancel_transcation".tr
+                  : "pop_select_payment".tr,
               style: regularTextStyle(
                 blackColor,
                 fontSize: 14,
@@ -511,12 +509,12 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
           ? [
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'Yes',
+                title: 'gen_yes'.tr,
                 onPressed: cancelDialog ? () {} : () {},
               ),
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'No',
+                title: 'gen_no'.tr,
                 onPressed: () async {
                   await controller.onCancelTransactionButtonPressed(
                     controller.transactionDetail.transactionId ?? '',
@@ -526,7 +524,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
             ]
           : [
               TransactionIosButton(
-                title: 'Transfer',
+                title: 'gen_transfer'.tr,
                 onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
@@ -537,7 +535,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'Cash',
+                title: 'gen_cash'.tr,
                 onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
@@ -548,7 +546,7 @@ class OrganizationPaymentView extends GetView<TransactionViewController> {
               ),
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'Online',
+                title: 'gen_online'.tr,
                 onPressed: () {},
               ),
             ],

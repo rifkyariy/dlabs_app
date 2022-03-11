@@ -51,7 +51,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                         // Redirect into sign in pages
                         Get.toNamed(AppPages.signin);
                         Get.snackbar(
-                          "Please login to continue",
+                          "pop_login_required".tr,
                           "",
                           backgroundColor: primaryColor,
                           snackPosition: SnackPosition.TOP,
@@ -80,7 +80,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
                         // Redirect into sign in pages
                         Get.toNamed(AppPages.signin);
                         Get.snackbar(
-                          "Please login to continue",
+                          "pop_login_required".tr,
                           "",
                           backgroundColor: primaryColor,
                           snackPosition: SnackPosition.TOP,
@@ -115,44 +115,44 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
   }
 }
 
-List<BottomNavigationBarItem> _itemsWithFloating = const [
+List<BottomNavigationBarItem> _itemsWithFloating = [
   BottomNavigationBarItem(
     icon: Icon(AppIcons.home),
-    label: "Home",
+    label: "menu_home".tr,
   ),
   BottomNavigationBarItem(
     icon: Icon(AppIcons.history),
-    label: "History",
+    label: "menu_history".tr,
   ),
   BottomNavigationBarItem(
     icon: SizedBox(height: 25),
-    label: "Book Now",
+    label: "menu_book_now".tr,
   ),
   BottomNavigationBarItem(
     icon: Icon(AppIcons.article),
-    label: "Article",
+    label: "menu_article".tr,
   ),
   BottomNavigationBarItem(
     icon: Icon(AppIcons.profile),
-    label: "Profile",
+    label: "menu_profile".tr,
   ),
 ];
 
-List<BottomNavigationBarItem> _itemsWithoutFloating = const [
+List<BottomNavigationBarItem> _itemsWithoutFloating = [
   BottomNavigationBarItem(
     icon: Icon(AppIcons.home),
-    label: "Home",
+    label: "menu_home".tr,
   ),
   BottomNavigationBarItem(
     icon: Icon(AppIcons.history),
-    label: "History",
+    label: "menu_history".tr,
   ),
   BottomNavigationBarItem(
     icon: Icon(AppIcons.article),
-    label: "Article",
+    label: "menu_article".tr,
   ),
   BottomNavigationBarItem(
     icon: Icon(AppIcons.profile),
-    label: "Profile",
+    label: "menu_profile".tr,
   ),
 ];
