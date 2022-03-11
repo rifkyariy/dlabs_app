@@ -1,7 +1,6 @@
 import 'package:kayabe_lims/app/core/internationalization/app_internationalization.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'dart:io';
 
@@ -15,8 +14,6 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async {
-  await dotenv.load(fileName: ".env");
-
   runApp(const Apps());
 }
 
