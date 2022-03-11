@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/global_widgets/app_divider_with_title.dart';
 
@@ -32,7 +33,7 @@ As a certified Clinical Laboratory, We strive to play an active role in efforts 
           color: whiteColor,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('About Us', style: BoldTextStyle(blackColor)),
+        title: Text('profile_about_us'.tr, style: BoldTextStyle(blackColor)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -44,9 +45,13 @@ As a certified Clinical Laboratory, We strive to play an active role in efforts 
                 height: 20,
               ),
               brandingImage(),
-              const AppDividerWithTitle.visi(),
+              AppDividerWithTitle.visi(
+                title: 'gen_vision'.tr,
+              ),
               paragraphView(visi),
-              const AppDividerWithTitle.misi(),
+              AppDividerWithTitle.misi(
+                title: 'gen_mission'.tr,
+              ),
               paragraphView(misi),
             ],
           ),

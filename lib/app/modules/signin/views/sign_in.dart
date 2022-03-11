@@ -56,7 +56,7 @@ class SignInScreen extends GetView<SignInController> {
 
               // Header Text
               Text(
-                'Welcome to LIMS Kayabe',
+                'gen_welcome'.tr,
                 textAlign: TextAlign.center,
                 style: titleTextStyle(blackColor),
               ),
@@ -64,7 +64,7 @@ class SignInScreen extends GetView<SignInController> {
               SizedBox(height: SizeScalling().setHeight(8)),
 
               Text(
-                'Sign in to continue',
+                'pop_login_required'.tr,
                 textAlign: TextAlign.right,
                 style: subtitleTextStyle(greyColor),
               ),
@@ -77,7 +77,7 @@ class SignInScreen extends GetView<SignInController> {
                 () => TextInput(
                   label: 'gen_email'.tr,
                   name: 'email',
-                  placeholder: 'e.g. mail@address.com',
+                  placeholder: 'email_placeholder'.tr,
                   errorMsg: controller.emailErrorMessage.value,
                   controller: controller.emailController,
                 ),
@@ -86,7 +86,7 @@ class SignInScreen extends GetView<SignInController> {
               // Password Input
               Obx(
                 () => TextInput(
-                  label: 'Password',
+                  label: 'gen_password'.tr,
                   name: 'password',
                   errorMsg: controller.passwordErrorMessage.value,
                   type: 'password',
@@ -100,7 +100,7 @@ class SignInScreen extends GetView<SignInController> {
                   TextButton(
                     onPressed: () => Get.toNamed(AppPages.forgotPassword),
                     child: Text(
-                      'Forgot Password ?',
+                      'gen_forgot_password'.tr,
                       style: smallTextStyle(primaryColor),
                     ),
                   )
@@ -113,7 +113,7 @@ class SignInScreen extends GetView<SignInController> {
               // Sign In Button
               Obx(
                 () => AppButton(
-                  text: 'Sign In',
+                  text: 'login'.tr,
                   textColor: whiteColor,
                   onClicked: () {
                     controller.loginHandler();
@@ -154,12 +154,12 @@ class SignInScreen extends GetView<SignInController> {
               Row(
                 children: [
                   Text(
-                    'Don’t have an account? ',
+                    'dont_have_account'.tr,
                     style: regularTextStyle(blackColor),
                   ),
                   TextButton(
                     child: Text(
-                      'Sign Up',
+                      'signup'.tr,
                       style: regularTextStyle(dangerColor),
                     ),
                     onPressed: () => Get.toNamed(AppPages.signup),

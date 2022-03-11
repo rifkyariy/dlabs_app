@@ -18,7 +18,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
             ),
             color: blackColor,
             onPressed: () => Navigator.pop(context)),
-        title: Text('Questionnaire', style: BoldTextStyle(blackColor)),
+        title: Text('qst_questionnaire'.tr, style: BoldTextStyle(blackColor)),
         centerTitle: true,
         elevation: 2.0,
         backgroundColor: whiteColor,
@@ -39,7 +39,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
                       child: Column(
                         children: [
                           Text(
-                            'Fill this questionnaire to book a test for medical history',
+                            'qst_subtitle'.tr,
                             style: regularTextStyle(greyColor),
                           ),
                           const SizedBox(
@@ -100,7 +100,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Obx(() => Text(
-                      'Total Price : ${controller.servicePriceString.value}',
+                      '${'gen_total_price'.tr} : ${controller.servicePriceString.value}',
                       style: regularTextStyle(blackColor),
                     )),
               ),
@@ -109,17 +109,16 @@ class Questionnaire extends GetView<PersonalBookingController> {
               ),
               Obx(
                 () => AppButton(
-                  text: 'Submit',
+                  text: 'gen_submit'.tr,
                   textColor: whiteColor,
                   onClicked: () => showDialog(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Confirmation'),
+                      title: Text('pop_confirmation'.tr),
                       content: SingleChildScrollView(
                         child: ListBody(
-                          children: const <Widget>[
-                            Text(
-                                'Are you sure and agree that the information you have filled on the form is original and correct data ?.'),
+                          children: <Widget>[
+                            Text('pop_form_confirm'.tr),
                           ],
                         ),
                       ),
@@ -136,7 +135,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
                                     elevation: 0,
                                     side:
                                         BorderSide(width: 1, color: greyColor)),
-                                child: Text('Cancel',
+                                child: Text('pop_cancel'.tr,
                                     style: mediumTextStyle(greyColor)),
                                 onPressed: () {
                                   Navigator.of(context).pop();
@@ -152,7 +151,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
                                   primary: primaryColor,
                                   elevation: 0,
                                 ),
-                                child: Text('Confirm',
+                                child: Text('pop_confirm'.tr,
                                     style: mediumTextStyle(whiteColor)),
                                 onPressed: () {
                                   controller.createPersonalBooking();

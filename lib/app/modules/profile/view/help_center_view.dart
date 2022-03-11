@@ -36,7 +36,7 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
           color: whiteColor,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Help Center', style: BoldTextStyle(blackColor)),
+        title: Text('profile_help_center'.tr, style: BoldTextStyle(blackColor)),
       ),
       body: CustomScrollView(
         slivers: [
@@ -80,7 +80,7 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
       );
 
   List<Widget> infoBody() => [
-        title('Addresss'),
+        title('gen_address'.tr),
         paragraphView(address),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,48 +89,49 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
             iconWithText(Icons.email_outlined, text: 'info@directlab.id')
           ],
         ),
-        title('\nOperating Hours'),
+        title("\n ${'gen_operating_hours'.tr}"),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            paragraphView('Monday - Sunday'),
+            paragraphView("${'gen_monday'.tr} - ${'gen_sunday'.tr}"),
             paragraphView('08.00 WIB - 21.00 WIB')
           ],
         ),
         const SizedBox(height: 20),
-        const AppDividerWithTitle.contactUs(fontSize: 18),
+        AppDividerWithTitle.contactUs(
+            title: 'profile_about_us'.tr, fontSize: 18),
         TextInput(
           controller: controller.fullNameController,
-          label: "Full Name*",
+          label: "gen_fullname".tr,
           name: "fullname",
           errorMsg: '',
           isDisabled: controller.auth.isLoggedIn.value,
         ),
         TextInput(
           controller: controller.emailController,
-          label: "Email*",
+          label: "gen_email".tr,
           name: "email",
           errorMsg: '',
           isDisabled: controller.auth.isLoggedIn.value,
         ),
         TextInput(
           controller: controller.phoneNumberController,
-          label: "Phone*",
+          label: "gen_phone".tr,
           name: "phone",
           errorMsg: '',
           isDisabled: controller.auth.isLoggedIn.value,
         ),
         TextInput(
           controller: controller.subjectController,
-          label: "Subject*",
+          label: "gen_subject".tr,
           name: "subject",
           errorMsg: '',
           isDisabled: false,
         ),
         TextInput(
           controller: controller.messageController,
-          label: "Message*",
-          name: "subject",
+          label: "gen_message".tr,
+          name: "message",
           errorMsg: '',
           isDisabled: false,
           type: 'textarea',

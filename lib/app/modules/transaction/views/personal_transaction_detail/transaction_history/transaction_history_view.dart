@@ -26,16 +26,16 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            'Transaction History',
+            'profile_transaction_history'.tr,
             style: BoldTextStyle(const Color(0xFF323F4B)),
           ),
           bottom: TabBar(
             unselectedLabelColor: greyColor,
             labelColor: blackColor,
             indicatorColor: primaryColor,
-            tabs: const [
-              Tab(text: 'In Progress'),
-              Tab(text: 'Done'),
+            tabs: [
+              Tab(text: 'tr_d_in_progress'.tr),
+              Tab(text: 'tr_d_done'.tr),
             ],
           ),
         ),
@@ -76,9 +76,9 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
     }
 
     if (controller.transactionHistory.isEmpty) {
-      return const AppEmptyStatePlaceholder(
+      return AppEmptyStatePlaceholder(
         medical: false,
-        messages: 'There is no transaction history data',
+        messages: 'tr_d_no_transaction_history'.tr,
       );
     } else {
       return SizedBox(
@@ -92,9 +92,9 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
                 (_status != TRANSACTIONSTATUS.done);
 
             if (controller.transactionHistory.isEmpty) {
-              return const AppEmptyStatePlaceholder(
+              return AppEmptyStatePlaceholder(
                 medical: false,
-                messages: 'There is no transaction history data',
+                messages: 'tr_d_no_transaction_history'.tr,
               );
             }
 
@@ -137,9 +137,9 @@ class TransactionHistoryView extends GetView<TransactionViewController> {
     }
 
     if (controller.transactionHistory.isEmpty) {
-      return const AppEmptyStatePlaceholder(
+      return AppEmptyStatePlaceholder(
         medical: false,
-        messages: 'There is no transaction history data',
+        messages: 'tr_d_no_transaction_history'.tr,
       );
     } else {
       return SizedBox(

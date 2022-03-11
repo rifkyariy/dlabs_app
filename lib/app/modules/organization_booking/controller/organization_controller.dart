@@ -325,6 +325,7 @@ class OrganizationBookingController extends GetxController {
   void _searchPatientData() async {
     if (!isUpdateMode.value) {
       String q = patientIDNumberController.text;
+      print(q);
       if (q.length >= 3) {
         try {
           await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
@@ -336,7 +337,6 @@ class OrganizationBookingController extends GetxController {
                 patientDateController.text = result['birth_date'];
                 patientAddressController.text = result['address'];
                 genderValue.value = result['gender'];
-                print(result['nationality']);
                 patientSelectedNationality.text = result['nationality'];
 
                 reloadDropdown();

@@ -25,12 +25,12 @@ class TransactionPatientListView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Patient List',
+          'o_bt_patient_list'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
       body: (controller.transactionDetail.patientList ?? []).isEmpty
-          ? const AppEmptyStatePlaceholder(messages: 'No patient data')
+          ? AppEmptyStatePlaceholder(messages: 'tr_d_no_data'.tr)
           : ListView.builder(
               // physics: const NeverScrollableScrollPhysics(),
               padding: EdgeInsets.only(left: 10, right: 10),
@@ -46,7 +46,7 @@ class TransactionPatientListView extends GetView<TransactionViewController> {
                           .fullName ??
                       '',
                   subtitle:
-                      'ID No : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \nTest Type : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''} \nPhone : ${(controller.transactionDetail.patientList ?? [])[index].phone ?? ''} ',
+                      '${"o_bt_id_number".tr} : ${(controller.transactionDetail.patientList ?? [])[index].identityNumber ?? ''} \n${"gen_test_type".tr} : ${(controller.transactionDetail.patientList ?? [])[index].testTypeText ?? ''} \n${"gen_phone".tr} : ${(controller.transactionDetail.patientList ?? [])[index].phone ?? ''} ',
                   onPressed: (context) async {
                     controller.onViewDetailButtonPressed(index);
                   },
@@ -77,7 +77,7 @@ class TransactionPatientListView extends GetView<TransactionViewController> {
         subtitle,
         style: mediumTextStyle(greyColor, fontSize: 12),
       ),
-      buttonLabel: 'View Detail',
+      buttonLabel: 'tr_d_view_detail'.tr,
       isThreeLine: true,
       icon: AppIcons.article,
       buttonPressed: onPressed,

@@ -24,7 +24,8 @@ class ChangePassword extends GetView<ProfileViewController> {
             color: blackColor,
             onPressed: () => Navigator.pop(context),
           ),
-          title: Text('Change Password', style: BoldTextStyle(blackColor)),
+          title:
+              Text('profile_change_pass'.tr, style: BoldTextStyle(blackColor)),
         ),
         body: Container(
           child: Column(
@@ -38,7 +39,7 @@ class ChangePassword extends GetView<ProfileViewController> {
                     // Label Old Password
                     Obx(
                       () => TextInput(
-                          label: 'Old Password',
+                          label: 'gen_old_password'.tr,
                           name: 'password',
                           errorMsg: controller.oldPasswordErrorMessage.value,
                           type: 'password',
@@ -46,7 +47,7 @@ class ChangePassword extends GetView<ProfileViewController> {
                     ),
                     Obx(
                       () => TextInput(
-                        label: 'New Password',
+                        label: 'gen_new_password'.tr,
                         name: 'password',
                         errorMsg: controller.newPasswordErrorMessage.value,
                         type: 'password',
@@ -55,7 +56,7 @@ class ChangePassword extends GetView<ProfileViewController> {
                     ),
                     Obx(
                       () => TextInput(
-                        label: 'Confirm Password',
+                        label: 'gen_confirm_password'.tr,
                         name: 'password',
                         errorMsg: controller.confirmPasswordErrorMessage.value,
                         type: 'password',
@@ -64,7 +65,7 @@ class ChangePassword extends GetView<ProfileViewController> {
                     ),
                     Obx(
                       () => AppButton(
-                        text: 'Change Password',
+                        text: 'profile_change_pass'.tr,
                         textColor: whiteColor,
                         onClicked: () {
                           controller.handleChangePassword();

@@ -42,7 +42,9 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            widget.isUpdateMode ? 'Update Patient' : 'Add Patient',
+            widget.isUpdateMode
+                ? 'o_bt_update_patient'.tr
+                : 'o_bt_add_patient'.tr,
             style: BoldTextStyle(
               const Color(0xFF323F4B),
             ),
@@ -62,7 +64,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Patient Information',
+                      'gen_patient_information'.tr,
                       style: regularTextStyle(primaryColor),
                     ),
                   ],
@@ -108,7 +110,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               // email addresss
                               TextInput(
                                 controller: controller.patientEmailController,
-                                label: "Email",
+                                label: "gen_email".tr,
                                 name: "Email",
                                 errorMsg: controller.emailErrorMessage.value,
                               ),
@@ -116,7 +118,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               // Phone
                               TextInput(
                                 controller: controller.patientPhoneController,
-                                label: "Phone",
+                                label: "gen_phone".tr,
                                 name: "Phone",
                                 type: 'phone',
                                 errorMsg:
@@ -126,7 +128,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               // Date of birth
                               TextInput(
                                 controller: controller.patientDateController,
-                                label: 'Date of Birth',
+                                label: 'gen_dob'.tr,
                                 type: 'date',
                                 errorMsg:
                                     controller.dateOfBirthErrorMessage.value,
@@ -156,7 +158,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                                     ),
                                   ),
                                   Text(
-                                    'Male',
+                                    'gen_male'.tr,
                                     style: mediumTextStyle(blackColor,
                                         fontSize: 14),
                                   ),
@@ -171,7 +173,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                                     ),
                                   ),
                                   Text(
-                                    'Female',
+                                    'gen_female'.tr,
                                     style: mediumTextStyle(blackColor,
                                         fontSize: 14),
                                   ),
@@ -191,7 +193,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                               const CircularProgressIndicator(),
                               const SizedBox(height: 10),
                               Text(
-                                'Loading Patient Information',
+                                'loading_patient_info'.tr,
                                 style: smallTextStyle(primaryColor),
                               )
                             ],
@@ -205,14 +207,14 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                   () => SelectInput(
                     items: controller.testTypeList!.value,
                     selectedItem: controller.selectedTestType,
-                    label: 'Test Type',
+                    label: 'gen_test_type'.tr,
                     errorMsg: "",
                     name: '',
                   ),
                 ),
                 Obx(() {
                   return Text(
-                    'Price : ${controller.servicePriceString}',
+                    '${"gen_price".tr} : ${controller.servicePriceString}',
                     style: regularTextStyle(primaryColor),
                   );
                 })
@@ -252,7 +254,7 @@ class _AddOrUpdatePatientState extends State<AddOrUpdatePatient> {
                           }
                         },
                   child: Text(
-                    widget.isUpdateMode ? 'Update' : 'Add',
+                    widget.isUpdateMode ? 'gen_update'.tr : 'gen_add'.tr,
                     style: regularTextStyle(whiteColor),
                   ),
                   style: TextButton.styleFrom(

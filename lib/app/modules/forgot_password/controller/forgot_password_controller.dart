@@ -3,12 +3,15 @@ import 'package:kayabe_lims/app/modules/signin/controller/signin_controller.dart
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 
 class ForgotPasswordController extends GetxController {
   final SignInController _auth = Get.find();
+  final AppStorageService _storage = Get.find();
 
   // Text Controller
   TextEditingController emailController = TextEditingController();
+  RxString companyLogo = "".obs;
 
   // State
   // RxBool is Reactive Boolean (GetX properties), if the variable value changed, all of OBX (Observer Widget)
@@ -61,5 +64,13 @@ class ForgotPasswordController extends GetxController {
     } else {
       emailErrorMessages.value = 'Please enter a valid email address.';
     }
+  }
+
+  @override
+  void onInit() async {
+    // TODO: implement onInit
+    await _storage.readString('companyLogo').then((companyImage) {
+      companyLogo.value = companyImage!;
+    });
   }
 }

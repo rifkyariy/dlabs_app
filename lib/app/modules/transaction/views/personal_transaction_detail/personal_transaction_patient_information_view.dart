@@ -34,7 +34,7 @@ class PersonalTransactionPatientInformationView
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Patient Information',
+          'gen_patient_information'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -60,12 +60,12 @@ class PersonalTransactionPatientInformationView
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .fullName ??
                               ''),
-                      _boldDetailInformationItem('Email'),
+                      _boldDetailInformationItem('gen_email'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .email ??
                               ''),
-                      _boldDetailInformationItem('Location'),
+                      _boldDetailInformationItem('gen_location'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .address ??
@@ -81,7 +81,8 @@ class PersonalTransactionPatientInformationView
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .nationality ??
                               ''),
-                      _boldDetailInformationItem('gen_identity_number'.tr),
+                      _boldDetailInformationItem(
+                          'gen_identity_number_short'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .identityNumber ??
@@ -91,7 +92,7 @@ class PersonalTransactionPatientInformationView
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .fullName ??
                               ''),
-                      _boldDetailInformationItem('Email'),
+                      _boldDetailInformationItem('gen_email'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .email ??
@@ -99,7 +100,7 @@ class PersonalTransactionPatientInformationView
                     ],
               trailing: controller.isHomeService()
                   ? [
-                      _boldDetailInformationItem('Date of birth'),
+                      _boldDetailInformationItem('gen_dob'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .birthDate ??
@@ -118,7 +119,7 @@ class PersonalTransactionPatientInformationView
                             ? "Male"
                             : "Female",
                       ),
-                      _boldDetailInformationItem('Phone'),
+                      _boldDetailInformationItem('gen_phone'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .phone ??
@@ -129,7 +130,7 @@ class PersonalTransactionPatientInformationView
                       /// Right Side of the table
                       /// Consist of title and information
                       ///
-                      _boldDetailInformationItem('Date of birth'),
+                      _boldDetailInformationItem('gen_dob'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .birthDate ??
@@ -140,15 +141,15 @@ class PersonalTransactionPatientInformationView
                                         .gender ??
                                     '') ==
                                 '1'
-                            ? "Male"
-                            : "Female",
+                            ? "gen_male".tr
+                            : "gen_male".tr,
                       ),
-                      _boldDetailInformationItem('Phone'),
+                      _boldDetailInformationItem('gen_phone'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ?? [])[0]
                                   .phone ??
                               ''),
-                      _boldDetailInformationItem('Location'),
+                      _boldDetailInformationItem('gen_location'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.locationName ?? '')),
                     ],
@@ -188,8 +189,8 @@ class PersonalTransactionPatientInformationView
               boxMargin: const EdgeInsets.only(top: 20),
               divider: const SizedBox(),
               header: AppTitleWithButton(
-                title: 'Medical Questionnaire',
-                buttonLabel: 'View All',
+                title: 'qst_medical_questionnaire'.tr,
+                buttonLabel: 'gen_view_all'.tr,
                 titleColor: primaryColor,
                 onTap: controller.toMedicalQuestionnaireListView,
               ),
@@ -207,8 +208,8 @@ class PersonalTransactionPatientInformationView
                         : whiteColor,
                     margin: EdgeInsets.zero,
                     child: (controller.medicalQuestionnaireList ?? []).isEmpty
-                        ? const AppEmptyStatePlaceholder(
-                            messages: 'There is no medical questionnaire data')
+                        ? AppEmptyStatePlaceholder(
+                            messages: 'qst_no_questionnaire'.tr)
                         : ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             padding: const EdgeInsets.only(left: 10, right: 10),
@@ -256,8 +257,8 @@ class PersonalTransactionPatientInformationView
               boxMargin: const EdgeInsets.only(top: 20),
               divider: const SizedBox(),
               header: AppTitleWithButton(
-                title: 'Test Result',
-                buttonLabel: 'View All',
+                title: 'tr_d_test_result'.tr,
+                buttonLabel: 'gen_view_all'.tr,
                 titleColor: primaryColor,
                 onTap: controller.toMedicalHistoryListView,
               ),
@@ -280,8 +281,8 @@ class PersonalTransactionPatientInformationView
                     margin: EdgeInsets.zero,
                     child: (controller.medicalHistoryList ?? []).isEmpty ||
                             _status == TRANSACTIONSTATUS.readyToRelease
-                        ? const AppEmptyStatePlaceholder(
-                            messages: 'There is no test result data',
+                        ? AppEmptyStatePlaceholder(
+                            messages: 'tr_d_no_test_result'.tr,
                             medical: true,
                             maximumSize: Size(200, 150),
                           )
@@ -413,7 +414,7 @@ class PersonalTransactionPatientInformationView
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Result',
+                            'tr_d_result'.tr,
                             style: regularTextStyle(primaryColor, fontSize: 10),
                           )
                         ],

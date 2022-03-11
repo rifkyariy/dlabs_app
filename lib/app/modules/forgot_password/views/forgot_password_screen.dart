@@ -18,18 +18,21 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
           child: Column(
             children: [
               // Logo and Header
-              Center(
-                child: Image.asset(
-                  'assets/image/logo-dlab.png',
-                  width: 102,
-                  height: 43,
-                ),
+              Obx(
+                () => Center(
+                    child: controller.companyLogo.value.isNotEmpty
+                        ? Image.network(
+                            controller.companyLogo.value,
+                            width: 100,
+                          )
+                        : null),
               ),
-              SizedBox(height: 0.2 * MediaQuery.of(context).size.height),
+              const SizedBox(height: 60),
+              // SizedBox(height: 0.2 * MediaQuery.of(context).size.height),
 
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Forgot Your Password?',
+                child: Text('gen_forgot_password'.tr,
                     style: titleTextStyle(blackColor)),
               ),
               const SizedBox(height: 10),
@@ -37,7 +40,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'No worries, you just need to type your email address and we will send the verification code.',
+                  'forgot_pass_no_worries'.tr,
                   style: regularTextStyle(greyColor),
                 ),
               ),
@@ -52,7 +55,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
                     () => TextInput(
                       label: 'gen_email'.tr,
                       name: 'email',
-                      placeholder: 'e.g. mail@address.com',
+                      placeholder: 'email_placeholder'.tr,
                       errorMsg: controller.emailErrorMessages.value,
                       controller: controller.emailController,
                     ),
@@ -64,7 +67,7 @@ class ForgotPasswordScreen extends GetView<ForgotPasswordController> {
 
               Obx(
                 () => AppButton(
-                  text: 'Reset Password',
+                  text: 'forgot_pass_reset'.tr,
                   textColor: whiteColor,
                   onClicked: () => controller.forgotPasswordHandler(),
                   isLoading: controller.isLoading.value,

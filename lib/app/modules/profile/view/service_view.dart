@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/global_widgets/app_divider_with_title.dart';
 
@@ -28,7 +29,7 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
           color: whiteColor,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Service', style: BoldTextStyle(blackColor)),
+        title: Text('profile_services'.tr, style: BoldTextStyle(blackColor)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -51,7 +52,9 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
                     children: [
                       title(),
                       paragraphView(about),
-                      const AppDividerWithTitle.price(),
+                      AppDividerWithTitle.price(
+                        title: 'gen_price'.tr,
+                      ),
                       paragraphView('Rp 700.000/ orang (minimal 100 orang)'),
                     ],
                   )),
@@ -80,7 +83,7 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
   Widget title() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
         child: Text(
-          'About Corporate Services',
+          'profile_about_corporate'.tr,
           style: BoldTextStyle(primaryColor, fontSize: 18),
           textAlign: TextAlign.left,
         ),

@@ -43,7 +43,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Transaction Detail',
+          'tr_d_transaction_detail'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -55,12 +55,12 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
 
             /// App Detailed Box
             AppDetailInformationBox(
-              title: 'Invoice for',
+              title: 'tr_d_invoice_for'.tr,
               header: AppTitleWithButton(
                 title: AppConverter.transactionEnumToString(
                   controller.currentTransactionStatus,
                 ),
-                buttonLabel: 'View Status',
+                buttonLabel: 'tr_d_view_status'.tr,
                 onTap: () {
                   controller.toTrackingProcessView();
                 },
@@ -70,11 +70,11 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                     : blackColor,
               ),
               leading: [
-                AppDetailInformationItem('Transaction Date'),
-                AppDetailInformationItem('gen_identity_number'.tr),
+                AppDetailInformationItem('tr_d_transaction_date'.tr),
+                AppDetailInformationItem('gen_identity_number_short'.tr),
                 AppDetailInformationItem('gen_fullname'.tr),
-                AppDetailInformationItem('Email'),
-                AppDetailInformationItem('Phone'),
+                AppDetailInformationItem('gen_email'.tr),
+                AppDetailInformationItem('gen_phone'.tr),
               ],
 
               /// Trailing Button
@@ -106,12 +106,13 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
 
             AppDetailInformationBox(
               title: 'gen_test_information'.tr,
-              leading:  [
+              leading: [
                 AppDetailInformationItem('gen_test_purpose'.tr),
-                AppDetailInformationItem('Test Type'),
-                AppDetailInformationItem('Test Date'),
-                AppDetailInformationItem('Service'),
-                AppDetailInformationItem('Location'),
+                AppDetailInformationItem('gen_test_type'.tr),
+                AppDetailInformationItem('gen_test_date'.tr),
+                AppDetailInformationItem('p_bt_service'.tr),
+                AppDetailInformationItem('gen_arrived_date'.tr),
+                AppDetailInformationItem('gen_location'.tr),
               ],
               trailing: [
                 AppDetailInformationItem(
@@ -130,8 +131,14 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                   controller.transactionDetail.services ?? '',
                   color: blackColor,
                 ),
-
-                /// TODO change this if error
+                AppDetailInformationItem(
+                  (controller.transactionDetail.patientList![0].arrivedDate !=
+                          '')
+                      ? controller
+                          .transactionDetail.patientList![0].arrivedDate!
+                      : '-',
+                  color: blackColor,
+                ),
                 AppDetailInformationItem(
                   controller.transactionDetail.locationName ?? '',
                   color: blackColor,
@@ -150,8 +157,8 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                       .fullName ??
                   '',
               header: AppTitleWithButton(
-                title: 'Patient Information',
-                buttonLabel: 'View Detail',
+                title: 'gen_patient_information'.tr,
+                buttonLabel: 'tr_d_view_detail'.tr,
                 onTap: controller.toPatientDetailScrenn,
               ),
 
@@ -213,7 +220,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
 
                 /// Disabled Button For Title Only
                 AppTitleWithButton(
-                  title: 'Total Price',
+                  title: 'gen_total_price'.tr,
                   buttonLabel: CurrencyFormat.convertToIdr(
                     (controller.transactionDetail.price ?? 0),
                     2,
@@ -229,8 +236,8 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
             Obx(
               () => AppDetailInformationBox(
                 header: AppTitleWithButton(
-                  title: 'Payment Detail',
-                  buttonLabel: 'Choose',
+                  title: 'tr_d_payment_detail'.tr,
+                  buttonLabel: 'tr_d_choose'.tr,
                   onTap: () {
                     Get.dialog(
                       GetPlatform.isIOS ? _iosDialog() : _androidDialog(),
@@ -242,10 +249,10 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                     size: 14,
                   ),
                 ),
-                leading: const [
-                  AppDetailInformationItem('Total Price'),
+                leading: [
+                  AppDetailInformationItem('gen_total_price'.tr),
                   // AppDetailInformationItem('Payment Method'),
-                  AppDetailInformationItem('Payment Time'),
+                  AppDetailInformationItem('tr_d_payment_time'.tr),
                 ],
                 trailing: [
                   AppDetailInformationItem(
@@ -262,11 +269,10 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
 
                   AppDetailInformationItem(controller.paidDate.value),
                 ],
-                bottom: const [
+                bottom: [
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: AppDetailInformationItem(
-                        'Please make payment before the due date. Payment will be canceled automatically after 24 hours.'),
+                    child: AppDetailInformationItem('tr_d_caution_messages'.tr),
                   ),
                   SizedBox(height: 20)
                 ],
@@ -301,7 +307,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Total Price : ',
+                  '${"gen_total_price".tr} : ',
                   style: mediumTextStyle(blackColor, fontSize: 12),
                 ),
                 Text(
@@ -319,7 +325,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                 Flexible(
                   flex: 2,
                   child: TransactionTextButton(
-                    title: "Cancel",
+                    title: "pop_cancel".tr,
                     isRedBackground: true,
                     onPressed: () {
                       Get.dialog(
@@ -334,7 +340,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                 Flexible(
                   flex: 4,
                   child: TransactionTextButton(
-                    title: "Pay",
+                    title: "tr_d_pay".tr,
                     isWhiteBackground: false,
                     onPressed: () {
                       Get.dialog(
@@ -360,14 +366,14 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              cancelDialog ? "Warning!" : "Payment Option",
+              cancelDialog ? "pop_warning".tr : "pop_payment_option".tr,
               style: BoldTextStyle(blackColor, fontSize: 19),
             ),
             const SizedBox(height: 18),
             Text(
               cancelDialog
-                  ? "Are you sure want to cancel this transaction?"
-                  : "Please select a payment method",
+                  ? "pop_cancel_transcation".tr
+                  : "pop_select_payment".tr,
               style: regularTextStyle(
                 blackColor,
                 fontSize: 14,
@@ -383,7 +389,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
       children: cancelDialog
           ? [
               TransactionTextButton(
-                title: 'Yes',
+                title: 'gen_yes'.tr,
                 isWhiteBackground: false,
                 onPressed: () async {
                   Get.back();
@@ -394,7 +400,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               ),
               const SizedBox(height: 15),
               TransactionTextButton(
-                title: 'No',
+                title: 'gen_no'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   Get.back();
@@ -403,7 +409,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
             ]
           : [
               TransactionTextButton(
-                title: 'Transfer',
+                title: 'gen_transfer'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   // Destroy Dialog Modal
@@ -415,7 +421,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               ),
               const SizedBox(height: 15),
               TransactionTextButton(
-                title: 'Cash',
+                title: 'gen_cash'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   // Destroy Dialog Modal
@@ -427,7 +433,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               ),
               const SizedBox(height: 15),
               TransactionTextButton(
-                title: 'Online',
+                title: 'gen_online'.tr,
                 isWhiteBackground: true,
                 onPressed: () {
                   // Destroy Dialog Modal
@@ -449,14 +455,14 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              cancelDialog ? "Warning!" : "Payment Option",
+              cancelDialog ? "pop_warning".tr : "pop_payment_option".tr,
               style: BoldTextStyle(blackColor, fontSize: 19),
             ),
             const SizedBox(height: 18),
             Text(
               cancelDialog
-                  ? "Are you sure want to cancel this transaction?"
-                  : "Please select a payment method",
+                  ? "pop_cancel_transcation".tr
+                  : "pop_select_payment".tr,
               style: regularTextStyle(
                 blackColor,
                 fontSize: 14,
@@ -469,12 +475,12 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
           ? [
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'Yes',
+                title: 'gen_yes'.tr,
                 onPressed: cancelDialog ? () {} : () {},
               ),
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'No',
+                title: 'gen_no'.tr,
                 onPressed: () async {
                   await controller.onCancelTransactionButtonPressed(
                     controller.transactionDetail.transactionId ?? '',
@@ -484,7 +490,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
             ]
           : [
               TransactionIosButton(
-                title: 'Transfer',
+                title: 'gen_transfer'.tr,
                 onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
@@ -495,7 +501,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               ),
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'Cash',
+                title: 'gen_cash'.tr,
                 onPressed: () {
                   // Destroy Dialog Modal
                   Get.back();
@@ -506,7 +512,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
               ),
               const Divider(height: 0, thickness: 1),
               TransactionIosButton(
-                title: 'Online',
+                title: 'gen_online'.tr,
                 onPressed: () {},
               ),
             ],
@@ -535,7 +541,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      'Personal Service',
+                      'tr_d_personal_service'.tr,
                       style: mediumTextStyle(blackColor, fontSize: 12),
                     )
                   ],
@@ -560,7 +566,7 @@ class PersonalPaymentView extends GetView<TransactionViewController> {
                     ),
                   ),
                   Text(
-                    'Invoice',
+                    'inv_invoice'.tr,
                     style: BoldTextStyle(
                       enabled ?? false ? primaryColor : greyColor,
                       fontSize: 12,

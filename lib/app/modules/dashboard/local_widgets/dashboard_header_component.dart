@@ -45,7 +45,7 @@ class DashboardHeaderComponent extends StatelessWidget {
               children: [
                 Text('Hello $name !', style: appAvatarNameTextStyle),
                 SizedBox(height: SizeScalling().setHeight(5)),
-                Text('How are you today ?', style: appAvatarSubtitleTextStyle),
+                Text('gen_greeting'.tr, style: appAvatarSubtitleTextStyle),
               ],
             ),
           ),
@@ -55,7 +55,7 @@ class DashboardHeaderComponent extends StatelessWidget {
               Get.toNamed(AppPages.signin);
 
               Get.snackbar(
-                "Please login to continue",
+                "gen_login_required".tr,
                 "",
                 backgroundColor: primaryColor,
                 snackPosition: SnackPosition.TOP,

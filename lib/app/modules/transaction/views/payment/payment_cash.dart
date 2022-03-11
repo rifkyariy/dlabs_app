@@ -31,7 +31,7 @@ class PaymentCashView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Payment',
+          'pay_payment'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -51,7 +51,7 @@ class PaymentCashView extends GetView<TransactionViewController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Payment deadline',
+                          'pay_payment_deadline'.tr,
                           style: mediumTextStyle(greyColor, fontSize: 12),
                         ),
                         const SizedBox(
@@ -88,7 +88,7 @@ class PaymentCashView extends GetView<TransactionViewController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Total Price',
+                    'gen_total_price'.tr,
                     style: BoldTextStyle(blackColor, fontSize: 12),
                   ),
                   Text(
@@ -123,14 +123,14 @@ class PaymentCashView extends GetView<TransactionViewController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Please come to the cashier and pay with cash or debit : ',
+                    'pay_payment_cash_desc'.tr,
                     style: mediumTextStyle(blackColor, fontSize: 12),
                   ),
                   const SizedBox(
                     height: 8,
                   ),
                   Text(
-                    'Please Inform :',
+                    'pay_payment_please_inform'.tr,
                     style: BoldTextStyle(blackColor, fontSize: 12),
                   ),
                   const SizedBox(
@@ -176,7 +176,7 @@ class PaymentCashView extends GetView<TransactionViewController> {
                 Flexible(
                   flex: 4,
                   child: TransactionTextButton(
-                    title: "Close",
+                    title: "gen_close".tr,
                     isWhiteBackground: false,
                     onPressed: () async {
                       await controller.onUploadPaymentProofPressed(

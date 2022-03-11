@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
-import 'package:kayabe_lims/app/core/utils/image_utils.dart';
 import 'package:kayabe_lims/app/modules/profile/controller/profile_view_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/local_widgets/transaction_android_button.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
@@ -23,7 +22,7 @@ class ProfileView extends GetView<ProfileViewController> {
           color: whiteColor,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Profile', style: BoldTextStyle(whiteColor)),
+        title: Text('menu_profile'.tr, style: BoldTextStyle(whiteColor)),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -84,14 +83,15 @@ class ProfileView extends GetView<ProfileViewController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('SETTING', style: mediumTextStyle(greyColor, fontSize: 12)),
-            tileComponent('Personal Information', onTap: () {
+            Text('profile_setting'.tr,
+                style: mediumTextStyle(greyColor, fontSize: 12)),
+            tileComponent('profile_personal_info'.tr, onTap: () {
               Get.toNamed(AppPages.personalInformation);
             }),
-            tileComponent('Password', onTap: () {
+            tileComponent('profile_change_pass'.tr, onTap: () {
               Get.toNamed(AppPages.changePassword);
             }),
-            tileComponent('History Transaction', onTap: () {
+            tileComponent('profile_transaction_history'.tr, onTap: () {
               if (controller.auth.isLoggedIn.value) {
                 Get.to(
                   () => const TransactionHistoryView(),
@@ -101,7 +101,7 @@ class ProfileView extends GetView<ProfileViewController> {
                 // Redirect into sign in pages
                 Get.toNamed(AppPages.signin);
                 Get.snackbar(
-                  "Please login to continue",
+                  "gen_login_required".tr,
                   "",
                   backgroundColor: primaryColor,
                   snackPosition: SnackPosition.TOP,
@@ -125,14 +125,15 @@ class ProfileView extends GetView<ProfileViewController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('ABOUT', style: mediumTextStyle(greyColor, fontSize: 12)),
-            tileComponent('About Us', onTap: () {
+            Text('profile_about'.tr,
+                style: mediumTextStyle(greyColor, fontSize: 12)),
+            tileComponent('profile_about_us'.tr, onTap: () {
               Get.toNamed(AppPages.aboutUs);
             }),
-            tileComponent('Services', onTap: () {
+            tileComponent('profile_services'.tr, onTap: () {
               Get.toNamed(AppPages.services);
             }),
-            tileComponent('Help Center', onTap: () {
+            tileComponent('profile_help_center'.tr, onTap: () {
               Get.toNamed(AppPages.helpCenter);
             }),
             Padding(
@@ -146,7 +147,7 @@ class ProfileView extends GetView<ProfileViewController> {
                         controller.onSignInButtonPressed();
                       },
                 child: Text(
-                  signedIn ? 'Sign Out' : 'Sign In',
+                  signedIn ? 'logout'.tr : 'login'.tr,
                   style: mediumTextStyle(signedIn ? dangerColor : primaryColor),
                 ),
               ),
@@ -261,7 +262,7 @@ class ProfileView extends GetView<ProfileViewController> {
             ),
             const SizedBox(height: 18),
             Text(
-              "Are you sure want to sign out?",
+              "pop_logout_alert".tr,
               style: regularTextStyle(
                 blackColor,
                 fontSize: 14,
@@ -276,7 +277,7 @@ class ProfileView extends GetView<ProfileViewController> {
       ),
       children: [
         TransactionTextButton(
-          title: 'Yes',
+          title: 'gen_yes'.tr,
           isWhiteBackground: false,
           onPressed: () {
             controller.onSignOutButtonPressed();
@@ -285,7 +286,7 @@ class ProfileView extends GetView<ProfileViewController> {
         ),
         const SizedBox(height: 15),
         TransactionTextButton(
-          title: 'No',
+          title: 'gen_no'.tr,
           isWhiteBackground: true,
           onPressed: () async {
             Get.back();

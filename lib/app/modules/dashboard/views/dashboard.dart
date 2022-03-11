@@ -43,7 +43,7 @@ class DashboardScreen extends GetView<DashboardController> {
           Get.toNamed(AppPages.signin);
 
           Get.snackbar(
-            "Please login to continue",
+            "pop_login_required".tr,
             "",
             backgroundColor: primaryColor,
             snackPosition: SnackPosition.TOP,
@@ -86,7 +86,7 @@ class DashboardScreen extends GetView<DashboardController> {
                       bottom: SizeScalling().setHeight(17),
                       left: SizeScalling().setWidth(0)),
                   child: Text(
-                    "Our Service",
+                    "gen_our_service".tr,
                     style: mediumTextStyle(Colors.black),
                   ),
                 ),
@@ -105,7 +105,7 @@ class DashboardScreen extends GetView<DashboardController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Article",
+                        "gen_article".tr,
                         style: mediumTextStyle(Colors.black),
                       ),
                       GestureDetector(
@@ -113,7 +113,7 @@ class DashboardScreen extends GetView<DashboardController> {
                           // TODO add article route
                         },
                         child: Text(
-                          "View All",
+                          "gen_view_all".tr,
                           style: appServicePriceTextStyle,
                         ),
                       )

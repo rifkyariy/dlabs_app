@@ -25,7 +25,7 @@ class InvoiceView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Invoice',
+          'inv_invoice'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -34,7 +34,7 @@ class InvoiceView extends GetView<TransactionViewController> {
           children: [
             ListTile(
               title: Text(
-                "Transaction No",
+                "inv_transaction_number".tr,
                 style: mediumTextStyle(blackColor, fontSize: 13),
               ),
               subtitle: Text(
@@ -64,7 +64,7 @@ class InvoiceView extends GetView<TransactionViewController> {
               ),
               leading: [
                 AppDetailInformationItem(
-                  "Full Name",
+                  "gen_fullname".tr,
                   bold: true,
                   color: whiteColor,
                 ),
@@ -75,7 +75,7 @@ class InvoiceView extends GetView<TransactionViewController> {
                 ),
                 const AppDetailInformationItem(''),
                 AppDetailInformationItem(
-                  "Email",
+                  "gen_email".tr,
                   bold: true,
                   color: whiteColor,
                 ),
@@ -87,7 +87,7 @@ class InvoiceView extends GetView<TransactionViewController> {
               ],
               trailing: [
                 AppDetailInformationItem(
-                  'gen_identity_number'.tr,
+                  'gen_identity_number_short'.tr,
                   bold: true,
                   color: whiteColor,
                 ),
@@ -98,7 +98,7 @@ class InvoiceView extends GetView<TransactionViewController> {
                 ),
                 const AppDetailInformationItem(''),
                 AppDetailInformationItem(
-                  "Phone",
+                  "gen_phone".tr,
                   bold: true,
                   color: whiteColor,
                 ),
@@ -118,7 +118,7 @@ class InvoiceView extends GetView<TransactionViewController> {
               ),
               leading: [
                 AppDetailInformationItem(
-                  "Test Date",
+                  "gen_test_date".tr,
                   bold: true,
                   color: blackColor,
                 ),
@@ -127,7 +127,7 @@ class InvoiceView extends GetView<TransactionViewController> {
                   color: blackColor,
                 ),
                 AppDetailInformationItem(
-                  "Location",
+                  "gen_location".tr,
                   bold: true,
                   color: blackColor,
                 ),
@@ -162,7 +162,7 @@ class InvoiceView extends GetView<TransactionViewController> {
                 child: ListTile(
                   contentPadding: const EdgeInsets.symmetric(horizontal: 24),
                   title: Text(
-                    'Total Price',
+                    'gen_total_price'.tr,
                     style: mediumTextStyle(blackColor, fontSize: 12),
                   ),
                   subtitle: Text(

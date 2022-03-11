@@ -33,7 +33,7 @@ class OrganizationTransactionPatientInformationView
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Patient Information',
+          'gen_patient_information'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -54,7 +54,7 @@ class OrganizationTransactionPatientInformationView
             //               (controller.transactionDetail.patientList ?? [])[0]
             //                       .nationality ??
             //                   ''),
-            //           _boldDetailInformationItem('Fullname'),
+            //           _boldDetailInformationItem('gen_fullname'.tr),
             //           _mediumDetailInformationItem(
             //               (controller.transactionDetail.patientList ?? [])[0]
             //                       .fullName ??
@@ -85,7 +85,7 @@ class OrganizationTransactionPatientInformationView
             //               (controller.transactionDetail.patientList ?? [])[0]
             //                       .identityNumber ??
             //                   ''),
-            //           _boldDetailInformationItem('Fullname'),
+            //           _boldDetailInformationItem('gen_fullname'.tr),
             //           _mediumDetailInformationItem(
             //               (controller.transactionDetail.patientList ?? [])[0]
             //                       .fullName ??
@@ -103,7 +103,7 @@ class OrganizationTransactionPatientInformationView
             //               (controller.transactionDetail.patientList ?? [])[0]
             //                       .birthDate ??
             //                   ''),
-            //           _boldDetailInformationItem('Identity Number'),
+            //           _boldDetailInformationItem('gen_identity_number'.tr),
             //           _mediumDetailInformationItem(
             //               (controller.transactionDetail.patientList ?? [])[0]
             //                       .identityNumber ??
@@ -174,13 +174,13 @@ class OrganizationTransactionPatientInformationView
                                       [])[index]
                                   .fullName ??
                               ''),
-                      _boldDetailInformationItem('Email'),
+                      _boldDetailInformationItem('gen_email'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
                                   .email ??
                               ''),
-                      _boldDetailInformationItem('Location'),
+                      _boldDetailInformationItem('gen_location'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -198,7 +198,8 @@ class OrganizationTransactionPatientInformationView
                                       [])[index]
                                   .nationality ??
                               ''),
-                      _boldDetailInformationItem('gen_identity_number'.tr),
+                      _boldDetailInformationItem(
+                          'gen_identity_number_short'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -210,7 +211,7 @@ class OrganizationTransactionPatientInformationView
                                       [])[index]
                                   .fullName ??
                               ''),
-                      _boldDetailInformationItem('Email'),
+                      _boldDetailInformationItem('gen_email'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -219,7 +220,7 @@ class OrganizationTransactionPatientInformationView
                     ],
               trailing: controller.isHomeService()
                   ? [
-                      _boldDetailInformationItem('Date of birth'),
+                      _boldDetailInformationItem('gen_dob'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -237,10 +238,10 @@ class OrganizationTransactionPatientInformationView
                                         .gender ??
                                     '') ==
                                 '1'
-                            ? "Male"
-                            : "Female",
+                            ? "gen_male".tr
+                            : "gen_female".tr,
                       ),
-                      _boldDetailInformationItem('Phone'),
+                      _boldDetailInformationItem('gen_phone'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -252,7 +253,7 @@ class OrganizationTransactionPatientInformationView
                       /// Right Side of the table
                       /// Consist of title and information
                       ///
-                      _boldDetailInformationItem('Date of birth'),
+                      _boldDetailInformationItem('gen_dob'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
@@ -264,16 +265,16 @@ class OrganizationTransactionPatientInformationView
                                         .gender ??
                                     '') ==
                                 '1'
-                            ? "Male"
-                            : "Female",
+                            ? "gen_male".tr
+                            : "gen_female".tr,
                       ),
-                      _boldDetailInformationItem('Phone'),
+                      _boldDetailInformationItem('gen_phone'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.patientList ??
                                       [])[index]
                                   .phone ??
                               ''),
-                      _boldDetailInformationItem('Location'),
+                      _boldDetailInformationItem('gen_location'.tr),
                       _mediumDetailInformationItem(
                           (controller.transactionDetail.locationName ?? '')),
                     ],
@@ -321,10 +322,10 @@ class OrganizationTransactionPatientInformationView
                   _boldDetailInformationItem('gen_test_purpose'.tr),
                   _mediumDetailInformationItem(
                       controller.transactionDetail.testPurpose ?? ''),
-                  _boldDetailInformationItem('Test Date'),
+                  _boldDetailInformationItem('gen_test_date'.tr),
                   _mediumDetailInformationItem(
                       controller.transactionDetail.testDate ?? ''),
-                  _boldDetailInformationItem('Arrived Date'),
+                  _boldDetailInformationItem('gen_arrived_date'.tr),
                   _mediumDetailInformationItem(
                       (controller.transactionDetail.patientList ?? [])[index]
                                   .arrivedDate! !=
@@ -335,12 +336,12 @@ class OrganizationTransactionPatientInformationView
                           : '-'),
                 ],
                 trailing: [
-                  _boldDetailInformationItem('Test Type'),
+                  _boldDetailInformationItem('gen_test_type'.tr),
                   _mediumDetailInformationItem(
                       (controller.transactionDetail.patientList ?? [])[index]
                               .testTypeText ??
                           ''),
-                  _boldDetailInformationItem('Service'),
+                  _boldDetailInformationItem('p_bt_service'.tr),
                   _mediumDetailInformationItem(
                       controller.transactionDetail.services ?? '')
                 ]),
@@ -356,7 +357,7 @@ class OrganizationTransactionPatientInformationView
                     contentPadding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
                     leading: [
                       AppDetailInformationItem(
-                        'Location',
+                        'gen_location'.tr,
                         style: BoldTextStyle(blackColor, fontSize: 13),
                       ),
                       AppDetailInformationItem(
@@ -378,8 +379,8 @@ class OrganizationTransactionPatientInformationView
               boxMargin: const EdgeInsets.only(top: 20),
               divider: const SizedBox(),
               header: AppTitleWithButton(
-                title: 'Test Result',
-                buttonLabel: 'View All',
+                title: 'tr_d_test_result'.tr,
+                buttonLabel: 'gen_view_all'.tr,
                 titleColor: primaryColor,
                 onTap: controller.toMedicalHistoryListView,
               ),
@@ -396,8 +397,8 @@ class OrganizationTransactionPatientInformationView
                         : whiteColor,
                     margin: EdgeInsets.zero,
                     child: (controller.medicalHistoryList ?? []).isEmpty
-                        ? const AppEmptyStatePlaceholder(
-                            messages: 'There is no test result data',
+                        ? AppEmptyStatePlaceholder(
+                            messages: 'tr_d_no_test_result'.tr,
                             medical: true,
                             maximumSize: Size(200, 150),
                           )
@@ -529,7 +530,7 @@ class OrganizationTransactionPatientInformationView
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Result',
+                            'tr_d_result'.tr,
                             style: regularTextStyle(primaryColor, fontSize: 10),
                           )
                         ],

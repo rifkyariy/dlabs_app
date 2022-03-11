@@ -1,3 +1,4 @@
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/global_widgets/slideable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
@@ -27,14 +28,14 @@ class BookingListTile extends StatelessWidget {
             backgroundColor: const Color(0xFF1176BC),
             foregroundColor: Colors.white,
             icon: AppIcons.sync, // TODO update Icons
-            label: 'Update',
+            label: 'gen_update'.tr,
           ),
           SlidableAction(
             onPressed: deleteButtonPressed,
             backgroundColor: const Color(0xFFDC3545),
             foregroundColor: Colors.white,
             icon: AppIcons.trash,
-            label: 'Delete',
+            label: 'gen_delete'.tr,
           ),
         ],
       ),

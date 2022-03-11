@@ -29,14 +29,14 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Test Result',
+          'tr_d_test_result'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
       body: (controller.medicalHistoryList ?? []).isEmpty ||
               _status == TRANSACTIONSTATUS.readyToRelease
-          ? const AppEmptyStatePlaceholder(
-              messages: 'There is no test result data',
+          ? AppEmptyStatePlaceholder(
+              messages: 'tr_d_no_test_result'.tr,
             )
           : ListView.builder(
               itemCount: (controller.medicalHistoryList ?? []).length,
@@ -131,7 +131,7 @@ class MedicalHistoryView extends GetView<TransactionViewController> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Result',
+                            'tr_d_result'.tr,
                             style: regularTextStyle(primaryColor, fontSize: 10),
                           )
                         ],

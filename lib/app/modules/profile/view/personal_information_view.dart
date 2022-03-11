@@ -25,7 +25,8 @@ class PersonalInformation extends GetView<ProfileViewController> {
           color: blackColor,
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Personal Information', style: BoldTextStyle(blackColor)),
+        title:
+            Text('profile_personal_info'.tr, style: BoldTextStyle(blackColor)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,7 +44,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             SearchableSelectInput(
                               selectedItem: controller.selectedNationality,
                               items: controller.nationalityList!.value,
-                              label: 'Nationality',
+                              label: 'gen_nationality'.tr,
                               errorMsg: "",
                               name: '',
                             ),
@@ -88,7 +89,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             // Date of Birth
                             TextInput(
                               controller: controller.dateOfBirthController,
-                              label: 'Date of Birth',
+                              label: 'gen_dob'.tr,
                               type: 'date',
                               lastDate: DateTime.now(),
                               errorMsg:
@@ -118,7 +119,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                                   ),
                                 ),
                                 Text(
-                                  'Male',
+                                  'gen_male'.tr,
                                   style:
                                       mediumTextStyle(blackColor, fontSize: 14),
                                 ),
@@ -133,7 +134,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                                   ),
                                 ),
                                 Text(
-                                  'Female',
+                                  'gen_female'.tr,
                                   style:
                                       mediumTextStyle(blackColor, fontSize: 14),
                                 ),
@@ -157,7 +158,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
                             const CircularProgressIndicator(),
                             const SizedBox(height: 10),
                             Text(
-                              'Loading Patient Information',
+                              'loading_personal_info'.tr,
                               style: smallTextStyle(primaryColor),
                             )
                           ],
@@ -182,7 +183,7 @@ class PersonalInformation extends GetView<ProfileViewController> {
           children: [
             Obx(
               () => AppButton(
-                text: 'Submit',
+                text: 'gen_update'.tr,
                 textColor: whiteColor,
                 onClicked: () {
                   controller.handleUpdateProfile();

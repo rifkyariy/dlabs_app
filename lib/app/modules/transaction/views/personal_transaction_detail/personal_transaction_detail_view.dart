@@ -39,7 +39,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Transaction Detail',
+          'tr_d_transaction_detail'.tr,
           style: BoldTextStyle(const Color(0xFF323F4B)),
         ),
       ),
@@ -51,12 +51,12 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
 
             /// App Detailed Box
             AppDetailInformationBox(
-              title: 'Invoice for',
+              title: 'tr_d_invoice_for'.tr,
               header: AppTitleWithButton(
                 title: AppConverter.transactionEnumToString(
                   controller.currentTransactionStatus,
                 ),
-                buttonLabel: 'View Status',
+                buttonLabel: 'tr_d_view_status'.tr,
                 onTap: () {
                   controller.toTrackingProcessView();
                 },
@@ -66,11 +66,11 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                     : blackColor,
               ),
               leading: [
-                AppDetailInformationItem('Transaction Date'),
-                AppDetailInformationItem('gen_identity_number'.tr),
+                AppDetailInformationItem('tr_d_transaction_date'.tr),
+                AppDetailInformationItem('gen_identity_number_short'.tr),
                 AppDetailInformationItem('gen_fullname'.tr),
-                AppDetailInformationItem('Email'),
-                AppDetailInformationItem('Phone'),
+                AppDetailInformationItem('gen_email'.tr),
+                AppDetailInformationItem('gen_phone'.tr),
               ],
 
               /// Trailing Button
@@ -104,11 +104,11 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
               title: 'gen_test_information'.tr,
               leading: [
                 AppDetailInformationItem('gen_test_purpose'.tr),
-                AppDetailInformationItem('Test Type'),
-                AppDetailInformationItem('Test Date'),
-                AppDetailInformationItem('Service'),
-                AppDetailInformationItem('Arrived Date'),
-                AppDetailInformationItem('Location'),
+                AppDetailInformationItem('gen_test_type'.tr),
+                AppDetailInformationItem('gen_test_date'.tr),
+                AppDetailInformationItem('p_bt_service'.tr),
+                AppDetailInformationItem('gen_arrived_date'.tr),
+                AppDetailInformationItem('gen_location'.tr),
               ],
               trailing: [
                 AppDetailInformationItem(
@@ -153,8 +153,8 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                       .fullName ??
                   '',
               header: AppTitleWithButton(
-                title: 'Patient Information',
-                buttonLabel: 'View Detail',
+                title: 'gen_patient_information'.tr,
+                buttonLabel: 'tr_d_view_detail'.tr,
                 onTap: controller.toPatientDetailScrenn,
               ),
 
@@ -216,7 +216,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
 
                 /// Disabled Button For Title Only
                 AppTitleWithButton(
-                  title: 'Total Price',
+                  title: 'gen_total_price'.tr,
                   buttonLabel: CurrencyFormat.convertToIdr(
                     (controller.transactionDetail.price ?? 0),
                     2,
@@ -231,11 +231,11 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
 
             Obx(
               () => AppDetailInformationBox(
-                title: 'Payment Detail',
-                leading: const [
-                  AppDetailInformationItem('Total Price'),
+                title: 'tr_d_payment_detail'.tr,
+                leading: [
+                  AppDetailInformationItem('gen_price'.tr),
                   // AppDetailInformationItem('Payment Method'),
-                  AppDetailInformationItem('Payment Time'),
+                  AppDetailInformationItem('tr_d_payment_time'.tr),
                 ],
                 trailing: [
                   AppDetailInformationItem(
@@ -290,7 +290,9 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    offline ?? false ? 'Proof of Payment' : 'Close',
+                    offline ?? false
+                        ? 'tr_d_proof_of_payment'.tr
+                        : 'gen_close'.tr,
                     style: regularTextStyle(
                         offline ?? false ? whiteColor : primaryColor),
                   ),
@@ -338,7 +340,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      'Personal Service',
+                      'tr_d_personal_service'.tr,
                       style: mediumTextStyle(blackColor, fontSize: 12),
                     )
                   ],
@@ -363,7 +365,7 @@ class PersonalTransactionDetailView extends GetView<TransactionViewController> {
                     ),
                   ),
                   Text(
-                    'Invoice',
+                    'tr_d_invoice'.tr,
                     style: BoldTextStyle(
                       enabled ?? false ? primaryColor : greyColor,
                       fontSize: 12,

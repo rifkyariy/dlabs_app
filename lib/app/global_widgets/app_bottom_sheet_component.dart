@@ -53,7 +53,7 @@ class AppBottomSheetComponent extends StatelessWidget {
               Navigator.pop(context);
             },
             icon: const Icon(AppIcons.close),
-            label: const Text("Close"),
+            label: Text("gen_close".tr),
           ),
         ],
       ),
