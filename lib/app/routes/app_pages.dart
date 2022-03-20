@@ -1,3 +1,4 @@
+import 'package:kayabe_lims/app/modules/article/views/article_home_view.dart';
 import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:kayabe_lims/app/modules/forgot_password/bindings/forgot_password_binding.dart';
 import 'package:kayabe_lims/app/modules/forgot_password/views/forgot_password_screen.dart';
@@ -72,6 +73,7 @@ class AppPages {
   static const helpCenter = Routes.helpCenter;
   static const changePassword = Routes.changePassword;
   static const personalInformation = Routes.personalInformation;
+  static const articleHome = Routes.articleHome;
 
   static final routes = [
     GetPage(
@@ -82,6 +84,7 @@ class AppPages {
       name: _Paths.dashboard,
       page: () => const DashboardScreen(),
       binding: DashboardBinding(),
+      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.signin,
@@ -184,16 +187,31 @@ class AppPages {
       page: () => const PaymentCashView(),
       binding: TransactionHistoryViewBinding(),
     ),
-    GetPage(name: _Paths.aboutUs, page: () => const AboutView()),
-    GetPage(name: _Paths.services, page: () => const ServiceView()),
+    GetPage(
+      name: _Paths.aboutUs,
+      page: () => const AboutView(),
+    ),
+    GetPage(
+      name: _Paths.services,
+      page: () => const ServiceView(),
+    ),
     GetPage(
       name: _Paths.helpCenter,
       page: () => const HelpCenterView(),
       binding: ProfileViewBinding(),
     ),
-    GetPage(name: _Paths.changePassword, page: () => const ChangePassword()),
     GetPage(
-        name: _Paths.personalInformation,
-        page: () => const PersonalInformation()),
+      name: _Paths.changePassword,
+      page: () => const ChangePassword(),
+    ),
+    GetPage(
+      name: _Paths.personalInformation,
+      page: () => const PersonalInformation(),
+    ),
+    GetPage(
+      name: _Paths.articleHome,
+      page: () => const ArticleHomeView(),
+      transition: Transition.noTransition,
+    )
   ];
 }

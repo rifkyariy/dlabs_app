@@ -1,7 +1,6 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
-import 'package:kayabe_lims/app/modules/transaction/bindings/transaction_history_binding.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -66,29 +65,7 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
 
                       break;
                     case 3:
-                      if (_authController.isLoggedIn.value) {
-                        Get.snackbar(
-                          "Uh oh.",
-                          "No Route to Host",
-                          backgroundColor: primaryColor,
-                          snackPosition: SnackPosition.TOP,
-                          animationDuration: const Duration(seconds: 1),
-                          duration: const Duration(seconds: 1),
-                          colorText: whiteColor,
-                        );
-                      } else {
-                        // Redirect into sign in pages
-                        Get.toNamed(AppPages.signin);
-                        Get.snackbar(
-                          "pop_login_required".tr,
-                          "",
-                          backgroundColor: primaryColor,
-                          snackPosition: SnackPosition.TOP,
-                          animationDuration: const Duration(seconds: 1),
-                          duration: const Duration(seconds: 1),
-                          colorText: whiteColor,
-                        );
-                      }
+                      Get.toNamed(AppPages.articleHome);
                       break;
                     case 4:
                       Get.toNamed(AppPages.profile);
@@ -117,42 +94,42 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
 
 List<BottomNavigationBarItem> _itemsWithFloating = [
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.home),
+    icon: const Icon(AppIcons.home),
     label: "menu_home".tr,
   ),
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.history),
+    icon: const Icon(AppIcons.history),
     label: "menu_history".tr,
   ),
   BottomNavigationBarItem(
-    icon: SizedBox(height: 25),
+    icon: const SizedBox(height: 25),
     label: "menu_book_now".tr,
   ),
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.article),
+    icon: const Icon(AppIcons.article),
     label: "menu_article".tr,
   ),
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.profile),
+    icon: const Icon(AppIcons.profile),
     label: "menu_profile".tr,
   ),
 ];
 
 List<BottomNavigationBarItem> _itemsWithoutFloating = [
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.home),
+    icon: const Icon(AppIcons.home),
     label: "menu_home".tr,
   ),
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.history),
+    icon: const Icon(AppIcons.history),
     label: "menu_history".tr,
   ),
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.article),
+    icon: const Icon(AppIcons.article),
     label: "menu_article".tr,
   ),
   BottomNavigationBarItem(
-    icon: Icon(AppIcons.profile),
+    icon: const Icon(AppIcons.profile),
     label: "menu_profile".tr,
   ),
 ];

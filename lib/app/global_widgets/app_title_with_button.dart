@@ -11,6 +11,8 @@ class AppTitleWithButton extends StatelessWidget {
     this.padding,
     this.buttonLabelColor,
     this.trailing,
+    this.leadingSize,
+    this.trailingSize,
   }) : super(key: key);
 
   /// This is the title
@@ -36,6 +38,10 @@ class AppTitleWithButton extends StatelessWidget {
   /// Widget behind button
   final Widget? trailing;
 
+  final double? leadingSize;
+
+  final double? trailingSize;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +53,10 @@ class AppTitleWithButton extends StatelessWidget {
         children: [
           Text(
             title,
-            style: BoldTextStyle(titleColor ?? blackColor, fontSize: 12),
+            style: BoldTextStyle(
+              titleColor ?? blackColor,
+              fontSize: leadingSize ?? 12,
+            ),
           ),
           const Spacer(),
           GestureDetector(
@@ -56,7 +65,7 @@ class AppTitleWithButton extends StatelessWidget {
               buttonLabel,
               style: BoldTextStyle(
                 buttonLabelColor ?? primaryColor,
-                fontSize: 12,
+                fontSize: trailingSize ?? 12,
               ),
             ),
           ),
