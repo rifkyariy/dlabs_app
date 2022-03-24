@@ -9,6 +9,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  cached_network_image: ^3.2.0
   cupertino_icons: ^1.0.2
   dio: ^4.0.4
   dropdown_search: ^2.0.1
@@ -21,19 +22,19 @@ dependencies:
   google_fonts: ^2.1.0
   google_sign_in: ^5.2.1
   http: ^0.13.4
+  image_cropper: ^1.4.1
+  image_picker: ^0.8.4+7
   intl: ^0.17.0
+  open_file: ^3.2.1
   path_provider: ^2.0.8
   permission_handler: ^8.3.0
-  timelines: ^0.1.0
   persistent_bottom_nav_bar: ^4.0.2
   select_form_field: ^2.2.0
   shared_preferences: ^2.0.8
+  timelines: ^0.1.0
   open_file: ^3.2.1
-  image_picker: ^0.8.4+7
-  image_cropper: ^1.4.1
   freezed_annotation:
   json_annotation: 
-  
   
 dev_dependencies:
   flutter_lints: ^1.0.0

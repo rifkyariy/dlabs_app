@@ -857,7 +857,7 @@ class TransactionViewController extends GetxController {
 
   Future<List<Map<String, dynamic>>> getOfflinePaymentMethod() async {
     final _apiToken = await _storage.readString('apiToken');
-    var result = await await _master.getOfflinePaymentMethod(token: _apiToken!);
+    var result = await _master.getOfflinePaymentMethod(token: _apiToken!);
     var apiServiceKey = ["id", "payment_name"];
 
     return convertIntoList(apiServiceKey, result);
