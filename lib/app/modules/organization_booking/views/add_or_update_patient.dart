@@ -1,5 +1,4 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
-import 'package:kayabe_lims/app/data/models/patient_model.dart';
 import 'package:kayabe_lims/app/global_widgets/app_select_input.dart';
 import 'package:kayabe_lims/app/global_widgets/app_select_input_searchable.dart';
 import 'package:kayabe_lims/app/global_widgets/text_input.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddOrUpdatePatient extends StatefulWidget {
-  AddOrUpdatePatient({
+  const AddOrUpdatePatient({
     Key? key,
     required this.isUpdateMode,
     this.updateIndex,

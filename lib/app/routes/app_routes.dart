@@ -36,6 +36,7 @@ abstract class Routes {
   static const helpCenter = _Paths.helpCenter;
   static const changePassword = _Paths.changePassword;
   static const personalInformation = _Paths.personalInformation;
+  static const articleHome = _Paths.articleHome;
 }
 
 abstract class _Paths {
@@ -76,4 +77,5 @@ abstract class _Paths {
 
   static const changePassword = '/profile/change-password';
   static const personalInformation = '/profile/personal-info';
+  static const articleHome = '/article/home';
 }

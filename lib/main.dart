@@ -1,4 +1,5 @@
 import 'package:kayabe_lims/app/core/internationalization/app_internationalization.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,20 @@ class Apps extends StatelessWidget {
         translations: AppInternationalization(),
         locale: Get.deviceLocale,
         fallbackLocale: const Locale('en', 'US'),
+        theme: ThemeData(
+          appBarTheme: AppBarTheme(
+            iconTheme: const IconThemeData(
+              color: Color(0xFF1176BC),
+            ),
+            titleTextStyle: BoldTextStyle(
+              const Color(0xFF323F4B),
+            ),
+            centerTitle: true,
+            elevation: 2.0,
+            backgroundColor: Colors.white,
+            shadowColor: lightGreyColor,
+          ),
+        ),
       ),
     );
   }
