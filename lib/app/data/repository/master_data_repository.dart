@@ -139,11 +139,15 @@ class MasterDataRepository {
       'Authorization': 'Bearer $token',
     });
 
-    var result = (jsonDecode(response.body)["data"]["list"] as List)
-        .map((e) => e as Map<String, dynamic>)
-        .toList();
-
-    return result;
+    if (jsonDecode(response.body)["data"] != null) {
+      var result = (jsonDecode(response.body)["data"]["list"] as List)
+          .map((e) => e as Map<String, dynamic>)
+          .toList();
+      return result;
+    } else {
+      var result = [];
+      return result;
+    }
   }
 
   Future getPatientData(

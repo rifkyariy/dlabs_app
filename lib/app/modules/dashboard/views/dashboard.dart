@@ -91,8 +91,11 @@ class DashboardScreen extends GetView<DashboardController> {
                   ),
                 ),
 
-                DashboardServiceComponent(
-                  serviceData: controller.dummyServiceData,
+                // Service List
+                Obx(
+                  () => DashboardServiceComponent(
+                    serviceData: controller.serviceData.value,
+                  ),
                 ),
 
                 // Article
@@ -120,34 +123,24 @@ class DashboardScreen extends GetView<DashboardController> {
                     ],
                   ),
                 ),
-                AppArticleCardComponent(
-                  about: controller.dummyArticleData[0].about,
-                  title: controller.dummyArticleData[0].title,
-                  photoUrl: controller.dummyArticleData[0].photoUrl,
-                  timestamp: controller.dummyArticleData[0].timestamp,
-                ),
-                AppArticleCardComponent(
-                  about: controller.dummyArticleData[1].about,
-                  title: controller.dummyArticleData[1].title,
-                  photoUrl: controller.dummyArticleData[1].photoUrl,
-                  timestamp: controller.dummyArticleData[1].timestamp,
+                Obx(
+                  () => ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: controller
+                          .articleData.length, //TODO change to fixed value,
+                      itemBuilder: (context, index) => Column(children: [
+                            AppArticleCardComponent(
+                              about: controller.articleData[index].about,
+                              title: controller.articleData[index].title,
+                              photoUrl: controller.articleData[index].photoUrl,
+                              timestamp:
+                                  controller.articleData[index].timestamp,
+                            ),
+                          ])),
                 ),
 
                 const SizedBox(height: 20),
-
-                // TextButton(
-                //   onPressed: () async {
-                //     _authController.handleLogout();
-                //   },
-                //   child: Text(
-                //     'Logout',
-                //     style: mediumTextStyle(dangerColor),
-                //   ),
-                // ),
-
-                // SizedBox(
-                //   height: 20,
-                // ),
               ],
             ),
           ),

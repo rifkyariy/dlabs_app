@@ -52,13 +52,16 @@ class DashboardServiceCardComponent extends StatelessWidget {
                         title,
                         style: mediumTextStyle(blackColor),
                       ),
-                      Text("Rp $price", style: appServicePriceTextStyle),
+                      Text("Rp. $price", style: appServicePriceTextStyle),
                     ],
                   ),
                 ),
-                Text(
-                  subtitle,
-                  style: appServiceSubtitleTextStyle,
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    subtitle,
+                    style: appServiceSubtitleTextStyle,
+                  ),
                 )
               ],
             ),

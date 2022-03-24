@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:flutter/material.dart';
@@ -33,17 +34,50 @@ class AppArticleCardComponent extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: SizeScalling().setWidth(110),
-                height: SizeScalling().setHeight(120),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(photoUrl),
+              CachedNetworkImage(
+                imageUrl: photoUrl,
+                imageBuilder: (context, imageProvider) => Container(
+                  width: SizeScalling().setWidth(110),
+                  height: SizeScalling().setHeight(120),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: imageProvider,
+                    ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                    ),
                   ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
+                ),
+                placeholder: (context, url) => Container(
+                  width: SizeScalling().setWidth(110),
+                  height: SizeScalling().setHeight(120),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          'https://cdn.discordapp.com/attachments/900022715321311259/911572726915944468/unknown.png'),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  width: SizeScalling().setWidth(110),
+                  height: SizeScalling().setHeight(120),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          'https://cdn.discordapp.com/attachments/900022715321311259/911572726915944468/unknown.png'),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                    ),
                   ),
                 ),
               ),
@@ -71,7 +105,7 @@ class AppArticleCardComponent extends StatelessWidget {
                           color: primaryColor,
                         ),
                         child: Text(
-                          "Covid 19",
+                          about,
                           style: appBannerButtonTextStyle,
                         ),
                       ),
