@@ -9,11 +9,12 @@ import 'package:kayabe_lims/app/modules/article/controller/article_controller.mo
 import 'package:kayabe_lims/app/modules/article/widgets/news_card_square.dart';
 
 class ArticleHomeView extends GetView<ArticleController> {
-  const ArticleHomeView({Key? key}) : super(key: key);
+  ArticleHomeView({Key? key}) : super(key: key);
+
+  final ArticleController c = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    final articles = mockNewsData;
     final categories = mockArticleCategory;
 
     return AppScaffoldWithBottomNavBar(
@@ -42,18 +43,22 @@ class ArticleHomeView extends GetView<ArticleController> {
                 trailingSize: 12,
               ),
               const SizedBox(height: 20),
-              SizedBox(
-                height: 200,
-                child: ListView.separated(
-                  itemCount: articles.length,
-                  scrollDirection: Axis.horizontal,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return NewsCardSquare(article: articles[index]);
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 10);
-                  },
+              Obx(
+                () => SizedBox(
+                  height: 200,
+                  child: ListView.separated(
+                    itemCount: controller.articles.length,
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return NewsCardSquare(
+                        article: controller.articles[index],
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 10);
+                    },
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -78,18 +83,23 @@ class ArticleHomeView extends GetView<ArticleController> {
                 ),
               ),
               const SizedBox(height: 30),
-              AppArticleCardComponent(
-                about: articles[0].category_name,
-                title: articles[0].title,
-                photoUrl: articles[0].image,
-                timestamp: articles[0].created_date.toString(),
-              ),
-              AppArticleCardComponent(
-                about: articles[0].category_name,
-                title: articles[0].title,
-                photoUrl: articles[0].image,
-                timestamp: articles[0].created_date.toString(),
-              ),
+              Obx(() {
+                final _articles = controller.articles;
+
+                return Column(
+                  children: [
+                    for (final a in _articles) ...[
+                      AppArticleCardComponent(
+                        about: a.category_name,
+                        title: a.title,
+                        photoUrl: 'https://api-dl.konsultasi.in/${a.image}',
+                        timestamp: a.created_date.toString(),
+                        id: '${a.id}',
+                      ),
+                    ],
+                  ],
+                );
+              }),
             ],
           ),
         ),

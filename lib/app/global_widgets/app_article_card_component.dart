@@ -3,6 +3,7 @@ import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/modules/article/views/article_detail_view.dart';
 
 class AppArticleCardComponent extends StatelessWidget {
   const AppArticleCardComponent({
@@ -11,22 +12,15 @@ class AppArticleCardComponent extends StatelessWidget {
     required this.title,
     required this.timestamp,
     required this.photoUrl,
+    required this.id,
   }) : super(key: key);
-  final String about, title, timestamp, photoUrl;
+  final String about, title, timestamp, photoUrl, id;
   @override
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
         onTap: () {
-          Get.snackbar(
-            "Error",
-            "No Route Specified",
-            backgroundColor: primaryColor,
-            snackPosition: SnackPosition.TOP,
-            animationDuration: const Duration(seconds: 1),
-            duration: const Duration(seconds: 1),
-            colorText: whiteColor,
-          );
+          Get.to(() => ArticleDetailView(id: id));
         },
         child: SizedBox(
           height: SizeScalling().setHeight(120),

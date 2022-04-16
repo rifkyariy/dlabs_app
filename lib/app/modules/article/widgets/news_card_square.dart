@@ -24,7 +24,7 @@ class NewsCardSquare extends StatelessWidget {
             child: Stack(
               children: [
                 CustomNetworkImage(
-                  article.image,
+                  'https://api-dl.konsultasi.in/${article.image}',
                 ),
                 Container(
                   height: double.infinity,

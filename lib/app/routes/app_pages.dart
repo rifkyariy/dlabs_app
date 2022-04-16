@@ -211,7 +211,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.articleHome,
-      page: () => const ArticleHomeView(),
+      page: () => ArticleHomeView(),
       transition: Transition.noTransition,
       binding: ArticleBinding(),
     )
