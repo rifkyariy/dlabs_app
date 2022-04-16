@@ -13,7 +13,7 @@ class ProfileRepository {
     required String address,
     required String nationality,
   }) async {
-    const String _kbaseUrl = "https://api-lims.kayabe.id/v1/web";
+    const String _kbaseUrl = "https://api-dl.konsultasi.in/v1/web";
 
     final _dio = Dio();
 

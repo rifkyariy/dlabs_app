@@ -2,7 +2,25 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class DashboardRepository {
-  final String baseUrl = "https://api-lims.kayabe.id/v1/web";
+  final String baseUrl = "https://api-dl.konsultasi.in/v1/web";
+
+  Future<List<dynamic>> fetchBannerData({required String token}) async {
+    var url = Uri.parse("$baseUrl/content/banner?status=publish");
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'fendpoint': '/content',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    var result = (jsonDecode(response.body)["data"] as List);
+
+    return result;
+  }
 
   Future<List<dynamic>> fetchArticleData({required String token}) async {
     var url = Uri.parse("$baseUrl/content/article");

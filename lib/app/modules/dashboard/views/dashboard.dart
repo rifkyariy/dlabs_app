@@ -6,6 +6,7 @@ import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_component.dart';
+import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_list_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_header_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_service_component.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
@@ -75,9 +76,14 @@ class DashboardScreen extends GetView<DashboardController> {
                 ),
 
                 // Banner
-                DashboardBannerComponent(onPressed: () {
-                  //  TODO add dashboard banner route
-                }),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Obx(
+                    () => DashboardBannerListComponent(
+                      bannerList: controller.bannerData.value,
+                    ),
+                  ),
+                ),
 
                 // Our Service
                 Padding(

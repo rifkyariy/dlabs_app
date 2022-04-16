@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart' as getx;
 
 class TransactionRepository {
-  final String _kbaseUrl = "https://api-lims.kayabe.id/v1/web";
+  final String _kbaseUrl = "https://api-dl.konsultasi.in/v1/web";
 
   Future<List<QuestionnaireDataModel>?> getDetailQuestionaireList({
     required String token,

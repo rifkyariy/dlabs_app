@@ -22,6 +22,7 @@ class DashboardServiceCardComponent extends StatelessWidget {
       child: Stack(
         children: [
           Container(
+            margin: EdgeInsets.only(left: 3),
             padding: const EdgeInsets.all(15),
             height: sizeScalling.setHeight(110),
             width: sizeScalling.setWidth(252),

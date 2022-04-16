@@ -492,7 +492,7 @@ class TransactionViewController extends GetxController {
     Get.showOverlay(
       asyncFunction: () async {
         await _downloadFile(
-          'https://api-lims.kayabe.id/_url',
+          'https://api-dl.konsultasi.in/_url',
           _url.split('/').last,
         );
       },

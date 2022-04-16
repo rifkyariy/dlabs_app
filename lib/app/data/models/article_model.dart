@@ -20,4 +20,3 @@ class ArticleModel with _$ArticleModel {
   factory ArticleModel.fromJson(Map<String, dynamic> json) =>
       _$ArticleModelFromJson(json);
 }
-

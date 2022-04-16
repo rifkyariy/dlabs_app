@@ -8,7 +8,7 @@ import 'package:kayabe_lims/app/data/models/user_model.dart';
 
 class AuthRepository {
   final GoogleSignIn _googleSignin = GoogleSignIn();
-  final String baseUrl = "https://api-lims.kayabe.id/v1/web";
+  final String baseUrl = "https://api-dl.konsultasi.in/v1/web";
 
   String basicAuthenticationHeader(String username, String password) {
     return 'Basic ' + base64Encode(utf8.encode('$username:$password'));
@@ -45,12 +45,14 @@ class AuthRepository {
       'Authorization': 'Bearer $token',
     });
 
+    print(jsonDecode(response.body)['status']);
+
     if (response.statusCode == 200) {
       var userData = jsonDecode(response.body)['data'];
 
       UserModel user = UserModel.fromJson(userData);
       user.image = userData.containsKey('image')
-          ? "https://api-lims.kayabe.id/" + userData['image']
+          ? "https://api-dl.konsultasi.in/" + userData['image']
           : "";
       user.token = token;
       user.status = jsonDecode(response.body)['status'];

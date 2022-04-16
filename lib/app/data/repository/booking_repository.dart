@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class BookingRepository {
-  final String baseUrl = "https://api-lims.kayabe.id/v1/web";
+  final String baseUrl = "https://api-dl.konsultasi.in/v1/web";
 
   String basicAuthenticationHeader(String username, String password) {
     return 'Basic ' + base64Encode(utf8.encode('$username:$password'));

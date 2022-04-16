@@ -8,7 +8,7 @@ import 'package:kayabe_lims/app/data/models/trx_history_model/trx_history_row.da
 import 'package:http/http.dart' as http;
 
 class HistoryRepository {
-  final String _kbaseUrl = "https://api-lims.kayabe.id/v1/web";
+  final String _kbaseUrl = "https://api-dl.konsultasi.in/v1/web";
 
   Future<List<TrxHistoryRow>?> getHistoryList({
     required String token,

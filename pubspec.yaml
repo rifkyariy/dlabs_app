@@ -18,6 +18,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_launcher_icons: ^0.9.2
+  freezed_annotation: ^1.1.0
   get: ^4.3.8
   google_fonts: ^2.1.0
   google_sign_in: ^5.2.1
@@ -25,6 +26,7 @@ dependencies:
   image_cropper: ^1.4.1
   image_picker: ^0.8.4+7
   intl: ^0.17.0
+  json_annotation: ^4.4.0
   open_file: ^3.2.1
   path_provider: ^2.0.8
   permission_handler: ^8.3.0
@@ -32,17 +34,14 @@ dependencies:
   select_form_field: ^2.2.0
   shared_preferences: ^2.0.8
   timelines: ^0.1.0
-  open_file: ^3.2.1
-  freezed_annotation:
-  json_annotation: 
-  
+
 dev_dependencies:
+  build_runner: null
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
-  build_runner:
-  freezed:
-  json_serializable: 
+  freezed: null
+  json_serializable: null
 
 flutter_icons:
   android: true
