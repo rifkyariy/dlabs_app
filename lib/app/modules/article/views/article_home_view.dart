@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
 import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:kayabe_lims/app/global_widgets/app_title_with_button.dart';
+import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.mock.dart';
 import 'package:kayabe_lims/app/modules/article/widgets/news_card_square.dart';
 
-class ArticleHomeView extends StatelessWidget {
+class ArticleHomeView extends GetView<ArticleController> {
   const ArticleHomeView({Key? key}) : super(key: key);
 
   @override

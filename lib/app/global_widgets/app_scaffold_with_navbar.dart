@@ -1,5 +1,7 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/app_icons.dart';
+import 'package:kayabe_lims/app/modules/article/bindings/article_binding.dart';
+import 'package:kayabe_lims/app/modules/article/views/article_home_view.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/views/personal_transaction_detail/transaction_history/transaction_history_view.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
@@ -65,7 +67,10 @@ class AppScaffoldWithBottomNavBar extends StatelessWidget {
 
                       break;
                     case 3:
-                      Get.toNamed(AppPages.articleHome);
+                      Get.toNamed(
+                        AppPages.articleHome,
+                      );
+
                       break;
                     case 4:
                       Get.toNamed(AppPages.profile);

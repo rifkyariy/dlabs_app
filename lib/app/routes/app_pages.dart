@@ -1,3 +1,4 @@
+import 'package:kayabe_lims/app/modules/article/bindings/article_binding.dart';
 import 'package:kayabe_lims/app/modules/article/views/article_home_view.dart';
 import 'package:kayabe_lims/app/modules/dashboard/bindings/dashboard_binding.dart';
 import 'package:kayabe_lims/app/modules/forgot_password/bindings/forgot_password_binding.dart';
@@ -212,6 +213,7 @@ class AppPages {
       name: _Paths.articleHome,
       page: () => const ArticleHomeView(),
       transition: Transition.noTransition,
+      binding: ArticleBinding(),
     )
   ];
 }
