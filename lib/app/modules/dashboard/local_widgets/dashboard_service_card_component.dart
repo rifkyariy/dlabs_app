@@ -49,9 +49,15 @@ class DashboardServiceCardComponent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        title,
-                        style: mediumTextStyle(blackColor),
+                      SizedBox(
+                        width: 160.0,
+                        child: Text(
+                          title,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: false,
+                          style: mediumTextStyle(blackColor),
+                        ),
                       ),
                       Text("Rp. $price", style: appServicePriceTextStyle),
                     ],

@@ -14,7 +14,7 @@ class ArticleModel with _$ArticleModel {
     required int created_by,
     required int category_id,
     required String category_name,
-    int? comment_count,
+    int? total_comments,
   }) = _ArticleModel;
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) =>
@@ -35,7 +35,7 @@ class ArticleDetailModel with _$ArticleDetailModel {
     required int created_by,
     required int category_id,
     required String category_name,
-    int? comment_count,
+    int? total_comments,
   }) = _ArticleDetailModel;
 
   factory ArticleDetailModel.fromJson(Map<String, dynamic> json) =>

@@ -13,7 +13,6 @@ class ArticleDetailView extends StatefulWidget {
 
 class _ArticleDetailViewState extends State<ArticleDetailView> {
   final ArticleController c = Get.find();
-
   late ArticleDetailModel _article;
 
   @override

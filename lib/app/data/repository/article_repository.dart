@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:http/http.dart' as http;
@@ -53,23 +54,31 @@ class ArticleRepository {
   ) async {
     final url = Uri.parse('$_baseUrl/content/article/$id');
     try {
-      final ArticleResponse _response = await http.get(
+      late String responseStatus;
+      late String message;
+      final ArticleDetailModel _response = await http.get(
         url,
         headers: {
           'Content-Type': 'application/json',
           'fendpoint': '/content',
         },
-      ).then((value) => ArticleResponse.fromJson(jsonDecode(value.body)));
+      ).then((value) {
+        responseStatus = jsonDecode(value.body)['status'];
+        message = jsonDecode(value.body)['message'];
 
-      switch (_response.status) {
+        print(jsonDecode(value.body)['data']);
+        return ArticleDetailModel.fromJson(jsonDecode(value.body)['data']);
+      });
+
+      switch (responseStatus) {
         case "200":
-          return ArticleDetailModel.fromJson(_response.data.toJson());
+          return _response;
 
         case "401":
           throw Exception('Authentication Failed');
 
         default:
-          throw Exception('$_response.message');
+          throw Exception('$message');
       }
     } catch (e) {
       throw Exception(e.toString());

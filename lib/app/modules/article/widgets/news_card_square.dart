@@ -101,7 +101,7 @@ class NewsCardSquare extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "${article.comment_count} comment",
+                            "${article.total_comments} comment",
                             style: smallTextStyle(whiteColor),
                             textHeightBehavior: const TextHeightBehavior(
                               applyHeightToFirstAscent: false,

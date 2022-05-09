@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/global_widgets/app_divider_with_title.dart';
 import 'package:kayabe_lims/app/global_widgets/text_input.dart';
@@ -169,37 +170,38 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
 }
 
 class MapsSliverHeader extends SliverPersistentHeaderDelegate {
+  late GoogleMapController mapController;
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+
+    final marker = const Marker(
+      markerId: MarkerId('Direct Lab'),
+      position: LatLng(-6.191842, 106.746557),
+      // icon: BitmapDescriptor.,
+      infoWindow: InfoWindow(
+        title: 'Direct Lab',
+        snippet:
+            'Ruko Kencana Niaga D1 2N, Jl. Aries Utama IV No.7, RT.12/RW.8, Meruya Utara, Daerah Khusus Ibukota Jakarta 11620, Indonesia',
+      ),
+    );
+
+    markers[MarkerId('Direct Lab')] = marker;
+  }
+
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return GestureDetector(
       child: SizedBox.expand(
-        child: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://cdn.discordapp.com/attachments/900022715321311256/940632706860085378/maps_1_1.png'),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.infinity,
-                height: 15,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(25.0),
-                    topRight: Radius.circular(25.0),
-                  ),
-                  color: Colors.grey[50],
-                ),
-              ),
-            ),
-          ],
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: const CameraPosition(
+            target: LatLng(-6.191842, 106.746557),
+            zoom: 18.0,
+          ),
+          markers: markers.values.toSet(),
         ),
       ),
     );
@@ -213,6 +215,6 @@ class MapsSliverHeader extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
+    return false;
   }
 }
