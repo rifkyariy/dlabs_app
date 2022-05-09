@@ -45,6 +45,7 @@ class ArticleRepository {
           throw Exception('$_response.message');
       }
     } catch (e) {
+      log(e.toString());
       throw Exception(e.toString());
     }
   }
@@ -65,8 +66,6 @@ class ArticleRepository {
       ).then((value) {
         responseStatus = jsonDecode(value.body)['status'];
         message = jsonDecode(value.body)['message'];
-
-        print(jsonDecode(value.body)['data']);
         return ArticleDetailModel.fromJson(jsonDecode(value.body)['data']);
       });
 
@@ -78,7 +77,7 @@ class ArticleRepository {
           throw Exception('Authentication Failed');
 
         default:
-          throw Exception('$message');
+          throw Exception(message);
       }
     } catch (e) {
       throw Exception(e.toString());

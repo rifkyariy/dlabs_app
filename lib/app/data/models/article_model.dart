@@ -22,6 +22,22 @@ class ArticleModel with _$ArticleModel {
 }
 
 @freezed
+class CategoryModel with _$CategoryModel {
+  const factory CategoryModel({
+    required int id,
+    required String name,
+    required int status,
+    required DateTime created_date,
+    required int created_by,
+    required DateTime updated_date,
+    required int updated_by,
+  }) = _CategoryModel;
+
+  factory CategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$CategoryModelFromJson(json);
+}
+
+@freezed
 class ArticleDetailModel with _$ArticleDetailModel {
   const factory ArticleDetailModel({
     required int id,
@@ -34,12 +50,31 @@ class ArticleDetailModel with _$ArticleDetailModel {
     required String meta_title,
     required int created_by,
     required int category_id,
-    required String category_name,
+    required CategoryModel category,
+    required CreatorModel created,
     int? total_comments,
   }) = _ArticleDetailModel;
 
   factory ArticleDetailModel.fromJson(Map<String, dynamic> json) =>
       _$ArticleDetailModelFromJson(json);
+}
+
+@freezed
+class CreatorModel with _$CreatorModel {
+  const factory CreatorModel({
+    required int id,
+    required String full_name,
+    required String email,
+    required String phone,
+    required String birth_date,
+    required String gender,
+    required String address,
+    required String nationality,
+    String? image,
+  }) = _CreatorModel;
+
+  factory CreatorModel.fromJson(Map<String, dynamic> json) =>
+      _$CreatorModelFromJson(json);
 }
 
 @JsonSerializable()
