@@ -20,7 +20,6 @@ class ArticleController extends GetxController {
   void onInit() async {
     final data = await _articleRepository.getArticles("");
     articles.value = data;
-    log(data.toString());
 
     super.onInit();
   }
