@@ -70,6 +70,8 @@ class SplashController extends GetxController {
           // If google user exist and status code from backend OK then go to dashboard with named
           if (_googleUser!.status == '200') {
             await _storage.write('isLoggedIn', boolValue: true);
+            await _storage.write('user_full_name',
+                stringValue: _userData.full_name);
             _authController.isLoggedIn.value = true;
             _authController.fullname.value = _userData.full_name!;
             _authController.photoUrl.value = _userData.image!;
@@ -103,6 +105,8 @@ class SplashController extends GetxController {
 
           if (_userData.status == '200') {
             await _storage.write('isLoggedIn', boolValue: true);
+            await _storage.write('user_full_name',
+                stringValue: _userData.full_name);
             _authController.isLoggedIn.value = true;
             _authController.fullname.value = _userData.full_name!;
             _authController.photoUrl.value = _userData.image!;

@@ -5,7 +5,6 @@ import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
-import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_list_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_header_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_service_component.dart';
@@ -142,7 +141,7 @@ class DashboardScreen extends GetView<DashboardController> {
                               photoUrl: controller.articleData[index].photoUrl,
                               timestamp:
                                   controller.articleData[index].timestamp,
-                              id: "1",
+                              id: 5,
                             ),
                           ])),
                 ),
