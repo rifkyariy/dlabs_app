@@ -12,7 +12,6 @@ class DashboardBinding implements Bindings {
   void dependencies() {
     Get.lazyPut<DashboardController>(() => DashboardController());
     Get.lazyPut<AuthController>(() => AuthController());
-    Get.lazyPut<ArticleController>(() => ArticleController());
     Get.lazyPut<AppStorageService>(() => AppStorageService());
     Get.lazyPut<AuthRepository>(() => AuthRepository());
     Get.lazyPut<DashboardRepository>(() => DashboardRepository());

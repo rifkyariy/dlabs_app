@@ -11,7 +11,6 @@ class DashboardController extends GetxController {
   final AppStorageService _storage = Get.find();
   final AuthRepository _auth = Get.find();
   final AuthController _authController = Get.find();
-  final ArticleController _articleController = Get.find();
   final DashboardRepository _dashboardRepository = Get.find();
 
   final String baseUrl = "https://api-dl.konsultasi.in/";
