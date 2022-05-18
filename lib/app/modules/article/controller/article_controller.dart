@@ -29,6 +29,15 @@ final articleCommentProvider =
   },
 );
 
+final articleCategoriesProvider =
+    FutureProvider.autoDispose<List<ArticleCategoryModel>>(
+  (ref) async {
+    final repo = ref.watch(articleRepo);
+    final result = await repo.getArticleCategories();
+    return result;
+  },
+);
+
 final articleRepo = Provider.autoDispose<ArticleRepository>(
   (ref) => ArticleRepository(),
 );

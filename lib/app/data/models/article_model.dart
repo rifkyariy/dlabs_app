@@ -96,6 +96,24 @@ class ArticleResponse {
 }
 
 @JsonSerializable()
+class CategoryResponse {
+  CategoryResponse({
+    required this.status,
+    required this.message,
+    required this.data,
+  });
+
+  final String status;
+  final String message;
+  final List<Map<String, dynamic>> data;
+
+  factory CategoryResponse.fromJson(Map<String, dynamic> json) =>
+      _$CategoryResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CategoryResponseToJson(this);
+}
+
+@JsonSerializable()
 class ArticleData {
   ArticleData({
     required this.rows,
@@ -136,8 +154,8 @@ class ArticleCategoryModel with _$ArticleCategoryModel {
     required int status,
     required DateTime created_date,
     required int created_by,
-    required int category_id,
-    required String category_name,
+    required DateTime updated_date,
+    required int updated_by,
   }) = _ArticleCategoryModel;
 
   factory ArticleCategoryModel.fromJson(Map<String, dynamic> json) =>

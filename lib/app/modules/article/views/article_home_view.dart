@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
+import 'package:get/route_manager.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/utils.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
 import 'package:kayabe_lims/app/global_widgets/app_bottom_sheet_component.dart';
 import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:kayabe_lims/app/global_widgets/app_title_with_button.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.mock.dart';
+import 'package:kayabe_lims/app/modules/article/views/article_all_view.dart';
 import 'package:kayabe_lims/app/modules/article/widgets/news_card_square.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
@@ -23,9 +25,7 @@ class ArticleHomeView extends ConsumerStatefulWidget {
 class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
   @override
   Widget build(BuildContext context) {
-    final categories = mockArticleCategory;
-    final AuthController _authController = Get.find();
-
+    final categories = ref.watch(articleCategoriesProvider);
     final articles = ref.watch(articlesProvider(""));
 
     return AppScaffoldWithBottomNavBar(
@@ -38,27 +38,27 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
       currentIndex: 3,
       middleButtonPressed: () {
         // Check if user authenticated based on name
-        if (_authController.isLoggedIn.value) {
-          showModalBottomSheet(
-            backgroundColor: Colors.transparent,
-            context: context,
-            builder: (context) {
-              return const AppBottomSheetComponent();
-            },
-          );
-        } else {
-          Get.toNamed(AppPages.signin);
+        // if (_authController.isLoggedIn.value) {
+        //   showModalBottomSheet(
+        //     backgroundColor: Colors.transparent,
+        //     context: context,
+        //     builder: (context) {
+        //       return const AppBottomSheetComponent();
+        //     },
+        //   );
+        // } else {
+        //   Get.toNamed(AppPages.signin);
 
-          Get.snackbar(
-            "pop_login_required".tr,
-            "",
-            backgroundColor: primaryColor,
-            snackPosition: SnackPosition.TOP,
-            animationDuration: const Duration(seconds: 1),
-            duration: const Duration(seconds: 1),
-            colorText: whiteColor,
-          );
-        }
+        //   Get.snackbar(
+        //     "pop_login_required".tr,
+        //     "",
+        //     backgroundColor: primaryColor,
+        //     snackPosition: SnackPosition.TOP,
+        //     animationDuration: const Duration(seconds: 1),
+        //     duration: const Duration(seconds: 1),
+        //     colorText: whiteColor,
+        //   );
+        // }
       },
       body: articles.when(
         loading: () => const Center(
@@ -78,12 +78,15 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const AppTitleWithButton(
+                  AppTitleWithButton(
                     padding: EdgeInsets.zero,
                     title: "Newest",
                     buttonLabel: "View All",
                     leadingSize: 18,
                     trailingSize: 12,
+                    onTap: () {
+                      Get.to(const ArticleAllView());
+                    },
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
@@ -103,25 +106,38 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  SizedBox(
-                    height: 20,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categories.length,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            categories.elementAt(index),
-                            style: BoldTextStyle(blackColor),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: 50);
-                      },
+                  categories.when(
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
                     ),
+                    error: (e, stackTrace) {
+                      logger.e(stackTrace);
+                      return const Center(
+                        child: Text("Error loading data"),
+                      );
+                    },
+                    data: (categories) {
+                      return SizedBox(
+                        height: 20,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: categories.length,
+                          physics: const BouncingScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                categories.elementAt(index).name,
+                                style: BoldTextStyle(blackColor),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(width: 50);
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 30),
                   Column(
