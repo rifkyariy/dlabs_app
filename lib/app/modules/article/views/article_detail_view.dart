@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 // import 'package:flutter_html/flutter_html.dart';
@@ -105,7 +104,8 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                             ),
                           ),
                         ),
-                        Html(data: article.desc),
+                        Text(article.desc),
+                        // Html(data: article.desc),
                       ],
                     ),
                   ),
