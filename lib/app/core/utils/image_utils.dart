@@ -10,7 +10,7 @@ class ImageUtils {
   }
 
   static Future<File?> cropSelectedImage(String filePath) async {
-    return await ImageCropper.cropImage(
+    return await ImageCropper().cropImage(
       sourcePath: filePath,
       // aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
       iosUiSettings: const IOSUiSettings(
