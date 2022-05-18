@@ -1,12 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/utils/utils.dart';
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:kayabe_lims/app/data/models/user_model.dart';
-import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 
 class ArticleRepository {
@@ -176,39 +173,40 @@ class ArticleRepository {
     }
   }
 
-  // Future<ArticleDetailModel> getArticleDetail(
-  //   String id,
-  // ) async {
-  //   final url = Uri.parse('$_baseUrl/content/article/$id');
+  Future<List<ArticleCategoryModel>> getArticleCategories() async {
+    final url = Uri.parse('$_baseUrl/content/article/category');
 
-  //   try {
-  //     late String responseStatus;
-  //     late String message;
-  //     final ArticleDetailModel _response = await http.get(
-  //       url,
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'fendpoint': '/content',
-  //       },
-  //     ).then((value) {
-  //       responseStatus = jsonDecode(value.body)['status'];
-  //       message = jsonDecode(value.body)['message'];
-  //       return ArticleDetailModel.fromJson(jsonDecode(value.body)['data']);
-  //     });
+    try {
+      late String responseStatus;
+      late String message;
+      final CategoryResponse _response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'fendpoint': '/content',
+        },
+      ).then((value) {
+        responseStatus = jsonDecode(value.body)['status'];
+        message = jsonDecode(value.body)['message'];
+        logger.i(jsonDecode(value.body));
+        return CategoryResponse.fromJson(jsonDecode(value.body));
+      });
 
-  //     switch (responseStatus) {
-  //       case "200":
-  //         return _response;
+      switch (responseStatus) {
+        case "200":
+          return _response.data
+              .map((e) => ArticleCategoryModel.fromJson(e))
+              .toList();
 
-  //       case "401":
-  //         throw Exception('Authentication Failed');
+        case "401":
+          throw Exception('Authentication Failed');
 
-  //       default:
-  //         throw Exception(message);
-  //     }
-  //   } catch (e) {
-  //     throw Exception(e.toString());
-  //   }
-  // }
-
+        default:
+          throw Exception(message);
+      }
+    } catch (e) {
+      logger.e(e);
+      throw Exception(e.toString());
+    }
+  }
 }
