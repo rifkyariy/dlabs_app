@@ -1,3 +1,5 @@
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayabe_lims/app/core/internationalization/app_internationalization.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
@@ -15,7 +17,7 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async {
-  runApp(const Apps());
+  runApp(const ProviderScope(child: Apps()));
 }
 
 class Apps extends StatelessWidget {
@@ -45,6 +47,7 @@ class Apps extends StatelessWidget {
             shadowColor: lightGreyColor,
           ),
         ),
+        builder: EasyLoading.init(),
       ),
     );
   }

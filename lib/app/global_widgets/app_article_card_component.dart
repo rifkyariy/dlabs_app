@@ -14,7 +14,8 @@ class AppArticleCardComponent extends StatelessWidget {
     required this.photoUrl,
     required this.id,
   }) : super(key: key);
-  final String about, title, timestamp, photoUrl, id;
+  final String about, title, timestamp, photoUrl;
+  final int id;
   @override
   Widget build(BuildContext context) {
     return Card(

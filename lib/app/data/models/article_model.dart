@@ -108,3 +108,38 @@ class ArticleData {
 
   Map<String, dynamic> toJson() => _$ArticleDataToJson(this);
 }
+
+@freezed
+class ArticleCommentModel with _$ArticleCommentModel {
+  const factory ArticleCommentModel({
+    required int id,
+    required int web_content_article_id,
+    required String name,
+    required String comment,
+    required String status,
+    required DateTime created_date,
+    required int created_by,
+    required DateTime updated_date,
+    required int updated_by,
+    String? image,
+  }) = _ArticleCommentModel;
+
+  factory ArticleCommentModel.fromJson(Map<String, dynamic> json) =>
+      _$ArticleCommentModelFromJson(json);
+}
+
+@freezed
+class ArticleCategoryModel with _$ArticleCategoryModel {
+  const factory ArticleCategoryModel({
+    required int id,
+    required String name,
+    required int status,
+    required DateTime created_date,
+    required int created_by,
+    required int category_id,
+    required String category_name,
+  }) = _ArticleCategoryModel;
+
+  factory ArticleCategoryModel.fromJson(Map<String, dynamic> json) =>
+      _$ArticleCategoryModelFromJson(json);
+}

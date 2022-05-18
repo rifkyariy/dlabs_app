@@ -1,26 +1,34 @@
-import 'dart:developer';
-
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:kayabe_lims/app/data/repository/article_repository.dart';
 
-class ArticleController extends GetxController {
-  ArticleController();
+final articlesProvider =
+    FutureProvider.autoDispose.family<List<ArticleModel>, String>(
+  (ref, query) async {
+    final repo = ref.watch(articleRepo);
+    final result = await repo.getArticles(query);
+    return result;
+  },
+);
 
-  final ArticleRepository _articleRepository = Get.find();
-  late RxList<ArticleModel> articles = <ArticleModel>[].obs;
+final articleDetailProvider =
+    FutureProvider.autoDispose.family<ArticleDetailModel, int>(
+  (ref, id) async {
+    final repo = ref.watch(articleRepo);
+    final result = await repo.getArticleDetail(id);
+    return result;
+  },
+);
 
-  Future<ArticleDetailModel> getArticleDetail(String id) async {
-    final _data = await _articleRepository.getArticleDetail(id);
+final articleCommentProvider =
+    FutureProvider.autoDispose.family<List<ArticleCommentModel>, int>(
+  (ref, id) async {
+    final repo = ref.watch(articleRepo);
+    final result = await repo.getArticleComment(id);
+    return result;
+  },
+);
 
-    return _data;
-  }
-
-  @override
-  void onInit() async {
-    final data = await _articleRepository.getArticles("");
-    articles.value = data;
-
-    super.onInit();
-  }
-}
+final articleRepo = Provider.autoDispose<ArticleRepository>(
+  (ref) => ArticleRepository(),
+);
