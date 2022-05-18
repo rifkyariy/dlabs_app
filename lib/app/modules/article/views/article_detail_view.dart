@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
@@ -101,8 +102,8 @@ class _ArticleDetailViewState extends State<ArticleDetailView> {
                           ),
                         ),
 
-                        Text(article.desc),
-                        // Html(data: article.desc),
+                        // Text(article.desc),
+                        Html(data: article.desc),
                       ],
                     ),
                   ),

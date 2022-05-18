@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
+import 'package:kayabe_lims/app/global_widgets/app_bottom_sheet_component.dart';
 import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:kayabe_lims/app/global_widgets/app_title_with_button.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.mock.dart';
 import 'package:kayabe_lims/app/modules/article/widgets/news_card_square.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class ArticleHomeView extends GetView<ArticleController> {
   ArticleHomeView({Key? key}) : super(key: key);
@@ -16,15 +19,40 @@ class ArticleHomeView extends GetView<ArticleController> {
   @override
   Widget build(BuildContext context) {
     final categories = mockArticleCategory;
+    final AuthController _authController = Get.find();
 
     return AppScaffoldWithBottomNavBar(
       appBar: AppBar(
-        title: const Text("Article"),
+        title: const Text("Articles"),
         automaticallyImplyLeading: false,
       ),
       visibleBottomNavBar: true,
       visibleFloatingActionButton: true,
       currentIndex: 3,
+      middleButtonPressed: () {
+        // Check if user authenticated based on name
+        if (_authController.isLoggedIn.value) {
+          showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) {
+              return const AppBottomSheetComponent();
+            },
+          );
+        } else {
+          Get.toNamed(AppPages.signin);
+
+          Get.snackbar(
+            "pop_login_required".tr,
+            "",
+            backgroundColor: primaryColor,
+            snackPosition: SnackPosition.TOP,
+            animationDuration: const Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
+            colorText: whiteColor,
+          );
+        }
+      },
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(

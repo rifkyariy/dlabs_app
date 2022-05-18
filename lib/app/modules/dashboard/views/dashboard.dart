@@ -119,7 +119,9 @@ class DashboardScreen extends GetView<DashboardController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // TODO add article route
+                          Get.toNamed(
+                            AppPages.articleHome,
+                          );
                         },
                         child: Text(
                           "gen_view_all".tr,
@@ -142,7 +144,7 @@ class DashboardScreen extends GetView<DashboardController> {
                               photoUrl: controller.articleData[index].photoUrl,
                               timestamp:
                                   controller.articleData[index].timestamp,
-                              id: "1",
+                              id: controller.articleData[index].id.toString(),
                             ),
                           ])),
                 ),
