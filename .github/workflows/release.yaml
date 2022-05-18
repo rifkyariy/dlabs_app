@@ -57,9 +57,9 @@ jobs:
           fileName: .env
           encodedString: ${{ secrets.LOCAL_ENV }}
 
-      - name: Create .env
-        run: |
-          cp ${{steps.local_env.outputs.filePath}} .env
+      # - name: Create .env
+      #   run: |
+      #     cp ${{steps.local_env.outputs.filePath}} .env
 
       - name: Setup Ruby
         uses: actions/setup-ruby@v1
