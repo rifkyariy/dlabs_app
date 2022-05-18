@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/global_widgets/custom_network_image.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
@@ -105,8 +106,8 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
 
                         // TODO to edit html view, just change below code
 
-                        Text(article.desc),
-                        // Html(data: article.desc),
+                        // Text(article.desc),
+                        Html(data: article.desc),
 
                         // TODO html view html view
                       ],
