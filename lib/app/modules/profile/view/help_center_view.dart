@@ -176,15 +176,10 @@ class MapsSliverHeader extends SliverPersistentHeaderDelegate {
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
 
-    final marker = const Marker(
+    const marker = Marker(
       markerId: MarkerId('Direct Lab'),
       position: LatLng(-6.191842, 106.746557),
       // icon: BitmapDescriptor.,
-      infoWindow: InfoWindow(
-        title: 'Direct Lab',
-        snippet:
-            'Ruko Kencana Niaga D1 2N, Jl. Aries Utama IV No.7, RT.12/RW.8, Meruya Utara, Daerah Khusus Ibukota Jakarta 11620, Indonesia',
-      ),
     );
 
     markers[MarkerId('Direct Lab')] = marker;
@@ -194,15 +189,18 @@ class MapsSliverHeader extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return GestureDetector(
-      child: SizedBox.expand(
-        child: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(-6.191842, 106.746557),
-            zoom: 18.0,
-          ),
-          markers: markers.values.toSet(),
+      child: const SizedBox.expand(
+        child: SizedBox(
+          height: 10,
         ),
+        // GoogleMap(
+        //   onMapCreated: _onMapCreated,
+        //   initialCameraPosition: const CameraPosition(
+        //     target: LatLng(-6.191842, 106.746557),
+        //     zoom: 18.0,
+        //   ),
+        //   markers: markers.values.toSet(),
+        // ),
       ),
     );
   }

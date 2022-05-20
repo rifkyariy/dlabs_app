@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -102,13 +103,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                             ),
                           ),
                         ),
-
-                        // TODO to edit html view, just change below code
-
-                        Text(article.desc),
-                        // Html(data: article.desc),
-
-                        // TODO html view html view
+                        Html(data: article.desc),
                       ],
                     ),
                   ),
@@ -223,14 +218,19 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 13,
-                                          child: Text(c.name
-                                                  .split('')
-                                                  .first
-                                                  .capitalize ??
-                                              ''),
-                                        )
+                                        c.name.isNotEmpty
+                                            ? CircleAvatar(
+                                                radius: 13,
+                                                child: Text(c.name
+                                                        .split('')
+                                                        .first
+                                                        .capitalize ??
+                                                    ''),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 13,
+                                                child: Text('-'),
+                                              )
                                       ],
                                     ),
                                     title: Text(
