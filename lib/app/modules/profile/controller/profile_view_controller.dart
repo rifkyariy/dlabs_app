@@ -253,6 +253,42 @@ class ProfileViewController extends GetxController {
     }
   }
 
+  handleContactUs() async {
+    try {
+      isLoading.value = true;
+
+      await ProfileRepository.updateProfileData(
+        token: auth.apiToken.value,
+        userId: '${_userData.id}',
+        fullName: fullNameController.text,
+        identityNumber: idNumberController.text,
+        phone: phoneNumberController.text,
+        birthDate: dateOfBirthController.text,
+        gender: genderValue.value,
+        address: addressController.text,
+        nationality: selectedNationality.text,
+      );
+
+      isLoading.value = false;
+
+      Get.snackbar(
+        'Success',
+        'Your profile is updated!',
+        backgroundColor: Colors.lightGreen,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Oops',
+        'Something went wrong !',
+        backgroundColor: warningColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
+
   @override
   void onInit() async {
     _userData = await _authRepo.getUserData(token: auth.apiToken.value);

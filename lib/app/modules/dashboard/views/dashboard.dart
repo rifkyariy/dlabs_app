@@ -186,7 +186,7 @@ class DashboardScreen extends GetView<DashboardController> {
                               photoUrl: controller.articleData[index].photoUrl,
                               timestamp:
                                   controller.articleData[index].timestamp,
-                              id: 5,
+                              id: controller.articleData[index].id,
                             ),
                           ])),
                 ),

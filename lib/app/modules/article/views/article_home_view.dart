@@ -33,7 +33,7 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
 
     return AppScaffoldWithBottomNavBar(
       appBar: AppBar(
-        title: const Text("Article"),
+        title: const Text("Articles"),
         automaticallyImplyLeading: false,
       ),
       visibleBottomNavBar: true,
