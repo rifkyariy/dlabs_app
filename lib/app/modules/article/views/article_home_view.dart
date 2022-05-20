@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_instance/src/extension_instance.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/utils.dart';
@@ -27,6 +29,7 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
   Widget build(BuildContext context) {
     final categories = ref.watch(articleCategoriesProvider);
     final articles = ref.watch(articlesProvider(""));
+    final AuthController _authController = Get.find();
 
     return AppScaffoldWithBottomNavBar(
       appBar: AppBar(
@@ -38,27 +41,27 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
       currentIndex: 3,
       middleButtonPressed: () {
         // Check if user authenticated based on name
-        // if (_authController.isLoggedIn.value) {
-        //   showModalBottomSheet(
-        //     backgroundColor: Colors.transparent,
-        //     context: context,
-        //     builder: (context) {
-        //       return const AppBottomSheetComponent();
-        //     },
-        //   );
-        // } else {
-        //   Get.toNamed(AppPages.signin);
+        if (_authController.isLoggedIn.value) {
+          showModalBottomSheet(
+            backgroundColor: Colors.transparent,
+            context: context,
+            builder: (context) {
+              return const AppBottomSheetComponent();
+            },
+          );
+        } else {
+          Get.toNamed(AppPages.signin);
 
-        //   Get.snackbar(
-        //     "pop_login_required".tr,
-        //     "",
-        //     backgroundColor: primaryColor,
-        //     snackPosition: SnackPosition.TOP,
-        //     animationDuration: const Duration(seconds: 1),
-        //     duration: const Duration(seconds: 1),
-        //     colorText: whiteColor,
-        //   );
-        // }
+          Get.snackbar(
+            "pop_login_required".tr,
+            "",
+            backgroundColor: primaryColor,
+            snackPosition: SnackPosition.TOP,
+            animationDuration: const Duration(seconds: 1),
+            duration: const Duration(seconds: 1),
+            colorText: whiteColor,
+          );
+        }
       },
       body: articles.when(
         loading: () => const Center(

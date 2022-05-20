@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:kayabe_lims/app/global_widgets/custom_network_image.dart';
+import 'package:kayabe_lims/app/modules/article/views/article_detail_view.dart';
 
 class NewsCardSquare extends StatelessWidget {
   const NewsCardSquare({required this.article, Key? key}) : super(key: key);
@@ -13,7 +15,9 @@ class NewsCardSquare extends StatelessWidget {
     return SizedBox(
       child: Ink(
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Get.to(() => ArticleDetailView(id: article.id));
+          },
           child: Container(
             width: 250,
             height: 200,

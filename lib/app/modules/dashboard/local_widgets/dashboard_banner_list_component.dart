@@ -19,8 +19,8 @@ class DashboardBannerListComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeScalling.init(context);
     final AuthController _authController = Get.find();
+    SizeScalling.init(context);
 
     return SizedBox(
       height: SizeScalling().setHeight(150),

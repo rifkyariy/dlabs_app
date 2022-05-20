@@ -81,15 +81,16 @@ class DashboardServiceCardComponent extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 onTap: () {
-                  Get.snackbar(
-                    "Something Went Wrong",
-                    "No Route Specified",
-                    backgroundColor: primaryColor,
-                    snackPosition: SnackPosition.TOP,
-                    animationDuration: const Duration(seconds: 1),
-                    duration: const Duration(seconds: 1),
-                    colorText: whiteColor,
-                  );
+                  // TODO Misc : because no route to be specified
+                  // Get.snackbar(
+                  //   "Something Went Wrong",
+                  //   "No Route Specified",
+                  //   backgroundColor: primaryColor,
+                  //   snackPosition: SnackPosition.TOP,
+                  //   animationDuration: const Duration(seconds: 1),
+                  //   duration: const Duration(seconds: 1),
+                  //   colorText: whiteColor,
+                  // );
                 },
               ),
             ),
