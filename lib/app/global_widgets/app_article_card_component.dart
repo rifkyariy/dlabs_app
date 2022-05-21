@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,11 @@ class AppArticleCardComponent extends StatelessWidget {
   final int id;
   @override
   Widget build(BuildContext context) {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm");
+    DateTime formattedDate = dateFormat.parse(timestamp);
+    String articleDate =
+        "${formattedDate.year.toString()}-${formattedDate.month.toString().padLeft(2, '0')}-${formattedDate.day.toString().padLeft(2, '0')} ${formattedDate.hour.toString().padLeft(2, '0')}:${formattedDate.minute.toString().padLeft(2, '0')}";
+
     return Card(
       child: InkWell(
         onTap: () {
@@ -118,7 +124,7 @@ class AppArticleCardComponent extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            timestamp,
+                            articleDate,
                             style: smallTextStyle(greyColor),
                           )
                         ],

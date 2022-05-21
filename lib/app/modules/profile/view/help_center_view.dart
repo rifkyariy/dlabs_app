@@ -156,7 +156,9 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
                   child: TransactionTextButton(
                     title: "Submit",
                     isWhiteBackground: false,
-                    onPressed: () async {},
+                    onPressed: () async {
+                      controller.handleContactUs();
+                    },
                   ),
                 ),
               ],

@@ -13,6 +13,7 @@ class ProfileViewController extends GetxController {
   AuthController auth = Get.find();
   final AuthRepository _authRepo = Get.put(AuthRepository());
   final MasterDataRepository _masterData = Get.put(MasterDataRepository());
+  final ProfileRepository _profile = Get.put(ProfileRepository());
 
   late UserModel _userData;
 
@@ -257,27 +258,25 @@ class ProfileViewController extends GetxController {
     try {
       isLoading.value = true;
 
-      await ProfileRepository.updateProfileData(
-        token: auth.apiToken.value,
-        userId: '${_userData.id}',
-        fullName: fullNameController.text,
-        identityNumber: idNumberController.text,
-        phone: phoneNumberController.text,
-        birthDate: dateOfBirthController.text,
-        gender: genderValue.value,
-        address: addressController.text,
-        nationality: selectedNationality.text,
-      );
+      await _profile.sendContactUs(
+          email: emailController.text,
+          fullname: fullNameController.text,
+          phone: phoneNumberController.text,
+          subject: subjectController.text,
+          message: messageController.text);
 
       isLoading.value = false;
 
       Get.snackbar(
         'Success',
-        'Your profile is updated!',
+        'Thanks for let us know!',
         backgroundColor: Colors.lightGreen,
         colorText: whiteColor,
         snackPosition: SnackPosition.TOP,
       );
+
+      subjectController.text = '';
+      messageController.text = '';
     } catch (e) {
       Get.snackbar(
         'Oops',

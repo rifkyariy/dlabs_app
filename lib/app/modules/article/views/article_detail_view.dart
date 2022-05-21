@@ -59,7 +59,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(
                       [
@@ -293,9 +293,11 @@ class ImageSliverHeader extends SliverPersistentHeaderDelegate {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            width: double.infinity,
             height: 30,
             decoration: BoxDecoration(
+              border: Border.all(
+                color: Color(0xFFFAFAFA),
+              ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25.0),
                 topRight: Radius.circular(25.0),

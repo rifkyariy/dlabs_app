@@ -64,8 +64,8 @@ class DashboardBannerCardComponent extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: sizeScalling.setHeight(110),
-            width: sizeScalling.setWidth(252),
+            height: sizeScalling.setHeight(300),
+            width: double.infinity,
             child: Material(
               borderRadius: BorderRadius.circular(5),
               color: Colors.transparent,
