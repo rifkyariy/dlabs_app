@@ -175,7 +175,7 @@ class DashboardScreen extends GetView<DashboardController> {
                 ),
                 Obx(
                   () => ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: controller
                           .articleData.length, //TODO change to fixed value,

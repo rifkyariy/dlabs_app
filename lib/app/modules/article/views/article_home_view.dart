@@ -10,7 +10,6 @@ import 'package:kayabe_lims/app/global_widgets/app_bottom_sheet_component.dart';
 import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:kayabe_lims/app/global_widgets/app_title_with_button.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
-import 'package:kayabe_lims/app/modules/article/controller/article_controller.mock.dart';
 import 'package:kayabe_lims/app/modules/article/views/article_all_view.dart';
 import 'package:kayabe_lims/app/modules/article/widgets/news_card_square.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
@@ -24,11 +23,18 @@ class ArticleHomeView extends ConsumerStatefulWidget {
       _ArticleHomeViewState();
 }
 
+final categoryIdProvider = StateProvider((ref) => 1);
+
 class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
   @override
   Widget build(BuildContext context) {
+    final categoryId = ref.watch(categoryIdProvider.state).state;
+
     final categories = ref.watch(articleCategoriesProvider);
-    final articles = ref.watch(articlesProvider(""));
+    final articles = ref.watch(articlesProvider(ArticleFilter('', categoryId)));
+    final latestArticles =
+        ref.watch(articlesProvider(const ArticleFilter('', 0)));
+
     final AuthController _authController = Get.find();
 
     return AppScaffoldWithBottomNavBar(
@@ -63,104 +69,137 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
           );
         }
       },
-      body: articles.when(
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        error: (e, stackTrace) => const Center(
-          child: Text("Error loading data"),
-        ),
-        data: (articles) {
-          return SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 23,
-                horizontal: 24,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            vertical: 23,
+            horizontal: 24,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppTitleWithButton(
+                padding: EdgeInsets.zero,
+                title: "Newest",
+                buttonLabel: "View All",
+                leadingSize: 18,
+                trailingSize: 12,
+                onTap: () {
+                  Get.to(const ArticleAllView());
+                },
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppTitleWithButton(
-                    padding: EdgeInsets.zero,
-                    title: "Newest",
-                    buttonLabel: "View All",
-                    leadingSize: 18,
-                    trailingSize: 12,
-                    onTap: () {
-                      Get.to(const ArticleAllView());
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
+              const SizedBox(height: 20),
+              latestArticles.when(
+                data: (latestArticles) {
+                  return SizedBox(
                     height: 200,
                     child: ListView.separated(
-                      itemCount: articles.length,
+                      itemCount: latestArticles.length,
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: (context, index) {
                         return NewsCardSquare(
-                          article: articles[index],
+                          article: latestArticles[index],
                         );
                       },
                       separatorBuilder: (context, index) {
                         return const SizedBox(width: 10);
                       },
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  categories.when(
-                    loading: () => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    error: (e, stackTrace) {
-                      logger.e(stackTrace);
-                      return const Center(
-                        child: Text("Error loading data"),
-                      );
-                    },
-                    data: (categories) {
-                      return SizedBox(
-                        height: 20,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: categories.length,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                categories.elementAt(index).name,
-                                style: BoldTextStyle(blackColor),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return const SizedBox(width: 50);
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 30),
-                  Column(
-                    children: [
-                      for (final a in articles) ...[
-                        AppArticleCardComponent(
-                          about: a.category_name,
-                          title: a.title,
-                          photoUrl: 'https://api-dl.konsultasi.in/${a.image}',
-                          timestamp: a.created_date.toString(),
-                          id: a.id,
-                        ),
-                      ],
-                    ],
-                  )
-                ],
+                  );
+                },
+                error: (e, stackTrace) {
+                  logger.e(stackTrace);
+                  return const Center(
+                    child: Text("Error loading data"),
+                  );
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
-            ),
-          );
-        },
+              const SizedBox(height: 20),
+              categories.when(
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (e, stackTrace) {
+                  logger.e(stackTrace);
+                  return const Center(
+                    child: Text("Error loading data"),
+                  );
+                },
+                data: (categories) {
+                  return SizedBox(
+                    height: 20,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: categories.length,
+                      physics: const BouncingScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            int categoryId = categories.elementAt(index).id;
+                            ref.read(categoryIdProvider.notifier).state =
+                                categoryId;
+                          },
+                          child: Text(
+                            categories.elementAt(index).name,
+                            style: BoldTextStyle(categories
+                                        .elementAt(index)
+                                        .id ==
+                                    ref.read(categoryIdProvider.notifier).state
+                                ? primaryColor
+                                : blackColor),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 30);
+                      },
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 30),
+              articles.when(
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (e, stackTrace) => const Center(
+                  child: Text("Error loading data"),
+                ),
+                data: (articles) {
+                  if (articles.isEmpty) {
+                    return Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 60, vertical: 60),
+                      child: const Image(
+                        image: AssetImage('assets/image/empty-article.png'),
+                      ),
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        for (final a in articles) ...[
+                          AppArticleCardComponent(
+                            about: a.category_name,
+                            title: a.title,
+                            photoUrl: 'https://api-dl.konsultasi.in/${a.image}',
+                            timestamp: a.created_date.toString(),
+                            id: a.id,
+                          ),
+                        ],
+                      ],
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

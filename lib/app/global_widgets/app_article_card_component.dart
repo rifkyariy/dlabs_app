@@ -22,7 +22,7 @@ class AppArticleCardComponent extends StatelessWidget {
     DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm");
     DateTime formattedDate = dateFormat.parse(timestamp);
     String articleDate =
-        "${formattedDate.year.toString()}-${formattedDate.month.toString().padLeft(2, '0')}-${formattedDate.day.toString().padLeft(2, '0')} ${formattedDate.hour.toString().padLeft(2, '0')}:${formattedDate.minute.toString().padLeft(2, '0')}";
+        "${formattedDate.day.toString().padLeft(2, '0')}/${formattedDate.month.toString().padLeft(2, '0')}/${formattedDate.year.toString()}  |  ${formattedDate.hour.toString().padLeft(2, '0')}:${formattedDate.minute.toString().padLeft(2, '0')}";
 
     return Card(
       child: InkWell(

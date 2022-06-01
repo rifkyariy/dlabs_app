@@ -8,8 +8,11 @@ import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/global_widgets/button.dart';
 import 'package:kayabe_lims/app/global_widgets/custom_network_image.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class ArticleDetailView extends ConsumerStatefulWidget {
   const ArticleDetailView({required this.id, Key? key}) : super(key: key);
@@ -22,6 +25,7 @@ class ArticleDetailView extends ConsumerStatefulWidget {
 
 class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   final commentController = TextEditingController();
+  final AuthController _authController = Get.find();
 
   @override
   void dispose() {
@@ -153,60 +157,79 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                   ],
                                 ),
                                 const SizedBox(height: 20),
-                                TextField(
-                                  controller: commentController,
-                                  decoration: InputDecoration(
-                                    hintText: "Add public comment",
-                                    hintStyle: GoogleFonts.lato(
-                                      color: const Color(0xFF323F4B),
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    prefixIcon: const Padding(
-                                      padding: EdgeInsetsDirectional.only(
-                                        end: 20,
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 10,
-                                        child: Text("A"),
-                                      ),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () async {
-                                        EasyLoading.show();
-                                        final result = await ref
-                                            .read(articleRepo)
-                                            .cereateArticleComment(
-                                              articleId: widget.id,
-                                              comment: commentController.text,
-                                            );
-                                        EasyLoading.dismiss();
-                                        if (result) {
-                                          EasyLoading.dismiss();
-                                          EasyLoading.showSuccess(
-                                            "Comment Published",
-                                          );
-                                          commentController.clear();
-                                          ref.refresh(
-                                            articleCommentProvider(widget.id),
-                                          );
-                                        } else {
-                                          EasyLoading.dismiss();
-                                          EasyLoading.showError(
-                                            "Error Publishing Comment",
-                                          );
-                                        }
-                                      },
-                                      icon: const Icon(
-                                        Icons.send,
-                                        color: Color(0xFF1176BC),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Divider(
-                                  height: 1,
-                                  color: greyColor,
+                                Container(
+                                  child: _authController.isLoggedIn.value
+                                      ? Column(
+                                          children: [
+                                            TextField(
+                                              controller: commentController,
+                                              decoration: InputDecoration(
+                                                hintText: "Add public comment",
+                                                hintStyle: GoogleFonts.lato(
+                                                  color:
+                                                      const Color(0xFF323F4B),
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                prefixIcon: const Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .only(
+                                                    end: 20,
+                                                  ),
+                                                  child: CircleAvatar(
+                                                    radius: 10,
+                                                    child: Text("A"),
+                                                  ),
+                                                ),
+                                                suffixIcon: IconButton(
+                                                  onPressed: () async {
+                                                    EasyLoading.show();
+                                                    final result = await ref
+                                                        .read(articleRepo)
+                                                        .cereateArticleComment(
+                                                          articleId: widget.id,
+                                                          comment:
+                                                              commentController
+                                                                  .text,
+                                                        );
+                                                    EasyLoading.dismiss();
+                                                    if (result) {
+                                                      EasyLoading.dismiss();
+                                                      EasyLoading.showSuccess(
+                                                        "Comment Published",
+                                                      );
+                                                      commentController.clear();
+                                                      ref.refresh(
+                                                        articleCommentProvider(
+                                                            widget.id),
+                                                      );
+                                                    } else {
+                                                      EasyLoading.dismiss();
+                                                      EasyLoading.showError(
+                                                        "Error Publishing Comment",
+                                                      );
+                                                    }
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.send,
+                                                    color: Color(0xFF1176BC),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Divider(
+                                              height: 1,
+                                              color: greyColor,
+                                            ),
+                                          ],
+                                        )
+                                      : AppButton(
+                                          text: 'Login Untuk Memberi Komentar',
+                                          textColor: whiteColor,
+                                          onClicked: () {
+                                            Get.toNamed(AppPages.signin);
+                                          },
+                                        ),
                                 ),
                                 const SizedBox(height: 20),
                                 for (final c in comments) ...[
@@ -248,7 +271,9 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "${DateTime.now().difference(c.created_date).inDays} days ago",
+                                          convertDayFromToday(DateTime.now()
+                                              .difference(c.created_date)
+                                              .inDays),
                                           style: GoogleFonts.lato(
                                             color: greyColor,
                                             fontSize: 10,
@@ -277,6 +302,20 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
         },
       ),
     );
+  }
+}
+
+String convertDayFromToday(int inDays) {
+  if (inDays == 0) {
+    return 'today';
+  } else if (inDays >= 30) {
+    // its integer division
+    int countMonth = inDays ~/ 30;
+    return '$countMonth months ago';
+  } else if (inDays >= 120) {
+    return 'long time ago';
+  } else {
+    return '$inDays days ago';
   }
 }
 

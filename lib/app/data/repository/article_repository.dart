@@ -11,6 +11,7 @@ class ArticleRepository {
 
   Future<List<ArticleModel>> getArticles(
     String search,
+    int category,
   ) async {
     final url = Uri.parse('$_baseUrl/content/article');
     try {
@@ -29,7 +30,7 @@ class ArticleRepository {
               "search": [
                 {"value": search}
               ],
-              "category_id": 1
+              "category_id": category
             }),
           )
           .then((value) => ArticleResponse.fromJson(jsonDecode(value.body)));

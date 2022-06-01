@@ -10,6 +10,20 @@ class NewsCardSquare extends StatelessWidget {
 
   final ArticleModel article;
 
+  String convertDayFromToday(int inDays) {
+    if (inDays == 0) {
+      return 'today';
+    } else if (inDays >= 30) {
+      // its integer division
+      int countMonth = inDays ~/ 30;
+      return '$countMonth months ago';
+    } else if (inDays >= 120) {
+      return 'long time ago';
+    } else {
+      return '$inDays days ago';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -90,7 +104,9 @@ class NewsCardSquare extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "${DateTime.now().difference(article.created_date).inDays} Days ago",
+                            convertDayFromToday(DateTime.now()
+                                .difference(article.created_date)
+                                .inDays),
                             style: smallTextStyle(whiteColor),
                             textHeightBehavior: const TextHeightBehavior(
                               applyHeightToFirstAscent: false,
