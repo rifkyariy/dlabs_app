@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/route_manager.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/utils.dart';
@@ -104,12 +105,30 @@ class _ArticleAllViewState extends ConsumerState<ArticleAllView> {
             ),
             data: (articles) {
               if (articles.isEmpty) {
-                return Container(
-                  width: double.infinity,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 60, vertical: 200),
-                  child: const Image(
-                    image: AssetImage('assets/image/empty-article.png'),
+                return Padding(
+                  padding: const EdgeInsets.only(top: 200),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 100, vertical: 10),
+                        child: const Image(
+                          image: AssetImage('assets/image/empty-article.png'),
+                        ),
+                      ),
+                      Text(
+                        'empty_article_title'.tr,
+                        style: subtitleTextStyle(greyColor),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        'empty_article_subtitle'.tr,
+                        style: appServiceSubtitleTextStyle,
+                      ),
+                    ],
                   ),
                 );
               } else {

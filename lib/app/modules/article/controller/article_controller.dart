@@ -13,6 +13,15 @@ class ArticleFilter<String, int> extends Equatable {
   List<Object?> get props => [query, category];
 }
 
+class CommentPagination extends Equatable {
+  final int pages, articleId;
+
+  const CommentPagination(this.articleId, this.pages);
+
+  @override
+  List<Object?> get props => [articleId, pages];
+}
+
 final articlesProvider = FutureProvider.autoDispose
     .family<List<ArticleModel>, ArticleFilter<String, int>>(
   (ref, filter) async {

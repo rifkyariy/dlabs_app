@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,11 @@ class ArticleDetailView extends ConsumerStatefulWidget {
 class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   final commentController = TextEditingController();
   final AuthController _authController = Get.find();
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollDown() {
+    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+  }
 
   @override
   void dispose() {
@@ -37,6 +44,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   Widget build(BuildContext context) {
     final state = ref.watch(articleDetailProvider(widget.id));
     final comments = ref.watch(articleCommentProvider(widget.id));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Articles"),
@@ -56,6 +64,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
               FocusScope.of(context).unfocus();
             },
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 SliverPersistentHeader(
                   delegate: ImageSliverHeader(
@@ -129,6 +138,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                         error: (e, stackTrace) =>
                             const Center(child: Text("Error loading data")),
                         data: (comments) {
+                          print(comments.length);
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: Column(
@@ -171,14 +181,20 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                                   fontSize: 11,
                                                   fontWeight: FontWeight.w400,
                                                 ),
-                                                prefixIcon: const Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .only(
+                                                prefixIcon: Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .only(
                                                     end: 20,
                                                   ),
                                                   child: CircleAvatar(
                                                     radius: 10,
-                                                    child: Text("A"),
+                                                    child: Text(_authController
+                                                            .fullname
+                                                            .split('')
+                                                            .first
+                                                            .capitalize ??
+                                                        ''),
                                                   ),
                                                 ),
                                                 suffixIcon: IconButton(
@@ -186,12 +202,16 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                                     EasyLoading.show();
                                                     final result = await ref
                                                         .read(articleRepo)
-                                                        .cereateArticleComment(
-                                                          articleId: widget.id,
-                                                          comment:
-                                                              commentController
-                                                                  .text,
-                                                        );
+                                                        .createArticleComment(
+                                                            articleId:
+                                                                widget.id,
+                                                            comment:
+                                                                commentController
+                                                                    .text,
+                                                            fullname:
+                                                                _authController
+                                                                    .fullname
+                                                                    .value);
                                                     EasyLoading.dismiss();
                                                     if (result) {
                                                       EasyLoading.dismiss();
@@ -199,10 +219,29 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                                         "Comment Published",
                                                       );
                                                       commentController.clear();
+
+                                                      // Refresh article data
+                                                      ref.refresh(
+                                                        articlesProvider(
+                                                          const ArticleFilter(
+                                                              '', 0),
+                                                        ),
+                                                      );
+
+                                                      // Refresh comment data
                                                       ref.refresh(
                                                         articleCommentProvider(
                                                             widget.id),
                                                       );
+
+                                                      EasyLoading.dismiss();
+
+                                                      Timer(
+                                                          const Duration(
+                                                              milliseconds: 1500 ),
+                                                          () {
+                                                        _scrollDown();
+                                                      });
                                                     } else {
                                                       EasyLoading.dismiss();
                                                       EasyLoading.showError(

@@ -102,7 +102,7 @@ class ArticleRepository {
         },
         body: jsonEncode({
           "page": 1,
-          "max_rows": 20,
+          "max_rows": 1000,
           "order_by": "id",
           "order_type": "asc",
           "article_id": articleId
@@ -133,13 +133,13 @@ class ArticleRepository {
     }
   }
 
-  Future<bool> cereateArticleComment({
+  Future<bool> createArticleComment({
     required int articleId,
     required String comment,
+    required String fullname,
   }) async {
     final storage = AppStorageService()..init();
     final token = await storage.readString('apiToken');
-    final fullName = await storage.readString('user_full_name');
 
     final url = Uri.parse('$_baseUrl/content/article/comment-create');
     try {
@@ -152,7 +152,7 @@ class ArticleRepository {
         },
         body: jsonEncode({
           "article_id": articleId,
-          "name": fullName,
+          "name": fullname,
           "comment": comment,
         }),
       );

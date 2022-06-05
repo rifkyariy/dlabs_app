@@ -172,12 +172,31 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
                 ),
                 data: (articles) {
                   if (articles.isEmpty) {
-                    return Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 60, vertical: 60),
-                      child: const Image(
-                        image: AssetImage('assets/image/empty-article.png'),
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 60),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 100, vertical: 10),
+                            child: const Image(
+                              image:
+                                  AssetImage('assets/image/empty-article.png'),
+                            ),
+                          ),
+                          Text(
+                            'empty_article_title'.tr,
+                            style: subtitleTextStyle(greyColor),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            'empty_article_subtitle'.tr,
+                            style: appServiceSubtitleTextStyle,
+                          ),
+                        ],
                       ),
                     );
                   } else {

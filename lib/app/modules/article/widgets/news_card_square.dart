@@ -30,7 +30,9 @@ class NewsCardSquare extends StatelessWidget {
       child: Ink(
         child: InkWell(
           onTap: () {
-            Get.to(() => ArticleDetailView(id: article.id));
+            Get.to(() => ArticleDetailView(
+                  id: article.id,
+                ));
           },
           child: Container(
             width: 250,

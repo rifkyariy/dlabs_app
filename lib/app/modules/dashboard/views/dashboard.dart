@@ -16,6 +16,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({
@@ -121,6 +122,17 @@ class DashboardScreen extends GetView<DashboardController> {
                               title: item.title,
                               subtitle: item.desc,
                               imageURL: item.image,
+                              onPressed: () async {
+                                // TODO different by its type
+                                // if(item.redirectType == 'url'){
+
+                                // }
+                                final Uri _url = Uri.parse(item.redirectValue);
+
+                                if (!await launchUrl(_url)) {
+                                  throw 'Could not launch $_url';
+                                }
+                              },
                             );
                           }
                         }).toList(),
