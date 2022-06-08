@@ -7,7 +7,6 @@ import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/utils.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
-import 'package:kayabe_lims/app/modules/article/views/article_search_view.dart';
 
 class ArticleSearchView extends ConsumerStatefulWidget {
   const ArticleSearchView({Key? key}) : super(key: key);
@@ -19,20 +18,32 @@ class ArticleSearchView extends ConsumerStatefulWidget {
 
 final categoryIdProvider = StateProvider((ref) => 0);
 final searchKeyProvider = StateProvider((ref) => "");
-
 final FocusNode searchFocusNode = FocusNode();
 
 class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback(
+        (_) => FocusScope.of(context).requestFocus(searchFocusNode));
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryId = ref.watch(categoryIdProvider.state).state;
     final searchData = ref.watch(searchKeyProvider.state).state;
 
-    TextEditingController searchController = TextEditingController();
-
     final categories = ref.watch(articleCategoriesProvider);
-    // final articles = ref.watch(
-    //     articlesProvider(ArticleFilter(searchController.text, categoryId)));
     final articles =
         ref.watch(articlesProvider(ArticleFilter(searchData, categoryId)));
 
@@ -86,10 +97,10 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
                 left: 10,
               ),
             ),
-            onSubmitted: (value) {
+            onSubmitted: (value) {},
+            onChanged: (value) {
               ref.read(searchKeyProvider.notifier).state = value;
             },
-            onChanged: (value) {},
             // On changed responsible to call search method on controller.
             // Will call everytime there change in textfield
           ),
