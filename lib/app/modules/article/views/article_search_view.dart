@@ -17,7 +17,7 @@ class ArticleSearchView extends ConsumerStatefulWidget {
       _ArticleSearchViewState();
 }
 
-final categoryIdProvider = StateProvider((ref) => 1);
+final categoryIdProvider = StateProvider((ref) => 0);
 final searchKeyProvider = StateProvider((ref) => "");
 
 final FocusNode searchFocusNode = FocusNode();
@@ -31,8 +31,9 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
     TextEditingController searchController = TextEditingController();
 
     final categories = ref.watch(articleCategoriesProvider);
-    final articles =
-        ref.watch(articlesProvider(ArticleFilter(searchData, categoryId)));
+    final articles = ref.watch(
+        articlesProvider(ArticleFilter(searchController.text, categoryId)));
+    // articlesProvider(ArticleFilter(searchData, categoryId)));
 
     final latestArticles =
         ref.watch(articlesProvider(const ArticleFilter('', 0)));
@@ -69,7 +70,7 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
                 onPressed: () {
                   // Clear the textfield controller.
                   searchController.clear();
-                  ref.read(searchKeyProvider.notifier).state = "";
+                  // ref.read(searchKeyProvider.notifier).state = "";
                   // Call onSearch Method to refresh the list.
                   // searchController.text = "";
                 },
@@ -85,6 +86,14 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
               ),
             ),
 
+            onChanged: (value) {
+              print(searchController.text);
+              ref.refresh(
+                articlesProvider(
+                  ArticleFilter(searchController.text, 0),
+                ),
+              );
+            },
             // On changed responsible to call search method on controller.
             // Will call everytime there change in textfield
           ),
@@ -97,8 +106,14 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(searchKeyProvider.notifier).state =
-                  searchController.text;
+              // ref.read(searchKeyProvider.notifier).state =
+              //     searchController.text;
+              print('duar');
+              ref.refresh(
+                articlesProvider(
+                  ArticleFilter(searchController.text, 0),
+                ),
+              );
             },
             icon: const Icon(Icons.search),
           )

@@ -138,7 +138,6 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                         error: (e, stackTrace) =>
                             const Center(child: Text("Error loading data")),
                         data: (comments) {
-                          print(comments.length);
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 25),
                             child: Column(
@@ -190,7 +189,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                                   child: CircleAvatar(
                                                     radius: 10,
                                                     child: Text(_authController
-                                                            .fullname
+                                                            .fullname.value
                                                             .split('')
                                                             .first
                                                             .capitalize ??
@@ -238,8 +237,8 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
 
                                                       Timer(
                                                           const Duration(
-                                                              milliseconds: 1500 ),
-                                                          () {
+                                                              milliseconds:
+                                                                  1500), () {
                                                         _scrollDown();
                                                       });
                                                     } else {

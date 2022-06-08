@@ -52,8 +52,6 @@ class DashboardController extends GetxController {
         String image = baseUrl + a['image'];
         int id = a['id'];
 
-        print(a);
-
         return _Article(category, title, createdDate, image, id);
       },
     ).toList();

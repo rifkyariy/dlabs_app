@@ -24,9 +24,9 @@ class ArticleRepository {
             },
             body: jsonEncode({
               "page": 1,
-              "max_rows": 100,
-              "order_by": "id",
-              "order_type": "asc",
+              "max_rows": 1000,
+              "order_by": "created_date",
+              "order_type": "desc",
               "search": [
                 {"value": search}
               ],

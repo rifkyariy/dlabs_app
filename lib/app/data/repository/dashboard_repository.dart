@@ -28,8 +28,8 @@ class DashboardRepository {
     var payload = {
       "page": 1,
       "max_rows": 6,
-      "order_by": "id",
-      "order_type": "asc",
+      "order_by": "created_date",
+      "order_type": "desc",
       "search": [
         {"value": ""}
       ]

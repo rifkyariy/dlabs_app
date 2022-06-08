@@ -16,7 +16,7 @@ class ArticleAllView extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _ArticleAllViewState();
 }
 
-final categoryIdProvider = StateProvider((ref) => 1);
+final categoryIdProvider = StateProvider((ref) => 0);
 
 class _ArticleAllViewState extends ConsumerState<ArticleAllView> {
   @override
