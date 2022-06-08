@@ -1,13 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-// import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/global_widgets/button.dart';
 import 'package:kayabe_lims/app/global_widgets/custom_network_image.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
+import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
+import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class ArticleDetailView extends ConsumerStatefulWidget {
   const ArticleDetailView({required this.id, Key? key}) : super(key: key);
@@ -20,6 +27,12 @@ class ArticleDetailView extends ConsumerStatefulWidget {
 
 class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   final commentController = TextEditingController();
+  final AuthController _authController = Get.find();
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollDown() {
+    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+  }
 
   @override
   void dispose() {
@@ -31,6 +44,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   Widget build(BuildContext context) {
     final state = ref.watch(articleDetailProvider(widget.id));
     final comments = ref.watch(articleCommentProvider(widget.id));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Articles"),
@@ -50,6 +64,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
               FocusScope.of(context).unfocus();
             },
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 SliverPersistentHeader(
                   delegate: ImageSliverHeader(
@@ -57,7 +72,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                   ),
                 ),
                 SliverPadding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate(
                       [
@@ -103,13 +118,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                             ),
                           ),
                         ),
-
-                        // TODO to edit html view, just change below code
-
-                        Text(article.desc),
-                        // Html(data: article.desc),
-
-                        // TODO html view html view
+                        Html(data: article.desc),
                       ],
                     ),
                   ),
@@ -157,60 +166,108 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                   ],
                                 ),
                                 const SizedBox(height: 20),
-                                TextField(
-                                  controller: commentController,
-                                  decoration: InputDecoration(
-                                    hintText: "Add public comment",
-                                    hintStyle: GoogleFonts.lato(
-                                      color: const Color(0xFF323F4B),
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                    prefixIcon: const Padding(
-                                      padding: EdgeInsetsDirectional.only(
-                                        end: 20,
-                                      ),
-                                      child: CircleAvatar(
-                                        radius: 10,
-                                        child: Text("A"),
-                                      ),
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () async {
-                                        EasyLoading.show();
-                                        final result = await ref
-                                            .read(articleRepo)
-                                            .cereateArticleComment(
-                                              articleId: widget.id,
-                                              comment: commentController.text,
-                                            );
-                                        EasyLoading.dismiss();
-                                        if (result) {
-                                          EasyLoading.dismiss();
-                                          EasyLoading.showSuccess(
-                                            "Comment Published",
-                                          );
-                                          commentController.clear();
-                                          ref.refresh(
-                                            articleCommentProvider(widget.id),
-                                          );
-                                        } else {
-                                          EasyLoading.dismiss();
-                                          EasyLoading.showError(
-                                            "Error Publishing Comment",
-                                          );
-                                        }
-                                      },
-                                      icon: const Icon(
-                                        Icons.send,
-                                        color: Color(0xFF1176BC),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Divider(
-                                  height: 1,
-                                  color: greyColor,
+                                Container(
+                                  child: _authController.isLoggedIn.value
+                                      ? Column(
+                                          children: [
+                                            TextField(
+                                              controller: commentController,
+                                              decoration: InputDecoration(
+                                                hintText: "Add public comment",
+                                                hintStyle: GoogleFonts.lato(
+                                                  color:
+                                                      const Color(0xFF323F4B),
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                prefixIcon: Padding(
+                                                  padding:
+                                                      const EdgeInsetsDirectional
+                                                          .only(
+                                                    end: 20,
+                                                  ),
+                                                  child: CircleAvatar(
+                                                    radius: 10,
+                                                    child: Text(_authController
+                                                            .fullname.value
+                                                            .split('')
+                                                            .first
+                                                            .capitalize ??
+                                                        ''),
+                                                  ),
+                                                ),
+                                                suffixIcon: IconButton(
+                                                  onPressed: () async {
+                                                    EasyLoading.show();
+                                                    final result = await ref
+                                                        .read(articleRepo)
+                                                        .createArticleComment(
+                                                            articleId:
+                                                                widget.id,
+                                                            comment:
+                                                                commentController
+                                                                    .text,
+                                                            fullname:
+                                                                _authController
+                                                                    .fullname
+                                                                    .value);
+                                                    EasyLoading.dismiss();
+                                                    if (result) {
+                                                      EasyLoading.dismiss();
+                                                      EasyLoading.showSuccess(
+                                                        "Comment Published",
+                                                      );
+                                                      commentController.clear();
+
+                                                      // Refresh article data
+                                                      ref.refresh(
+                                                        articlesProvider(
+                                                          const ArticleFilter(
+                                                              '', 0),
+                                                        ),
+                                                      );
+
+                                                      // Refresh comment data
+                                                      ref.refresh(
+                                                        articleCommentProvider(
+                                                            widget.id),
+                                                      );
+
+                                                      EasyLoading.dismiss();
+
+                                                      Timer(
+                                                          const Duration(
+                                                              milliseconds:
+                                                                  1500), () {
+                                                        _scrollDown();
+                                                      });
+                                                    } else {
+                                                      EasyLoading.dismiss();
+                                                      EasyLoading.showError(
+                                                        "Error Publishing Comment",
+                                                      );
+                                                    }
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons.send,
+                                                    color: Color(0xFF1176BC),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Divider(
+                                              height: 1,
+                                              color: greyColor,
+                                            ),
+                                          ],
+                                        )
+                                      : AppButton(
+                                          text: 'Login Untuk Memberi Komentar',
+                                          textColor: whiteColor,
+                                          onClicked: () {
+                                            Get.toNamed(AppPages.signin);
+                                          },
+                                        ),
                                 ),
                                 const SizedBox(height: 20),
                                 for (final c in comments) ...[
@@ -224,14 +281,19 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 13,
-                                          child: Text(c.name
-                                                  .split('')
-                                                  .first
-                                                  .capitalize ??
-                                              ''),
-                                        )
+                                        c.name.isNotEmpty
+                                            ? CircleAvatar(
+                                                radius: 13,
+                                                child: Text(c.name
+                                                        .split('')
+                                                        .first
+                                                        .capitalize ??
+                                                    ''),
+                                              )
+                                            : const CircleAvatar(
+                                                radius: 13,
+                                                child: Text('-'),
+                                              )
                                       ],
                                     ),
                                     title: Text(
@@ -247,7 +309,9 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          "${DateTime.now().difference(c.created_date).inDays} days ago",
+                                          convertDayFromToday(DateTime.now()
+                                              .difference(c.created_date)
+                                              .inDays),
                                           style: GoogleFonts.lato(
                                             color: greyColor,
                                             fontSize: 10,
@@ -279,6 +343,20 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   }
 }
 
+String convertDayFromToday(int inDays) {
+  if (inDays == 0) {
+    return 'today';
+  } else if (inDays >= 30) {
+    // its integer division
+    int countMonth = inDays ~/ 30;
+    return '$countMonth months ago';
+  } else if (inDays >= 120) {
+    return 'long time ago';
+  } else {
+    return '$inDays days ago';
+  }
+}
+
 class ImageSliverHeader extends SliverPersistentHeaderDelegate {
   const ImageSliverHeader({required this.url});
   final String url;
@@ -292,9 +370,11 @@ class ImageSliverHeader extends SliverPersistentHeaderDelegate {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            width: double.infinity,
             height: 30,
             decoration: BoxDecoration(
+              border: Border.all(
+                color: Color(0xFFFAFAFA),
+              ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25.0),
                 topRight: Radius.circular(25.0),

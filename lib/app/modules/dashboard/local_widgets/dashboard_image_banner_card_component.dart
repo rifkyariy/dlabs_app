@@ -1,15 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
-class DashboardBannerCardComponent extends StatelessWidget {
-  const DashboardBannerCardComponent({
+class DashboardImageBannerCardComponent extends StatelessWidget {
+  const DashboardImageBannerCardComponent({
     Key? key,
     this.onPressed,
+    required this.imageURL,
+    required this.title,
+    required this.subtitle,
   }) : super(key: key);
 
+  final String imageURL, title, subtitle;
   final void Function()? onPressed;
 
   @override
@@ -17,19 +24,26 @@ class DashboardBannerCardComponent extends StatelessWidget {
     SizeScalling.init(context);
     SizeScalling sizeScalling = SizeScalling();
     return SizedBox(
-      child: Stack(
-        children: [
+      height: 200,
+      child: CachedNetworkImage(
+        imageUrl: imageURL,
+        imageBuilder: (context, imageProvider) => Stack(children: [
           Container(
             alignment: Alignment.topLeft,
-            // width: double.infinity,
-            width: sizeScalling.setWidth(315),
+            width: double.infinity,
+            // width: sizeScalling.setWidth(315),
             decoration: BoxDecoration(
-              image: const DecorationImage(
+              color: const Color(0xff212121),
+              image: DecorationImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/image/app-book-banner.png'),
+                colorFilter: ColorFilter.mode(
+                    Colors.black.withOpacity(0.6), BlendMode.dstATop),
+                image: NetworkImage(imageURL),
               ),
               borderRadius: BorderRadius.circular(5),
             ),
+          ),
+          Container(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(22, 16, 170, 14),
               child: Column(
@@ -37,28 +51,13 @@ class DashboardBannerCardComponent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Book an Appointment',
+                    title,
                     style: appBannerTitleTextStyle,
                   ),
                   Text(
-                    'Please indicate if you want to book a specific time or test',
+                    subtitle,
                     style: appBannerSubTitleTextStyle,
                   ),
-                  SizedBox(
-                    width: 110,
-                    height: 20,
-                    child: TextButton(
-                      onPressed: onPressed,
-                      child: const Text('Booking Test'),
-                      style: TextButton.styleFrom(
-                        backgroundColor: const Color(0xFF1880C7),
-                        side: const BorderSide(color: Colors.white),
-                        textStyle: appBannerButtonTextStyle,
-                        primary: Colors.white,
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -74,7 +73,7 @@ class DashboardBannerCardComponent extends StatelessWidget {
               ),
             ),
           ),
-        ],
+        ]),
       ),
     );
   }

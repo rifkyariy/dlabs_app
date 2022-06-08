@@ -303,7 +303,7 @@ class PersonalBookingController extends GetxController {
 
   void _searchPatientData() async {
     String q = idNumberController.text;
-    if (q.length >= 3) {
+    if (q.length >= 8) {
       try {
         await _masterData.getPatientData(token: apiToken!, idNumber: q).then(
           (result) {
@@ -319,13 +319,13 @@ class PersonalBookingController extends GetxController {
           },
         );
       } catch (e) {
-        fullNameController.text = '';
-        emailController.text = '';
-        phoneNumberController.text = '';
-        dateOfBirthController.text = '';
-        addressController.text = '';
-        testLocationController.text = '';
-        genderValue.value = '0';
+        // fullNameController.text = '';
+        // emailController.text = '';
+        // phoneNumberController.text = '';
+        // dateOfBirthController.text = '';
+        // addressController.text = '';
+        // testLocationController.text = '';
+        // genderValue.value = '0';
         reloadDropdown();
       }
     }

@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileRepository {
   static Future<void> updateProfileData({
@@ -14,7 +16,6 @@ class ProfileRepository {
     required String nationality,
   }) async {
     const String _kbaseUrl = "https://api-dl.konsultasi.in/v1/web";
-
     final _dio = Dio();
 
     try {
@@ -71,6 +72,41 @@ class ProfileRepository {
       );
     } catch (e) {
       throw Exception(e.toString());
+    }
+  }
+
+  Future<bool> sendContactUs({
+    required String email,
+    required String fullname,
+    required String phone,
+    required String subject,
+    required String message,
+  }) async {
+    const String _kbaseUrl = "https://api-dl.konsultasi.in/v1/web";
+    final url = Uri.parse("$_kbaseUrl/content/contact/create");
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'fendpoint': '/web-content',
+    };
+
+    final body = jsonEncode(
+      {
+        "email": email,
+        "full_name": fullname,
+        "phone": phone,
+        "subject": subject,
+        "message": message
+      },
+    );
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print(response.body);
+      return false;
     }
   }
 }

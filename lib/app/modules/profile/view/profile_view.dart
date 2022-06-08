@@ -19,7 +19,7 @@ class ProfileView extends GetView<ProfileViewController> {
         backgroundColor: const Color(0xFF1579BE),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_sharp),
-          color: whiteColor,
+          color: const Color(0xFFFFFFFF),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text('menu_profile'.tr, style: BoldTextStyle(whiteColor)),

@@ -13,6 +13,7 @@ class ProfileViewController extends GetxController {
   AuthController auth = Get.find();
   final AuthRepository _authRepo = Get.put(AuthRepository());
   final MasterDataRepository _masterData = Get.put(MasterDataRepository());
+  final ProfileRepository _profile = Get.put(ProfileRepository());
 
   late UserModel _userData;
 
@@ -250,6 +251,40 @@ class ProfileViewController extends GetxController {
         oldPasswordErrorMessage.value = 'Old password can\'t be blank.';
       }
       newPasswordErrorMessage.value = 'Your password can\'t be blank.';
+    }
+  }
+
+  handleContactUs() async {
+    try {
+      isLoading.value = true;
+
+      await _profile.sendContactUs(
+          email: emailController.text,
+          fullname: fullNameController.text,
+          phone: phoneNumberController.text,
+          subject: subjectController.text,
+          message: messageController.text);
+
+      isLoading.value = false;
+
+      Get.snackbar(
+        'Success',
+        'Thanks for let us know!',
+        backgroundColor: Colors.lightGreen,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
+
+      subjectController.text = '';
+      messageController.text = '';
+    } catch (e) {
+      Get.snackbar(
+        'Oops',
+        'Something went wrong !',
+        backgroundColor: warningColor,
+        colorText: whiteColor,
+        snackPosition: SnackPosition.TOP,
+      );
     }
   }
 

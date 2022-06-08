@@ -5,12 +5,18 @@ import 'package:kayabe_lims/app/global_widgets/app_scaffold_with_navbar.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:kayabe_lims/app/global_widgets/app_article_card_component.dart';
+import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_card_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_banner_list_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_header_component.dart';
+import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_image_banner_card_component.dart';
+import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_service_card_component.dart';
 import 'package:kayabe_lims/app/modules/dashboard/local_widgets/dashboard_service_component.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({
@@ -24,6 +30,8 @@ class DashboardScreen extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     final AuthController _authController = Get.find();
+    final double height = MediaQuery.of(context).size.height;
+
     SizeScalling.init(context);
     return AppScaffoldWithBottomNavBar(
       visibleBottomNavBar: true,
@@ -77,11 +85,58 @@ class DashboardScreen extends GetView<DashboardController> {
                 // Banner
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Obx(
-                    () => DashboardBannerListComponent(
-                      bannerList: controller.bannerData.value,
-                    ),
-                  ),
+                  child: Obx(() => CarouselSlider(
+                        options: CarouselOptions(
+                          height: SizeScalling().setHeight(150),
+                          viewportFraction: 1.0,
+                          enlargeCenterPage: false,
+                          autoPlay: true,
+                        ),
+                        items: controller.bannerData.value.map((item) {
+                          if (item.title == 'displayBanner') {
+                            return DashboardBannerCardComponent(onPressed: () {
+                              if (_authController.isLoggedIn.value) {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  context: context,
+                                  builder: (context) {
+                                    return const AppBottomSheetComponent();
+                                  },
+                                );
+                              } else {
+                                Get.toNamed(AppPages.signin);
+
+                                Get.snackbar(
+                                  "pop_login_required".tr,
+                                  "",
+                                  backgroundColor: primaryColor,
+                                  snackPosition: SnackPosition.TOP,
+                                  animationDuration: const Duration(seconds: 1),
+                                  duration: const Duration(seconds: 1),
+                                  colorText: whiteColor,
+                                );
+                              }
+                            });
+                          } else {
+                            return DashboardImageBannerCardComponent(
+                              title: item.title,
+                              subtitle: item.desc,
+                              imageURL: item.image,
+                              onPressed: () async {
+                                // TODO different by its type
+                                // if(item.redirectType == 'url'){
+
+                                // }
+                                final Uri _url = Uri.parse(item.redirectValue);
+
+                                if (!await launchUrl(_url)) {
+                                  throw 'Could not launch $_url';
+                                }
+                              },
+                            );
+                          }
+                        }).toList(),
+                      )),
                 ),
 
                 // Our Service
@@ -118,7 +173,9 @@ class DashboardScreen extends GetView<DashboardController> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // TODO add article route
+                          Get.toNamed(
+                            AppPages.articleHome,
+                          );
                         },
                         child: Text(
                           "gen_view_all".tr,
@@ -130,7 +187,7 @@ class DashboardScreen extends GetView<DashboardController> {
                 ),
                 Obx(
                   () => ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: controller
                           .articleData.length, //TODO change to fixed value,
@@ -141,7 +198,7 @@ class DashboardScreen extends GetView<DashboardController> {
                               photoUrl: controller.articleData[index].photoUrl,
                               timestamp:
                                   controller.articleData[index].timestamp,
-                              id: 5,
+                              id: controller.articleData[index].id,
                             ),
                           ])),
                 ),

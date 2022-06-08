@@ -1,19 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:kayabe_lims/app/global_widgets/custom_network_image.dart';
+import 'package:kayabe_lims/app/modules/article/views/article_detail_view.dart';
 
 class NewsCardSquare extends StatelessWidget {
   const NewsCardSquare({required this.article, Key? key}) : super(key: key);
 
   final ArticleModel article;
 
+  String convertDayFromToday(int inDays) {
+    if (inDays == 0) {
+      return 'today';
+    } else if (inDays >= 30) {
+      // its integer division
+      int countMonth = inDays ~/ 30;
+      return '$countMonth months ago';
+    } else if (inDays >= 120) {
+      return 'long time ago';
+    } else {
+      return '$inDays days ago';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: Ink(
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            Get.to(() => ArticleDetailView(
+                  id: article.id,
+                ));
+          },
           child: Container(
             width: 250,
             height: 200,
@@ -86,7 +106,9 @@ class NewsCardSquare extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "${DateTime.now().difference(article.created_date).inDays} Days ago",
+                            convertDayFromToday(DateTime.now()
+                                .difference(article.created_date)
+                                .inDays),
                             style: smallTextStyle(whiteColor),
                             textHeightBehavior: const TextHeightBehavior(
                               applyHeightToFirstAscent: false,

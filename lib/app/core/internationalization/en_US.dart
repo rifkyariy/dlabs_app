@@ -137,6 +137,8 @@ const Map<String, String> en_US = {
   'pop_payment_option': 'Payment Option',
   'pop_cancel_transcation': 'Are you sure want to cancel this transaction ?',
   'pop_select_payment': 'Please select a payment method',
+  'empty_article_title': 'No Article Found',
+  'empty_article_subtitle': 'There is no article.',
 
   ///
   /// Transaction Detail

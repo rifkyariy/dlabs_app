@@ -1,12 +1,32 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:kayabe_lims/app/data/repository/article_repository.dart';
 
-final articlesProvider =
-    FutureProvider.autoDispose.family<List<ArticleModel>, String>(
-  (ref, query) async {
+class ArticleFilter<String, int> extends Equatable {
+  final String query;
+  final int category;
+
+  const ArticleFilter(this.query, this.category);
+
+  @override
+  List<Object?> get props => [query, category];
+}
+
+class CommentPagination extends Equatable {
+  final int pages, articleId;
+
+  const CommentPagination(this.articleId, this.pages);
+
+  @override
+  List<Object?> get props => [articleId, pages];
+}
+
+final articlesProvider = FutureProvider.autoDispose
+    .family<List<ArticleModel>, ArticleFilter<String, int>>(
+  (ref, filter) async {
     final repo = ref.watch(articleRepo);
-    final result = await repo.getArticles(query);
+    final result = await repo.getArticles(filter.query, filter.category);
     return result;
   },
 );

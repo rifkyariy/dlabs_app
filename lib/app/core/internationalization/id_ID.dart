@@ -140,6 +140,8 @@ const Map<String, String> id_ID = {
   'pop_cancel_transcation':
       'Apakah anda yakin untuk membatalkan transaksi ini ?',
   'pop_select_payment': 'Mohon pilih opsi pembayaran',
+  'empty_article_title': 'Artikel tidak ditemukan',
+  'empty_article_subtitle': 'Belum ada artikel',
 
   ///
   /// Transaction Detail

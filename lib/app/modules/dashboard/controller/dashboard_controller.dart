@@ -3,6 +3,7 @@ import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/repository/dashboard_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
+import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 
@@ -49,8 +50,9 @@ class DashboardController extends GetxController {
         String title = a['title'];
         String createdDate = a['created_date'];
         String image = baseUrl + a['image'];
+        int id = a['id'];
 
-        return _Article(category, title, createdDate, image);
+        return _Article(category, title, createdDate, image, id);
       },
     ).toList();
   }
@@ -91,8 +93,9 @@ class _Service {
 
 class _Article {
   final String about, title, timestamp, photoUrl;
+  final int id;
 
-  _Article(this.about, this.title, this.timestamp, this.photoUrl);
+  _Article(this.about, this.title, this.timestamp, this.photoUrl, this.id);
 }
 
 class _Banner {
