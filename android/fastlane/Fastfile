@@ -15,6 +15,19 @@
 default_platform(:android)
 
 platform :android do
+
+  desc "submit to internal track in Google Play Store"
+  lane :internal do
+    Dir.chdir "../.." do sh("flutter", "build", "appbundle", "--release") end # Call Flutter Build
+    upload_to_play_store(
+      track: 'internal',
+      version_code: flutter_version()["version_code"],
+      aab: '../build/app/outputs/bundle/prodRelease/app-prod-release.aab',
+      skip_upload_screenshots: true,
+      skip_upload_images: true
+    )
+  end
+
   desc "submit to Firebase App Distribution"
   lane :distribute do
     Dir.chdir "../.." do sh("flutter", "build", "apk", "--release") end # Call Flutter Build
