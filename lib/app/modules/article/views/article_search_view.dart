@@ -17,6 +17,7 @@ class ArticleSearchView extends ConsumerStatefulWidget {
 }
 
 final categoryIdProvider = StateProvider((ref) => 0);
+final articleLengthProvider = StateProvider((ref) => 0);
 final searchKeyProvider = StateProvider((ref) => "");
 final FocusNode searchFocusNode = FocusNode();
 
@@ -42,6 +43,7 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
   Widget build(BuildContext context) {
     final categoryId = ref.watch(categoryIdProvider.state).state;
     final searchData = ref.watch(searchKeyProvider.state).state;
+    final articleLength = ref.watch(articleLengthProvider.state).state;
 
     final categories = ref.watch(articleCategoriesProvider);
     final articles =
@@ -106,18 +108,22 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
           ),
         ),
         automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () => Get.back(),
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
         actions: [
-          IconButton(
-            onPressed: () {
-              ref.read(searchKeyProvider.notifier).state =
-                  searchController.text;
-            },
-            icon: const Icon(Icons.search),
-          )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                child: Text(
+                  'gen_done'.tr,
+                  style: BoldTextStyle(primaryColor),
+                ),
+                onTap: () {
+                  Get.back();
+                },
+              ),
+            ),
+          ),
         ],
       ),
       body: ListView(
@@ -173,6 +179,28 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
             },
           ),
           const SizedBox(height: 10),
+
+          // Row(
+          //   children: [
+          //     Text(
+          //       'articles ',
+          //       style: appServicePriceTextStyle,
+          //     ),
+          //     Text(
+          //       'found for',
+          //       style: appAvatarSubtitleTextStyle,
+          //     ),
+          //     Text(
+          //       ' “Covid”',
+          //       style: appServicePriceTextStyle,
+          //     ),
+          //     Text(
+          //       '.',
+          //       style: appAvatarSubtitleTextStyle,
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 10),
           articles.when(
             loading: () => const Center(
               child: CircularProgressIndicator(),

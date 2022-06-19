@@ -47,7 +47,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Articles"),
+        title: Text("articles".tr),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -187,13 +187,33 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                                     end: 20,
                                                   ),
                                                   child: CircleAvatar(
-                                                    radius: 10,
-                                                    child: Text(_authController
-                                                            .fullname.value
-                                                            .split('')
-                                                            .first
-                                                            .capitalize ??
-                                                        ''),
+                                                    radius: 13,
+                                                    child: ClipOval(
+                                                      child: Image.network(
+                                                        _authController.photoUrl
+                                                                    .value !=
+                                                                ""
+                                                            ? _authController
+                                                                .photoUrl.value
+                                                            : _authController
+                                                                        .gender
+                                                                        .value ==
+                                                                    "0"
+                                                                ? "https://cdn.discordapp.com/attachments/900022715321311259/913815656770711633/app-profile-picture-female.png"
+                                                                : "https://cdn.discordapp.com/attachments/900022715321311259/911343059827064832/app-profile-picture.png",
+                                                        errorBuilder: (context,
+                                                            error, stackTrace) {
+                                                          return Text(
+                                                            article.created
+                                                                    .full_name
+                                                                    .split('')
+                                                                    .first
+                                                                    .capitalize ??
+                                                                '',
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                                 suffixIcon: IconButton(
@@ -284,11 +304,22 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                         c.name.isNotEmpty
                                             ? CircleAvatar(
                                                 radius: 13,
-                                                child: Text(c.name
-                                                        .split('')
-                                                        .first
-                                                        .capitalize ??
-                                                    ''),
+                                                child: ClipOval(
+                                                  child: Image.network(
+                                                    "https://api-dl.konsultasi.in/" +
+                                                        c.created_by_photo,
+                                                    errorBuilder: (context,
+                                                        error, stackTrace) {
+                                                      return Text(
+                                                        c.name
+                                                                .split('')
+                                                                .first
+                                                                .capitalize ??
+                                                            "",
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
                                               )
                                             : const CircleAvatar(
                                                 radius: 13,

@@ -30,7 +30,7 @@ class _ArticleAllViewState extends ConsumerState<ArticleAllView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Article"),
+        title: Text("articles".tr),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Get.back(),
@@ -72,8 +72,14 @@ class _ArticleAllViewState extends ConsumerState<ArticleAllView> {
                     return GestureDetector(
                       onTap: () {
                         int categoryId = categories.elementAt(index).id;
-                        ref.read(categoryIdProvider.notifier).state =
-                            categoryId;
+
+                        if (categoryId ==
+                            ref.read(categoryIdProvider.notifier).state) {
+                          ref.read(categoryIdProvider.notifier).state = 0;
+                        } else {
+                          ref.read(categoryIdProvider.notifier).state =
+                              categoryId;
+                        }
                       },
                       child: Text(
                         categories.elementAt(index).name,
