@@ -137,6 +137,8 @@ class ArticleCommentModel with _$ArticleCommentModel {
     required String status,
     required DateTime created_date,
     required int created_by,
+    required String created_by_name,
+    required String created_by_photo,
     required DateTime updated_date,
     required int updated_by,
     String? image,

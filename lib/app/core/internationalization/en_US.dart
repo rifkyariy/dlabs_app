@@ -240,4 +240,11 @@ const Map<String, String> en_US = {
       'in the transfer news column or if via ATM please transfer the amount of ',
   'pay_upload_proof': 'Please upload your proof of transfer below',
   'pay_choose_file': 'Choose File',
+
+  ///
+  /// Article
+  ///
+  'articles': 'Articles',
+  'articles_newest': 'Latest',
+  'articles_view_all': 'View All',
 };

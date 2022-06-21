@@ -169,6 +169,7 @@ class ProfileView extends GetView<ProfileViewController> {
   }
 
   ImageProvider<Object>? getImageProvider() {
+    print(controller.auth.gender.value);
     if (controller.imageLoadError.value ||
         controller.auth.photoUrl.value == '') {
       if (controller.auth.isLoggedIn.value) {

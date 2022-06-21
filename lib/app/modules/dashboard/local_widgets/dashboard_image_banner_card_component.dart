@@ -38,7 +38,7 @@ class DashboardImageBannerCardComponent extends StatelessWidget {
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                     Colors.black.withOpacity(0.6), BlendMode.dstATop),
-                image: NetworkImage(imageURL),
+                image: CachedNetworkImageProvider(imageURL),
               ),
               borderRadius: BorderRadius.circular(5),
             ),

@@ -115,6 +115,9 @@ class ProfileViewController extends GetxController {
 
       isLoading.value = false;
 
+      auth.fullname.value = fullNameController.text;
+      auth.gender.value = genderValue.value;
+
       Get.snackbar(
         'Success',
         'Your profile is updated!',

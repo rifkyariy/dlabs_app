@@ -242,4 +242,11 @@ const Map<String, String> id_ID = {
   'pay_transfer_column': 'di kolom transfer mohon masukan nominal sebesar ',
   'pay_upload_proof': 'Mohon unggah bukti pembayaran anda ',
   'pay_choose_file': 'Pilih File',
+
+  ///
+  /// Article
+  ///
+  'articles': 'Artikel',
+  'articles_newest': 'Terbaru',
+  'articles_view_all': 'Lihat Semua',
 };

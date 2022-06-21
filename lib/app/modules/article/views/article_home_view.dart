@@ -39,7 +39,7 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
 
     return AppScaffoldWithBottomNavBar(
       appBar: AppBar(
-        title: const Text("Articles"),
+        title: Text("articles".tr),
         automaticallyImplyLeading: false,
       ),
       visibleBottomNavBar: true,
@@ -81,8 +81,8 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
             children: [
               AppTitleWithButton(
                 padding: EdgeInsets.zero,
-                title: "Newest",
-                buttonLabel: "View All",
+                title: "articles_newest".tr,
+                buttonLabel: "articles_view_all".tr,
                 leadingSize: 18,
                 trailingSize: 12,
                 onTap: () {
