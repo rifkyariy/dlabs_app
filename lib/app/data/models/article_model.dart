@@ -96,6 +96,20 @@ class ArticleResponse {
 }
 
 @JsonSerializable()
+class ArticleData {
+  ArticleData({
+    required this.rows,
+  });
+
+  List<Map<String, dynamic>> rows;
+
+  factory ArticleData.fromJson(Map<String, dynamic> json) =>
+      _$ArticleDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ArticleDataToJson(this);
+}
+
+@JsonSerializable()
 class CategoryResponse {
   CategoryResponse({
     required this.status,
@@ -111,20 +125,6 @@ class CategoryResponse {
       _$CategoryResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryResponseToJson(this);
-}
-
-@JsonSerializable()
-class ArticleData {
-  ArticleData({
-    required this.rows,
-  });
-
-  List<Map<String, dynamic>> rows;
-
-  factory ArticleData.fromJson(Map<String, dynamic> json) =>
-      _$ArticleDataFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ArticleDataToJson(this);
 }
 
 @freezed
