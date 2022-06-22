@@ -249,4 +249,14 @@ const Map<String, String> id_ID = {
   'articles': 'Artikel',
   'articles_newest': 'Terbaru',
   'articles_view_all': 'Lihat Semua',
+  'articles_comment': 'komentar',
+  'articles_comments': 'komentar',
+  'article_load_comment': 'Lihat komentar lainnya',
+  'article_unload_comment': 'Sembunyikan komentar',
+  'today': 'hari ini',
+  'dayago': 'hari yang lalu',
+  'daysago': 'hari yang lalu',
+  'monthago': 'bulan yang lalu',
+  'monthsago': 'bulan yang lalu',
+  'longtimeago': 'beberapa waktu yang lalu'
 };

@@ -247,4 +247,14 @@ const Map<String, String> en_US = {
   'articles': 'Articles',
   'articles_newest': 'Latest',
   'articles_view_all': 'View All',
+  'articles_comment': 'comment',
+  'articles_comments': 'comments',
+  'article_load_comment': 'Load more comments',
+  'article_unload_comment': 'Hide comment',
+  'today': 'today',
+  'dayago': 'day ago',
+  'daysago': 'days ago',
+  'monthago': 'month ago',
+  'monthsago': 'months ago',
+  'longtimeago': 'long time ago'
 };

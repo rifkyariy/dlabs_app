@@ -14,12 +14,12 @@ class ArticleFilter<String, int> extends Equatable {
 }
 
 class CommentPagination extends Equatable {
-  final int pages, articleId;
+  final int totalLoad, articleId;
 
-  const CommentPagination(this.articleId, this.pages);
+  const CommentPagination(this.articleId, this.totalLoad);
 
   @override
-  List<Object?> get props => [articleId, pages];
+  List<Object?> get props => [articleId, totalLoad];
 }
 
 final articlesProvider = FutureProvider.autoDispose
@@ -40,11 +40,12 @@ final articleDetailProvider =
   },
 );
 
-final articleCommentProvider =
-    FutureProvider.autoDispose.family<List<ArticleCommentModel>, int>(
-  (ref, id) async {
+final articleCommentProvider = FutureProvider.autoDispose
+    .family<List<ArticleCommentModel>, CommentPagination>(
+  (ref, comment) async {
     final repo = ref.watch(articleRepo);
-    final result = await repo.getArticleComment(id);
+    final result =
+        await repo.getArticleComment(comment.articleId, comment.totalLoad);
     return result;
   },
 );

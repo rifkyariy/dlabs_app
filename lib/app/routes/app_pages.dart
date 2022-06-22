@@ -198,7 +198,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.helpCenter,
-      page: () => const HelpCenterView(),
+      page: () => HelpCenterView(),
       binding: ProfileViewBinding(),
     ),
     GetPage(
