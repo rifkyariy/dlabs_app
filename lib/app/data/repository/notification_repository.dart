@@ -39,7 +39,6 @@ class NotificationRepository {
         ),
       )
           .then((value) {
-        logger.e(value.body);
         return NotificationResponse.fromJson(jsonDecode(value.body));
       });
 
