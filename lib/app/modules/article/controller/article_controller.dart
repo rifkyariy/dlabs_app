@@ -99,6 +99,11 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
     }
   }
 
+  void limitDateToMin() {
+    noMoreItems = false;
+    state = PaginationState.data(_items.take(5).toList());
+  }
+
   Future<void> fetchFirstBatch() async {
     try {
       state = const PaginationState.loading();

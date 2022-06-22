@@ -465,7 +465,19 @@ class OnGoingBottomWidget extends ConsumerWidget {
             ref.read(commentsProvider(articleId).notifier).noMoreItems;
 
         if (noMoreItems) {
-          return const SizedBox.shrink();
+          return Center(
+            child: TextButton(
+              onPressed: () {
+                ref.read(commentsProvider(articleId).notifier).limitDateToMin();
+              },
+              child: Text(
+                "Show less comment",
+                style: smallTextStyle(
+                  greyColor,
+                ),
+              ),
+            ),
+          );
         } else {
           return Center(
             child: TextButton(
