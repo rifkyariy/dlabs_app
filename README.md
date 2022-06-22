@@ -30,6 +30,17 @@ flutter pub run build_runner build --delete-conflicting-outputs
 5. Start debugging
 - Just press F5 and you go
 
+## Build Android APK locally
+
+```console
+flutter build apk --release
+```
+
+## Build Android App Bundle
+```console
+flutter build appbundle --release
+```
+
 ## Architecture
 We utilize GetX as a state management library and some Riverpod.
 
