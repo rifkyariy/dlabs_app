@@ -89,7 +89,9 @@ class ArticleRepository {
   }
 
   Future<List<ArticleCommentModel>> getArticleComment(
-      int articleId, int totalLoad) async {
+    int articleId,
+    int page,
+  ) async {
     final url = Uri.parse('$_baseUrl/content/article/comment');
     try {
       final ArticleResponse _response = await http
@@ -100,19 +102,16 @@ class ArticleRepository {
           'fendpoint': '/content',
         },
         body: jsonEncode({
-          "page": 1,
-          "max_rows": totalLoad,
-          "order_by": "id",
-          "order_type": "asc",
+          "page": page,
+          "max_rows": 5,
+          "order_by": "created_date",
+          "order_type": "desc",
           "article_id": articleId
         }),
       )
           .then((value) {
-        logger.e(value);
         return ArticleResponse.fromJson(jsonDecode(value.body));
       });
-
-      logger.i(_response.data.toJson());
 
       switch (_response.status) {
         case "200":
