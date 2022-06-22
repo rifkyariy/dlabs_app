@@ -99,7 +99,7 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
     }
   }
 
-  void limitDateToMin() {
+  void limitDataToMin() {
     noMoreItems = false;
     state = PaginationState.data(_items.take(5).toList());
   }

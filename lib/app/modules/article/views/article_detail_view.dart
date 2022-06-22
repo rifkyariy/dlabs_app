@@ -468,7 +468,7 @@ class OnGoingBottomWidget extends ConsumerWidget {
           return Center(
             child: TextButton(
               onPressed: () {
-                ref.read(commentsProvider(articleId).notifier).limitDateToMin();
+                ref.read(commentsProvider(articleId).notifier).limitDataToMin();
               },
               child: Text(
                 "Show less comment",
