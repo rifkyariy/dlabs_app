@@ -1,5 +1,6 @@
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
+import 'package:kayabe_lims/app/modules/notifications/views/notification_view.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -52,17 +53,7 @@ class DashboardHeaderComponent extends StatelessWidget {
           const Spacer(),
           GestureDetector(
             onTap: () {
-              Get.toNamed(AppPages.signin);
-
-              Get.snackbar(
-                "gen_login_required".tr,
-                "",
-                backgroundColor: primaryColor,
-                snackPosition: SnackPosition.TOP,
-                animationDuration: const Duration(seconds: 1),
-                duration: const Duration(seconds: 1),
-                colorText: whiteColor,
-              );
+              Get.to(const NotificationView());
             },
             child: SizedBox(
               child: notificationExist == true
