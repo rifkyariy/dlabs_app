@@ -223,3 +223,25 @@ class _ArticleHomeViewState extends ConsumerState<ArticleHomeView> {
     );
   }
 }
+
+String convertDayFromToday(int inDays) {
+  if (inDays == 0) {
+    return 'today'.tr;
+  } else if (inDays >= 30) {
+    // its integer division
+    int countMonth = inDays ~/ 30;
+    if (countMonth == 1) {
+      return '$countMonth ' + 'monthago'.tr;
+    } else {
+      return '$countMonth ' + 'monthsago'.tr;
+    }
+  } else if (inDays >= 120) {
+    return 'longtimeago'.tr;
+  } else {
+    if (inDays == 1) {
+      return '$inDays ' + 'dayago'.tr;
+    } else {
+      return '$inDays ' + 'daysago'.tr;
+    }
+  }
+}

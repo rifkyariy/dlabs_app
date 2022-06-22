@@ -89,8 +89,7 @@ class ArticleRepository {
   }
 
   Future<List<ArticleCommentModel>> getArticleComment(
-    int articleId,
-  ) async {
+      int articleId, int totalLoad) async {
     final url = Uri.parse('$_baseUrl/content/article/comment');
     try {
       final ArticleResponse _response = await http
@@ -102,7 +101,7 @@ class ArticleRepository {
         },
         body: jsonEncode({
           "page": 1,
-          "max_rows": 1000,
+          "max_rows": totalLoad,
           "order_by": "id",
           "order_type": "asc",
           "article_id": articleId

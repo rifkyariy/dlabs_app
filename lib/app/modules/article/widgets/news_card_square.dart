@@ -12,15 +12,23 @@ class NewsCardSquare extends StatelessWidget {
 
   String convertDayFromToday(int inDays) {
     if (inDays == 0) {
-      return 'today';
+      return 'today'.tr;
     } else if (inDays >= 30) {
       // its integer division
       int countMonth = inDays ~/ 30;
-      return '$countMonth months ago';
+      if (countMonth == 1) {
+        return '$countMonth ' + 'monthago'.tr;
+      } else {
+        return '$countMonth ' + 'monthsago'.tr;
+      }
     } else if (inDays >= 120) {
-      return 'long time ago';
+      return 'longtimeago'.tr;
     } else {
-      return '$inDays days ago';
+      if (inDays == 1) {
+        return '$inDays ' + 'dayago'.tr;
+      } else {
+        return '$inDays ' + 'daysago'.tr;
+      }
     }
   }
 
@@ -123,7 +131,11 @@ class NewsCardSquare extends StatelessWidget {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            "${article.total_comments} comment",
+                            article.total_comments == 1
+                                ? "${article.total_comments} " +
+                                    "articles_comment".tr
+                                : "${article.total_comments} " +
+                                    "articles_comments".tr,
                             style: smallTextStyle(whiteColor),
                             textHeightBehavior: const TextHeightBehavior(
                               applyHeightToFirstAscent: false,

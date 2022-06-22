@@ -1,3 +1,4 @@
+import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kayabe_lims/app/core/internationalization/app_internationalization.dart';
@@ -17,6 +18,9 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
+  await FlutterConfig.loadEnvVariables();
+
   runApp(const ProviderScope(child: Apps()));
 }
 

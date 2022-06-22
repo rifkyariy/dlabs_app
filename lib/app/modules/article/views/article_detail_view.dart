@@ -17,7 +17,7 @@ import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class ArticleDetailView extends ConsumerStatefulWidget {
-  const ArticleDetailView({required this.id, Key? key}) : super(key: key);
+  ArticleDetailView({required this.id, Key? key}) : super(key: key);
   final int id;
 
   @override
@@ -29,6 +29,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   final commentController = TextEditingController();
   final AuthController _authController = Get.find();
   final ScrollController _scrollController = ScrollController();
+  final commentsLoadedProvider = StateProvider((ref) => 3);
 
   void _scrollDown() {
     _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
@@ -42,8 +43,10 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
 
   @override
   Widget build(BuildContext context) {
+    final commentLoaded = ref.watch(commentsLoadedProvider.state).state;
     final state = ref.watch(articleDetailProvider(widget.id));
-    final comments = ref.watch(articleCommentProvider(widget.id));
+    final comments = ref.watch(
+        articleCommentProvider(CommentPagination(widget.id, commentLoaded)));
 
     return Scaffold(
       appBar: AppBar(
@@ -156,7 +159,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                       ),
                                     ),
                                     Text(
-                                      " (${comments.length})",
+                                      " (${article.total_comments})",
                                       style: GoogleFonts.lato(
                                         color: greyColor,
                                         fontSize: 16,
@@ -250,17 +253,20 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                                       // Refresh comment data
                                                       ref.refresh(
                                                         articleCommentProvider(
-                                                            widget.id),
+                                                            CommentPagination(
+                                                                widget.id,
+                                                                commentLoaded)),
                                                       );
 
                                                       EasyLoading.dismiss();
 
                                                       Timer(
-                                                          const Duration(
-                                                              milliseconds:
-                                                                  1500), () {
-                                                        _scrollDown();
-                                                      });
+                                                        const Duration(
+                                                            milliseconds: 1500),
+                                                        () {
+                                                          _scrollDown();
+                                                        },
+                                                      );
                                                     } else {
                                                       EasyLoading.dismiss();
                                                       EasyLoading.showError(
@@ -356,7 +362,73 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                   ),
                                   const SizedBox(height: 10),
                                 ],
-                                const SizedBox(height: 35),
+                                Container(
+                                  child: commentLoaded < article.total_comments!
+                                      ? InkWell(
+                                          onTap: () {
+                                            ref
+                                                .read(commentsLoadedProvider
+                                                    .notifier)
+                                                .state = commentLoaded + 5;
+
+                                            Timer(
+                                              const Duration(
+                                                  milliseconds: 1200),
+                                              () {
+                                                _scrollDown();
+                                              },
+                                            );
+                                          },
+                                          splashColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 30),
+                                            child: Center(
+                                              child: Text(
+                                                'article_load_comment'.tr,
+                                                style: smallTextStyle(
+                                                  greyColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : InkWell(
+                                          onTap: () {
+                                            ref
+                                                .read(commentsLoadedProvider
+                                                    .notifier)
+                                                .state = 3;
+
+                                            Timer(
+                                              const Duration(
+                                                  milliseconds: 1200),
+                                              () {
+                                                _scrollDown();
+                                              },
+                                            );
+                                          },
+                                          splashColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          highlightColor: Colors.transparent,
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 30),
+                                            child: Center(
+                                              child: Text(
+                                                'article_unload_comment'.tr,
+                                                style: smallTextStyle(
+                                                  greyColor,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ),
                               ],
                             ),
                           );
@@ -376,15 +448,23 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
 
 String convertDayFromToday(int inDays) {
   if (inDays == 0) {
-    return 'today';
+    return 'today'.tr;
   } else if (inDays >= 30) {
     // its integer division
     int countMonth = inDays ~/ 30;
-    return '$countMonth months ago';
+    if (countMonth == 1) {
+      return '$countMonth ' + 'monthago'.tr;
+    } else {
+      return '$countMonth ' + 'monthsago'.tr;
+    }
   } else if (inDays >= 120) {
-    return 'long time ago';
+    return 'longtimeago'.tr;
   } else {
-    return '$inDays days ago';
+    if (inDays == 1) {
+      return '$inDays ' + 'dayago'.tr;
+    } else {
+      return '$inDays ' + 'daysago'.tr;
+    }
   }
 }
 

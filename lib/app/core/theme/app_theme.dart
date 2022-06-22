@@ -77,3 +77,10 @@ TextStyle BoldTextStyle(Color textColor, {double? fontSize}) =>
       fontWeight: FontWeight.w700,
       fontSize: fontSize ?? 16,
     );
+
+TextStyle BoldTinyTextStyle(Color textColor, {double? fontSize}) =>
+    GoogleFonts.lato(
+      color: textColor,
+      fontWeight: FontWeight.w700,
+      fontSize: fontSize ?? 12,
+    );
