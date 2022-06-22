@@ -6,10 +6,14 @@ import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
+import 'package:kayabe_lims/app/core/utils/constants.dart';
+import 'package:kayabe_lims/app/core/utils/utils.dart';
+import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:kayabe_lims/app/global_widgets/button.dart';
 import 'package:kayabe_lims/app/global_widgets/custom_network_image.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
@@ -17,7 +21,7 @@ import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
 
 class ArticleDetailView extends ConsumerStatefulWidget {
-  ArticleDetailView({required this.id, Key? key}) : super(key: key);
+  const ArticleDetailView({required this.id, Key? key}) : super(key: key);
   final int id;
 
   @override
@@ -27,13 +31,7 @@ class ArticleDetailView extends ConsumerStatefulWidget {
 
 class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
   final commentController = TextEditingController();
-  final AuthController _authController = Get.find();
   final ScrollController _scrollController = ScrollController();
-  final commentsLoadedProvider = StateProvider((ref) => 3);
-
-  void _scrollDown() {
-    _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-  }
 
   @override
   void dispose() {
@@ -43,10 +41,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
 
   @override
   Widget build(BuildContext context) {
-    final commentLoaded = ref.watch(commentsLoadedProvider.state).state;
     final state = ref.watch(articleDetailProvider(widget.id));
-    final comments = ref.watch(
-        articleCommentProvider(CommentPagination(widget.id, commentLoaded)));
 
     return Scaffold(
       appBar: AppBar(
@@ -135,304 +130,47 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                         color: greyColor,
                       ),
                       const SizedBox(height: 25),
-                      comments.when(
-                        loading: () =>
-                            const Center(child: CircularProgressIndicator()),
-                        error: (e, stackTrace) =>
-                            const Center(child: Text("Error loading data")),
-                        data: (comments) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Comment",
-                                      style: GoogleFonts.lato(
-                                        color: blackColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Text(
-                                      " (${article.total_comments})",
-                                      style: GoogleFonts.lato(
-                                        color: greyColor,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 20),
-                                Container(
-                                  child: _authController.isLoggedIn.value
-                                      ? Column(
-                                          children: [
-                                            TextField(
-                                              controller: commentController,
-                                              decoration: InputDecoration(
-                                                hintText: "Add public comment",
-                                                hintStyle: GoogleFonts.lato(
-                                                  color:
-                                                      const Color(0xFF323F4B),
-                                                  fontSize: 11,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                                prefixIcon: Padding(
-                                                  padding:
-                                                      const EdgeInsetsDirectional
-                                                          .only(
-                                                    end: 20,
-                                                  ),
-                                                  child: CircleAvatar(
-                                                    radius: 13,
-                                                    child: ClipOval(
-                                                      child: Image.network(
-                                                        _authController.photoUrl
-                                                                    .value !=
-                                                                ""
-                                                            ? _authController
-                                                                .photoUrl.value
-                                                            : _authController
-                                                                        .gender
-                                                                        .value ==
-                                                                    "0"
-                                                                ? "https://cdn.discordapp.com/attachments/900022715321311259/913815656770711633/app-profile-picture-female.png"
-                                                                : "https://cdn.discordapp.com/attachments/900022715321311259/911343059827064832/app-profile-picture.png",
-                                                        errorBuilder: (context,
-                                                            error, stackTrace) {
-                                                          return Text(
-                                                            article.created
-                                                                    .full_name
-                                                                    .split('')
-                                                                    .first
-                                                                    .capitalize ??
-                                                                '',
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                suffixIcon: IconButton(
-                                                  onPressed: () async {
-                                                    EasyLoading.show();
-                                                    final result = await ref
-                                                        .read(articleRepo)
-                                                        .createArticleComment(
-                                                            articleId:
-                                                                widget.id,
-                                                            comment:
-                                                                commentController
-                                                                    .text,
-                                                            fullname:
-                                                                _authController
-                                                                    .fullname
-                                                                    .value);
-                                                    EasyLoading.dismiss();
-                                                    if (result) {
-                                                      EasyLoading.dismiss();
-                                                      EasyLoading.showSuccess(
-                                                        "Comment Published",
-                                                      );
-                                                      commentController.clear();
-
-                                                      // Refresh article data
-                                                      ref.refresh(
-                                                        articlesProvider(
-                                                          const ArticleFilter(
-                                                              '', 0),
-                                                        ),
-                                                      );
-
-                                                      // Refresh comment data
-                                                      ref.refresh(
-                                                        articleCommentProvider(
-                                                            CommentPagination(
-                                                                widget.id,
-                                                                commentLoaded)),
-                                                      );
-
-                                                      EasyLoading.dismiss();
-
-                                                      Timer(
-                                                        const Duration(
-                                                            milliseconds: 1500),
-                                                        () {
-                                                          _scrollDown();
-                                                        },
-                                                      );
-                                                    } else {
-                                                      EasyLoading.dismiss();
-                                                      EasyLoading.showError(
-                                                        "Error Publishing Comment",
-                                                      );
-                                                    }
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.send,
-                                                    color: Color(0xFF1176BC),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Divider(
-                                              height: 1,
-                                              color: greyColor,
-                                            ),
-                                          ],
-                                        )
-                                      : AppButton(
-                                          text: 'Login Untuk Memberi Komentar',
-                                          textColor: whiteColor,
-                                          onClicked: () {
-                                            Get.toNamed(AppPages.signin);
-                                          },
-                                        ),
-                                ),
-                                const SizedBox(height: 20),
-                                for (final c in comments) ...[
-                                  ListTile(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 0,
-                                      vertical: 0,
-                                    ),
-                                    leading: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        c.name.isNotEmpty
-                                            ? CircleAvatar(
-                                                radius: 13,
-                                                child: ClipOval(
-                                                  child: Image.network(
-                                                    "https://api-dl.konsultasi.in/" +
-                                                        c.created_by_photo,
-                                                    errorBuilder: (context,
-                                                        error, stackTrace) {
-                                                      return Text(
-                                                        c.name
-                                                                .split('')
-                                                                .first
-                                                                .capitalize ??
-                                                            "",
-                                                      );
-                                                    },
-                                                  ),
-                                                ),
-                                              )
-                                            : const CircleAvatar(
-                                                radius: 13,
-                                                child: Text('-'),
-                                              )
-                                      ],
-                                    ),
-                                    title: Text(
-                                      c.name.capitalize ?? '',
-                                      style: GoogleFonts.lato(
-                                        color: blackColor,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          convertDayFromToday(DateTime.now()
-                                              .difference(c.created_date)
-                                              .inDays),
-                                          style: GoogleFonts.lato(
-                                            color: greyColor,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Text(c.comment)
-                                      ],
-                                    ),
+                                Text(
+                                  "Comment",
+                                  style: GoogleFonts.lato(
+                                    color: blackColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
                                   ),
-                                  const SizedBox(height: 10),
-                                ],
-                                Container(
-                                  child: commentLoaded < article.total_comments!
-                                      ? InkWell(
-                                          onTap: () {
-                                            ref
-                                                .read(commentsLoadedProvider
-                                                    .notifier)
-                                                .state = commentLoaded + 5;
-
-                                            Timer(
-                                              const Duration(
-                                                  milliseconds: 1200),
-                                              () {
-                                                _scrollDown();
-                                              },
-                                            );
-                                          },
-                                          splashColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 30),
-                                            child: Center(
-                                              child: Text(
-                                                'article_load_comment'.tr,
-                                                style: smallTextStyle(
-                                                  greyColor,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      : InkWell(
-                                          onTap: () {
-                                            ref
-                                                .read(commentsLoadedProvider
-                                                    .notifier)
-                                                .state = 3;
-
-                                            Timer(
-                                              const Duration(
-                                                  milliseconds: 1200),
-                                              () {
-                                                _scrollDown();
-                                              },
-                                            );
-                                          },
-                                          splashColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsets.only(bottom: 30),
-                                            child: Center(
-                                              child: Text(
-                                                'article_unload_comment'.tr,
-                                                style: smallTextStyle(
-                                                  greyColor,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
                                 ),
+                                Text(
+                                  " (${article.total_comments})",
+                                  style: GoogleFonts.lato(
+                                    color: greyColor,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                )
                               ],
                             ),
-                          );
-                        },
+                            const SizedBox(height: 20),
+                            CommentInputField(
+                              article: article,
+                              controller: commentController,
+                            ),
+                            const SizedBox(height: 20),
+                            CommentLists(
+                              articleId: article.id,
+                            ),
+                            OnGoingBottomWidget(
+                              articleId: article.id,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -443,28 +181,6 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
         },
       ),
     );
-  }
-}
-
-String convertDayFromToday(int inDays) {
-  if (inDays == 0) {
-    return 'today'.tr;
-  } else if (inDays >= 30) {
-    // its integer division
-    int countMonth = inDays ~/ 30;
-    if (countMonth == 1) {
-      return '$countMonth ' + 'monthago'.tr;
-    } else {
-      return '$countMonth ' + 'monthsago'.tr;
-    }
-  } else if (inDays >= 120) {
-    return 'longtimeago'.tr;
-  } else {
-    if (inDays == 1) {
-      return '$inDays ' + 'dayago'.tr;
-    } else {
-      return '$inDays ' + 'daysago'.tr;
-    }
   }
 }
 
@@ -484,7 +200,7 @@ class ImageSliverHeader extends SliverPersistentHeaderDelegate {
             height: 30,
             decoration: BoxDecoration(
               border: Border.all(
-                color: Color(0xFFFAFAFA),
+                color: const Color(0xFFFAFAFA),
               ),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(25.0),
@@ -507,5 +223,274 @@ class ImageSliverHeader extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return false;
+  }
+}
+
+class CommentInputField extends ConsumerWidget {
+  CommentInputField({
+    required this.controller,
+    required this.article,
+    Key? key,
+  }) : super(key: key);
+
+  final AuthController _authController = Get.find();
+  final TextEditingController controller;
+  final ArticleDetailModel article;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      child: _authController.isLoggedIn.value
+          ? Column(
+              children: [
+                TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    hintText: "Add public comment",
+                    hintStyle: GoogleFonts.lato(
+                      color: const Color(0xFF323F4B),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    prefixIcon: Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                        end: 20,
+                      ),
+                      child: CircleAvatar(
+                        radius: 13,
+                        child: ClipOval(
+                          child: Image.network(
+                            _authController.photoUrl.value != ""
+                                ? _authController.photoUrl.value
+                                : _authController.gender.value == "0"
+                                    ? Constants.femalePic
+                                    : Constants.malePic,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Text(
+                                article.created.full_name
+                                        .split('')
+                                        .first
+                                        .capitalize ??
+                                    '',
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () async {
+                        EasyLoading.show();
+                        final result =
+                            await ref.read(articleRepo).createArticleComment(
+                                  articleId: article.id,
+                                  comment: controller.text,
+                                  fullname: _authController.fullname.value,
+                                );
+
+                        EasyLoading.dismiss();
+
+                        if (result) {
+                          EasyLoading.dismiss();
+                          EasyLoading.showSuccess(
+                            "Comment Published",
+                          );
+
+                          controller.clear();
+
+                          // Refresh article data
+                          ref.refresh(
+                            articlesProvider(const ArticleFilter('', 0)),
+                          );
+
+                          ref.refresh(commentsProvider(article.id));
+
+                          EasyLoading.dismiss();
+                        } else {
+                          EasyLoading.dismiss();
+                          EasyLoading.showError(
+                            "Error Publishing Comment",
+                          );
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.send,
+                        color: Color(0xFF1176BC),
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  height: 1,
+                  color: greyColor,
+                ),
+              ],
+            )
+          : AppButton(
+              text: 'Login Untuk Memberi Komentar',
+              textColor: whiteColor,
+              onClicked: () {
+                Get.toNamed(AppPages.signin);
+              },
+            ),
+    );
+  }
+}
+
+class CommentTile extends StatelessWidget {
+  const CommentTile({
+    required this.comment,
+    Key? key,
+  }) : super(key: key);
+
+  final ArticleCommentModel comment;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      dense: true,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: 0,
+        vertical: 0,
+      ),
+      leading: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          comment.name.isNotEmpty
+              ? CircleAvatar(
+                  radius: 13,
+                  child: ClipOval(
+                    child: Image.network(
+                      "https://api-dl.konsultasi.in/" +
+                          comment.created_by_photo,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Text(
+                          comment.name.split('').first.capitalize ?? "",
+                        );
+                      },
+                    ),
+                  ),
+                )
+              : const CircleAvatar(
+                  radius: 13,
+                  child: Text('-'),
+                )
+        ],
+      ),
+      title: Text(
+        comment.name.capitalize ?? '',
+        style: GoogleFonts.lato(
+          color: blackColor,
+          fontSize: 12,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            DateTime.now()
+                .difference(comment.created_date)
+                .inDays
+                .convertDayFromToday,
+            style: GoogleFonts.lato(
+              color: greyColor,
+              fontSize: 10,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Text(comment.comment)
+        ],
+      ),
+    );
+  }
+}
+
+class CommentLists extends ConsumerWidget {
+  const CommentLists({
+    required this.articleId,
+    Key? key,
+  }) : super(key: key);
+
+  final int articleId;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(commentsProvider(articleId));
+
+    return state.when(
+      data: (data) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final x in data) ...[
+            CommentTile(comment: x),
+            const SizedBox(height: 10),
+          ]
+        ],
+      ),
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => const Text("Error"),
+      onGoingLoading: (data) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (final x in data) ...[
+            CommentTile(comment: x),
+            const SizedBox(height: 10),
+          ]
+        ],
+      ),
+      onGoingError: (err, stack) => const Text("Error"),
+    );
+  }
+}
+
+// Start with 2, I try start with 1 but I got error, God knows why
+final currentLoadedBatch = StateProvider.autoDispose((ref) => 2);
+
+class OnGoingBottomWidget extends ConsumerWidget {
+  const OnGoingBottomWidget({
+    required this.articleId,
+    Key? key,
+  }) : super(key: key);
+  final int articleId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(commentsProvider(articleId));
+    final page = ref.watch(currentLoadedBatch);
+    return state.maybeWhen(
+      orElse: () => const SizedBox.shrink(),
+      data: (data) {
+        final noMoreItems =
+            ref.read(commentsProvider(articleId).notifier).noMoreItems;
+
+        if (noMoreItems) {
+          return const SizedBox.shrink();
+        } else {
+          return Center(
+            child: TextButton(
+              onPressed: () {
+                ref.read(currentLoadedBatch.notifier).state += 1;
+                ref
+                    .read(commentsProvider(articleId).notifier)
+                    .fetchNextBatch(page);
+              },
+              child: Text(
+                'article_load_comment'.tr,
+                style: smallTextStyle(
+                  greyColor,
+                ),
+              ),
+            ),
+          );
+        }
+      },
+      onGoingLoading: (_) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      onGoingError: (_, __) => const Center(
+        child: Text("Error"),
+      ),
+    );
   }
 }
