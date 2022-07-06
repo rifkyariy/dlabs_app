@@ -32,3 +32,7 @@ class NotificationController extends StateNotifier<bool> {
     return response;
   }
 }
+
+final notifRepo = Provider.autoDispose<NotificationRepository>(
+  (ref) => NotificationRepository(),
+);

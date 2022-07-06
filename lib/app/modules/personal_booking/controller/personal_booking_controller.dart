@@ -501,11 +501,10 @@ class PersonalBookingController extends GetxController {
   void createPersonalBooking() async {
     // Convert Questionnaire into Yes/No Answer
     String convertIntoQuestionAnswer(value) {
-      return value == '1' ? 'Yes' : 'No';
+      return value == '1' ? 'gen_yes'.tr : 'gen_no'.tr;
     }
 
     // Insert radio value into Questionnaire Object
-    print(radioData.length);
     for (var i = 0; i < radioData.length; i++) {
       radioData[i]['jawaban'] = convertIntoQuestionAnswer(radioGroupValue[i]);
     }

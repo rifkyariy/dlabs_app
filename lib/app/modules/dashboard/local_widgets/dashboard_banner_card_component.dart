@@ -2,7 +2,6 @@ import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/core/utils/size_scalling.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
 
 class DashboardBannerCardComponent extends StatelessWidget {
   const DashboardBannerCardComponent({

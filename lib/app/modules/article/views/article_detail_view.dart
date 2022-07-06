@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get/get_utils/src/extensions/string_extensions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -57,6 +55,7 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
           child: Text("Error loading data"),
         ),
         data: (article) {
+          commentTotal.value = article.total_comments!;
           return GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -83,7 +82,9 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                               const EdgeInsets.symmetric(horizontal: 0),
                           title: Text(article.created.full_name),
                           subtitle: Text(
-                            DateFormat.yMMMMd().format(article.created_date),
+                            DateFormat("EEEE, d MMMM yyyy",
+                                    Get.deviceLocale.toString())
+                                .format(article.created_date),
                           ),
                           trailing: Container(
                             padding: const EdgeInsets.symmetric(
@@ -147,12 +148,14 @@ class _ArticleDetailViewState extends ConsumerState<ArticleDetailView> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                Text(
-                                  " (${article.total_comments})",
-                                  style: GoogleFonts.lato(
-                                    color: greyColor,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+                                Obx(
+                                  () => Text(
+                                    " (${commentTotal.value})",
+                                    style: GoogleFonts.lato(
+                                      color: greyColor,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 )
                               ],
@@ -298,12 +301,13 @@ class CommentInputField extends ConsumerWidget {
 
                           controller.clear();
 
-                          // Refresh article data
-                          ref.refresh(
-                            articlesProvider(const ArticleFilter('', 0)),
-                          );
-
                           ref.refresh(commentsProvider(article.id));
+
+                          // // Refresh article data
+                          // ref.refresh(
+                          //   articlesProvider(const ArticleFilter('', 0)),
+                          // );
+                          commentTotal.value += 1;
 
                           EasyLoading.dismiss();
                         } else {
@@ -471,7 +475,7 @@ class OnGoingBottomWidget extends ConsumerWidget {
                 ref.read(commentsProvider(articleId).notifier).limitDataToMin();
               },
               child: Text(
-                "Show less comment",
+                "article_unload_comment".tr,
                 style: smallTextStyle(
                   greyColor,
                 ),

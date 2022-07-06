@@ -83,7 +83,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.dashboard,
-      page: () => const DashboardScreen(),
+      page: () => DashboardScreen(),
       binding: DashboardBinding(),
       transition: Transition.noTransition,
     ),

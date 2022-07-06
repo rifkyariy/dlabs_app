@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:intl/intl.dart';
+import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/data/models/notification_model.dart';
+import 'package:kayabe_lims/app/data/repository/notification_repository.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
+import 'package:kayabe_lims/app/modules/dashboard/controller/dashboard_controller.dart';
 import 'package:kayabe_lims/app/modules/notifications/controller/notification_controller.dart';
 
 const _female =
-    "https://cdn.discordapp.com/attachments/900022715321311259/913815656770711633/app-profile-picture-female.png";
+    "https://media.discordapp.net/attachments/931941268760703117/991682442912092270/female-icon.png";
 const _male =
-    "https://cdn.discordapp.com/attachments/900022715321311259/911343059827064832/app-profile-picture.png";
+    "https://media.discordapp.net/attachments/931941268760703117/991682443306336387/male-icon.png";
 
 class NotificationView extends ConsumerStatefulWidget {
   const NotificationView({Key? key}) : super(key: key);
@@ -28,7 +32,7 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Notification".tr),
+        title: Text("notification".tr),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Get.back(),
@@ -55,8 +59,10 @@ class _NotificationViewState extends ConsumerState<NotificationView> {
                 );
               },
               separatorBuilder: (context, index) {
-                return const Divider(
+                return Divider(
+                  height: 1,
                   thickness: 1,
+                  color: lightGreyColor,
                 );
               },
               itemCount: data.length,
@@ -82,24 +88,49 @@ class NotificationTiles extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final DashboardController _dashboardController = Get.find();
     final format = DateFormat(DateFormat.HOUR_MINUTE);
 
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm");
+    DateTime formattedDate =
+        dateFormat.parse(notification.created_date.toString());
+    String notifDate =
+        "${formattedDate.hour.toString().padLeft(2, '0')}:${formattedDate.minute.toString().padLeft(2, '0')}";
+
     return ListTile(
+      onTap: () async {
+        EasyLoading.show();
+        final client = ref.read(notifRepo);
+
+        final response = await client.updateReadStatus(
+            notificationId: int.parse(notification.id));
+        EasyLoading.dismiss();
+
+        ref.refresh(
+          notificationsProvider,
+        );
+
+        client.getNotifications().then(
+            (value) => _dashboardController.notifCount.value = value.length);
+      },
+      tileColor: notification.is_read == '1' ? whiteColor : softPrimaryColor,
       title: Text(
         notification.notification_text,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),
-      subtitle: Text(format.format(notification.created_date)),
+      subtitle: Text(notifDate),
       leading: CircleAvatar(
         radius: 16,
-        child: Image.network(
-          image,
-          errorBuilder: (context, error, stackTrace) {
-            return Text(
-              notification.created_by.split('').first.capitalize ?? '',
-            );
-          },
+        child: ClipOval(
+          child: Image.network(
+            image,
+            errorBuilder: (context, error, stackTrace) {
+              return Text(
+                notification.created_by.split('').first.capitalize ?? '',
+              );
+            },
+          ),
         ),
       ),
     );

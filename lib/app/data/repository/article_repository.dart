@@ -105,7 +105,7 @@ class ArticleRepository {
           "page": page,
           "max_rows": 5,
           "order_by": "created_date",
-          "order_type": "desc",
+          "order_type": "asc",
           "article_id": articleId
         }),
       )

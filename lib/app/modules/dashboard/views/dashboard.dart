@@ -76,7 +76,7 @@ class DashboardScreen extends GetView<DashboardController> {
                         : '',
                     notificationExist:
                         _authController.fullname.value != '' ? true : false,
-                    notificationCount: 0,
+                    notificationCount: controller.notifCount.value,
                     gender: _authController.gender.value,
                     photoUrl: _authController.photoUrl.value,
                   ),

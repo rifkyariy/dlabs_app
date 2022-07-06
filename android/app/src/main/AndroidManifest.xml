@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
 
-    <application android:requestLegacyExternalStorage="true" android:label="Kayabe LIMS" android:icon="@mipmap/ic_launcher">
+    <application android:requestLegacyExternalStorage="true" android:label="@string/APPS_NAME" android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/GOOGLE_MAPS_API_KEY" />
 
         <activity android:name=".MainActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">

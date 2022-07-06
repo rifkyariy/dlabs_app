@@ -175,11 +175,9 @@ class ProfileView extends GetView<ProfileViewController> {
       if (controller.auth.isLoggedIn.value) {
         switch (controller.auth.gender.value) {
           case '0':
-            return const AssetImage(
-                'assets/image/app-profile-picture-female.png');
+            return const AssetImage('assets/image/female-icon.png');
           case '1':
-            return const AssetImage(
-                'assets/image/app-profile-picture-male.png');
+            return const AssetImage('assets/image/male-icon.png');
           default:
             return const AssetImage('assets/image/app-logo.png');
         }

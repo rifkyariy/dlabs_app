@@ -250,11 +250,12 @@ const Map<String, String> en_US = {
   'articles_comment': 'comment',
   'articles_comments': 'comments',
   'article_load_comment': 'Load more comments',
-  'article_unload_comment': 'Hide comment',
+  'article_unload_comment': 'Show Less comment',
   'today': 'today',
   'dayago': 'day ago',
   'daysago': 'days ago',
   'monthago': 'month ago',
   'monthsago': 'months ago',
-  'longtimeago': 'long time ago'
+  'longtimeago': 'long time ago',
+  'notification': 'Notification'
 };

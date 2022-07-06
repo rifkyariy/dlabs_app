@@ -67,7 +67,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
                         controller.refreshList();
                       },
                     ),
-                    const Text('Yes'),
+                    Text('gen_yes'.tr),
                     Radio(
                       groupValue: controller.radioGroupValue[index],
                       value: controller.radioValue[index][1],
@@ -77,7 +77,7 @@ class Questionnaire extends GetView<PersonalBookingController> {
                         controller.refreshList();
                       },
                     ),
-                    const Text('No'),
+                    Text('gen_no'.tr),
                   ],
                 ),
               ],

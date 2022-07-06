@@ -1,11 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/utils/utils.dart';
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:kayabe_lims/app/data/repository/article_repository.dart';
 
 part 'article_controller.freezed.dart';
+
+RxInt commentTotal = 0.obs;
 
 class ArticleFilter<String, int> extends Equatable {
   final String query;

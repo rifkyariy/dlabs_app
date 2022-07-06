@@ -258,5 +258,6 @@ const Map<String, String> id_ID = {
   'daysago': 'hari yang lalu',
   'monthago': 'bulan yang lalu',
   'monthsago': 'bulan yang lalu',
-  'longtimeago': 'beberapa waktu yang lalu'
+  'longtimeago': 'beberapa waktu yang lalu',
+  'notification': 'Notifikasi'
 };

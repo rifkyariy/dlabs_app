@@ -9,12 +9,13 @@ import 'package:kayabe_lims/app/global_widgets/text_input.dart';
 import 'package:kayabe_lims/app/modules/profile/controller/profile_view_controller.dart';
 import 'package:kayabe_lims/app/modules/transaction/local_widgets/transaction_android_button.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 
 class HelpCenterView extends GetView<ProfileViewController> {
   HelpCenterView({Key? key}) : super(key: key);
 
-  String lat = "-6.191883";
-  String long = "106.822985";
+  String lat = "-6.191883300000001";
+  String long = "106.8229854";
   late GoogleMapController mapController;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
@@ -132,7 +133,7 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
-                                    'Direct Lab',
+                                    'Direct Lab', // TODO change to company name
                                     style: BoldTinyTextStyle(blackColor),
                                   ),
                                 ),
@@ -140,12 +141,13 @@ Make an appointment for Swab Test Corporate Service now and get test results wit
                                   alignment: Alignment.centerLeft,
                                   child: ElevatedButton(
                                     onPressed: () async {
-                                      final Uri _url = Uri.parse(
-                                          "https://www.google.com/maps?ll=${lat},${long}&z=15&t=m&hl=en-GB&gl=US&mapclient=embed&cid=15300454874461566567");
+                                      MapsLauncher.launchQuery(
+                                          'Direct Lab Matraman'); // TODO change to company name
 
-                                      if (!await launchUrl(_url)) {
-                                        throw 'Could not launch $_url';
-                                      }
+                                      // MapsLauncher.launchCoordinates(
+                                      //     double.parse(lat),
+                                      //     double.parse(long),
+                                      //     'Direct Lab ');
                                     },
                                     child: Text(
                                       'Open on Maps',

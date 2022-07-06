@@ -1,24 +1,32 @@
 import 'package:intl/intl.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/repository/dashboard_repository.dart';
+import 'package:kayabe_lims/app/data/repository/notification_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:get/get.dart';
-import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
-import 'package:kayabe_lims/app/modules/transaction/controller/transaction_view_controller.dart';
 
 class DashboardController extends GetxController {
   final AppStorageService _storage = Get.find();
   final AuthRepository _auth = Get.find();
   final AuthController _authController = Get.find();
   final DashboardRepository _dashboardRepository = Get.find();
+  final NotificationRepository _notificationRepository = Get.find();
 
   final String baseUrl = "https://api-dl.konsultasi.in/";
 
   RxString apiToken = ''.obs;
+  RxInt notifCount = 0.obs;
   RxList<_Article> articleData = <_Article>[].obs;
   RxList<_Service> serviceData = <_Service>[].obs;
   RxList<_Banner> bannerData = <_Banner>[].obs;
+
+  // Get Notif
+  Future<void> getCountNotif() async {
+    await _notificationRepository
+        .getNotifications()
+        .then((value) => notifCount.value = value.length);
+  }
 
   // Get List of Banner Data
   Future<void> fetchBannerData(token) async {
@@ -80,6 +88,7 @@ class DashboardController extends GetxController {
     await fetchBannerData(_authController.apiToken.value);
     await fetchServiceData(_authController.apiToken.value);
     await fetchArticleData(_authController.apiToken.value);
+    await getCountNotif();
 
     super.onInit();
   }

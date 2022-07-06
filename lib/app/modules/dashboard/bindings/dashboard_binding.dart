@@ -1,6 +1,7 @@
 import 'package:kayabe_lims/app/data/repository/article_repository.dart';
 import 'package:kayabe_lims/app/data/repository/auth_repository.dart';
 import 'package:kayabe_lims/app/data/repository/dashboard_repository.dart';
+import 'package:kayabe_lims/app/data/repository/notification_repository.dart';
 import 'package:kayabe_lims/app/data/services/local_storage_service.dart';
 import 'package:kayabe_lims/app/modules/article/controller/article_controller.dart';
 import 'package:kayabe_lims/app/modules/auth/controller/auth_controller.dart';
@@ -16,5 +17,6 @@ class DashboardBinding implements Bindings {
     Get.lazyPut<AuthRepository>(() => AuthRepository());
     Get.lazyPut<DashboardRepository>(() => DashboardRepository());
     Get.lazyPut<ArticleRepository>(() => ArticleRepository());
+    Get.lazyPut<NotificationRepository>(() => NotificationRepository());
   }
 }

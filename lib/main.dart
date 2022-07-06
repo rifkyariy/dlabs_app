@@ -1,6 +1,7 @@
 import 'package:flutter_config/flutter_config.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:kayabe_lims/app/core/internationalization/app_internationalization.dart';
 import 'package:kayabe_lims/app/core/theme/app_theme.dart';
 import 'package:kayabe_lims/app/routes/app_pages.dart';
@@ -21,7 +22,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Required by FlutterConfig
   await FlutterConfig.loadEnvVariables();
 
-  runApp(const ProviderScope(child: Apps()));
+  await initializeDateFormatting('id_ID')
+      .then((_) => runApp(const ProviderScope(child: Apps())));
 }
 
 class Apps extends StatelessWidget {

@@ -33,8 +33,8 @@ class DashboardHeaderComponent extends StatelessWidget {
                         photoUrl!.isNotEmpty
                             ? photoUrl!
                             : (gender == "0"
-                                ? 'https://cdn.discordapp.com/attachments/900022715321311259/913815656770711633/app-profile-picture-female.png'
-                                : 'https://cdn.discordapp.com/attachments/900022715321311259/911343059827064832/app-profile-picture.png'),
+                                ? 'https://media.discordapp.net/attachments/931941268760703117/991682442912092270/female-icon.png'
+                                : 'https://media.discordapp.net/attachments/931941268760703117/991682443306336387/male-icon.png'),
                       ),
                     )
                   : null),
