@@ -52,212 +52,301 @@ class _ArticleSearchViewState extends ConsumerState<ArticleSearchView> {
     final latestArticles =
         ref.watch(articlesProvider(const ArticleFilter('', 0)));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Container(
-          height: 32,
-          alignment: Alignment.centerLeft,
+    final searchHistory = ref.watch(searchHistoryStateNotifierProvider);
+    final searchNotifier = ref.watch(
+      searchHistoryStateNotifierProvider.notifier,
+    );
 
-          // App bar text field component
-          // This appear when isSearchMode == ture
-          child: TextField(
-            controller: searchController,
-            focusNode: searchFocusNode,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Container(
+            height: 32,
+            alignment: Alignment.centerLeft,
 
-            // Textfield Decoration
-            decoration: InputDecoration(
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: primaryColor,
-                  width: 1,
-                ),
-              ),
-              enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Color(0xFFEBF0FF),
-                  width: 0.5,
-                ),
-              ),
-              suffixIcon: IconButton(
-                //...
-                // Clear Button is here
-                onPressed: () {
-                  // Clear the textfield controller.
-                  searchController.clear();
-                  ref.read(searchKeyProvider.notifier).state = "";
-                  // Call onSearch Method to refresh the list.
-                  // searchController.text = "";
-                },
-                icon: Icon(
-                  Icons.cancel,
-                  size: 16,
-                  color: greyColor,
-                ),
-              ),
-              contentPadding: const EdgeInsets.only(
-                bottom: 16,
-                left: 10,
-              ),
-            ),
-            onSubmitted: (value) {},
-            onChanged: (value) {
-              ref.read(searchKeyProvider.notifier).state = value;
-            },
-            // On changed responsible to call search method on controller.
-            // Will call everytime there change in textfield
-          ),
-        ),
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                child: Text(
-                  'gen_done'.tr,
-                  style: BoldTextStyle(primaryColor),
-                ),
-                onTap: () {
-                  Get.back();
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          categories.when(
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (e, stackTrace) {
-              logger.e(stackTrace);
-              return const Center(
-                child: Text("Error loading data"),
-              );
-            },
-            data: (categories) {
-              return SizedBox(
-                height: 30,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        int categoryId = categories.elementAt(index).id;
+            // App bar text field component
+            // This appear when isSearchMode == ture
+            child: TextField(
+              controller: searchController,
+              focusNode: searchFocusNode,
 
-                        if (categoryId ==
-                            ref.read(categoryIdProvider.notifier).state) {
-                          ref.read(categoryIdProvider.notifier).state = 0;
-                        } else {
-                          ref.read(categoryIdProvider.notifier).state =
-                              categoryId;
-                        }
-                      },
-                      child: Text(
-                        categories.elementAt(index).name,
-                        style: BoldTextStyle(categories.elementAt(index).id ==
-                                ref.read(categoryIdProvider.notifier).state
-                            ? primaryColor
-                            : blackColor),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) {
-                    return const SizedBox(width: 30);
-                  },
-                ),
-              );
-            },
-          ),
-          const SizedBox(height: 10),
-
-          // Row(
-          //   children: [
-          //     Text(
-          //       'articles ',
-          //       style: appServicePriceTextStyle,
-          //     ),
-          //     Text(
-          //       'found for',
-          //       style: appAvatarSubtitleTextStyle,
-          //     ),
-          //     Text(
-          //       ' “Covid”',
-          //       style: appServicePriceTextStyle,
-          //     ),
-          //     Text(
-          //       '.',
-          //       style: appAvatarSubtitleTextStyle,
-          //     ),
-          //   ],
-          // ),
-          // const SizedBox(height: 10),
-          articles.when(
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (e, stackTrace) => Center(
-              child: Container(
-                child: CachedNetworkImage(
-                  imageUrl: 'assets/image/app-book-banner.png',
-                ),
-              ),
-            ),
-            data: (articles) {
-              if (articles.isEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 200),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 100, vertical: 10),
-                        child: const Image(
-                          image: AssetImage('assets/image/empty-article.png'),
-                        ),
-                      ),
-                      Text(
-                        'empty_article_title'.tr,
-                        style: subtitleTextStyle(greyColor),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        'empty_article_subtitle'.tr,
-                        style: appServiceSubtitleTextStyle,
-                      ),
-                    ],
+              // Textfield Decoration
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: primaryColor,
+                    width: 1,
                   ),
-                );
-              } else {
-                return Column(
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Color(0xFFEBF0FF),
+                    width: 0.5,
+                  ),
+                ),
+                suffixIcon: IconButton(
+                  //...
+                  // Clear Button is here
+                  onPressed: () {
+                    // Clear the textfield controller.
+                    searchController.clear();
+                    ref.read(searchKeyProvider.notifier).state = "";
+                    // Call onSearch Method to refresh the list.
+                    // searchController.text = "";
+                  },
+                  icon: Icon(
+                    Icons.cancel,
+                    size: 16,
+                    color: greyColor,
+                  ),
+                ),
+                contentPadding: const EdgeInsets.only(
+                  bottom: 16,
+                  left: 10,
+                ),
+              ),
+              onSubmitted: (value) async {
+                ref.read(searchKeyProvider.notifier).state =
+                    searchController.text;
+                searchNotifier.addHistory(searchController.text);
+
+                FocusScope.of(context).unfocus();
+              },
+              onEditingComplete: () async {
+                ref.read(searchKeyProvider.notifier).state =
+                    searchController.text;
+                searchNotifier.addHistory(searchController.text);
+
+                FocusScope.of(context).unfocus();
+              },
+              onChanged: (value) {
+                ref.read(searchKeyProvider.notifier).state = value;
+              },
+              // On changed responsible to call search method on controller.
+              // Will call everytime there change in textfield
+            ),
+          ),
+          automaticallyImplyLeading: false,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  child: Text(
+                    'gen_done'.tr,
+                    style: BoldTextStyle(primaryColor),
+                  ),
+                  onTap: () {
+                    Get.back();
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Visibility(
+              visible: searchHistory.isNotEmpty && searchFocusNode.hasFocus,
+              child: Container(
+                height: 120,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 25,
+                  vertical: 10,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    for (final a in articles) ...[
-                      AppArticleCardComponent(
-                        about: a.category_name,
-                        title: a.title,
-                        photoUrl: 'https://api-dl.konsultasi.in/${a.image}',
-                        timestamp: a.created_date.toString(),
-                        id: a.id,
-                      ),
+                    const Text("Recent Search"),
+                    for (var search in searchHistory) ...[
+                      GestureDetector(
+                        onTap: () {
+                          ref.read(searchKeyProvider.notifier).state = search;
+                          searchController.text = search;
+                        },
+                        child: ListTile(
+                          minVerticalPadding: 0,
+                          horizontalTitleGap: 0,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(search),
+                          leading: const Icon(Icons.schedule),
+                        ),
+                      )
                     ],
                   ],
-                );
-              }
-            },
-          ),
-        ],
+                ),
+              ),
+            ),
+            Positioned(
+              // Add top spacing when history is not empty.
+              top: searchHistory.isNotEmpty ? 120 : 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: ListView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                children: [
+                  // Search History Component
+                  // This component is responsible to show the search history.
+                  // It will show the last 10 searches.
+                  // If there is no search history, it will show a message.
+
+                  const SizedBox(
+                    height: 10,
+                  ),
+
+                  Visibility(
+                    visible: searchHistory.isEmpty,
+                    child: categories.when(
+                      loading: () => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      error: (e, stackTrace) {
+                        logger.e(stackTrace);
+                        return const Center(
+                          child: Text("Error loading data"),
+                        );
+                      },
+                      data: (categories) {
+                        return SizedBox(
+                          height: 30,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: categories.length,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  int categoryId =
+                                      categories.elementAt(index).id;
+
+                                  if (categoryId ==
+                                      ref
+                                          .read(categoryIdProvider.notifier)
+                                          .state) {
+                                    ref
+                                        .read(categoryIdProvider.notifier)
+                                        .state = 0;
+                                  } else {
+                                    ref
+                                        .read(categoryIdProvider.notifier)
+                                        .state = categoryId;
+                                  }
+                                },
+                                child: Text(
+                                  categories.elementAt(index).name,
+                                  style: BoldTextStyle(categories
+                                              .elementAt(index)
+                                              .id ==
+                                          ref
+                                              .read(categoryIdProvider.notifier)
+                                              .state
+                                      ? primaryColor
+                                      : blackColor),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(width: 30);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       'articles ',
+                  //       style: appServicePriceTextStyle,
+                  //     ),
+                  //     Text(
+                  //       'found for',
+                  //       style: appAvatarSubtitleTextStyle,
+                  //     ),
+                  //     Text(
+                  //       ' “Covid”',
+                  //       style: appServicePriceTextStyle,
+                  //     ),
+                  //     Text(
+                  //       '.',
+                  //       style: appAvatarSubtitleTextStyle,
+                  //     ),
+                  //   ],
+                  // ),
+                  // const SizedBox(height: 10),
+                  articles.when(
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    error: (e, stackTrace) => Center(
+                      child: Container(
+                        child: CachedNetworkImage(
+                          imageUrl: 'assets/image/app-book-banner.png',
+                        ),
+                      ),
+                    ),
+                    data: (articles) {
+                      if (articles.isEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 200),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 100, vertical: 10),
+                                child: const Image(
+                                  image: AssetImage(
+                                      'assets/image/empty-article.png'),
+                                ),
+                              ),
+                              Text(
+                                'empty_article_title'.tr,
+                                style: subtitleTextStyle(greyColor),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'empty_article_subtitle'.tr,
+                                style: appServiceSubtitleTextStyle,
+                              ),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return Column(
+                          children: [
+                            for (final a in articles) ...[
+                              AppArticleCardComponent(
+                                about: a.category_name,
+                                title: a.title,
+                                photoUrl:
+                                    'https://api-dl.konsultasi.in/${a.image}',
+                                timestamp: a.created_date.toString(),
+                                id: a.id,
+                              ),
+                            ],
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

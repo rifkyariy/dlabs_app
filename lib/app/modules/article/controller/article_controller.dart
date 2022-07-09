@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:kayabe_lims/app/core/utils/utils.dart';
 import 'package:kayabe_lims/app/data/models/article_model.dart';
 import 'package:kayabe_lims/app/data/repository/article_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'article_controller.freezed.dart';
 
@@ -140,6 +141,51 @@ class PaginationNotifier<T> extends StateNotifier<PaginationState<T>> {
     } catch (e, stack) {
       state = PaginationState.onGoingError(e, stack);
     }
+  }
+}
+
+final searchHistoryStateNotifierProvider =
+    StateNotifierProvider.autoDispose<SearchHistoryNotifier, List<String>>(
+  (ref) => SearchHistoryNotifier(),
+);
+
+class SearchHistoryNotifier extends StateNotifier<List<String>> {
+  SearchHistoryNotifier() : super([]) {
+    _init();
+  }
+
+  late SharedPreferences prefs;
+
+  Future _init() async {
+    prefs = await SharedPreferences.getInstance();
+    state = await getHistory();
+  }
+
+  // add history and save to local
+  Future addHistory(String query) async {
+    if (query.isEmpty) return;
+    if (state.contains(query)) return;
+    state = [...state, query];
+    await prefs.setStringList('search_history', state);
+  }
+
+  // get history from local
+  Future<List<String>> getHistory() async {
+    final List<String> history = prefs.getStringList('search_history') ?? [];
+    logger.i(history);
+    return history;
+  }
+
+  // clear history
+  Future clearHistory() async {
+    state = [];
+    await prefs.setStringList('search_history', state);
+  }
+
+  // remove specific history
+  Future removeHistory(String query) async {
+    state = state.where((item) => item != query).toList();
+    await prefs.setStringList('search_history', state);
   }
 }
 
